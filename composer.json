@@ -1,27 +1,36 @@
 {
-  "name": "dahlen/jack-website",
-  "type": "library",
-  "description": "Website for the jack mag.",
-  "keywords": ["website","magazine","dahlen"],
-  "homepage": "http://github.com/elpadi/jack-website.git",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "elpadi",
-      "email": "padi_05@yahoo.com",
-      "homepage": "http://github.com/elpadi"
-    }
-  ],
-  "require": {
-    "php": ">=5.3.0",
-    "ext-mcrypt": "*"
-  },
-  "autoload": {
-    "psr-0": {
-      "Jack": "src",
-      "Slim": "vendor",
-      "Assetic": "vendor/Assetic/src",
-      "Twig_": "vendor/Twig/lib"
-    }
-  }
+	"name": "dahlen/jack-website",
+	"type": "library",
+	"description": "Website for the jack mag.",
+	"keywords": ["website","magazine","dahlen"],
+	"homepage": "http://github.com/elpadi/jack-website.git",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "elpadi",
+			"email": "padi_05@yahoo.com",
+			"homepage": "http://github.com/elpadi"
+		}
+	],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/elpadi/php-libs.git"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.3.0",
+		"ext-mcrypt": "*",
+		"slim/slim": "*",
+		"slim/views": "*",
+		"twig/twig": "*",
+		"kriswallsmith/assetic": "*",
+		"elpadi/php-std-lib": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"Jack": "src"
+		}
+	}
 }

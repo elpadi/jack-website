@@ -1,6 +1,17 @@
+body {
+	margin:0;
+}
+
+#content {
+	width:1024px;
+	margin:0 auto;
+}
+
 .magazine {
-	padding:100px 0;
+	padding:100px 0 100px 300px;
 	border:1px solid #000;
+	overflow-x:hidden;
+	overflow-y:auto;
 	&, .magazine__section {
 		position:relative;
 		width:900px;
@@ -9,9 +20,12 @@
 
 .magazine__thumbs {
 	position:absolute;
-	right:-300px;
+	left:0;
 	top:0;
 	width:300px;
+	height:~"calc(100% - 14px)";
+	overflow-x:hidden;
+	overflow-y:scroll;
 	li {
 		width:225px;
 		text-align:center;

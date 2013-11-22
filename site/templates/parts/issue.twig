@@ -1,19 +1,23 @@
 {% extends "site.twig" %}
 {% block content %}
 <h1>{{ issue.title }}</h1>
-<h2>Browse the magazine</h2>
-<article class="jack-issue magazine" data-size="1.5x2">
-	<aside class="magazine__thumbs">
+<h2>Posters Dimensions</h2>
+<p>Each poster is three feet by two feet.</p>
+<p>The front cover has a fold with an introduction to the issue, and combined with the back cover, its size is four and a half feet by two feet.</p>
+<p>A special centerfold opens vertically for a three feet by four feet page.</p>
+<h2>Browse the issue</h2>
+<article class="jack-issue magazine window-height" data-size="1.5x2">
+	<aside class="magazine__thumbs absolute-fixed" data-min-top="5">
 		<ol>
-			<li class="selected"><span class="thumb__title">Covers</span><a href="#" data-section-index="0" data-section-face="front"><img src="{{ thumbs.covers }}" alt=""></a></li>
-			<li><span class="thumb__title">Cover poster</span><a href="#" data-section-index="0" data-section-face="back"><img src="{{ thumbs.cover_poster }}" alt=""></a></li>
-			<li><span class="thumb__title">Page 1 front</span><a href="#" data-section-index="1" data-section-face="front"><img src="{{ thumbs.page.front }}" alt=""></a></li>
-			<li><span class="thumb__title">Page 1 back</span><a href="#" data-section-index="1" data-section-face="back"><img src="{{ thumbs.page.back }}" alt=""></a></li>
-			<li><span class="thumb__title">Centerfold front</span><a href="#" data-section-index="2" data-section-face="front"><img src="{{ thumbs.centerfold.front }}" alt=""></a></li>
-			<li><span class="thumb__title">Centerfold back</span><a href="#" data-section-index="2" data-section-face="back"><img src="{{ thumbs.centerfold.back }}" alt=""></a></li>
+			<li class="selected"><span class="thumb__title">Front cover / Back cover</span><a href="#cover" data-section-face="front"><img src="{{ thumbs.covers }}" alt=""></a></li>
+			<li><span class="thumb__title">Cover poster</span><a href="#cover" data-section-face="back"><img src="{{ thumbs.cover_poster }}" alt=""></a></li>
+			<li><span class="thumb__title">Page 1 front</span><a href="#page-1" data-section-face="front"><img src="{{ thumbs.page.front }}" alt=""></a></li>
+			<li><span class="thumb__title">Page 1 back</span><a href="#page-1" data-section-face="back"><img src="{{ thumbs.page.back }}" alt=""></a></li>
+			<li><span class="thumb__title">Centerfold front</span><a href="#centerfold" data-section-face="front"><img src="{{ thumbs.centerfold.front }}" alt=""></a></li>
+			<li><span class="thumb__title">Centerfold back</span><a href="#centerfold" data-section-face="back"><img src="{{ thumbs.centerfold.back }}" alt=""></a></li>
 		</ol>
 	</aside>
-	<section class="magazine__section magazine-cover" data-close-before-flip="true">
+	<section id="cover" class="magazine__section magazine-cover" data-close-before-flip="true">
 		<img class="front middle magazine-cover__front-cover" src="{{ covers.front }}" alt="">
 		<img class="front left magazine-cover__back-cover" src="{{ covers.back }}" alt="">
 		<img class="front right magazine-cover__cover-index" src="{{ covers.index }}" alt="">
@@ -21,13 +25,13 @@
 		<img class="back left magazine-cover__poster-right" src="{{ cover_poster.right }}" alt="">
 		<img class="back right magazine-cover__poster-left" src="{{ cover_poster.left }}" alt="">
 	</section>
-	<section class="magazine__section magazine-poster">
+	<section id="page-1" class="magazine__section magazine-poster">
 		<img class="front left magazine-poster__front-left" src="{{ page.front_left }}" alt="">
 		<img class="front right magazine-poster__front-right" src="{{ page.front_right }}" alt="">
 		<img class="back right magazine-poster__back-left" src="{{ page.back_left }}" alt="">
 		<img class="back left magazine-poster__back-right" src="{{ page.back_right }}" alt="">
 	</section>
-	<section class="magazine__section magazine-centerfold" data-close-before-flip="true">
+	<section id="centerfold" class="magazine__section magazine-centerfold" data-close-before-flip="true">
 		<img class="front top left magazine-centerfold__front-top-left" src="{{ centerfold.front_top_left }}" alt="">
 		<img class="front top right magazine-centerfold__front-top-right" src="{{ centerfold.front_top_right }}" alt="">
 		<img class="front bottom left magazine-centerfold__front-bottom-left" src="{{ centerfold.front_bottom_left }}" alt="">
