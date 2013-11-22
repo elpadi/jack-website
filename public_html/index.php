@@ -15,10 +15,6 @@ use Assetic\Factory\AssetFactory;
 use Assetic\Factory\Worker\CacheBustingWorker;
 use Assetic\Extension\Twig\AsseticExtension;
 
-require(dirname(__DIR__).'/vendor/autoload.php');
-require(dirname(__DIR__).'/vendor/ulogin/config/all.inc.php');
-require(dirname(__DIR__).'/vendor/ulogin/main.inc.php');
-
 define('PUBLIC_DIR', __DIR__);
 define('SITE_DIR', dirname(__DIR__).'/site');
 define('TEMPLATE_DIR', SITE_DIR.'/templates');
@@ -26,6 +22,9 @@ define('CACHE_DIR', SITE_DIR.'/cache');
 
 require(SITE_DIR.'/config/db.php');
 
+require(dirname(__DIR__).'/vendor/autoload.php');
+require(dirname(__DIR__).'/vendor/ulogin/config/all.inc.php');
+require(dirname(__DIR__).'/vendor/ulogin/main.inc.php');
 
 /**
  * Step 2: Instantiate a Slim application

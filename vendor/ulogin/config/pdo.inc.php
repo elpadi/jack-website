@@ -37,34 +37,34 @@ define('UL_PDO_CON_INIT_QUERY', "");
 // Used to log users in.
 // Database user with SELECT access to the
 // logins table.
-define('UL_PDO_AUTH_USER', 'root');
-define('UL_PDO_AUTH_PWD', 'elpadi');
+define('UL_PDO_AUTH_USER', $db_config['user']);
+define('UL_PDO_AUTH_PWD', $db_config['pass']);
 
 // LOGIN UPDATE
 // Used to add new and modify login data.
 // Database user with SELECT, UPDATE and INSERT access to the
 // logins table.
-define('UL_PDO_UPDATE_USER', 'root');
-define('UL_PDO_UPDATE_PWD', 'elpadi');
+define('UL_PDO_UPDATE_USER', $db_config['user']);
+define('UL_PDO_UPDATE_PWD', $db_config['pass']);
 
 // LOGIN DELETE
 // Used to remove logins.
 // Database user with SELECT and DELETE access to the
 // logins table
-define('UL_PDO_DELETE_USER', 'root');
-define('UL_PDO_DELETE_PWD', 'elpadi');
+define('UL_PDO_DELETE_USER', $db_config['user']);
+define('UL_PDO_DELETE_PWD', $db_config['pass']);
 
 // SESSION
 // Database user with SELECT, UPDATE and DELETE permissions to the
 // sessions and nonces tables.
-define('UL_PDO_SESSIONS_USER', 'root');
-define('UL_PDO_SESSIONS_PWD', 'elpadi');
+define('UL_PDO_SESSIONS_USER', $db_config['user']);
+define('UL_PDO_SESSIONS_PWD', $db_config['pass']);
 
 // LOG
 // Used to log events and analyze previous activity.
 // Database user with SELECT, INSERT and DELETE access to the
 // logins-log table.
-define('UL_PDO_LOG_USER', 'root');
-define('UL_PDO_LOG_PWD', 'elpadi');
+define('UL_PDO_LOG_USER', $db_config['user']);
+define('UL_PDO_LOG_PWD', $db_config['pass']);
 
 ?>
