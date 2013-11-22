@@ -1,0 +1,260 @@
+.magazine {
+  padding: 100px 0;
+  border: 1px solid #000;
+}
+.magazine,
+.magazine .magazine__section {
+  position: relative;
+  width: 900px;
+}
+.magazine__thumbs {
+  position: absolute;
+  right: -300px;
+  top: 0;
+  width: 300px;
+}
+.magazine__thumbs li {
+  width: 225px;
+  text-align: center;
+  margin: 0 auto 30px;
+}
+.magazine__thumbs li.selected {
+  opacity: 0.5;
+}
+.magazine__thumbs ol {
+  margin: 0;
+  padding: 0;
+}
+.magazine__thumbs a {
+  display: block;
+  margin-top: 5px;
+}
+.magazine__section {
+  height: 400px;
+  margin-bottom: 100px;
+  background-color: #F8F8F8;
+  -webkit-perspective: 1500px;
+  -moz-perspective: 1500px;
+  perspective: 1500px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform-origin: 50% 0 0;
+  -moz-transform-origin: 50% 0 0;
+  transform-origin: 50% 0 0;
+}
+.magazine__section,
+.magazine__section img {
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  transition: all 1s;
+}
+.magazine__section.flip {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.magazine__section .front {
+  z-index: 10;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.magazine__section .back {
+  z-index: 1;
+}
+.magazine__section img {
+  position: absolute;
+  width: 33.33%;
+}
+.magazine-poster .left {
+  right: 50%;
+}
+.magazine-poster .right {
+  left: 50%;
+}
+.magazine-poster .magazine-poster__front-left {
+  -webkit-transform-origin: 100% 0 0;
+  -moz-transform-origin: 100% 0 0;
+  transform-origin: 100% 0 0;
+  -webkit-transform: rotateY(60deg);
+  -moz-transform: rotateY(60deg);
+  transform: rotateY(60deg);
+}
+.magazine-poster .magazine-poster__front-right {
+  -webkit-transform-origin: 0 0 0;
+  -moz-transform-origin: 0 0 0;
+  transform-origin: 0 0 0;
+  -webkit-transform: rotateY(-60deg);
+  -moz-transform: rotateY(-60deg);
+  transform: rotateY(-60deg);
+}
+.magazine-poster .magazine-poster__back-left {
+  z-index: 2;
+  -webkit-transform-origin: 0 0 0;
+  -moz-transform-origin: 0 0 0;
+  transform-origin: 0 0 0;
+  -webkit-transform: rotateY(-60deg);
+  -moz-transform: rotateY(-60deg);
+  transform: rotateY(-60deg);
+}
+.magazine-poster .magazine-poster__back-right {
+  -webkit-transform-origin: 100% 0 0;
+  -moz-transform-origin: 100% 0 0;
+  transform-origin: 100% 0 0;
+  -webkit-transform: rotateY(60deg);
+  -moz-transform: rotateY(60deg);
+  transform: rotateY(60deg);
+}
+.magazine-poster.open .front,
+.magazine-poster.open .back {
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-cover .left {
+  left: 0;
+}
+.magazine-cover .middle {
+  left: 33.33%;
+}
+.magazine-cover .right {
+  left: 66.66%;
+}
+.magazine-cover .magazine-cover__back-cover {
+  -webkit-transition-delay: 1s;
+  -moz-transition-delay: 1s;
+  transition-delay: 1s;
+  -webkit-transform-origin: 100% 0 0;
+  -moz-transform-origin: 100% 0 0;
+  transform-origin: 100% 0 0;
+  -webkit-transform: rotateY(-90deg);
+  -moz-transform: rotateY(-90deg);
+  transform: rotateY(-90deg);
+}
+.magazine-cover .magazine-cover__cover-index {
+  -webkit-transform-origin: 0 0 0;
+  -moz-transform-origin: 0 0 0;
+  transform-origin: 0 0 0;
+  -webkit-transform: rotateY(90deg);
+  -moz-transform: rotateY(90deg);
+  transform: rotateY(90deg);
+}
+.magazine-cover .magazine-cover__poster-middle {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.magazine-cover .magazine-cover__poster-right {
+  -webkit-transition-delay: 1s;
+  -moz-transition-delay: 1s;
+  transition-delay: 1s;
+  -webkit-transform-origin: 100% 0 0;
+  -moz-transform-origin: 100% 0 0;
+  transform-origin: 100% 0 0;
+  -webkit-transform: rotateY(-90deg);
+  -moz-transform: rotateY(-90deg);
+  transform: rotateY(-90deg);
+}
+.magazine-cover .magazine-cover__poster-left {
+  -webkit-transform-origin: 0 0 0;
+  -moz-transform-origin: 0 0 0;
+  transform-origin: 0 0 0;
+  -webkit-transform: rotateY(90deg);
+  -moz-transform: rotateY(90deg);
+  transform: rotateY(90deg);
+}
+.magazine-cover.open .magazine-cover__back-cover {
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  transition-delay: 0s;
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-cover.open .magazine-cover__cover-index {
+  -webkit-transition-delay: 1s;
+  -moz-transition-delay: 1s;
+  transition-delay: 1s;
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-cover.open.flip .magazine-cover__poster-right {
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  transition-delay: 0s;
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-cover.open.flip .magazine-cover__poster-left {
+  -webkit-transition-delay: 1s;
+  -moz-transition-delay: 1s;
+  transition-delay: 1s;
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-centerfold {
+  height: 800px;
+}
+.magazine-centerfold .bottom {
+  bottom: 0;
+}
+.magazine-centerfold .top {
+  top: 0;
+}
+.magazine-centerfold .left {
+  right: 50%;
+  -webkit-transform-origin: 100% 100% 0;
+  -moz-transform-origin: 100% 100% 0;
+  transform-origin: 100% 100% 0;
+}
+.magazine-centerfold .right {
+  left: 50%;
+  -webkit-transform-origin: 0 100% 0;
+  -moz-transform-origin: 0 100% 0;
+  transform-origin: 0 100% 0;
+}
+.magazine-centerfold .top.left {
+  -webkit-transform: rotateX(-180deg) rotateY(-60deg);
+  -moz-transform: rotateX(-180deg) rotateY(-60deg);
+  transform: rotateX(-180deg) rotateY(-60deg);
+}
+.magazine-centerfold .top.right {
+  -webkit-transform: rotateX(-180deg) rotateY(60deg);
+  -moz-transform: rotateX(-180deg) rotateY(60deg);
+  transform: rotateX(-180deg) rotateY(60deg);
+}
+.magazine-centerfold .bottom.left {
+  -webkit-transform: rotateY(-60deg);
+  -moz-transform: rotateY(-60deg);
+  transform: rotateY(-60deg);
+}
+.magazine-centerfold .bottom.right {
+  -webkit-transform: rotateY(60deg);
+  -moz-transform: rotateY(60deg);
+  transform: rotateY(60deg);
+}
+.magazine-centerfold .back.top {
+  z-index: 8;
+}
+.magazine-centerfold .front.bottom {
+  z-index: 7;
+}
+.magazine-centerfold.open .top {
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+  -moz-transform: rotateX(-180deg) rotateY(0deg);
+  transform: rotateX(-180deg) rotateY(0deg);
+}
+.magazine-centerfold.open .bottom {
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-centerfold.open-top .top {
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}

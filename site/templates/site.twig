@@ -1,0 +1,45 @@
+{% block doctype %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+{% endblock %}
+	<head>
+	{% block head %}
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<title>{{ title }}</title>
+			<meta name="description" content="The Jack Mag. Seasonal poster size magazine. The best of the best of each season.">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+
+			<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+			
+			<link rel="stylesheet" href="/css/dist/main.css" media="all">
+
+	{% endblock %}
+	</head>
+	<body>
+		<div id="container">
+			{% block header %}
+			{% endblock %}
+			{% block notice %}
+			{% if flash|length > 0 %}
+			<div class="notices">
+				{% for f in flash %}
+				<p>{{ f }}</p>
+				{% endfor %}
+			</div>
+			{% endif %}
+			{% endblock %}
+			<div id="content">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+		{% block footer %}
+		{% endblock %}
+		<script src="/js/src/require.js" data-main="/js/src/main"></script>
+	</body>
+</html>

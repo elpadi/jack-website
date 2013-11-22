@@ -1,0 +1,9 @@
+{% extends "site.twig" %}
+{% block content %}
+<h1>Issues</h1>
+<ol>
+	{% for issue in issues %}
+	<li><a href="{{ urlFor('issue', {"slug": issue.slug}) }}">{{ issue.title }}</a></li>
+	{% endfor %}
+</ol>
+{% endblock %}

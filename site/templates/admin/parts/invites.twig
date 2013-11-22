@@ -1,0 +1,11 @@
+{% extends "admin/site.twig" %}
+{% block content %}
+<h2>Send Invite</h2>
+<form method="POST" action="{{ urlFor('admin/invites') }}">
+	<label>Email: <input type="email" name="email"></label>
+	<legend>Below you can enter special greetings. The instructions will not be affected. You can preview the final message below.</legend>
+	<label>Message: <textarea placeholder="Optional special message."></textarea></label>
+	<input type="submit" value="Send">
+</form>
+<p id="preview"></p>
+{% endblock %}
