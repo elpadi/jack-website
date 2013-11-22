@@ -24,6 +24,8 @@ define('SITE_DIR', dirname(__DIR__).'/site');
 define('TEMPLATE_DIR', SITE_DIR.'/templates');
 define('CACHE_DIR', SITE_DIR.'/cache');
 
+require(SITE_DIR.'/config/db.php');
+
 
 /**
  * Step 2: Instantiate a Slim application
@@ -37,8 +39,8 @@ $site = new \Jack\Site();
 $app = $site->app;
 $view = $app->view();
 
-$site->addService('db', function() {
-	$db = new PDO('mysql:host=localhost;dbname=dahlen_jack', 'root', 'elpadi');
+$site->addService('db', function() use ($db_config) {
+	$db = new PDO("mysql:host=$db_config[host];dbname=$db_config[name]", $db_config['user'], $db_config['pass']);
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	return $db;
 });
