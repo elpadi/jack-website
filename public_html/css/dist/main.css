@@ -1,9 +1,36 @@
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
 body {
   margin: 0;
 }
 #content {
   width: 1024px;
   margin: 0 auto;
+}
+.section-switcher__section {
+  position: absolute;
+  display: none;
+}
+.section-switcher__section:first-child {
+  position: relative;
+  display: block;
+}
+.section-switcher--left-edge .section-switcher__nav__prev {
+  display: none;
+}
+.section-switcher--right-edge .section-switcher__nav__next {
+  display: none;
+}
+.magazine,
+.magazine__section {
+  height: 400px;
+}
+.magazine__section {
+  background-color: #F8F8F8;
 }
 .magazine {
   padding: 100px 0 100px 300px;
@@ -16,12 +43,23 @@ body {
   position: relative;
   width: 900px;
 }
+.magazine__nav {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: 100px;
+  font-size: 3em;
+  width: 100px;
+}
+.magazine__nav a {
+  text-decoration: none;
+}
 .magazine__thumbs {
   position: absolute;
   left: 0;
   top: 0;
   width: 300px;
-  height: calc(100% - 14px);
+  height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -42,10 +80,9 @@ body {
   display: block;
   margin-top: 5px;
 }
+/************************
+ * ***** Issue 3D ******/
 .magazine__section {
-  height: 400px;
-  margin-bottom: 100px;
-  background-color: #F8F8F8;
   -webkit-perspective: 1500px;
   -moz-perspective: 1500px;
   perspective: 1500px;
