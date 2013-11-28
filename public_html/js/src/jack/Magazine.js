@@ -1,4 +1,4 @@
-define(['lib/ui/SectionSwitcher'], function(SectionSwitcher) {
+define(['lib/ui/SectionSwitcher','lib/fn/bind'], function(SectionSwitcher, bind) {
 
 	function Magazine($container) {
 		SectionSwitcher.call(this, $container);
@@ -12,7 +12,7 @@ define(['lib/ui/SectionSwitcher'], function(SectionSwitcher) {
 	Magazine.prototype.isFlipped = false;
 
 	Magazine.prototype.openPoster = function($page, flipped) {
-		$page.css('display','relative').addClass('open');
+		$page.css('display','relative').addClass('open').data('has-opened',true);
 		if ($page.hasClass('magazine-centerfold')) {
 			setTimeout(function() { $page.addClass('open-top'); }, 1000);
 			flipped && setTimeout(function() { $page.addClass('flip'); }, 2000);
@@ -24,24 +24,24 @@ define(['lib/ui/SectionSwitcher'], function(SectionSwitcher) {
 
 	Magazine.prototype.showPoster = function($page, flipped) {
 		console.log('Magazine.showPoster', '$page', $page);
-		var _this = this;
+		var hasOpened = $page.data('has-opened') === true;
 		if ($page.css('display') !== 'block') {
+			hasOpened && $page.toggleClass('flip', flipped);
 			$page.fadeIn(500, function() {
-				_this.openPoster($page, flipped);
-			});
+				!hasOpened && this.openPoster($page, flipped);
+			}.bind(this));
 		}
 		else {
-			_this.openPoster($page, flipped);
+			!hasOpened && this.openPoster($page, flipped);
 		}
 	};
 
 	Magazine.prototype.switchPosters = function($newPage, flipped, $oldPage) {
 		console.log('Magazine.switchPosters', '$oldPage', $oldPage);
-		var _this = this;
 		$oldPage.fadeOut(500, function() {
 			$oldPage.css('position','absolute');
-			_this.showPoster($newPage, flipped);
-		});
+			this.showPoster($newPage, flipped);
+		}.bind(this));
 	};
 
 	Magazine.prototype.transition = function(newIndex, flipped) {
@@ -89,7 +89,7 @@ define(['lib/ui/SectionSwitcher'], function(SectionSwitcher) {
 	};
 	
 	Magazine.prototype.switchByHash = function(hash, flipped) {
-		console.log('Magazine.switchByHash', 'hash', hash);
+		console.log('Magazine.switchByHash', 'hash', hash, 'flipped', flipped);
 		return this.switchByIndex(this.$elements.index($(hash)), Boolean(flipped));
 	};
 

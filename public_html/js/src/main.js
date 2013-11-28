@@ -8,7 +8,7 @@ require.config({
 	}
 });
 
-require(['jquery','site/Magazine','site/ArrowNav','lib/ui/SectionSwitcher/SectionLinks'], function(jquery, Magazine, ArrowNav, SectionLinks) {
+require(['jquery','site/Magazine','site/ArrowNav','site/SectionLinks'], function(jquery, Magazine, ArrowNav, SectionLinks) {
 	var mag = new Magazine($('.magazine'));
 	mag.addComponent(ArrowNav).addComponent(SectionLinks).init();
 	window.mag = mag;
