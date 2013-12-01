@@ -29,6 +29,10 @@ body {
 .section-switcher--right-edge .section-switcher__nav__next {
   display: none;
 }
+.issues-list img {
+  display: block;
+  width: 150px;
+}
 .magazine,
 .magazine__section {
   height: 400px;
@@ -78,7 +82,7 @@ body {
 }
 .magazine__thumbs ol {
   margin: 0;
-  padding: 0;
+  padding: 20px 0 0;
 }
 .magazine__thumbs a {
   display: block;
@@ -87,6 +91,7 @@ body {
 /************************
  * ***** Issue 3D ******/
 .magazine__section {
+  opacity: 0;
   -webkit-perspective: 1500px;
   -moz-perspective: 1500px;
   perspective: 1500px;
@@ -103,10 +108,16 @@ body {
   -moz-transition: all 1s;
   transition: all 1s;
 }
+.magazine__section:first-child {
+  opacity: 1;
+}
 .magazine__section.flip {
   -webkit-transform: rotateY(180deg);
   -moz-transform: rotateY(180deg);
   transform: rotateY(180deg);
+}
+.magazine__section.flip .back {
+  z-index: 11;
 }
 .magazine__section .front {
   z-index: 10;
@@ -271,6 +282,11 @@ body {
   -moz-transform-origin: 0 100% 0;
   transform-origin: 0 100% 0;
 }
+.magazine-centerfold .front.top {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 .magazine-centerfold .top.left {
   -webkit-transform: rotateX(-180deg) rotateY(-60deg);
   -moz-transform: rotateX(-180deg) rotateY(-60deg);
@@ -291,6 +307,9 @@ body {
   -moz-transform: rotateY(60deg);
   transform: rotateY(60deg);
 }
+.magazine-centerfold .front.top {
+  z-index: 9;
+}
 .magazine-centerfold .back.top {
   z-index: 8;
 }
@@ -308,7 +327,12 @@ body {
   transform: rotateY(0deg);
 }
 .magazine-centerfold.open-top .top {
-  -webkit-transform: rotateX(0deg);
-  -moz-transform: rotateX(0deg);
-  transform: rotateX(0deg);
+  -webkit-transform: rotateX(0deg) rotateY(0deg);
+  -moz-transform: rotateX(0deg) rotateY(0deg);
+  transform: rotateX(0deg) rotateY(0deg);
+}
+.magazine-centerfold.mid-open .front.top {
+  -webkit-backface-visibility: visible;
+  -moz-backface-visibility: visible;
+  backface-visibility: visible;
 }

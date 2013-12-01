@@ -121,7 +121,14 @@ class Site {
 	}
 
 	public function getIssues() {
-		return $this->query('SELECT * FROM {issues}');
+		$issues = array();
+		$stmt = $this->query('SELECT * FROM {issues}');
+		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
+		while ($issue = $stmt->fetch(\PDO::FETCH_CLASS)) {
+			$issue->covers['front'] = $this->asset($issue->getCoverPath());
+			$issues[] = $issue;
+		}
+		return $issues;
 	}
 
 	public function getIssueBySlug($slug) {
@@ -145,6 +152,32 @@ class Site {
 			$aw->writeAsset($asset);
 		}
 		return $path;
+	}
+
+}
+
+class Issue {
+
+	public $id;
+	public $slug;
+	public $title;
+	public $pages;
+
+	public $covers = array();
+
+	public function getCoverPath() {
+		return $this->path("covers/front");
+	}
+
+	protected function path($partial) {
+		return "issues/$this->slug/$partial.jpg";
+	}
+
+	public static function createFromSlug($slug) {
+		global $site;
+		$stmt = $this->query('SELECT * FROM {issues} WHERE `slug`=?', array($slug));
+		$issue = $this->lastStatement->fetch(\PDO::FETCH_ASSOC);
+		$stmt = $this->query('SELECT `filename` FROM {pages} WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issue['id'])); 
 	}
 
 }

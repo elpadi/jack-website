@@ -65,8 +65,10 @@ $site->addService('asset writer', function() {
  */
 
 // GET route
-$app->get('/', array($site, 'requireLogin'), function () use ($site, $app) {
-	$app->render('parts/home.twig');
+$app->get('/', array($site, 'requireLogin'), function () use ($site, $app, $view) {
+	$app->render('parts/home.twig', array(
+		'title' => $view->get('title') . ' | Poster size magazine',
+	));
 })->setName('home');
 
 /**************************************************************
@@ -77,7 +79,7 @@ $app->get('/user/login', function () use ($app, $view) {
 		'nonce' => \ulNonce::Create('login'),
 		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
 		'email' => isset($_GET['email']) ? $_GET['email'] : '',
-		'title' => $view->get('title') . '| Login',
+		'title' => $view->get('title') . ' | Login',
 	));
 })->setName('login');
 $app->post('/user/login', array($site, 'actionLogin'));
@@ -96,8 +98,9 @@ $app->post('/admin/invites', array($site, 'requireAdmin'), array($site, 'actionI
 /**************************************************************
 ************************ Issues *******************************
 /*************************************************************/
-$app->get('/issues', array($site, 'requireLogin'), function () use ($site, $app) {
+$app->get('/issues', array($site, 'requireLogin'), function () use ($site, $app, $view) {
 	$app->render('parts/issues.twig', array(
+		'title' => $view->get('title').' | Issues',
 		'issues' => $site->getIssues(),
 	));
 })->setName('issues');

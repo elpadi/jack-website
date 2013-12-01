@@ -1,3 +1,12 @@
+front end:
+	add favicon.
+	home:
+		add a long description.
+	issue:
+		reduce height for the centerfold.
+		reduce width for the cover.
+		implement hash change switching.
+	admin:
 php:
 	set routes:
 		/: homepage, message about site.

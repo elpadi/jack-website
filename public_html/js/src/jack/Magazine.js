@@ -15,6 +15,7 @@ define(['lib/ui/SectionSwitcher','lib/fn/bind'], function(SectionSwitcher, bind)
 		$page.css('display','relative').addClass('open').data('has-opened',true);
 		if ($page.hasClass('magazine-centerfold')) {
 			setTimeout(function() { $page.addClass('open-top'); }, 1000);
+			setTimeout(function() { $page.addClass('mid-open'); }, 500);
 			flipped && setTimeout(function() { $page.addClass('flip'); }, 2000);
 		}
 		else {
@@ -22,14 +23,15 @@ define(['lib/ui/SectionSwitcher','lib/fn/bind'], function(SectionSwitcher, bind)
 		}
 	};
 
-	Magazine.prototype.showPoster = function($page, flipped) {
+	Magazine.prototype.showPoster = function($page, flipped, isPosterSwitch) {
 		console.log('Magazine.showPoster', '$page', $page);
 		var hasOpened = $page.data('has-opened') === true;
-		if ($page.css('display') !== 'block') {
+		if (isPosterSwitch) {
 			hasOpened && $page.toggleClass('flip', flipped);
-			$page.fadeIn(500, function() {
+			$page.css({ opacity:'1' });
+			setTimeout(function() {
 				!hasOpened && this.openPoster($page, flipped);
-			}.bind(this));
+			}.bind(this), 1000);
 		}
 		else {
 			!hasOpened && this.openPoster($page, flipped);
@@ -38,10 +40,12 @@ define(['lib/ui/SectionSwitcher','lib/fn/bind'], function(SectionSwitcher, bind)
 
 	Magazine.prototype.switchPosters = function($newPage, flipped, $oldPage) {
 		console.log('Magazine.switchPosters', '$oldPage', $oldPage);
-		$oldPage.fadeOut(500, function() {
-			$oldPage.css('position','absolute');
-			this.showPoster($newPage, flipped);
-		}.bind(this));
+		$oldPage.css({ opacity:'0' });
+		setTimeout(function() {
+			$oldPage.css({ display:'none', position:'absolute' });
+			this.showPoster($newPage, flipped, true);
+		}.bind(this), 1000);
+		$newPage.css('display','block');
 	};
 
 	Magazine.prototype.transition = function(newIndex, flipped) {
@@ -55,7 +59,7 @@ define(['lib/ui/SectionSwitcher','lib/fn/bind'], function(SectionSwitcher, bind)
 				this.switchPosters($page, flipped, this.$elements.eq(this.currentIndex));
 			}
 			else {
-				this.showPoster($page, flipped);
+				this.showPoster($page, flipped, false);
 			}
 		}
 		this.onSwitchEnd(newIndex, flipped);
