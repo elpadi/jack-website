@@ -1,10 +1,11 @@
 {
-	"name": "the-jack-mag",
-	"version": "1.0.0",
-	"dependencies": {
-		"jquery": "*",
-		"underscore": "*",
-		"requirejs": "*",
-		"js-libs": "https://github.com/elpadi/js-libs.git#master"
-	}
+  "name": "the-jack-mag",
+  "version": "1.0.0",
+  "dependencies": {
+    "jquery": "*",
+    "underscore": "*",
+    "requirejs": "*",
+    "js-libs": "https://github.com/elpadi/js-libs.git#master",
+    "dropzone": "~3.7.3"
+  }
 }

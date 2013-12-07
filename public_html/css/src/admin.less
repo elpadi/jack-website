@@ -1,0 +1,18 @@
+@import "lib/classes.less";
+@import "lib/dropzone.less";
+@import "lib/jack.less";
+
+@dropzoneWidth:428px;
+
+body {
+	margin:0;
+}
+
+.issue-image {
+	width:@issueImageWidth + @dropzoneWidth + 50px;
+	overflow:hidden;
+}
+
+.issue-image__input {
+	width:@dropzoneWidth;
+}

@@ -94,6 +94,18 @@ $app->get('/admin/invites', array($site, 'requireAdmin'), function () use ($app,
 	$app->render('admin/parts/invites.twig');
 })->setName('admin/invites');
 $app->post('/admin/invites', array($site, 'requireAdmin'), array($site, 'actionInvite'));
+$app->get('/admin/issues', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+	$app->render('admin/parts/issues.twig', array(
+		'title' => $view->get('title').' | Issues',
+		'issues' => $site->getIssues(),
+	));
+})->setName('admin/issues');
+$app->get('/admin/issues/edit/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$app->render('admin/parts/issue.twig', array(
+		'title' => $view->get('title').' | Issues',
+		'issue' => $site->getIssueBySlug($slug),
+	));
+})->setName('admin/issue');
 
 /**************************************************************
 ************************ Issues *******************************

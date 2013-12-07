@@ -1,0 +1,15 @@
+{% extends "admin/site.twig" %}
+{% block content %}
+<h2>Issues</h2>
+<ol class="issues-list">
+	{% for issue in issues %}
+	<li>
+		<a href="{{ urlFor('admin/issue', {"slug": issue.slug}) }}">
+			{{ issue.title }}
+			<img src="{{ issue.covers.front }}" alt="">
+		</a>
+	</li>
+	{% endfor %}
+</ol>
+{% endblock %}
+

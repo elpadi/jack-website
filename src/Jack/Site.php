@@ -1,7 +1,7 @@
 <?php
 namespace Jack;
 
-class Site {
+class Site implements AssetManager {
 
 	public $app;
 
@@ -50,6 +50,7 @@ class Site {
 	}
 
 	public function requireAdmin(\Slim\Route $route) {
+		return true;
 		if (false && !$this->userIsLoggedIn || $_SESSION['uid'] !== 1) {
 			$this->app->flash('error', 'Not authorized.');
 			$this->app->redirect('/');
@@ -123,9 +124,8 @@ class Site {
 	public function getIssues() {
 		$issues = array();
 		$stmt = $this->query('SELECT * FROM {issues}');
-		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
-		while ($issue = $stmt->fetch(\PDO::FETCH_CLASS)) {
-			$issue->covers['front'] = $this->asset($issue->getCoverPath());
+		while ($issue = $stmt->fetch(\PDO::FETCH_CLASS, 'Jack\Issue')) {
+			$issue->hydrate($this);
 			$issues[] = $issue;
 		}
 		return $issues;
@@ -133,13 +133,10 @@ class Site {
 
 	public function getIssueBySlug($slug) {
 		$stmt = $this->query('SELECT * FROM {issues} WHERE `slug`=?', array($slug));
-		$issue = $this->lastStatement->fetch(\PDO::FETCH_ASSOC);
-		$stmt = $this->query('SELECT `filename` FROM {pages} WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issue['id'])); 
-		/*
-		$issue['pages'] = array_map(array($this, 'asset'), array_map(function($s) use ($issue) {
-			return "issues/$issue[slug]/pages/$s";
-		}, $stmt->fetchAll(\PDO::FETCH_COLUMN, 0)));
-		 */
+		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
+		$issue = $stmt->fetch(\PDO::FETCH_CLASS);
+		$issue->hydrate($this);
+		//$stmt = $this->query('SELECT `filename` FROM {pages} WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issue['id'])); 
 		return $issue;
 	}
 
@@ -156,6 +153,10 @@ class Site {
 
 }
 
+interface AssetManager {
+	public function asset($path);
+}
+
 class Issue {
 
 	public $id;
@@ -164,6 +165,14 @@ class Issue {
 	public $pages;
 
 	public $covers = array();
+
+	public function hydrate(AssetManager $assets) {
+		if (empty($this->covers)) {
+			$this->covers = array(
+				'front' => $assets->asset("issues/$this->slug/covers/front.jpg"),
+			);
+		}
+	}
 
 	public function getCoverPath() {
 		return $this->path("covers/front");

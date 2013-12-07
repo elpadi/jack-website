@@ -1,0 +1,15 @@
+{% extends "admin/site.twig" %}
+{% block content %}
+<h2>Edit Issue {{ issue.title }}</h2>
+<div class="front-cover issue-image">
+	<h3>Front Cover</h3>
+	<div class="left issue-image__image">
+		<img src="{{ issue.covers.front }}" alt="">
+	</div>
+	<div class="right issue-image__input">
+		<h4>Change image</h4>
+		<p>The image size must be <strong>450 x 600</strong> pixels.</p>
+		<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue', {"slug": issue.slug}) }}"></form>
+	</div>
+</div>
+{% endblock %}
