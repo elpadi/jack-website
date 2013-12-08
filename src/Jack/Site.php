@@ -140,9 +140,15 @@ class Site implements AssetManager {
 		return $issue;
 	}
 
+	public function basePath() {
+		return SITE_DIR.'/assets';
+	}
+
 	public function asset($path) {
+		$this->getService('logger')->addDebug("Getting asset with path: $path.");
 		$assets = $this->getService('assets');
 		$asset = $assets->createAsset(array($path));
+		$this->getService('logger')->addDebug("Got asset. Last modified: ".$asset->getLastModified());
 		$path = '/assets/'.$asset->getTargetPath();
 		if (!is_file(PUBLIC_DIR.$path)) {
 			$aw = $this->getService('asset writer');
@@ -155,6 +161,7 @@ class Site implements AssetManager {
 
 interface AssetManager {
 	public function asset($path);
+	public function basePath();
 }
 
 class Issue {
@@ -166,6 +173,11 @@ class Issue {
 
 	public $covers = array();
 
+	protected $imagine;
+
+	const PAGE_WIDTH = 450;
+	const PAGE_HEIGHT = 600;
+
 	public function hydrate(AssetManager $assets) {
 		if (empty($this->covers)) {
 			$this->covers = array(
@@ -174,6 +186,43 @@ class Issue {
 		}
 	}
 
+	public function update($data, $files, AssetManager $assets) {
+		$this->imagine = new \Imagine\Gd\Imagine();
+		foreach ($files as $key => $info) {
+			if (strpos($info['type'], 'image/jpeg') !== 0) {
+				throw new \InvalidArgumentException("The file sent is not a valid JPEG image.");
+			}
+			call_user_func(array($this, "update$key"), $info['tmp_name'], $assets);
+		}
+		$this->generateThumbs($assets);
+	}
+	
+	public function generateThumbs(AssetManager $assets) {
+	}
+
+	public function updateFrontCover($imagePath, AssetManager $assets) {
+		$path = "issues/$this->slug/covers/front.jpg";
+		$dims = $this->imagine->open($imagePath)->getSize();
+		if ($dims->getWidth() !== self::PAGE_WIDTH) {
+			throw new \InvalidArgumentException("The width of the image is ".$dims->getWidth().", not the required ".self::PAGE_WIDTH.".");
+		}
+		if ($dims->getHeight() !== self::PAGE_HEIGHT) {
+			throw new \InvalidArgumentException("The height of the image is ".$dims->getHeight().", not the required ".self::PAGE_HEIGHT.".");
+		}
+		if (!move_uploaded_file($imagePath, $assets->basePath().'/'.$path)) {
+			throw new \RuntimeException("Error saving the image.");
+		}
+		sleep(2); // give the script some time before moving the file, to create a difference between access times.
+		clearstatcache();
+		$this->covers['front'] = $assets->asset($path);
+	}
+
+	public static function log($msg) {
+		global $site;
+		$site->getService('logger')->addDebug($msg);
+	}
+
+	/*
 	public function getCoverPath() {
 		return $this->path("covers/front");
 	}
@@ -188,5 +237,6 @@ class Issue {
 		$issue = $this->lastStatement->fetch(\PDO::FETCH_ASSOC);
 		$stmt = $this->query('SELECT `filename` FROM {pages} WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issue['id'])); 
 	}
+	 */
 
 }

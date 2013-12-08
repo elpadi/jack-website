@@ -9,7 +9,7 @@
 	<div class="right issue-image__input">
 		<h4>Change image</h4>
 		<p>The image size must be <strong>450 x 600</strong> pixels.</p>
-		<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue', {"slug": issue.slug}) }}"></form>
+		<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update', {"slug": issue.slug}) }}" data-file-input-name="FrontCover"></form>
 	</div>
 </div>
 {% endblock %}

@@ -26,7 +26,8 @@
 		"slim/views": "*",
 		"twig/twig": "*",
 		"kriswallsmith/assetic": "*",
-		"elpadi/php-std-lib": "*"
+		"imagine/imagine": "*",
+		"monolog/monolog": "*"
 	},
 	"autoload": {
 		"psr-0": {

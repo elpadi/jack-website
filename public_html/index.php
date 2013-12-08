@@ -15,10 +15,15 @@ use Assetic\Factory\AssetFactory;
 use Assetic\Factory\Worker\CacheBustingWorker;
 use Assetic\Extension\Twig\AsseticExtension;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 define('PUBLIC_DIR', __DIR__);
 define('SITE_DIR', dirname(__DIR__).'/site');
 define('TEMPLATE_DIR', SITE_DIR.'/templates');
 define('CACHE_DIR', SITE_DIR.'/cache');
+
+ini_set('display_errors','off');
 
 require(SITE_DIR.'/config/db.php');
 
@@ -54,6 +59,12 @@ $site->addService('assets', function() {
 $site->addService('asset writer', function() {
 	return new AssetWriter(PUBLIC_DIR.'/assets');
 });
+$site->addService('logger', function() {
+	$log = new Logger('name');
+	$log->pushHandler(new StreamHandler(SITE_DIR.'/logs/debug.log', Logger::DEBUG));
+	return $log;
+});
+
 
 /**
  * Step 3: Define the Slim application routes
@@ -100,12 +111,23 @@ $app->get('/admin/issues', array($site, 'requireAdmin'), function () use ($site,
 		'issues' => $site->getIssues(),
 	));
 })->setName('admin/issues');
-$app->get('/admin/issues/edit/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->get('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
 	$app->render('admin/parts/issue.twig', array(
 		'title' => $view->get('title').' | Issues',
 		'issue' => $site->getIssueBySlug($slug),
 	));
 })->setName('admin/issue');
+$app->post('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$app->response->headers->set('Content-Type', 'application/json');
+	$issue = $site->getIssueBySlug($slug);
+	try {
+		$issue->update($app->request->post(), $_FILES, $site);
+		echo json_encode(array('success' => true, 'issue' => $issue));
+	}
+	catch (\Exception $e) {
+		echo json_encode(array('success' => false, 'error' => $e->getMessage()));
+	}
+})->setName('admin/issue/update');
 
 /**************************************************************
 ************************ Issues *******************************
