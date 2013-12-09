@@ -1,6 +1,9 @@
 <?php
 namespace Jack;
 
+use Imagine\Image\Box;
+use Imagine\Image\Point;
+
 class Site implements AssetManager {
 
 	public $app;
@@ -172,16 +175,28 @@ class Issue {
 	public $pages;
 
 	public $covers = array();
+	public $centerfold = array();
 
 	protected $imagine;
 
 	const PAGE_WIDTH = 450;
 	const PAGE_HEIGHT = 600;
+	
+	const THUMB_HEIGHT = 100;
 
 	public function hydrate(AssetManager $assets) {
 		if (empty($this->covers)) {
 			$this->covers = array(
 				'front' => $assets->asset("issues/$this->slug/covers/front.jpg"),
+				'back' => $assets->asset("issues/$this->slug/covers/back.jpg"),
+				'index' => $assets->asset("issues/$this->slug/covers/index.jpg"),
+				'poster' => $assets->asset("issues/$this->slug/cover-poster/original.jpg"),
+			);
+		}
+		if (empty($this->centerfold)) {
+			$this->centerfold = array(
+				'front' => $assets->asset("issues/$this->slug/centerfold/front/original.jpg"),
+				'back' => $assets->asset("issues/$this->slug/centerfold/back/original.jpg"),
 			);
 		}
 	}
@@ -201,20 +216,77 @@ class Issue {
 	}
 
 	public function updateFrontCover($imagePath, AssetManager $assets) {
-		$path = "issues/$this->slug/covers/front.jpg";
-		$dims = $this->imagine->open($imagePath)->getSize();
-		if ($dims->getWidth() !== self::PAGE_WIDTH) {
-			throw new \InvalidArgumentException("The width of the image is ".$dims->getWidth().", not the required ".self::PAGE_WIDTH.".");
+		$this->updateCoverImage('front', $imagePath, $assets);
+	}
+
+	public function updateBackCover($imagePath, AssetManager $assets) {
+		$this->updateCoverImage('back', $imagePath, $assets);
+	}
+
+	public function updateIndex($imagePath, AssetManager $assets) {
+		$this->updateCoverImage('index', $imagePath, $assets);
+	}
+
+	public function updateCoverPoster($imagePath, AssetManager $assets) {
+		$imageBox = new Box(self::PAGE_WIDTH * 3, self::PAGE_HEIGHT);
+		$image = $this->updateImage("cover-poster/original", $imageBox, $imagePath, $assets);
+		$pageBox = new Box(self::PAGE_WIDTH, self::PAGE_HEIGHT);
+		$base = $assets->basePath()."/issues/$this->slug/cover-poster";
+		$path = function($part) use ($base) { return "$base/$part.jpg"; };
+		$image->copy()->crop(new Point(0, 0), $pageBox)->save($path("left"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH, 0), $pageBox)->save($path("middle"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH * 2, 0), $pageBox)->flipHorizontally()->save($path("right"));
+		$image->resize($imageBox->heighten(self::THUMB_HEIGHT))->save($path("thumb"));
+		$this->covers["poster"] = $assets->asset($path("original"));
+	}
+
+	public function updateFrontCenterfold($imagePath, AssetManager $assets) {
+		$imageBox = new Box(self::PAGE_WIDTH * 2, self::PAGE_HEIGHT * 2);
+		$image = $this->updateImage("centerfold/front/original", $imageBox, $imagePath, $assets);
+		$pageBox = new Box(self::PAGE_WIDTH, self::PAGE_HEIGHT);
+		$base = $assets->basePath()."/issues/$this->slug/centerfold/front";
+		$path = function($part) use ($base) { return "$base/$part.jpg"; };
+		$image->copy()->crop(new Point(0, 0), $pageBox)->save($path("top-left"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH, 0), $pageBox)->save($path("top-right"));
+		$image->copy()->crop(new Point(0, self::PAGE_HEIGHT), $pageBox)->save($path("bottom-left"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH, self::PAGE_HEIGHT), $pageBox)->save($path("bottom-right"));
+		$image->resize($imageBox->heighten(self::THUMB_HEIGHT * 2))->save($path("thumb"));
+		$this->covers["poster"] = $assets->asset($path("original"));
+	}
+
+	protected function updateImage($partialPath, Box $imageBox, $imagePath, AssetManager $assets) {
+		$path = "issues/$this->slug/$partialPath.jpg";
+		$image = $this->imagine->open($imagePath);
+		$dims = $image->getSize();
+		if ($dims->getWidth() !== $imageBox->getWidth()) {
+			throw new \InvalidArgumentException("The width of the image is ".$dims->getWidth()." px, not the required ".$imageBox->getWidth()." px.");
 		}
-		if ($dims->getHeight() !== self::PAGE_HEIGHT) {
-			throw new \InvalidArgumentException("The height of the image is ".$dims->getHeight().", not the required ".self::PAGE_HEIGHT.".");
+		if ($dims->getHeight() !== $imageBox->getHeight()) {
+			throw new \InvalidArgumentException("The height of the image is ".$dims->getHeight()." px, not the required ".$imageBox->getHeight()." px.");
 		}
 		if (!move_uploaded_file($imagePath, $assets->basePath().'/'.$path)) {
 			throw new \RuntimeException("Error saving the image.");
 		}
-		sleep(2); // give the script some time before moving the file, to create a difference between access times.
 		clearstatcache();
-		$this->covers['front'] = $assets->asset($path);
+		return $image;
+	}
+
+	protected function updateCoverImage($section, $imagePath, AssetManager $assets) {
+		if (!isset($this->covers[$section])) {
+			throw new \InvalidArgumentException("Bad cover section '$section'.");
+		}
+		$this->updateImage("covers/$section", new Box(self::PAGE_WIDTH, self::PAGE_HEIGHT), $imagePath, $assets);
+		$base = $assets->basePath()."/issues/$this->slug/covers";
+		$path = function($part) use ($base) { return "$base/$part.jpg"; };
+		
+		$thumbBox = new Box(self::PAGE_WIDTH * 3, self::PAGE_HEIGHT);
+		$thumb = $this->imagine->create($thumbBox);
+		$thumb->paste($this->imagine->open($path("back")), new Point(0, 0));
+		$thumb->paste($this->imagine->open($path("front")), new Point(self::PAGE_WIDTH, 0));
+		$thumb->paste($this->imagine->open($path("index")), new Point(self::PAGE_WIDTH * 2, 0));
+		$thumb->resize($thumbBox->heighten(self::THUMB_HEIGHT))->save($path("thumb"));
+	
+		$this->covers[$section] = $assets->asset($path($section));
 	}
 
 	public static function log($msg) {

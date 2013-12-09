@@ -7,6 +7,18 @@ front end:
 		reduce width for the cover.
 		implement hash change switching.
 	admin:
+		add cover poster section.
+		add centerfold section.
+		add issue/:slug/pages section.
+			used to change the order of the pages.
+			GET: swappable (yahoo fantasy) 2 dimensional table.
+			POST: save order of the table.
+			PUT: add new page.
+		add issue/:slug/pages/add section.
+			GET: form to add new page.
+		add issue/:slug/pages/:slug section.
+			GET: form to update page.
+			POST: update page.
 php:
 	set routes:
 		/: homepage, message about site.

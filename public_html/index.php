@@ -125,7 +125,7 @@ $app->post('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug)
 		echo json_encode(array('success' => true, 'issue' => $issue));
 	}
 	catch (\Exception $e) {
-		echo json_encode(array('success' => false, 'error' => $e->getMessage()));
+		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
 })->setName('admin/issue/update');
 

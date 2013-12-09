@@ -575,6 +575,15 @@ body {
   width: 928px;
   overflow: hidden;
 }
+.issue-image__image img {
+  width: 450px;
+}
 .issue-image__input {
   width: 428px;
+}
+.tabs .section-switcher__section {
+  display: none;
+}
+.tabs .section-switcher__section:first-child {
+  display: block;
 }
