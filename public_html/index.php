@@ -1,14 +1,4 @@
 <?php
-/**
- * Step 1: Require the Slim Framework
- *
- * If you are not using Composer, you need to require the
- * Slim Framework and register its PSR-0 autoloader.
- *
- * If you are using Composer, you can skip this step.
-require 'Slim/Slim.php';
-\Slim\Slim::registerAutoloader();
- */
 use Assetic\AssetManager;
 use Assetic\AssetWriter;
 use Assetic\Factory\AssetFactory;
@@ -18,7 +8,76 @@ use Assetic\Extension\Twig\AsseticExtension;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+function get_longest_common_subsequence($string_1, $string_2)
+{
+	$string_1_length = strlen($string_1);
+	$string_2_length = strlen($string_2);
+	$return          = "";
+ 
+	if ($string_1_length === 0 || $string_2_length === 0)
+	{
+		// No similarities
+		return $return;
+	}
+ 
+	$longest_common_subsequence = array();
+ 
+	// Initialize the CSL array to assume there are no similarities
+	for ($i = 0; $i < $string_1_length; $i++)
+	{
+		$longest_common_subsequence[$i] = array();
+		for ($j = 0; $j < $string_2_length; $j++)
+		{
+			$longest_common_subsequence[$i][$j] = 0;
+		}
+	}
+ 
+	$largest_size = 0;
+ 
+	for ($i = 0; $i < $string_1_length; $i++)
+	{
+		for ($j = 0; $j < $string_2_length; $j++)
+		{
+			// Check every combination of characters
+			if ($string_1[$i] === $string_2[$j])
+			{
+				// These are the same in both strings
+				if ($i === 0 || $j === 0)
+				{
+					// It's the first character, so it's clearly only 1 character long
+					$longest_common_subsequence[$i][$j] = 1;
+				}
+				else
+				{
+					// It's one character longer than the string from the previous character
+					$longest_common_subsequence[$i][$j] = $longest_common_subsequence[$i - 1][$j - 1] + 1;
+				}
+ 
+				if ($longest_common_subsequence[$i][$j] > $largest_size)
+				{
+					// Remember this as the largest
+					$largest_size = $longest_common_subsequence[$i][$j];
+					// Wipe any previous results
+					$return       = "";
+					// And then fall through to remember this new value
+				}
+ 
+				if ($longest_common_subsequence[$i][$j] === $largest_size)
+				{
+					// Remember the largest string(s)
+					$return = substr($string_1, $i - $largest_size + 1, $largest_size);
+				}
+			}
+			// Else, $CSL should be set to 0, which it was already initialized to
+		}
+	}
+ 
+	// Return the list of matches
+	return $return;
+}
+
 define('PUBLIC_DIR', __DIR__);
+define('PATH_PREFIX', count(array_intersect(array_filter(explode('/', PUBLIC_DIR)), array_filter(explode('/', $_SERVER['REQUEST_URI'])))) > 0 ? get_longest_common_subsequence(PUBLIC_DIR.'/', $_SERVER['REQUEST_URI']) : '/');
 define('SITE_DIR', dirname(__DIR__).'/site');
 define('TEMPLATE_DIR', SITE_DIR.'/templates');
 define('CACHE_DIR', SITE_DIR.'/cache');
@@ -187,47 +246,11 @@ $app->get('/issues', array($site, 'requireLogin'), function () use ($site, $app,
 })->setName('issues');
 $app->get('/issues/:slug', array($site, 'requireLogin'), function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
+	$posters = $site->getPostersByIssueId($issue->id);
 	$app->render('parts/issue.twig', array(
-		'title' => $view->get('title').' | '.$issue['title'],
+		'title' => $view->get('title').' | '.$issue->title,
 		'issue' => $issue,
-		'covers' => array(
-			'front' => $site->asset("issues/$slug/covers/front.jpg"),
-			'back' => $site->asset("issues/$slug/covers/back.jpg"),
-			'index' => $site->asset("issues/$slug/covers/index.jpg"),
-		),
-		'cover_poster' => array(
-			'left' => $site->asset("issues/$slug/cover-poster/left.jpg"),
-			'middle' => $site->asset("issues/$slug/cover-poster/middle.jpg"),
-			'right' => $site->asset("issues/$slug/cover-poster/right.jpg"),
-		),
-		'page' => array(
-			'front_left' => $site->asset("issues/$slug/pages/1/left.jpg"),
-			'front_right' => $site->asset("issues/$slug/pages/1/right.jpg"),
-			'back_left' => $site->asset("issues/$slug/pages/2/left.jpg"),
-			'back_right' => $site->asset("issues/$slug/pages/2/right.jpg"),
-		),
-		'centerfold' => array(
-			'front_top_left' => $site->asset("issues/$slug/centerfold/front/top-left.jpg"),
-			'front_top_right' => $site->asset("issues/$slug/centerfold/front/top-right.jpg"),
-			'front_bottom_left' => $site->asset("issues/$slug/centerfold/front/bottom-left.jpg"),
-			'front_bottom_right' => $site->asset("issues/$slug/centerfold/front/bottom-right.jpg"),
-			'back_top_left' => $site->asset("issues/$slug/centerfold/back/top-right.jpg"),
-			'back_top_right' => $site->asset("issues/$slug/centerfold/back/top-left.jpg"),
-			'back_bottom_left' => $site->asset("issues/$slug/centerfold/back/bottom-right.jpg"),
-			'back_bottom_right' => $site->asset("issues/$slug/centerfold/back/bottom-left.jpg"),
-		),
-		'thumbs' => array(
-			'covers' => $site->asset("issues/$slug/covers/thumb.jpg"),
-			'cover_poster' => $site->asset("issues/$slug/cover-poster/thumb.jpg"),
-			'page' => array(
-				'front' => $site->asset("issues/$slug/pages/1/thumb.jpg"),
-				'back' => $site->asset("issues/$slug/pages/2/thumb.jpg"),
-			),
-			'centerfold' => array(
-				'front' => $site->asset("issues/$slug/centerfold/front/thumb.jpg"),
-				'back' => $site->asset("issues/$slug/centerfold/back/thumb.jpg"),
-			),
-		),
+		'posters' => $posters,
 	));
 })->setName('issue');
 

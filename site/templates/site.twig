@@ -16,7 +16,7 @@
 			<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
-			<link rel="stylesheet" href="/css/dist/main.css" media="all">
+			<link rel="stylesheet" href="{{ pathPrefix }}css/dist/main.css" media="all">
 
 	{% endblock %}
 	</head>
@@ -40,6 +40,10 @@
 		</div>
 		{% block footer %}
 		{% endblock %}
-		<script src="/js/src/bower_components/requirejs/require.js" data-main="/js/src/main"></script>
+		{% if isLocal %}
+		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/src/main"></script>
+		{% else %}
+		<script src="{{ pathPrefix }}js/dist/main.min.js"></script>
+		{% endif %}
 	</body>
 </html>

@@ -8,7 +8,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>{{ title }}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="/css/dist/admin.css" media="all">
+		<link rel="stylesheet" href="{{ pathPrefix }}css/dist/admin.css" media="all">
 	</head>
 	<body>
 		<div id="container">
@@ -31,6 +31,10 @@
 				{% endblock %}
 			</div>
 		</div>
-		<script src="/js/src/bower_components/requirejs/require.js" data-main="/js/src/main.admin"></script>
+		{% if isLocal %}
+		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/src/main.admin"></script>
+		{% else %}
+		<script src="{{ pathPrefix }}js/dist/main.admin.js"></script>
+		{% endif %}
 	</body>
 </html>

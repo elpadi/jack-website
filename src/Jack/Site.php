@@ -36,6 +36,8 @@ class Site implements AssetManager,DbAccess {
 		);
 		$view->appendData(array(
 			'title' => 'JACK',
+			'isLocal' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")),
+			'pathPrefix' => PATH_PREFIX,
 		));
 		$this->app = $app;
 
@@ -140,7 +142,8 @@ class Site implements AssetManager,DbAccess {
 	public function getIssues() {
 		$issues = array();
 		$stmt = $this->query('SELECT * FROM {issues}');
-		while ($issue = $stmt->fetch(\PDO::FETCH_CLASS, 'Jack\Issue')) {
+		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
+		while ($issue = $stmt->fetch(\PDO::FETCH_CLASS)) {
 			$issue->hydrate($this);
 			$issues[] = $issue;
 		}
@@ -175,7 +178,7 @@ class Site implements AssetManager,DbAccess {
 		$assets = $this->getService('assets');
 		$asset = $assets->createAsset(array($path));
 		$this->getService('logger')->addDebug("Got asset. Last modified: ".$asset->getLastModified());
-		$path = '/assets/'.$asset->getTargetPath();
+		$path = PATH_PREFIX.'assets/'.$asset->getTargetPath();
 		if (!is_file(PUBLIC_DIR.$path)) {
 			$aw = $this->getService('asset writer');
 			$aw->writeAsset($asset);
@@ -225,13 +228,28 @@ class Issue {
 				'front' => $assets->asset("issues/$this->slug/covers/front.jpg"),
 				'back' => $assets->asset("issues/$this->slug/covers/back.jpg"),
 				'index' => $assets->asset("issues/$this->slug/covers/index.jpg"),
+				'thumb' => $assets->asset("issues/$this->slug/covers/thumb.jpg"),
 				'poster' => $assets->asset("issues/$this->slug/cover-poster/original.jpg"),
+				'poster_left' => $assets->asset("issues/$this->slug/cover-poster/left.jpg"),
+				'poster_middle' => $assets->asset("issues/$this->slug/cover-poster/middle.jpg"),
+				'poster_right' => $assets->asset("issues/$this->slug/cover-poster/right.jpg"),
+				'poster_thumb' => $assets->asset("issues/$this->slug/cover-poster/thumb.jpg"),
 			);
 		}
 		if (empty($this->centerfold)) {
 			$this->centerfold = array(
 				'front' => $assets->asset("issues/$this->slug/centerfold/front/original.jpg"),
+				'front_top_left' => $assets->asset("issues/$this->slug/centerfold/front/top-left.jpg"),
+				'front_top_right' => $assets->asset("issues/$this->slug/centerfold/front/top-right.jpg"),
+				'front_bottom_left' => $assets->asset("issues/$this->slug/centerfold/front/bottom-left.jpg"),
+				'front_bottom_right' => $assets->asset("issues/$this->slug/centerfold/front/bottom-right.jpg"),
+				'front_thumb' => $assets->asset("issues/$this->slug/centerfold/front/thumb.jpg"),
 				'back' => $assets->asset("issues/$this->slug/centerfold/back/original.jpg"),
+				'back_top_left' => $assets->asset("issues/$this->slug/centerfold/back/top-left.jpg"),
+				'back_top_right' => $assets->asset("issues/$this->slug/centerfold/back/top-right.jpg"),
+				'back_bottom_left' => $assets->asset("issues/$this->slug/centerfold/back/bottom-left.jpg"),
+				'back_bottom_right' => $assets->asset("issues/$this->slug/centerfold/back/bottom-right.jpg"),
+				'back_thumb' => $assets->asset("issues/$this->slug/centerfold/back/thumb.jpg"),
 			);
 		}
 	}
@@ -275,7 +293,7 @@ class Issue {
 		$pageBox = new Box(self::PAGE_WIDTH, self::PAGE_HEIGHT);
 		$base = $assets->basePath()."/issues/$this->slug/cover-poster";
 		$path = function($part) use ($base) { return "$base/$part.jpg"; };
-		$image->copy()->crop(new Point(0, 0), $pageBox)->save($path("left"));
+		$image->copy()->crop(new Point(0, 0), $pageBox)->flipHorizontally()->save($path("left"));
 		$image->copy()->crop(new Point(self::PAGE_WIDTH, 0), $pageBox)->save($path("middle"));
 		$image->copy()->crop(new Point(self::PAGE_WIDTH * 2, 0), $pageBox)->flipHorizontally()->save($path("right"));
 		$image->resize($imageBox->heighten(self::THUMB_HEIGHT))->save($path("thumb"));
@@ -364,15 +382,19 @@ class Poster {
 
 	public $left;
 	public $right;
+	public $left_flipped;
+	public $right_flipped;
 
 	public $issueId;
 
 	public function hydrate(AssetManager $assets) {
 		if (empty($this->poster)) {
 			$this->poster = $assets->asset("posters/$this->id/original.jpg");
-		}
-		if (empty($this->thumb)) {
 			$this->thumb = $assets->asset("posters/$this->id/thumb.jpg");
+			$this->left = $assets->asset("posters/$this->id/left.jpg");
+			$this->left_flipped = $assets->asset("posters/$this->id/left-flipped.jpg");
+			$this->right = $assets->asset("posters/$this->id/right.jpg");
+			$this->right_flipped = $assets->asset("posters/$this->id/right-flipped.jpg");
 		}
 	}
 

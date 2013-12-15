@@ -1,0 +1,22 @@
+mirror --delete --only-newer -R -x '\.git' -x 'sql' -x 'cache' -x 'logs' -x 'config\/db\.php'  site/ site
+put -O site/config/ site/config/db.remote.php -o db.php
+
+mirror --delete --only-newer -R -x '\.git' src/ src
+
+mirror --delete --only-newer -R -x '\.git' vendor/composer/ vendor/composer
+mirror --delete --only-newer -R -x '\.git' vendor/imagine/imagine/lib/ vendor/imagine/imagine/lib/
+mirror --delete --only-newer -R -x '\.git' vendor/kriswallsmith/assetic/src/ vendor/kriswallsmith/assetic/src/
+mirror --delete --only-newer -R -x '\.git' vendor/monolog/monolog/src/ vendor/monolog/monolog/src/
+mirror --delete --only-newer -R -x '\.git' vendor/psr/log/Psr vendor/psr/log/Psr
+mirror --delete --only-newer -R -x '\.git' vendor/slim/slim/Slim vendor/slim/slim/Slim
+mirror --delete --only-newer -R -x '\.git' vendor/slim/views/Slim/Views vendor/slim/views/Slim/Views
+mirror --delete --only-newer -R -x '\.git' vendor/symfony vendor/symfony
+mirror --delete --only-newer -R -x '\.git' vendor/twig/twig/lib/ vendor/twig/twig/lib/
+mirror --delete --only-newer -R -x '\.git' vendor/ulogin vendor/ulogin
+mirror --delete --only-newer -R -x '\.git' vendor/zendframework vendor/zendframework
+put -O vendor vendor/autoload.php
+
+mirror --delete --only-newer -R -x '\.git' public_html/js/dist public_html/js/dist
+mirror --delete --only-newer -R -x '\.git' public_html/css/dist public_html/css/dist
+put -O public_html public_html/index.php
+put -O public_html public_html/.htaccess

@@ -7,6 +7,7 @@
     "requirejs": "*",
     "js-libs": "https://github.com/elpadi/js-libs.git#master",
     "dropzone": "~3.7.3",
-    "eventemitter2": "~0.4.13"
+    "eventemitter2": "~0.4.13",
+    "almond": "~0.2.7"
   }
 }
