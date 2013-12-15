@@ -32,3 +32,31 @@ body {
 	}
 }
 
+#page-order {
+	text-align:center;
+	border-collapse:collapse;
+	&, td, th {
+		border:1px solid black;
+	}
+	td, .poster {
+		width:200px;
+	}
+	td:hover, td.selected {
+		background-color:green;
+	}
+	td.row-number:hover, tr.selected td {
+		background-color:skyblue;
+	}
+	td {
+		cursor:pointer;
+		-moz-user-select:none;
+		-webkit-user-select:none;
+		user-select:none;
+		&:hover {
+			opacity:0.5;
+		}
+	}
+	td.selected, tr.selected td {
+		opacity:1;
+	}
+}

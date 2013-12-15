@@ -587,3 +587,37 @@ body {
 .tabs .section-switcher__section:first-child {
   display: block;
 }
+#page-order {
+  text-align: center;
+  border-collapse: collapse;
+}
+#page-order,
+#page-order td,
+#page-order th {
+  border: 1px solid black;
+}
+#page-order td,
+#page-order .poster {
+  width: 200px;
+}
+#page-order td:hover,
+#page-order td.selected {
+  background-color: green;
+}
+#page-order td.row-number:hover,
+#page-order tr.selected td {
+  background-color: skyblue;
+}
+#page-order td {
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#page-order td:hover {
+  opacity: 0.5;
+}
+#page-order td.selected,
+#page-order tr.selected td {
+  opacity: 1;
+}

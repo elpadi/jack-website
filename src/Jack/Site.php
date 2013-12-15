@@ -4,7 +4,7 @@ namespace Jack;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 
-class Site implements AssetManager {
+class Site implements AssetManager,DbAccess {
 
 	public $app;
 
@@ -109,7 +109,11 @@ class Site implements AssetManager {
 		return preg_replace('/\{(.*?)}/', '`'.$this->tablePrefix.'$1`', $sql);
 	}
 
-	protected function query($sql, $params=array()) {
+	public function table($name) {
+		return self::TABLE_PREFIX.$name;
+	}
+
+	public function query($sql, $params=array()) {
 		if ($this->lastStatement) {
 			$this->lastStatement->closeCursor();
 		}
@@ -122,6 +126,15 @@ class Site implements AssetManager {
 			$this->lastStatement = $this->getService('db')->query($sql);
 		}
 		return $this->lastStatement;
+	}
+	
+	public function prepare($sql) {
+		$this->lastStatement = $this->getService('db')->prepare($sql);
+		return $this->lastStatement;
+	}
+
+	public function lastInsertId() {
+		return $this->getService('db')->lastInsertId();
 	}
 
 	public function getIssues() {
@@ -139,8 +152,18 @@ class Site implements AssetManager {
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
 		$issue = $stmt->fetch(\PDO::FETCH_CLASS);
 		$issue->hydrate($this);
-		//$stmt = $this->query('SELECT `filename` FROM {pages} WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issue['id'])); 
 		return $issue;
+	}
+
+	public function getPostersByIssueId($issueId) {
+		$posters = array();
+		$stmt = $this->query('SELECT * FROM {posters} JOIN {issue_posters} ON poster_id=id WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issueId));
+		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Poster');
+		while ($poster = $stmt->fetch(\PDO::FETCH_CLASS)) {
+			$poster->hydrate($this);
+			$posters[] = $poster;
+		}
+		return $posters;
 	}
 
 	public function basePath() {
@@ -167,12 +190,24 @@ interface AssetManager {
 	public function basePath();
 }
 
+interface DbAccess {
+	const TABLE_PREFIX = 'jack_';
+	public function query($sql, $params=array());
+	public function prepare($sql);
+	public function table($name);
+	public function lastInsertId();
+}
+
+function slug($s, $separator="-") {
+	return trim(preg_replace('/[^a-zA-Z0-9]+/', $separator, strtolower($s)), $separator);
+}
+
 class Issue {
 
 	public $id;
 	public $slug;
 	public $title;
-	public $pages;
+	public $posters;
 
 	public $covers = array();
 	public $centerfold = array();
@@ -201,6 +236,17 @@ class Issue {
 		}
 	}
 
+	public function updatePosterOrder($data, DbAccess $db) {
+		$sth = $db->prepare("UPDATE `".$db->table("issue_posters")."` SET `sort_order`=? WHERE `issue_id`=$this->id AND `poster_id`=?");
+		$order = 1;
+		for ($i = 0; $i < count($data) / 2; $i++) {
+			$sth->execute(array($order, $data['row'.$i.'_front']));
+			$order++;
+			$sth->execute(array($order, $data['row'.$i.'_back']));
+			$order++;
+		}
+	}
+	
 	public function update($data, $files, AssetManager $assets) {
 		$this->imagine = new \Imagine\Gd\Imagine();
 		foreach ($files as $key => $info) {
@@ -209,12 +255,8 @@ class Issue {
 			}
 			call_user_func(array($this, "update$key"), $info['tmp_name'], $assets);
 		}
-		$this->generateThumbs($assets);
 	}
 	
-	public function generateThumbs(AssetManager $assets) {
-	}
-
 	public function updateFrontCover($imagePath, AssetManager $assets) {
 		$this->updateCoverImage('front', $imagePath, $assets);
 	}
@@ -251,7 +293,21 @@ class Issue {
 		$image->copy()->crop(new Point(0, self::PAGE_HEIGHT), $pageBox)->save($path("bottom-left"));
 		$image->copy()->crop(new Point(self::PAGE_WIDTH, self::PAGE_HEIGHT), $pageBox)->save($path("bottom-right"));
 		$image->resize($imageBox->heighten(self::THUMB_HEIGHT * 2))->save($path("thumb"));
-		$this->covers["poster"] = $assets->asset($path("original"));
+		$this->centerfold["front"] = $assets->asset($path("original"));
+	}
+
+	public function updateBackCenterfold($imagePath, AssetManager $assets) {
+		$imageBox = new Box(self::PAGE_WIDTH * 2, self::PAGE_HEIGHT * 2);
+		$image = $this->updateImage("centerfold/back/original", $imageBox, $imagePath, $assets);
+		$pageBox = new Box(self::PAGE_WIDTH, self::PAGE_HEIGHT);
+		$base = $assets->basePath()."/issues/$this->slug/centerfold/back";
+		$path = function($part) use ($base) { return "$base/$part.jpg"; };
+		$image->copy()->crop(new Point(0, 0), $pageBox)->flipHorizontally()->save($path("top-left"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH, 0), $pageBox)->flipHorizontally()->save($path("top-right"));
+		$image->copy()->crop(new Point(0, self::PAGE_HEIGHT), $pageBox)->flipHorizontally()->save($path("bottom-left"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH, self::PAGE_HEIGHT), $pageBox)->flipHorizontally()->save($path("bottom-right"));
+		$image->resize($imageBox->heighten(self::THUMB_HEIGHT * 2))->save($path("thumb"));
+		$this->centerfold["back"] = $assets->asset($path("original"));
 	}
 
 	protected function updateImage($partialPath, Box $imageBox, $imagePath, AssetManager $assets) {
@@ -294,21 +350,96 @@ class Issue {
 		$site->getService('logger')->addDebug($msg);
 	}
 
-	/*
-	public function getCoverPath() {
-		return $this->path("covers/front");
+}
+
+class Poster {
+	
+	public $id;
+	public $slug;
+	public $title;
+	public $description;
+	
+	public $poster;
+	public $thumb;
+
+	public $left;
+	public $right;
+
+	public $issueId;
+
+	public function hydrate(AssetManager $assets) {
+		if (empty($this->poster)) {
+			$this->poster = $assets->asset("posters/$this->id/original.jpg");
+		}
+		if (empty($this->thumb)) {
+			$this->thumb = $assets->asset("posters/$this->id/thumb.jpg");
+		}
 	}
 
-	protected function path($partial) {
-		return "issues/$this->slug/$partial.jpg";
+	protected function updateData($data, DbAccess $db) {
+		if (!isset($data['id']) || !ctype_digit($data['id'])) {
+			throw new \Exception("Invalid data.");
+		}
+		if (isset($data['title'])) {
+			$data['slug'] = slug($data['title']);
+		}
+		$middleSql = "SET `title`=?, `slug`=?, `description`=? ";
+		if ($data['id'] !== '0') {
+			$sql = "UPDATE `".$db->table("posters")."` ".$middleSql."WHERE `id`=".intval($this->id);
+			$db->query($sql, array($data['title'], $data['slug'], $data['description']));
+		}
+		else {
+			$sql = "INSERT INTO `".$db->table("posters")."` ".$middleSql;
+			$db->query($sql, array($data['title'], $data['slug'], $data['description']));
+			$this->id = $db->lastInsertId();
+			$sql = "INSERT INTO `".$db->table("issue_posters")."` SET `issue_id`=?, `poster_id`=?";
+			$db->query($sql, array($this->issueId, $this->id));
+		}
+		foreach (array('title','slug','description') as $key) {
+			$this->$key = $data[$key];
+		}
 	}
 
-	public static function createFromSlug($slug) {
-		global $site;
-		$stmt = $this->query('SELECT * FROM {issues} WHERE `slug`=?', array($slug));
-		$issue = $this->lastStatement->fetch(\PDO::FETCH_ASSOC);
-		$stmt = $this->query('SELECT `filename` FROM {pages} WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issue['id'])); 
+	protected function updatePoster($info, AssetManager $assets) {
+		if (strpos($info['type'], 'image/jpeg') !== 0) {
+			throw new \InvalidArgumentException("The file sent is not a valid JPEG image.");
+		}
+		$base = $assets->basePath()."/posters/$this->id";
+		$path = function($part) use ($base) { return "$base/$part.jpg"; };
+		$imageBox = new Box(Issue::PAGE_WIDTH * 2, Issue::PAGE_HEIGHT);
+		$pageBox = new Box(Issue::PAGE_WIDTH, Issue::PAGE_HEIGHT);
+		$image = $this->imagine->open($info['tmp_name']);
+		$dims = $image->getSize();
+		if ($dims->getWidth() !== $imageBox->getWidth()) {
+			throw new \InvalidArgumentException("The width of the image is ".$dims->getWidth()." px, not the required ".$imageBox->getWidth()." px.");
+		}
+		if ($dims->getHeight() !== $imageBox->getHeight()) {
+			throw new \InvalidArgumentException("The height of the image is ".$dims->getHeight()." px, not the required ".$imageBox->getHeight()." px.");
+		}
+		if (!move_uploaded_file($info['tmp_name'], $path("original"))) {
+			throw new \RuntimeException("Error saving the image.");
+		}
+		clearstatcache();
+		$image->copy()->crop(new Point(0, 0), $pageBox)->save($path("left"));
+		$image->copy()->crop(new Point(0, 0), $pageBox)->flipHorizontally()->save($path("left-flipped"));
+		$image->copy()->crop(new Point(Issue::PAGE_WIDTH, 0), $pageBox)->save($path("right"));
+		$image->copy()->crop(new Point(Issue::PAGE_WIDTH, 0), $pageBox)->flipHorizontally()->save($path("right-flipped"));
+		$image->resize($imageBox->heighten(Issue::THUMB_HEIGHT))->save($path("thumb"));
+		$this->poster = $assets->asset($path("original"));
 	}
-	 */
+
+	public function update($data, $files, AssetManager $assets, DbAccess $db) {
+		if (!empty($data)) {
+			$this->updateData($data, $db);
+			if ($data['id'] === '0') {
+				$path = $assets->basePath()."/posters/$this->id";
+				!is_dir($path) && mkdir($path);
+			}
+		}
+		if (!empty($files) && isset($files['poster'])) {
+			$this->imagine = new \Imagine\Gd\Imagine();
+			$this->updatePoster($files['poster'], $assets);
+		}
+	}
 
 }

@@ -1,6 +1,10 @@
 {% extends "admin/site.twig" %}
 {% block content %}
 <h2>Edit Issue {{ issue.title }}</h2>
+<h3>Edit Posters</h3>
+<p><a href="{{ urlFor('admin/issue/newpage', {"slug": issue.slug}) }}">Add new poster</a></p>
+<p><a href="{{ urlFor('admin/issue/pages', {"slug": issue.slug}) }}">Current posters (change order)</a></p>
+<h3>Change main images</h3>
 <div class="section-switcher tabs">
 	<ul class="section-switcher__links horizontal-list">
 		<li class="selected"><a href="#front-cover">Front cover</a></li>

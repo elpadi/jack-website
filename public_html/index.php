@@ -23,6 +23,8 @@ define('SITE_DIR', dirname(__DIR__).'/site');
 define('TEMPLATE_DIR', SITE_DIR.'/templates');
 define('CACHE_DIR', SITE_DIR.'/cache');
 
+define('DEBUG', true);
+
 ini_set('display_errors','off');
 
 require(SITE_DIR.'/config/db.php');
@@ -112,8 +114,9 @@ $app->get('/admin/issues', array($site, 'requireAdmin'), function () use ($site,
 	));
 })->setName('admin/issues');
 $app->get('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$issue = $site->getIssueBySlug($slug);
 	$app->render('admin/parts/issue.twig', array(
-		'title' => $view->get('title').' | Issues',
+		'title' => $view->get('title').' | Edit '.$issue->title,
 		'issue' => $site->getIssueBySlug($slug),
 	));
 })->setName('admin/issue');
@@ -128,6 +131,50 @@ $app->post('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug)
 		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
 })->setName('admin/issue/update');
+
+$app->get('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$issue = $site->getIssueBySlug($slug);
+	$posters = $site->getPostersByIssueId($issue->id);
+	$app->render('admin/parts/pages.twig', array(
+		'title' => $view->get('title').' | Edit order '.$issue->title,
+		'issue' => $issue,
+		'posters' => $posters,
+	));
+})->setName('admin/issue/pages');
+$app->post('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$app->response->headers->set('Content-Type', 'application/json');
+	$issue = $site->getIssueBySlug($slug);
+	try {
+		$issue->updatePosterOrder($app->request->post(), $site);
+		echo json_encode(array('success' => true));
+	}
+	catch (\Exception $e) {
+		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
+	}
+});
+$app->get('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$issue = $site->getIssueBySlug($slug);
+	$app->render('admin/parts/add_page.twig', array(
+		'title' => $view->get('title').' | Add poster to '.$issue->title,
+		'issue' => $site->getIssueBySlug($slug),
+	));
+})->setName('admin/issue/newpage');
+$app->post('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$issue = $site->getIssueBySlug($slug);
+	$poster = new Jack\Poster();
+	$poster->issueId = $issue->id;
+	try {
+		$poster->update($app->request->put(), $_FILES, $site, $site);
+		$app->flash('info', "The poster '$poster->title' was added to this issue.");
+		$app->redirect($app->urlFor('admin/issue', array('slug' => $slug)));
+	}
+	catch (\Exception $e) {
+		echo "Adding poster failed.";
+		if (DEBUG) {
+			echo ' --- '.$e->getFile().':'.$e->getLine().' - '.$e->getMessage();
+		}
+	}
+});
 
 /**************************************************************
 ************************ Issues *******************************

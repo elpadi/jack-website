@@ -21,13 +21,11 @@
 					</ul>
 				</nav>
 			</header>
-			{% if flash|length > 0 %}
-			<div class="notices">
+			<div id="page-notices" class="notices">
 				{% for f in flash %}
 				<p>{{ f }}</p>
 				{% endfor %}
 			</div>
-			{% endif %}
 			<div id="content">
 				{% block content %}
 				{% endblock %}
