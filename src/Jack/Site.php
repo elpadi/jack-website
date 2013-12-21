@@ -21,6 +21,7 @@ class Site implements AssetManager,DbAccess {
 			'constructors' => array(),
 			'instances' => array(),
 		);
+		$userAgent = new \phpUserAgent();
 		$app = new \Slim\Slim(array(
 			'view' => new \Slim\Views\Twig()
 		));
@@ -38,6 +39,7 @@ class Site implements AssetManager,DbAccess {
 			'title' => 'JACK',
 			'isLocal' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")),
 			'pathPrefix' => PATH_PREFIX,
+			'userAgent' => $userAgent->toArray(),
 		));
 		$this->app = $app;
 

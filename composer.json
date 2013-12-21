@@ -27,6 +27,7 @@
 		"twig/twig": "*",
 		"kriswallsmith/assetic": "*",
 		"imagine/imagine": "*",
+		"ornicar/php-user-agent": "*",
 		"monolog/monolog": "*"
 	},
 	"autoload": {

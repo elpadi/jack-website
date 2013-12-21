@@ -20,7 +20,7 @@
 
 	{% endblock %}
 	</head>
-	<body>
+	<body class="os-{{ userAgent.operating_system }} browser-{{ userAgent.browser_name }} version-{{ userAgent.browser_version }}">
 		<div id="container">
 			{% block header %}
 			{% endblock %}

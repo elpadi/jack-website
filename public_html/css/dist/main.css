@@ -131,159 +131,150 @@ body {
 }
 .magazine__section,
 .magazine__section img {
-  -webkit-transition: all 1s;
-  -moz-transition: all 1s;
-  transition: all 1s;
+  -webkit-transition-property: -webkit-transform, opacity;
+  -moz-transition-property: -moz-transform, opacity;
+  transition-property: transform,opacity;
+  -webkit-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  transition-duration: 1s;
 }
 .magazine__section:first-child {
   opacity: 1;
 }
 .magazine__section.flip {
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-.magazine__section .front {
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  backface-visibility: hidden;
+  -webkit-transform: rotateY(179deg);
+  -moz-transform: rotateY(179deg);
+  transform: rotateY(179deg);
 }
 .magazine__section img {
   position: absolute;
   width: 33.33%;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
-.magazine-poster .left {
-  right: 50%;
-}
-.magazine-poster .right {
-  left: 50%;
-}
-.magazine-poster .front {
-  z-index: 2;
-}
-.magazine-poster .magazine-poster__front-left {
-  -webkit-transform-origin: 100% 0 0;
-  -moz-transform-origin: 100% 0 0;
-  transform-origin: 100% 0 0;
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-.magazine-poster .magazine-poster__front-right {
-  -webkit-transform-origin: 0 0 0;
-  -moz-transform-origin: 0 0 0;
-  transform-origin: 0 0 0;
-}
-.magazine-poster .magazine-poster__back-left {
-  -webkit-transform-origin: 100% 0 0;
-  -moz-transform-origin: 100% 0 0;
-  transform-origin: 100% 0 0;
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-.magazine-poster .magazine-poster__back-right {
-  -webkit-transform-origin: 0 0 0;
-  -moz-transform-origin: 0 0 0;
-  transform-origin: 0 0 0;
-}
-.magazine-poster.open .left {
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-}
-.magazine-poster.flip .back {
-  z-index: 3;
+.magazine__section img.back {
+  -webkit-backface-visibility: visible;
+  -moz-backface-visibility: visible;
+  backface-visibility: visible;
 }
 .magazine-cover .left {
   left: 0;
+  -webkit-transition-delay: 1s;
+  -moz-transition-delay: 1s;
+  transition-delay: 1s;
+  -webkit-transform-origin: 100% 0 0;
+  -moz-transform-origin: 100% 0 0;
+  transform-origin: 100% 0 0;
 }
 .magazine-cover .middle {
   left: 33.33%;
 }
 .magazine-cover .right {
   left: 66.66%;
-}
-.magazine-cover .front {
-  z-index: 2;
-}
-.magazine-cover .magazine-cover__back-cover {
-  -webkit-transition-delay: 1s;
-  -moz-transition-delay: 1s;
-  transition-delay: 1s;
-  -webkit-transform-origin: 100% 0 0;
-  -moz-transform-origin: 100% 0 0;
-  transform-origin: 100% 0 0;
-  -webkit-transform: rotateY(-90deg);
-  -moz-transform: rotateY(-90deg);
-  transform: rotateY(-90deg);
-}
-.magazine-cover .magazine-cover__cover-index {
   -webkit-transform-origin: 0 0 0;
   -moz-transform-origin: 0 0 0;
   transform-origin: 0 0 0;
-  -webkit-transform: rotateY(90deg);
-  -moz-transform: rotateY(90deg);
-  transform: rotateY(90deg);
 }
-.magazine-cover .magazine-cover__poster-middle {
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  transform: rotateY(180deg);
+.magazine-cover .middle {
+  -webkit-transform: translateZ(3px);
+  -moz-transform: translateZ(3px);
+  transform: translateZ(3px);
 }
-.magazine-cover .magazine-cover__poster-right {
+.magazine-cover .back.middle {
+  -webkit-transform: translateZ(2px);
+  -moz-transform: translateZ(2px);
+  transform: translateZ(2px);
+}
+.magazine-cover .left {
+  -webkit-transform: rotateY(-179deg);
+  -moz-transform: rotateY(-179deg);
+  transform: rotateY(-179deg);
+}
+.magazine-cover .right {
+  -webkit-transform: rotateY(179deg);
+  -moz-transform: rotateY(179deg);
+  transform: rotateY(179deg);
+}
+.magazine-cover .front.left {
+  -webkit-transform: rotateY(-179deg) translateZ(1px);
+  -moz-transform: rotateY(-179deg) translateZ(1px);
+  transform: rotateY(-179deg) translateZ(1px);
+}
+.magazine-cover .front.right {
+  -webkit-transform: rotateY(179deg) translateZ(1px);
+  -moz-transform: rotateY(179deg) translateZ(1px);
+  transform: rotateY(179deg) translateZ(1px);
+}
+.magazine-cover.open .left {
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  transition-delay: 0s;
+}
+.magazine-cover.open .right {
   -webkit-transition-delay: 1s;
   -moz-transition-delay: 1s;
   transition-delay: 1s;
+}
+.magazine-cover.open .left {
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-cover.open .right {
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.magazine-cover.open .front.left {
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+  -moz-transform: rotateY(0deg) translateZ(1px);
+  transform: rotateY(0deg) translateZ(1px);
+}
+.magazine-cover.open .front.right {
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+  -moz-transform: rotateY(0deg) translateZ(1px);
+  transform: rotateY(0deg) translateZ(1px);
+}
+.magazine-poster .left {
+  right: 50%;
   -webkit-transform-origin: 100% 0 0;
   -moz-transform-origin: 100% 0 0;
   transform-origin: 100% 0 0;
-  -webkit-transform: rotateY(-90deg);
-  -moz-transform: rotateY(-90deg);
-  transform: rotateY(-90deg);
 }
-.magazine-cover .magazine-cover__poster-left {
+.magazine-poster .right {
+  left: 50%;
   -webkit-transform-origin: 0 0 0;
   -moz-transform-origin: 0 0 0;
   transform-origin: 0 0 0;
-  -webkit-transform: rotateY(90deg);
-  -moz-transform: rotateY(90deg);
-  transform: rotateY(90deg);
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  transform: translateZ(0);
 }
-.magazine-cover.open .magazine-cover__back-cover {
-  -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  transition-delay: 0s;
+.magazine-poster .left {
+  -webkit-transform: rotateY(-179deg);
+  -moz-transform: rotateY(-179deg);
+  transform: rotateY(-179deg);
+}
+.magazine-poster .front.left {
+  -webkit-transform: rotateY(-179deg) translateZ(1px);
+  -moz-transform: rotateY(-179deg) translateZ(1px);
+  transform: rotateY(-179deg) translateZ(1px);
+}
+.magazine-poster .front.right {
+  -webkit-transform: translateZ(2px);
+  -moz-transform: translateZ(2px);
+  transform: translateZ(2px);
+}
+.magazine-poster.open .left {
   -webkit-transform: rotateY(0deg);
   -moz-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
-.magazine-cover.open .magazine-cover__cover-index {
-  -webkit-transition-delay: 1s;
-  -moz-transition-delay: 1s;
-  transition-delay: 1s;
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-}
-.magazine-cover.open .magazine-cover__poster-right {
-  -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  transition-delay: 0s;
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-}
-.magazine-cover.open .magazine-cover__poster-left {
-  -webkit-transition-delay: 1s;
-  -moz-transition-delay: 1s;
-  transition-delay: 1s;
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-}
-.magazine-cover.flip .back {
-  z-index: 3;
+.magazine-poster.open .front.left {
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+  -moz-transform: rotateY(0deg) translateZ(1px);
+  transform: rotateY(0deg) translateZ(1px);
 }
 .magazine-centerfold {
   height: 800px;
@@ -293,9 +284,6 @@ body {
 }
 .magazine-centerfold .top {
   top: 0;
-}
-.magazine-centerfold .front {
-  z-index: 2;
 }
 .magazine-centerfold .left {
   right: 50%;
@@ -308,52 +296,164 @@ body {
   -webkit-transform-origin: 0 100% 0;
   -moz-transform-origin: 0 100% 0;
   transform-origin: 0 100% 0;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  transform: translateZ(0);
 }
-.magazine-centerfold .front.top {
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  backface-visibility: hidden;
+.magazine-centerfold .left {
+  -webkit-transform: rotateY(-179deg);
+  -moz-transform: rotateY(-179deg);
+  transform: rotateY(-179deg);
+}
+.magazine-centerfold .front.left {
+  -webkit-transform: rotateY(-179deg) translateZ(1px);
+  -moz-transform: rotateY(-179deg) translateZ(1px);
+  transform: rotateY(-179deg) translateZ(1px);
 }
 .magazine-centerfold .top.left {
-  -webkit-transform: rotateX(-180deg) rotateY(-180deg);
-  -moz-transform: rotateX(-180deg) rotateY(-180deg);
-  transform: rotateX(-180deg) rotateY(-180deg);
+  -webkit-transform: rotateY(-179deg) rotateX(179deg);
+  -moz-transform: rotateY(-179deg) rotateX(179deg);
+  transform: rotateY(-179deg) rotateX(179deg);
+}
+.magazine-centerfold .front.top.left {
+  -webkit-transform: rotateY(-179deg) rotateX(179deg) translateZ(1px);
+  -moz-transform: rotateY(-179deg) rotateX(179deg) translateZ(1px);
+  transform: rotateY(-179deg) rotateX(179deg) translateZ(1px);
+}
+.magazine-centerfold .right {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.magazine-centerfold .front.right {
+  -webkit-transform: translateZ(2px);
+  -moz-transform: translateZ(2px);
+  transform: translateZ(2px);
 }
 .magazine-centerfold .top.right {
-  -webkit-transform: rotateX(-180deg) rotateY(0deg);
-  -moz-transform: rotateX(-180deg) rotateY(0deg);
-  transform: rotateX(-180deg) rotateY(0deg);
+  -webkit-transform: rotateX(179deg);
+  -moz-transform: rotateX(179deg);
+  transform: rotateX(179deg);
 }
-.magazine-centerfold .bottom.left {
-  -webkit-transform: rotateY(-180deg);
-  -moz-transform: rotateY(-180deg);
-  transform: rotateY(-180deg);
+.magazine-centerfold .front.top.right {
+  -webkit-transform: rotateX(179deg) translateZ(2px);
+  -moz-transform: rotateX(179deg) translateZ(2px);
+  transform: rotateX(179deg) translateZ(2px);
 }
-.magazine-centerfold .bottom.right {
+.magazine-centerfold.open .left {
   -webkit-transform: rotateY(0deg);
   -moz-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
-.magazine-centerfold.open .top {
-  -webkit-transform: rotateX(-180deg) rotateY(0deg);
-  -moz-transform: rotateX(-180deg) rotateY(0deg);
-  transform: rotateX(-180deg) rotateY(0deg);
+.magazine-centerfold.open .front.left {
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+  -moz-transform: rotateY(0deg) translateZ(1px);
+  transform: rotateY(0deg) translateZ(1px);
 }
-.magazine-centerfold.open .bottom {
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  transform: rotateY(0deg);
+.magazine-centerfold.open .top.left {
+  -webkit-transform: rotateY(0deg) rotateX(179deg);
+  -moz-transform: rotateY(0deg) rotateX(179deg);
+  transform: rotateY(0deg) rotateX(179deg);
 }
-.magazine-centerfold.open-top .top {
-  -webkit-transform: rotateX(0deg) rotateY(0deg);
-  -moz-transform: rotateX(0deg) rotateY(0deg);
-  transform: rotateX(0deg) rotateY(0deg);
+.magazine-centerfold.open .front.top.left {
+  -webkit-transform: rotateY(0deg) rotateX(179deg) translateZ(1px);
+  -moz-transform: rotateY(0deg) rotateX(179deg) translateZ(1px);
+  transform: rotateY(0deg) rotateX(179deg) translateZ(1px);
 }
-.magazine-centerfold.mid-open .front.top {
-  -webkit-backface-visibility: visible;
-  -moz-backface-visibility: visible;
-  backface-visibility: visible;
+.magazine-centerfold.open-top .top.left,
+.magazine-centerfold.open-top .top.right {
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  transform: rotateX(0deg);
 }
-.magazine-centerfold.flip .back {
+.magazine-centerfold.open-top .front.top.left,
+.magazine-centerfold.open-top .front.top.right {
+  -webkit-transform: rotateX(0deg) translateZ(1px);
+  -moz-transform: rotateX(0deg) translateZ(1px);
+  transform: rotateX(0deg) translateZ(1px);
+}
+/** Environment specific rules **/
+.os-linux.browser-chrome .magazine__section,
+.os-linux.browser-chrome .magazine__section img {
+  -webkit-transition-property: -webkit-transform, opacity, z-index;
+  -moz-transition-property: -moz-transform, opacity, z-index;
+  transition-property: transform, opacity, z-index;
+  -webkit-transition-duration: 1s,1s,0s;
+  -moz-transition-duration: 1s,1s,0s;
+  transition-duration: 1s,1s,0s;
+  -webkit-transition-delay: 0s,0s,0.5s;
+  -moz-transition-delay: 0s,0s,0.5s;
+  transition-delay: 0s,0s,0.5s;
+}
+.os-linux.browser-chrome .magazine-cover .left {
+  -webkit-transition-delay: 1s,1s,0.5s;
+  -moz-transition-delay: 1s,1s,0.5s;
+  transition-delay: 1s,1s,0.5s;
+}
+.os-linux.browser-chrome .magazine-cover.open .left {
+  -webkit-transition-delay: 0s,0s,0.5s;
+  -moz-transition-delay: 0s,0s,0.5s;
+  transition-delay: 0s,0s,0.5s;
+}
+.os-linux.browser-chrome .magazine-cover.open .right {
+  -webkit-transition-delay: 1s,1s,0.5s;
+  -moz-transition-delay: 1s,1s,0.5s;
+  transition-delay: 1s,1s,0.5s;
+}
+.os-linux.browser-chrome .magazine-cover .front {
+  z-index: 2;
+}
+.os-linux.browser-chrome .magazine-cover .front.left {
   z-index: 3;
+}
+.os-linux.browser-chrome .magazine-cover .front.middle {
+  z-index: 4;
+}
+.os-linux.browser-chrome .magazine-cover.flip .front {
+  z-index: 2 !important;
+}
+.os-linux.browser-chrome .magazine-cover.flip .back {
+  z-index: 3;
+}
+.os-linux.browser-chrome .magazine-cover.flip .back.left {
+  z-index: 4;
+}
+.os-linux.browser-chrome .magazine-cover.flip .back.middle {
+  z-index: 5;
+}
+.os-linux.browser-chrome .magazine-poster .front {
+  z-index: 2;
+}
+.os-linux.browser-chrome .magazine-poster .front.right {
+  z-index: 3;
+}
+.os-linux.browser-chrome .magazine-poster.flip .front {
+  z-index: 2 !important;
+}
+.os-linux.browser-chrome .magazine-poster.flip .back {
+  z-index: 3;
+}
+.os-linux.browser-chrome .magazine-poster.flip .back.right {
+  z-index: 4;
+}
+.os-linux.browser-chrome .magazine-centerfold .front {
+  z-index: 2;
+}
+.os-linux.browser-chrome .magazine-centerfold .front.right {
+  z-index: 3;
+}
+.os-linux.browser-chrome .magazine-centerfold .front.right.bottom {
+  z-index: 4;
+}
+.os-linux.browser-chrome .magazine-centerfold.flip .front {
+  z-index: 2 !important;
+}
+.os-linux.browser-chrome .magazine-centerfold.flip .back {
+  z-index: 3;
+}
+.os-linux.browser-chrome .magazine-centerfold.flip .back.right {
+  z-index: 4;
+}
+.os-linux.browser-chrome .magazine-centerfold.flip .back.right.bottom {
+  z-index: 5;
 }
