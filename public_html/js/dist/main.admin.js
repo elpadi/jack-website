@@ -9472,6 +9472,7 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 		this.$elementsContainer = $container.find('.section-switcher__sections-container');
 		this.$elements = $container.find('.section-switcher__section');
 		this.wrapsAround = $container.data('wraps-around');
+		this.sectionsHide = Boolean($container.data('sections-hide'));
 	}
 
 	SectionSwitcher.prototype = $.extend({}, Easing, Components, Events.prototype);
@@ -9479,6 +9480,7 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 
 	SectionSwitcher.prototype.selectedIndex = 0;
 	SectionSwitcher.prototype.currentIndex = -1;
+	SectionSwitcher.prototype.sectionsHide = false;
 	SectionSwitcher.prototype.isBusy = false;
 	
 	SectionSwitcher.prototype.resetUI = function() {
@@ -9492,8 +9494,12 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 
 	SectionSwitcher.prototype.transition = function(newIndex) {
 		this.$elements.eq(newIndex).css({ position:'relative', display:'block' });
-		this.isValidIndex(this.currentIndex) && this.$elements.eq(this.currentIndex).css({ display:'none' });
+		this.hideCurrentSection();
 		this.onSwitchEnd(newIndex)
+	};
+
+	SectionSwitcher.prototype.hideCurrentSection = function() {
+		this.isValidIndex(this.currentIndex) && this.$elements.eq(this.currentIndex).css({ display:'none' });
 	};
 
 	SectionSwitcher.prototype.getPrevIndex = function(index) {
@@ -9521,7 +9527,7 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 			console.log("Switch rejected. We have not finished the last one.");
 			return false;
 		}
-		if (newIndex === this.currentIndex) {
+		if (!this.sectionsHide && (newIndex === this.currentIndex)) {
 			console.warn("Trying to switch to the current index.");
 			return false;
 		}
@@ -9537,12 +9543,25 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 			return;
 		}
 		this.isBusy = true;
-		this.trigger('sectionselected', newIndex, this.currentIndex);
-		this.transition(newIndex);
+		if (newIndex !== this.currentIndex) {
+			this.trigger('sectionselected', newIndex, this.currentIndex);
+			this.transition(newIndex);
+		}
+		else {
+			this.hideCurrentSection();
+			this.onSwitchEnd(-1);
+		}
+	};
+
+	SectionSwitcher.prototype.getElementByName = function(name) {
+		return this.$elements.filter(function(i, el) {
+			return el.getAttribute('data-section-name') === name;
+		});
 	};
 
 	SectionSwitcher.prototype.switchByHash = function(hash) {
-		this.switchByIndex(this.$elements.index($(hash)));
+		var $el = (hash[0] === '#') ? $(hash) : this.getElementByName(hash);
+		this.switchByIndex(this.$elements.index($el));
 	};
 
 	SectionSwitcher.prototype.switchToNext = function() {
@@ -9569,14 +9588,14 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 define('lib/ui/SectionSwitcher/SectionLinks',['lib/fn/bind'], function(bind) {
 	var SectionLinks = {
 		init: function($container) {
-			var $links = $container.find('.section-switcher__links');
-			this.$links = $links.find('li');
-			$links.on('click', 'a', function(e) {
+			this.$links = $container.find('.section-switcher__link');
+			this.$links.on('click', function(e) {
 				this.trigger('sectionlinkclicked', e);
 			}.bind(this));
 		},
 		sectionlinkclicked: function(e) {
-			this.switchByHash(e.currentTarget.hash);
+			var name = e.currentTarget.getAttribute('data-section-name');
+			this.switchByHash(name ? name : e.currentTarget.hash);
 		},
 		sectionselected: function(newIndex, oldIndex) {
 			this.$links
@@ -9800,7 +9819,7 @@ Emitter.prototype.hasListeners = function(event){
     */
 
 
-    Dropzone.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "selectedfiles", "addedfile", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded"];
+    Dropzone.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "selectedfiles", "addedfile", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded", "maxfilesreached"];
 
     Dropzone.prototype.defaultOptions = {
       url: null,
@@ -9833,7 +9852,7 @@ Emitter.prototype.hasListeners = function(event){
       dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
       dictRemoveFile: "Remove file",
       dictRemoveFileConfirmation: null,
-      dictMaxFilesExceeded: "You can only upload {{maxFiles}} files.",
+      dictMaxFilesExceeded: "You can not upload any more files.",
       accept: function(file, done) {
         return done();
       },
@@ -9957,9 +9976,8 @@ Emitter.prototype.hasListeners = function(event){
               }
             }
           });
-          file.previewElement.appendChild(file._removeLink);
+          return file.previewElement.appendChild(file._removeLink);
         }
-        return this._updateMaxFilesReachedClass();
       },
       removedfile: function(file) {
         var _ref;
@@ -9984,6 +10002,9 @@ Emitter.prototype.hasListeners = function(event){
       error: function(file, message) {
         var node, _i, _len, _ref, _results;
         file.previewElement.classList.add("dz-error");
+        if (typeof message !== "String" && message.error) {
+          message = message.error;
+        }
         _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -10028,6 +10049,7 @@ Emitter.prototype.hasListeners = function(event){
       },
       completemultiple: noop,
       maxfilesexceeded: noop,
+      maxfilesreached: noop,
       previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
     };
 
@@ -10228,6 +10250,9 @@ Emitter.prototype.hasListeners = function(event){
               return _this.emit("dragenter", e);
             },
             "dragover": function(e) {
+              var efct;
+              efct = e.dataTransfer.effectAllowed;
+              e.dataTransfer.dropEffect = 'move' === efct || 'linkMove' === efct ? 'move' : 'copy';
               noPropagation(e);
               return _this.emit("dragover", e);
             },
@@ -10268,7 +10293,8 @@ Emitter.prototype.hasListeners = function(event){
         this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
         this.hiddenFileInput = null;
       }
-      return delete this.element.dropzone;
+      delete this.element.dropzone;
+      return Dropzone.instances.splice(Dropzone.instances.indexOf(this), 1);
     };
 
     Dropzone.prototype.updateTotalUploadProgress = function() {
@@ -10395,18 +10421,18 @@ Emitter.prototype.hasListeners = function(event){
 
     Dropzone.prototype.filesize = function(size) {
       var string;
-      if (size >= 100000000000) {
-        size = size / 100000000000;
-        string = "TB";
-      } else if (size >= 100000000) {
-        size = size / 100000000;
-        string = "GB";
-      } else if (size >= 100000) {
-        size = size / 100000;
-        string = "MB";
-      } else if (size >= 100) {
-        size = size / 100;
-        string = "KB";
+      if (size >= 1024 * 1024 * 1024 * 1024 / 10) {
+        size = size / (1024 * 1024 * 1024 * 1024 / 10);
+        string = "TiB";
+      } else if (size >= 1024 * 1024 * 1024 / 10) {
+        size = size / (1024 * 1024 * 1024 / 10);
+        string = "GiB";
+      } else if (size >= 1024 * 1024 / 10) {
+        size = size / (1024 * 1024 / 10);
+        string = "MiB";
+      } else if (size >= 1024 / 10) {
+        size = size / (1024 / 10);
+        string = "KiB";
       } else {
         size = size * 10;
         string = "b";
@@ -10415,7 +10441,10 @@ Emitter.prototype.hasListeners = function(event){
     };
 
     Dropzone.prototype._updateMaxFilesReachedClass = function() {
-      if (this.options.maxFiles && this.getAcceptedFiles().length >= this.options.maxFiles) {
+      if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
+        if (this.getAcceptedFiles().length === this.options.maxFiles) {
+          this.emit('maxfilesreached', this.files);
+        }
         return this.element.classList.add("dz-max-files-reached");
       } else {
         return this.element.classList.remove("dz-max-files-reached");
@@ -10472,7 +10501,7 @@ Emitter.prototype.hasListeners = function(event){
         return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
       } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
         return done(this.options.dictInvalidFileType);
-      } else if (this.options.maxFiles && this.getAcceptedFiles().length >= this.options.maxFiles) {
+      } else if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
         done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
         return this.emit("maxfilesexceeded", file);
       } else {
@@ -10496,10 +10525,11 @@ Emitter.prototype.hasListeners = function(event){
       return this.accept(file, function(error) {
         if (error) {
           file.accepted = false;
-          return _this._errorProcessing([file], error);
+          _this._errorProcessing([file], error);
         } else {
-          return _this.enqueueFile(file);
+          _this.enqueueFile(file);
         }
+        return _this._updateMaxFilesReachedClass();
       });
     };
 
@@ -10585,7 +10615,7 @@ Emitter.prototype.hasListeners = function(event){
       fileReader = new FileReader;
       fileReader.onload = function() {
         var img;
-        img = new Image;
+        img = document.createElement("img");
         img.onload = function() {
           var canvas, ctx, resizeInfo, thumbnail, _ref, _ref1, _ref2, _ref3;
           file.width = img.width;
@@ -10702,7 +10732,7 @@ Emitter.prototype.hasListeners = function(event){
     };
 
     Dropzone.prototype.uploadFiles = function(files) {
-      var file, formData, handleError, headerName, headerValue, headers, input, inputName, inputType, key, progressObj, response, updateProgress, value, xhr, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3,
+      var file, formData, handleError, headerName, headerValue, headers, input, inputName, inputType, key, option, progressObj, response, updateProgress, value, xhr, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4,
         _this = this;
       xhr = new XMLHttpRequest();
       for (_i = 0, _len = files.length; _i < _len; _i++) {
@@ -10820,13 +10850,21 @@ Emitter.prototype.hasListeners = function(event){
           input = _ref2[_k];
           inputName = input.getAttribute("name");
           inputType = input.getAttribute("type");
-          if (!inputType || ((_ref3 = inputType.toLowerCase()) !== "checkbox" && _ref3 !== "radio") || input.checked) {
+          if (input.tagName === "SELECT" && input.hasAttribute("multiple")) {
+            _ref3 = input.options;
+            for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+              option = _ref3[_l];
+              if (option.selected) {
+                formData.append(inputName, option.value);
+              }
+            }
+          } else if (!inputType || ((_ref4 = inputType.toLowerCase()) !== "checkbox" && _ref4 !== "radio") || input.checked) {
             formData.append(inputName, input.value);
           }
         }
       }
-      for (_l = 0, _len3 = files.length; _l < _len3; _l++) {
-        file = files[_l];
+      for (_m = 0, _len4 = files.length; _m < _len4; _m++) {
+        file = files[_m];
         formData.append("" + this.options.paramName + (this.options.uploadMultiple ? "[]" : ""), file, file.name);
       }
       return xhr.send(formData);
@@ -10870,13 +10908,13 @@ Emitter.prototype.hasListeners = function(event){
 
   })(Em);
 
-  Dropzone.version = "3.7.3";
+  Dropzone.version = "3.7.4";
 
   Dropzone.options = {};
 
   Dropzone.optionsForElement = function(element) {
-    if (element.id) {
-      return Dropzone.options[camelize(element.id)];
+    if (element.getAttribute("id")) {
+      return Dropzone.options[camelize(element.getAttribute("id"))];
     } else {
       return void 0;
     }

@@ -160,11 +160,13 @@ class Site implements AssetManager,DbAccess {
 
 	public function getPostersByIssueId($issueId) {
 		$posters = array();
+		$i = 0;
 		$stmt = $this->query('SELECT * FROM {posters} JOIN {issue_posters} ON poster_id=id WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issueId));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Poster');
 		while ($poster = $stmt->fetch(\PDO::FETCH_CLASS)) {
 			$poster->hydrate($this);
-			$posters[] = $poster;
+			$posters[floor($i / 2)][$i % 2 === 0 ? 'front' : 'back'] = $poster;
+			$i++;
 		}
 		return $posters;
 	}

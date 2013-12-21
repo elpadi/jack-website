@@ -9472,6 +9472,7 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 		this.$elementsContainer = $container.find('.section-switcher__sections-container');
 		this.$elements = $container.find('.section-switcher__section');
 		this.wrapsAround = $container.data('wraps-around');
+		this.sectionsHide = Boolean($container.data('sections-hide'));
 	}
 
 	SectionSwitcher.prototype = $.extend({}, Easing, Components, Events.prototype);
@@ -9479,6 +9480,7 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 
 	SectionSwitcher.prototype.selectedIndex = 0;
 	SectionSwitcher.prototype.currentIndex = -1;
+	SectionSwitcher.prototype.sectionsHide = false;
 	SectionSwitcher.prototype.isBusy = false;
 	
 	SectionSwitcher.prototype.resetUI = function() {
@@ -9492,8 +9494,12 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 
 	SectionSwitcher.prototype.transition = function(newIndex) {
 		this.$elements.eq(newIndex).css({ position:'relative', display:'block' });
-		this.isValidIndex(this.currentIndex) && this.$elements.eq(this.currentIndex).css({ display:'none' });
+		this.hideCurrentSection();
 		this.onSwitchEnd(newIndex)
+	};
+
+	SectionSwitcher.prototype.hideCurrentSection = function() {
+		this.isValidIndex(this.currentIndex) && this.$elements.eq(this.currentIndex).css({ display:'none' });
 	};
 
 	SectionSwitcher.prototype.getPrevIndex = function(index) {
@@ -9521,7 +9527,7 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 			console.log("Switch rejected. We have not finished the last one.");
 			return false;
 		}
-		if (newIndex === this.currentIndex) {
+		if (!this.sectionsHide && (newIndex === this.currentIndex)) {
 			console.warn("Trying to switch to the current index.");
 			return false;
 		}
@@ -9537,12 +9543,25 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 			return;
 		}
 		this.isBusy = true;
-		this.trigger('sectionselected', newIndex, this.currentIndex);
-		this.transition(newIndex);
+		if (newIndex !== this.currentIndex) {
+			this.trigger('sectionselected', newIndex, this.currentIndex);
+			this.transition(newIndex);
+		}
+		else {
+			this.hideCurrentSection();
+			this.onSwitchEnd(-1);
+		}
+	};
+
+	SectionSwitcher.prototype.getElementByName = function(name) {
+		return this.$elements.filter(function(i, el) {
+			return el.getAttribute('data-section-name') === name;
+		});
 	};
 
 	SectionSwitcher.prototype.switchByHash = function(hash) {
-		this.switchByIndex(this.$elements.index($(hash)));
+		var $el = (hash[0] === '#') ? $(hash) : this.getElementByName(hash);
+		this.switchByIndex(this.$elements.index($el));
 	};
 
 	SectionSwitcher.prototype.switchToNext = function() {
@@ -9566,10 +9585,62 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 });
 
 
-define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind'], function(SectionSwitcher, bind) {
+define('lib/fn/curry',[], function() {
+	/**
+	 * Sets the initial parameters of a function.
+	 * curry(f, a)(b) === f(a, b)
+	 *
+	 * @param fn Function
+	 * @return Function
+	 */
+	return function curry(fn) {
+		var args = Array.prototype.slice.call(arguments, 1);
+		return function () {
+			return fn.apply(this, args.concat(Array.prototype.slice.call(arguments, 0)));
+		};
+	};
+});
+
+define('lib/fn/timedSeq',[], function() {
+	return function timedSeq(fn1, delay1/*, fn2, delay2, ..., fnN, delayN */) {
+		var args = Array.prototype.slice.call(arguments, 0), l = arguments.length;
+		var timeoutId;
+		var hasStopped = false;
+		var i = 0;
+		var run = function run() {
+			if (args.length < 2) {
+				return;
+			}
+			if (hasStopped) {
+				return;
+			}
+			var fn = args.shift();
+			var delay = args.shift();
+			if (delay === 0) {
+				fn();
+				run();
+			}
+			else {
+				timeoutId = setTimeout(function() {
+					fn();
+					run();
+				}, delay);
+			}
+		};
+		var stop = function stop() {
+			hasStopped = true;
+			clearTimeout(timeoutId);
+		};
+		return { run: run, stop: stop };
+	};
+});
+
+
+define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind','lib/fn/curry','lib/fn/timedSeq'], function(SectionSwitcher, bind, curry, seq) {
 
 	function Magazine($container) {
 		SectionSwitcher.call(this, $container);
+		this.$title = $container.find('.magazine__section-title');
 	}
 
 	function A() {}
@@ -9578,9 +9649,70 @@ define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind'], function(Sectio
 	Magazine.prototype.constructor = Magazine;
 
 	Magazine.prototype.isFlipped = false;
+	Magazine.prototype.selectedIndex = -1;
 
-	Magazine.prototype.openPoster = function($page, flipped) {
-		$page.css('display','relative').addClass('open').data('has-opened',true);
+	Magazine.prototype.init = function() {
+		SectionSwitcher.prototype.init.call(this);
+		this.on('sectionselected', function(newIndex, currentIndex, flipped) {
+			this.updateTitle(newIndex, flipped);
+		}.bind(this));
+		this.trigger('sectionselected', 0, false);
+		this.onSwitchEnd(0, false);
+	};
+
+	Magazine.prototype.flipCurrentPoster = function() {
+		var $currentPage = this.$elements.eq(this.currentIndex);
+		var end = curry(this.onSwitchEnd.bind(this), this.currentIndex, !this.isFlipped);
+		if (this.isBusy) {
+			return;
+		}
+		this.isBusy = true;
+		this.trigger('sectionselected', this.currentIndex, this.currentIndex, !this.isFlipped);
+		seq(curry($.fn.toggleClass.bind($currentPage), 'flip'), 0, end, 500).run();
+	};
+
+	Magazine.prototype.openCurrentPoster = function() {
+		var $currentPage = this.$elements.eq(this.currentIndex);
+		if (!$currentPage.hasClass('open')) {
+			this.openPoster($currentPage, curry(this.onSwitchEnd.bind(this), this.currentIndex, this.isFlipped));
+		}
+	};
+
+	Magazine.prototype.closeCurrentPoster = function() {
+		var $currentPage = this.$elements.eq(this.currentIndex);
+		if ($currentPage.hasClass('open')) {
+			this.closePoster($currentPage, curry(this.onSwitchEnd.bind(this), this.currentIndex, this.isFlipped));
+		}
+	};
+
+	Magazine.prototype.closePoster = function($page, end) {
+		if (this.isBusy) {
+			return;
+		}
+		var remC = $.fn.removeClass.bind($page);
+		this.isBusy = true;
+		if ($page.hasClass('magazine-centerfold')) {
+			seq(curry(remC, 'open-top'), 0, curry(remC, 'mid-open'), 500, curry(remC, 'open'), 500, end, 0).run(); 
+		}
+		else {
+			seq(curry(remC, 'open'), 0, end, 500).run();
+		}
+	};
+
+	Magazine.prototype.openPoster = function($page, end) {
+		if (this.isBusy) {
+			return;
+		}
+		var addC = $.fn.addClass.bind($page);
+		this.isBusy = true;
+		if ($page.hasClass('magazine-centerfold')) {
+			seq(curry(addC, 'open'), 0, curry(addC, 'mid-open'), 500, curry(addC, 'open-top'), 500, end, 0).run();
+		}
+		else {
+			seq(curry(addC, 'open'), 0, end, 500).run();
+		}
+		/*
+		//$page.css('display','relative').addClass('open').data('has-opened',true);
 		if ($page.hasClass('magazine-centerfold')) {
 			setTimeout(function() { $page.addClass('open-top'); }, 1000);
 			setTimeout(function() { $page.addClass('mid-open'); }, 500);
@@ -9589,48 +9721,39 @@ define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind'], function(Sectio
 		else {
 			flipped && setTimeout(function() { $page.addClass('flip'); }, 1000);
 		}
+		*/
 	};
 
-	Magazine.prototype.showPoster = function($page, flipped, isPosterSwitch) {
-		console.log('Magazine.showPoster', '$page', $page);
-		var hasOpened = $page.data('has-opened') === true;
-		if (isPosterSwitch) {
-			hasOpened && $page.toggleClass('flip', flipped);
-			$page.css({ opacity:'1' });
-			setTimeout(function() {
-				!hasOpened && this.openPoster($page, flipped);
-			}.bind(this), 1000);
-		}
-		else {
-			!hasOpened && this.openPoster($page, flipped);
-		}
+	Magazine.prototype.showPoster = function($page, end) {
+		var prepare = curry($.fn.css.bind($page), { display:'block' });
+		var show = curry($.fn.css.bind($page), { opacity:'1' });
+		seq(prepare, 0, show, 64, end, 1000).run();
 	};
 
-	Magazine.prototype.switchPosters = function($newPage, flipped, $oldPage) {
-		console.log('Magazine.switchPosters', '$oldPage', $oldPage);
-		$oldPage.css({ opacity:'0' });
-		setTimeout(function() {
-			$oldPage.css({ display:'none', position:'absolute' });
-			this.showPoster($newPage, flipped, true);
-		}.bind(this), 1000);
-		$newPage.css('display','block');
+	Magazine.prototype.switchPosters = function($newPage, $oldPage, end) {
+		console.log('Magazine.switchPosters --- $newPage:', $newPage, '$oldPage', $oldPage);
+		var hide = curry($.fn.css.bind($oldPage), { opacity:'0' });
+		var kill = curry($.fn.css.bind($oldPage), { display:'none', position:'absolute' });
+		var show = curry(this.showPoster.bind(this), $newPage, end);
+		seq(hide, 0, kill, 1000, show, 0).run();
+		//$newPage.css('display','block');
 	};
 
 	Magazine.prototype.transition = function(newIndex, flipped) {
+		if (this.isBusy) {
+			return;
+		}
 		var $page = this.$elements.eq(newIndex);
-		if (newIndex === this.currentIndex) {
-			$page.toggleClass('flip');
+		var end = curry(this.onSwitchEnd.bind(this), newIndex, flipped);
+		this.isBusy = true;
+		this.trigger('sectionselected', newIndex, this.currentIndex, flipped);
+		$page.toggleClass('flip', flipped);
+		if (this.isValidIndex(this.currentIndex)) {
+			this.switchPosters($page, this.$elements.eq(this.currentIndex), end);
 		}
 		else {
-			this.isFlipped = false;
-			if (this.isValidIndex(this.currentIndex)) {
-				this.switchPosters($page, flipped, this.$elements.eq(this.currentIndex));
-			}
-			else {
-				this.showPoster($page, flipped, false);
-			}
+			this.showPoster($page, end);
 		}
-		this.onSwitchEnd(newIndex, flipped);
 	};
 
 	Magazine.prototype.validateSwitch = function(newIndex, flipped) {
@@ -9638,7 +9761,7 @@ define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind'], function(Sectio
 			console.log("Switch rejected. We have not finished the last one.");
 			return false;
 		}
-		if ((newIndex === this.currentIndex) && (flipped === this.isFlipped)) {
+		if (newIndex === this.currentIndex && flipped === this.isFlipped) {
 			console.warn("Trying to switch to the current poster.");
 			return false;
 		}
@@ -9651,13 +9774,11 @@ define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind'], function(Sectio
 
 	Magazine.prototype.switchByIndex = function(newIndex, flipped) {
 		flipped = Boolean(flipped);
+		console.log('Magazine.switchByIndex', 'newIndex', newIndex, 'flipped', flipped, 'currentIndex', this.currentIndex, 'isFlipped', this.isFlipped);
 		if (!this.validateSwitch(newIndex, flipped)) {
 			return;
 		}
-		console.log('Magazine.switchByIndex', 'newIndex', newIndex, 'flipped', flipped, 'currentIndex', this.currentIndex, 'isFlipped', this.isFlipped);
-		this.isBusy = true;
-		this.trigger('sectionselected', newIndex, this.currentIndex, flipped);
-		this.transition(newIndex, flipped);
+		newIndex === this.currentIndex ? this.flipCurrentPoster() : this.transition(newIndex, flipped);
 	};
 	
 	Magazine.prototype.switchByHash = function(hash, flipped) {
@@ -9665,7 +9786,15 @@ define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind'], function(Sectio
 		return this.switchByIndex(this.$elements.index($(hash)), Boolean(flipped));
 	};
 
+	Magazine.prototype.updateTitle = function(newIndex, flipped) {
+		var $page = this.$elements.eq(newIndex);
+		var titles = $page.data('titles').split(',');
+		var size = $page.data('poster-size');
+		this.$title.text(titles[flipped ? 1 : 0] + ' (' + size.replace(',', '" x ') + '")');
+	};
+
 	Magazine.prototype.onSwitchEnd = function(newIndex, flipped) {
+		console.log('Magazine.onSwitchEnd --- newIndex', newIndex, 'flipped', flipped);
 		this.trigger('sectionswitched', newIndex, this.currentIndex, flipped);
 		this.isBusy = false;
 		this.currentIndex = newIndex;
@@ -9701,45 +9830,17 @@ define('lib/ui/SectionSwitcher/ArrowNav',['lib/fn/bind'], function(bind) {
 	};
 });
 
-define('site/ArrowNav',['jquery','lib/ui/SectionSwitcher/ArrowNav'], function(jquery, ArrowNav) {
-
-	var MagArrowNav = {
-		arrowclicked: function(e) {
-			this.switchByHash(e.currentTarget.hash, $(e.currentTarget).data('flip'));
-		},
-		sectionswitched: function(newIndex, oldIndex, flipped) {
-			var _this = this;
-			var nextIndex = flipped ? this.getNextIndex(newIndex) : newIndex;
-			var prevIndex = flipped ? newIndex : this.getPrevIndex(newIndex);
-			console.log('MagArrowNav.sectionswitched', 'nextIndex', nextIndex, 'prevIndex', prevIndex);
-			setTimeout(function() {
-				this.arrows.$prev
-					.attr('href', '#' + this.$elements.eq(prevIndex).attr('id'))
-					.data('flip', flipped === false);
-				this.arrows.$next
-					.attr('href', '#' + this.$elements.eq(nextIndex).attr('id'))
-					.data('flip', flipped === false);
-			}.bind(this), 16);
-			this.$container.toggleClass('section-switcher--left-edge', (prevIndex === false) && !flipped)
-				.toggleClass('section-switcher--right-edge', (nextIndex === false) && flipped);
-		}
-	};
-
-	return $.extend({}, ArrowNav, MagArrowNav);
-
-});
-
 define('lib/ui/SectionSwitcher/SectionLinks',['lib/fn/bind'], function(bind) {
 	var SectionLinks = {
 		init: function($container) {
-			var $links = $container.find('.section-switcher__links');
-			this.$links = $links.find('li');
-			$links.on('click', 'a', function(e) {
+			this.$links = $container.find('.section-switcher__link');
+			this.$links.on('click', function(e) {
 				this.trigger('sectionlinkclicked', e);
 			}.bind(this));
 		},
 		sectionlinkclicked: function(e) {
-			this.switchByHash(e.currentTarget.hash);
+			var name = e.currentTarget.getAttribute('data-section-name');
+			this.switchByHash(name ? name : e.currentTarget.hash);
 		},
 		sectionselected: function(newIndex, oldIndex) {
 			this.$links
@@ -9754,16 +9855,60 @@ define('lib/ui/SectionSwitcher/SectionLinks',['lib/fn/bind'], function(bind) {
 define('site/SectionLinks',['jquery','lib/ui/SectionSwitcher/SectionLinks'], function(jquery, SectionLinks) {
 
 	var MagSectionLinks = {
+		init: function($container) {
+			this.$lis = $container.find('.section-switcher__links li');
+			SectionLinks.init.call(this, $container);
+		},
 		sectionlinkclicked: function(e) {
 			this.switchByHash(e.currentTarget.hash, e.currentTarget.getAttribute('data-section-face') === 'back');
 		},
 		sectionselected: function(newIndex, oldIndex, flipped) {
-			this.$links.removeClass('selected')
-				.eq((newIndex * 2) + (flipped ? 1 : 0)).addClass('selected');
+			this.$lis.removeClass('selected selected--front selected--back')
+				.eq(newIndex).addClass('selected ' + 'selected--' + (flipped ? 'back' : 'front'));
 		}
 	};
 
 	return $.extend({}, SectionLinks, MagSectionLinks);
+
+});
+
+define('lib/ui/ToggleButton',['jquery','lib/Events'], function(jquery, Events) {
+
+	function ToggleButton($button) {
+		this.$button = $button;
+		this.states = $button.data('toggle-text').split(',');
+
+		this.$button.on('click', function(e) {
+			e.preventDefault();
+			this.onButtonClick(e);
+			return false;
+		}.bind(this));
+	}
+	
+	function A() {}
+	A.prototype = Events.prototype;
+	ToggleButton.prototype = new A();
+	ToggleButton.prototype.constructor = ToggleButton;
+
+	ToggleButton.prototype.currentState = 0;
+
+	ToggleButton.prototype.onButtonClick = function(e) {
+		var newStateIndex = (this.currentState + 1) % this.states.length;
+		this.$button.text(this.states[newStateIndex]);
+		this.trigger('newstate', this.states[newStateIndex], this.states[this.currentState]);
+		this.currentState = newStateIndex;
+	};
+
+	ToggleButton.prototype.setState = function(state) {
+		var index = this.states.indexOf(state);
+		if (index === -1) {
+			console.error("Invalid state '" + state + "'");
+		}
+		this.$button.text(state);
+		this.currentState = index;
+	};
+
+	return ToggleButton;
 
 });
 
@@ -9831,10 +9976,28 @@ require.config({
 	}
 });
 
-require(['jquery','site/Magazine','site/ArrowNav','site/SectionLinks'], function(jquery, Magazine, ArrowNav, SectionLinks) {
+require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton) {
 	var mag = new Magazine($('.magazine'));
 	mag.addComponent(ArrowNav).addComponent(SectionLinks).init();
 	window.mag = mag;
+
+	var openClose = new ToggleButton($('#magazine__open-close-button'));
+	openClose.on('newstate', function(state, oldState) {
+		switch (oldState) {
+			case 'open':
+				return mag.openCurrentPoster();
+			case 'close':
+				return mag.closeCurrentPoster();
+		}
+	});
+	$('#magazine__flip-button').on('click', function(e) {
+		e.preventDefault();
+		mag.flipCurrentPoster();
+		return;
+	});
+	mag.on('sectionselected', function(newIndex, oldIndex, flipped) {
+		openClose.setState(mag.$elements.eq(newIndex).hasClass('open') ? 'close' : 'open');
+	});
 });
 
 require(['lib/dom/absolute-fixed']);
