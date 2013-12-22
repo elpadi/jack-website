@@ -28,6 +28,8 @@
 		"kriswallsmith/assetic": "*",
 		"imagine/imagine": "*",
 		"ornicar/php-user-agent": "*",
+		"danielstjules/stringy": "dev-master",
+		"swiftmailer/swiftmailer": "*",
 		"monolog/monolog": "*"
 	},
 	"autoload": {

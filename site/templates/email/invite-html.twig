@@ -1,0 +1,6 @@
+<p>{{ additional }}</p>
+<p>In order to access thejackmag.com, please click on the following link, or copy and paste it into your browser's address bar.</p>
+<p><a href="{{ href }}">{{ href }}</a></p>
+{% if itExpires %}
+<p>This link is only valid until {{ expiration_date }}</p>
+{% endif %}

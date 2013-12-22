@@ -3,6 +3,7 @@ mirror --delete --only-newer -R -x '\.git' src/ src
 
 mirror --delete --only-newer -R -x '^db' site/config/ site/config
 put -O site/config/ site/config/db.remote.php -o db.php
+put -O site/config/ site/config/smtp.remote.php -o smtp.php
 mirror --delete --only-newer -R site/templates/ site/templates
 
 #mirror --delete --only-newer -R -x '\.git' vendor/composer/ vendor/composer

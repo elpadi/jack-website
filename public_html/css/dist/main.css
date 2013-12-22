@@ -373,6 +373,17 @@ table {
 .text-right {
   text-align: right;
 }
+@font-face {
+  font-family: 'liberation_sansbold';
+  src: url('fonts/liberationsans-bold-webfont.eot');
+  src: url('fonts/liberationsans-bold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/liberationsans-bold-webfont.woff') format('woff'), url('fonts/liberationsans-bold-webfont.ttf') format('truetype'), url('fonts/liberationsans-bold-webfont.svg#liberation_sansbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.lib-bold {
+  font-family: liberation_sansbold, "helvetica bold", sans-serif;
+  font-weight: 900;
+}
 * {
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -381,12 +392,14 @@ table {
 }
 body {
   margin: 0;
+  font-family: helvetica, sans-serif;
 }
 #container {
   text-align: center;
 }
 #content {
   margin: 0 auto;
+  max-width: 980px;
   text-align: left;
   display: inline-block;
 }
@@ -404,6 +417,9 @@ body {
 .section-switcher--right-edge .section-switcher__nav__next {
   display: none;
 }
+#home-format td:first-child {
+  padding-right: 2em;
+}
 .issues-list img {
   display: block;
   width: 150px;
@@ -414,6 +430,8 @@ body.section-issue {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+.section-issue {
   overflow: hidden;
 }
 .section-issue h1 {
@@ -426,6 +444,9 @@ body.section-issue {
 .section-issue .section-switcher__sections-container {
   height: 100%;
   width: 100%;
+}
+.section-issue #content {
+  max-width: 100%;
 }
 .section-switcher__sections-container {
   padding: 0 12%;

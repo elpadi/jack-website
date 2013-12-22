@@ -3,12 +3,15 @@
 @import "lib/normalize.less";
 @import "lib/classes.less";
 
+@import  "fonts.less";
+
 * {
 	.box-sizing(border-box);
 }
 
 body {
 	margin:0;
+	font-family:helvetica,sans-serif;
 }
 
 #container {
@@ -17,11 +20,13 @@ body {
 
 #content {
 	margin:0 auto;
+	max-width:980px;
 	text-align:left;
 	display:inline-block;
 }
 
 @import "components/section-switcher.less";
 
+@import "pages/home.less";
 @import "pages/issues.less";
 @import "pages/issue.less";

@@ -87,6 +87,7 @@ define('DEBUG', true);
 ini_set('display_errors','off');
 
 require(SITE_DIR.'/config/db.php');
+require(SITE_DIR.'/config/smtp.php');
 
 require(dirname(__DIR__).'/vendor/autoload.php');
 require(dirname(__DIR__).'/vendor/ulogin/config/all.inc.php');
@@ -100,7 +101,7 @@ require(dirname(__DIR__).'/vendor/ulogin/main.inc.php');
  * your Slim application now by passing an associative array
  * of setting names and values into the application constructor.
  */
-$site = new \Jack\Site();
+$site = new Jack\Site();
 $app = $site->app;
 $view = $app->view();
 
@@ -108,6 +109,26 @@ $site->addService('db', function() use ($db_config) {
 	$db = new PDO("mysql:host=$db_config[host];dbname=$db_config[name]", $db_config['user'], $db_config['pass']);
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	return $db;
+});
+$site->addService('smtp', function() use ($smtp_config) {
+	require_once(dirname(__DIR__).'/vendor/swiftmailer/swiftmailer/lib/swift_init.php');
+	if (DEBUG) {
+		$transport = Swift_SendmailTransport::newInstance();
+	}
+	else {
+		$transport = Swift_SmtpTransport::newInstance($smtp_config['host'], $smtp_config['port']);
+		$transport->setUsername($smtp_config['user'])
+			->setPassword($smtp_config['pass']);
+	}
+	$mailer = Swift_Mailer::newInstance($transport);
+	return $mailer;
+});
+$site->addService('templates', function() use ($smtp_config) {
+	$loader = new Twig_Loader_Filesystem(TEMPLATE_DIR);
+	$twig = new Twig_Environment($loader, array(
+		'cache' => CACHE_DIR.'/twig',
+	));
+	return $twig;
 });
 $site->addService('assets', function() {
 	$assets = new AssetFactory(SITE_DIR.'/assets');
@@ -141,6 +162,7 @@ $app->get('/', array($site, 'requireLogin'), function () use ($site, $app, $view
 	$app->render('parts/home.twig', array(
 		'title' => $view->get('title') . ' | Poster size magazine',
 		'section' => 'home',
+		'issue_slug' => 'spring-2014',
 	));
 })->setName('home');
 
@@ -164,10 +186,31 @@ $app->post('/user/login', array($site, 'actionLogin'));
 $app->get('/admin', array($site, 'requireAdmin'), function () use ($app, $view) {
 	$app->render('admin/parts/home.twig');
 })->setName('admin/home');
-$app->get('/admin/invites', array($site, 'requireAdmin'), function () use ($app, $view) {
-	$app->render('admin/parts/invites.twig');
+
+$app->get('/admin/invites', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+	$id = $app->request->get('id');
+	$invite = $id ? $site->getInviteById($id) : new Jack\Invite();
+	$app->render('admin/parts/invites.twig', array(
+		'invite' => $invite,
+	));
 })->setName('admin/invites');
-$app->post('/admin/invites', array($site, 'requireAdmin'), array($site, 'actionInvite'));
+$app->post('/admin/invites', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+	$invite = new Jack\Invite();
+	try {
+		$invite->setData($app->request->post());
+		$invite->send($site, $site, $site);
+	}
+	catch (\Exception $e) {
+		echo "Invite not sent.";
+		if (DEBUG) {
+			echo ' --- '.$e->getFile().':'.$e->getLine().' - '.$e->getMessage();
+			exit(1);
+		}
+	}
+	$app->flash('info', "Invite sent to $invite->email.");
+	$app->redirect($app->urlFor('admin/invites'));
+});
+
 $app->get('/admin/issues', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
 	$app->render('admin/parts/issues.twig', array(
 		'title' => $view->get('title').' | Issues',
@@ -225,7 +268,7 @@ $app->post('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), functi
 	$poster = new Jack\Poster();
 	$poster->issueId = $issue->id;
 	try {
-		$poster->update($app->request->put(), $_FILES, $site, $site);
+		$poster->update($app->request->post(), $_FILES, $site, $site);
 		$app->flash('info', "The poster '$poster->title' was added to this issue.");
 		$app->redirect($app->urlFor('admin/issue', array('slug' => $slug)));
 	}

@@ -9578,6 +9578,10 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 		this.currentIndex = newIndex;
 	};
 
+	SectionSwitcher.prototype.getCurrentSection = function() {
+		return this.$elements.eq(this.currentIndex);
+	};
+
 	SectionSwitcher.prototype.events = ['init','sectionselected','sectionswitched'];
 
 	return SectionSwitcher;
@@ -9728,6 +9732,7 @@ define('site/Magazine',['lib/ui/SectionSwitcher','lib/fn/bind','lib/fn/curry','l
 		var prepare = curry($.fn.css.bind($page), { display:'block' });
 		var show = curry($.fn.css.bind($page), { opacity:'1' });
 		seq(prepare, 0, show, 64, end, 1000).run();
+		this.trigger('beforeshow', $page);
 	};
 
 	Magazine.prototype.switchPosters = function($newPage, $oldPage, end) {
@@ -9819,7 +9824,7 @@ define('lib/ui/SectionSwitcher/ArrowNav',['lib/fn/bind'], function(bind) {
 		arrowclicked: function(e) {
 			this.switchByHash(e.currentTarget.hash);
 		},
-		sectionswitched: function(newIndex) {
+		sectionselected: function(newIndex) {
 			var prevIndex = this.getPrevIndex(newIndex);
 			var nextIndex = this.getNextIndex(newIndex);
 			this.$container.toggleClass('section-switcher--left-edge', prevIndex === false)
@@ -9912,6 +9917,26 @@ define('lib/ui/ToggleButton',['jquery','lib/Events'], function(jquery, Events) {
 
 });
 
+define('lib/dom/trackers/resize',['jquery'], function(jquery) {
+	var fns = [];
+	var $window = $(window);
+	function fire() {
+		var wWidth = $window.width();
+		var wHeight = $window.height();
+		for (var i in fns) fns[i](wWidth, wHeight);
+	}
+	$window.on('resize', fire);
+	return function onResize(fn) {
+		if (arguments.length === 0) {
+			fire();
+		}
+		else {
+			fn($window.width(), $window.height());
+			fns.push(fn);
+		}
+	};
+});
+
 define('lib/dom/trackers/scroll',['jquery'], function(jquery) {
 	var fns = [];
 	$(window).on('scroll', function(e) {
@@ -9941,20 +9966,6 @@ define('lib/dom/absolute-fixed',['jquery','lib/dom/trackers/scroll'], function(j
 });
 					
 
-define('lib/dom/trackers/resize',['jquery'], function(jquery) {
-	var fns = [];
-	var $window = $(window);
-	$window.on('resize', function(e) {
-		var wWidth = $window.width();
-		var wHeight = $window.height();
-		for (var i in fns) fns[i](wWidth, wHeight);
-	});
-	return function onResize(fn) {
-		fn($window.width(), $window.height());
-		fns.push(fn);
-	};
-});
-
 define('lib/dom/window-height',['jquery','lib/dom/trackers/resize'], function(jquery, resizeTracker) {
 	$('.window-height').each(function(i, el) {
 		var $el = $(el);
@@ -9976,7 +9987,8 @@ require.config({
 	}
 });
 
-require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton) {
+require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton','lib/dom/trackers/resize'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton, onResize) {
+	var $window = $(window);
 	var mag = new Magazine($('.magazine'));
 	mag.addComponent(ArrowNav).addComponent(SectionLinks).init();
 	window.mag = mag;
@@ -9997,6 +10009,25 @@ require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/Sectio
 	});
 	mag.on('sectionselected', function(newIndex, oldIndex, flipped) {
 		openClose.setState(mag.$elements.eq(newIndex).hasClass('open') ? 'close' : 'open');
+	});
+
+	var resize = function(width, height, $page) {
+		var isCenterfold = $page.hasClass('magazine-centerfold');
+		var magHeight = Math.min(height * (76 / 100), isCenterfold ? height : $page.find('img').height());
+		mag.$elementsContainer.css({
+			height: magHeight + 'px',
+			marginTop: Math.round((height - magHeight) / 2) + 'px'
+		});
+	}
+
+	onResize(function(width, height) {
+		resize(width, height, mag.getCurrentSection());
+	});
+
+	mag.on('beforeshow', function($el) {
+		var width = $window.width();
+		var height = $window.height();
+		resize(width, height, $el);
 	});
 });
 

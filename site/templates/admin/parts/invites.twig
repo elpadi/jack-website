@@ -2,9 +2,10 @@
 {% block content %}
 <h2>Send Invite</h2>
 <form method="POST" action="{{ urlFor('admin/invites') }}">
-	<label>Email: <input type="email" name="email"></label>
+	<input type="hidden" name="id" value="{{ invite.id }}">
+	<label>Email: <input type="email" name="email" value="{{ invite.email }}"></label>
 	<legend>Below you can enter special greetings. The instructions will not be affected. You can preview the final message below.</legend>
-	<label>Message: <textarea placeholder="Optional special message."></textarea></label>
+	<label>Message: <textarea placeholder="Optional special message." name="additional">{{ invite.additional }}</textarea></label>
 	<input type="submit" value="Send">
 </form>
 <p id="preview"></p>

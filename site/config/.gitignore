@@ -1,2 +1,2 @@
-db.php
-db.remote.php
+db.*
+smtp.*
