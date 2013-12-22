@@ -8,7 +8,8 @@ require.config({
 	}
 });
 
-require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton) {
+require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton','lib/dom/trackers/resize'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton, onResize) {
+	var $window = $(window);
 	var mag = new Magazine($('.magazine'));
 	mag.addComponent(ArrowNav).addComponent(SectionLinks).init();
 	window.mag = mag;
@@ -29,6 +30,25 @@ require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/Sectio
 	});
 	mag.on('sectionselected', function(newIndex, oldIndex, flipped) {
 		openClose.setState(mag.$elements.eq(newIndex).hasClass('open') ? 'close' : 'open');
+	});
+
+	var resize = function(width, height, $page) {
+		var isCenterfold = $page.hasClass('magazine-centerfold');
+		var magHeight = Math.min(height * (76 / 100), isCenterfold ? height : $page.find('img').height());
+		mag.$elementsContainer.css({
+			height: magHeight + 'px',
+			marginTop: Math.round((height - magHeight) / 2) + 'px'
+		});
+	}
+
+	onResize(function(width, height) {
+		resize(width, height, mag.getCurrentSection());
+	});
+
+	mag.on('beforeshow', function($el) {
+		var width = $window.width();
+		var height = $window.height();
+		resize(width, height, $el);
 	});
 });
 

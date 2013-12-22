@@ -140,6 +140,7 @@ $site->addService('logger', function() {
 $app->get('/', array($site, 'requireLogin'), function () use ($site, $app, $view) {
 	$app->render('parts/home.twig', array(
 		'title' => $view->get('title') . ' | Poster size magazine',
+		'section' => 'home',
 	));
 })->setName('home');
 
@@ -152,6 +153,7 @@ $app->get('/user/login', function () use ($app, $view) {
 		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
 		'email' => isset($_GET['email']) ? $_GET['email'] : '',
 		'title' => $view->get('title') . ' | Login',
+		'section' => 'login',
 	));
 })->setName('login');
 $app->post('/user/login', array($site, 'actionLogin'));
@@ -242,6 +244,7 @@ $app->get('/issues', array($site, 'requireLogin'), function () use ($site, $app,
 	$app->render('parts/issues.twig', array(
 		'title' => $view->get('title').' | Issues',
 		'issues' => $site->getIssues(),
+		'section' => 'issues',
 	));
 })->setName('issues');
 $app->get('/issues/:slug', array($site, 'requireLogin'), function ($slug) use ($site, $app, $view) {
@@ -251,6 +254,7 @@ $app->get('/issues/:slug', array($site, 'requireLogin'), function ($slug) use ($
 		'title' => $view->get('title').' | '.$issue->title,
 		'issue' => $issue,
 		'posters' => $posters,
+		'section' => 'issue',
 	));
 })->setName('issue');
 

@@ -90,6 +90,7 @@ define(['lib/ui/SectionSwitcher','lib/fn/bind','lib/fn/curry','lib/fn/timedSeq']
 		var prepare = curry($.fn.css.bind($page), { display:'block' });
 		var show = curry($.fn.css.bind($page), { opacity:'1' });
 		seq(prepare, 0, show, 64, end, 1000).run();
+		this.trigger('beforeshow', $page);
 	};
 
 	Magazine.prototype.switchPosters = function($newPage, $oldPage, end) {

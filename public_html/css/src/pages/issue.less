@@ -1,6 +1,36 @@
-.magazine, .magazine__section {
-	height:400px;
+/** Skeleton Layout **/
+html, body.section-issue {
+	height:100%;
+	margin:0;
+	padding:0;
+	overflow:hidden;
 }
+.section-issue {
+	h1 {
+		display:none;
+	}
+	#container, #content, .magazine, .magazine__section, .section-switcher__sections-container {
+		height:100%;
+		width:100%;
+	}
+}
+.section-switcher__sections-container {
+	padding:0 12%;
+	position:relative;
+}
+.magazine__section img {
+	width:33.33%;
+}
+.magazine-centerfold img {
+	height:50%;
+	width:auto;
+}
+/** End Skeleton Layout **/
+
+
+
+
+
 .magazine__section-title {
 	position:absolute;
 	top:0.5em;
@@ -11,13 +41,11 @@
 }
 
 .magazine {
-	padding:100px 0 100px 300px;
-	border:1px solid #000;
+	padding-left:24%;
 	overflow-x:hidden;
 	overflow-y:auto;
 	&, .magazine__section {
 		position:relative;
-		width:900px;
 	}
 }
 
@@ -25,11 +53,15 @@
 	position:absolute;
 	top:0;
 	left:0;
-	font-size:3em;
 	text-align:center;
 	width:100%;
+	padding-left:24%;
 	a {
 		text-decoration:none;
+		font-size:3em;
+	}
+	button {
+		margin:0 0.5em;
 	}
 	a, button {
 		vertical-align:middle;
@@ -52,15 +84,16 @@
 	position:absolute;
 	left:0;
 	top:0;
-	width:300px;
+	width:24%;
 	height:100%;
 	overflow-x:hidden;
 	overflow-y:scroll;
 	ol {
 		list-style-type:none;
+		margin:0;
+		padding:20px 0 0;
 	}
 	li {
-		width:225px;
 		text-align:center;
 		margin:0 auto 30px;
 		&.selected {
@@ -69,10 +102,6 @@
 		&.selected--front a[data-section-face="front"], &.selected--back a[data-section-face="back"] {
 			opacity:0.3;
 		}
-	}
-	ol {
-		margin:0;
-		padding:20px 0 0;
 	}
 	a {
 		display:block;
@@ -117,7 +146,6 @@
 	}
 	img {
 		position:absolute;
-		width:33.33%;
 		-webkit-backface-visibility:hidden;
 		-moz-backface-visibility:hidden;
 		backface-visibility:hidden;
@@ -257,7 +285,6 @@
 }
 
 .magazine-centerfold {
-	height:800px;
 	.bottom {
 		bottom:0;
 	}
