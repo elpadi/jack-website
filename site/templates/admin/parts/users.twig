@@ -1,0 +1,9 @@
+{% extends "admin/site.twig" %}
+{% block content %}
+<h1>Users</h1>
+<header>
+	<ul>
+		<li><a href="{{ urlFor('admin/create-user') }}">Create new user</a></li>
+	</ul>
+</header>
+{% endblock %}

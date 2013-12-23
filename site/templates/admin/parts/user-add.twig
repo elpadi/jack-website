@@ -1,0 +1,17 @@
+{% extends "admin/site.twig" %}
+{% block content %}
+<h1>Create new user</h1>
+<header>
+	<ul>
+		<li><a href="{{ urlFor('admin/users') }}">Back to users</a></li>
+	</ul>
+</header>
+<form method="POST" action="{{ urlFor('admin/create-user') }}">
+	<label>Username (email): <input type="email" name="username" required="required"></label>
+	<br >
+	<label>Password: <input type="password" name="plainpass" required="required"></label>
+	<br >
+	<input type="submit" value="create">
+</form>
+{% endblock %}
+
