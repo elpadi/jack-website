@@ -88,6 +88,7 @@ ini_set('display_errors','off');
 
 require(SITE_DIR.'/config/db.php');
 require(SITE_DIR.'/config/smtp.php');
+require(SITE_DIR.'/config/invite.php');
 
 require(dirname(__DIR__).'/vendor/autoload.php');
 require(dirname(__DIR__).'/vendor/ulogin/config/all.inc.php');
@@ -165,20 +166,6 @@ $app->get('/', array($site, 'requireLogin'), function () use ($site, $app, $view
 		'issue_slug' => 'spring-2014',
 	));
 })->setName('home');
-
-/**************************************************************
-************************ Users ********************************
-/*************************************************************/
-$app->get('/user/login', function () use ($app, $view) {
-	$app->render('parts/user/login-form.twig', array(
-		'nonce' => \ulNonce::Create('login'),
-		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
-		'email' => isset($_GET['email']) ? $_GET['email'] : '',
-		'title' => $view->get('title') . ' | Login',
-		'section' => 'login',
-	));
-})->setName('login');
-$app->post('/user/login', array($site, 'actionLogin'));
 
 /**************************************************************
 ************************ Admin ********************************
@@ -326,6 +313,56 @@ $app->get('/issues/:slug', array($site, 'requireLogin'), function ($slug) use ($
 		'section' => 'issue',
 	));
 })->setName('issue');
+
+
+/**************************************************************
+************************ Users ********************************
+/*************************************************************/
+$app->get('/user/login', function () use ($app, $view) {
+	$app->render('parts/user/login-form.twig', array(
+		'nonce' => \ulNonce::Create('login'),
+		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
+		'email' => isset($_GET['email']) ? $_GET['email'] : '',
+		'title' => $view->get('title') . ' | Login',
+		'section' => 'login',
+	));
+})->setName('login');
+$app->post('/user/login', array($site, 'actionLogin'));
+
+
+/**************************************************************
+************************ Invites ******************************
+/*************************************************************/
+$app->get('/invite/confirmation', function () use ($site, $app, $view) {
+	$app->render('parts/invites/confirmation.twig', array(
+		'section' => 'invite-confirmation',
+	));
+})->setName('invite/confirmation');
+$app->get('/invite/:hash', function ($hash) use ($invite_config, $site, $app, $view) {
+	if ($site->isUserLoggedIn()) { 
+		$app->redirect($app->urlFor('home'));
+	}
+	$invite = $site->getInviteByHash($hash);
+	if (!$invite) {
+		$app->notFound();
+	}
+	try {
+		$invite->hydrate($site);
+		$invite->recordUse($site);
+		$user = new Jack\User();
+		$user->setData($invite_config['user']);
+		$user->login();
+	}
+	catch (\Exception $e) {
+		echo "Could not log in.";
+		if (DEBUG) {
+			echo ' --- '.$e->getFile().':'.$e->getLine().' - '.$e->getMessage();
+			exit(1);
+		}
+	}
+	$app->redirect($app->urlFor(empty($invite->uses) ? 'invite/confirmation' : 'home'));
+})->setName('invite');
+
 
 
 // POST route

@@ -28,4 +28,16 @@ class User {
 		}
 	}
 
+	public function login() {
+		$uLogin = new \uLogin(function($uid, $username, $uLogin) {
+			$_SESSION['uid'] = $uid;
+			$_SESSION['username'] = $username;
+			$_SESSION['loggedIn'] = true;
+			$uLogin->SetAutologin($username, true);
+		}, function($uid, $username, $uLogin) {
+			throw new \Exception("Error logging in.");
+		});
+		$uLogin->Authenticate($this->username, $this->plainpass);
+	}
+
 }

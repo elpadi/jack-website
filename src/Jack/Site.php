@@ -69,6 +69,10 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler {
 		$this->userIsLoggedIn = isset($_SESSION['uid']) && isset($_SESSION['username']) && isset($_SESSION['loggedIn']) && ($_SESSION['loggedIn']===true);
 	}
 
+	public function isUserLoggedIn() {
+		return $this->userIsLoggedIn;
+	}
+
 	public function requireLogin(\Slim\Route $route) {
 		if (false && !$this->userIsLoggedIn) {
 			$this->app->flash('error', 'Login required.');
@@ -107,12 +111,6 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler {
 			$error('Invalid submission. Please try again.');
 		}
 		$uLogin->Authenticate($_POST['email'], $_POST['password']);
-	}
-
-	public function actionRegister() {
-		$uLogin = new \uLogin();
-		$uLogin->CreateUser($_POST['email'], $_POST['password']);
-		$this->actionLogin();
 	}
 
 	public function addService($name, $constructor) {
@@ -176,6 +174,13 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler {
 
 	public function getInviteById($id) {
 		$stmt = $this->query('SELECT * FROM {invites} WHERE `id`=?', array($id));
+		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Invite');
+		$invite = $stmt->fetch(\PDO::FETCH_CLASS);
+		return $invite;
+	}
+
+	public function getInviteByHash($hash) {
+		$stmt = $this->query('SELECT * FROM {invites} WHERE `hash`=?', array($hash));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Invite');
 		$invite = $stmt->fetch(\PDO::FETCH_CLASS);
 		return $invite;

@@ -8,9 +8,20 @@ require.config({
 	}
 });
 
+require(['jquery'], function(jquery) {
+	$(window).on('click', function(e) {
+		if (['P','H1'].indexOf(e.target.nodeName) === -1) {
+			window.location = $('#nda').data('forward-url');
+		}
+	});
+});
+
 require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton','lib/dom/trackers/resize'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton, onResize) {
 	var $window = $(window);
 	var mag = new Magazine($('.magazine'));
+	if (mag.$container.length === 0) {
+		return;
+	}
 	mag.addComponent(ArrowNav).addComponent(SectionLinks).init();
 	window.mag = mag;
 

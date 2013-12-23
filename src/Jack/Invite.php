@@ -8,11 +8,27 @@ class Invite {
 	public $additional = "";
 	public $hash = "";
 
+	public $uses = array();
+	public $sends = array();
+
 	const EMAIL_SUBJECT = 'For your eyes only. Invitation to thejackmag.com';
 	const EMAIL_ADDRESS = 'dah@thejackmag.com';
 	const EMAIL_NAME = 'Dahlen';
 
 	public function __construct() {
+	}
+
+	public function hydrate(DbAccess $db) {
+		foreach ($db->query('SELECT * FROM '.$db->table('invites_uses')." WHERE `invite_id`=$this->id") as $row) {
+			$this->uses[] = $row['time'];
+		}
+		foreach ($db->query('SELECT * FROM '.$db->table('invites_sent')." WHERE `invite_id`=$this->id") as $row) {
+			$this->sends[] = $row['time'];
+		}
+	}
+
+	public function recordUse(DbAccess $db) {
+		$db->query('INSERT INTO '.$db->table('invites_uses')." SET `invite_id`=$this->id, `time`=NOW()");
 	}
 
 	protected function addToDb(DbAccess $db) {
