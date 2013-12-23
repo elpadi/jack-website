@@ -211,6 +211,8 @@ $app->post('/admin/invites', array($site, 'requireAdmin'), function () use ($sit
 	$invite = new Jack\Invite();
 	try {
 		$invite->setData($app->request->post());
+		$invite->save($site);
+		$invite->hydrate($site, $site);
 		$invite->send($site, $site, $site);
 	}
 	catch (\Exception $e) {

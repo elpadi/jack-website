@@ -8,11 +8,11 @@
 <div class="section-switcher tabs">
 	<ul class="section-switcher__links horizontal-list">
 		<li class="selected"><a href="#front-cover">Front cover</a></li>
-		<li><a href="#back-cover">Back cover</a></li>
-		<li><a href="#index">Index</a></li>
-		<li><a href="#cover-poster">Cover poster</a></li>
-		<li><a href="#centerfold-front">Centerfold front</a></li>
-		<li><a href="#centerfold-back">Centerfold back</a></li>
+		<li><a href="#back-cover" class="section-switcher__link">Back cover</a></li>
+		<li><a href="#index" class="section-switcher__link">Index</a></li>
+		<li><a href="#cover-poster" class="section-switcher__link">Cover poster</a></li>
+		<li><a href="#centerfold-front" class="section-switcher__link">Centerfold front</a></li>
+		<li><a href="#centerfold-back" class="section-switcher__link">Centerfold back</a></li>
 	</ul>
 	<div class="section-switcher__sections-container">
 		<div id="front-cover" class="section-switcher__section issue-image">
@@ -22,7 +22,7 @@
 			<div class="right issue-image__input">
 				<h4>Change image</h4>
 				<p>The image size must be <strong>450 x 600</strong> pixels.</p>
-				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update', {"slug": issue.slug}) }}" data-file-input-name="FrontCover"></form>
+				<form class="admin-form-image" action="{{ urlFor('admin/issue/update', {"slug": issue.slug}) }}" data-file-input-name="FrontCover"></form>
 			</div>
 		</div>
 		<div id="back-cover" class="section-switcher__section issue-image">

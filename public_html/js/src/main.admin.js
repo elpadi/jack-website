@@ -36,7 +36,9 @@ require(['jquery','lib/ui/SectionSwitcher','lib/ui/SectionSwitcher/SectionLinks'
 });
 
 require(['jquery','dropzone/downloads/dropzone-amd-module'], function(jquery, Dropzone) {
+	Dropzone.autoDiscover = false;
 	$('.admin-form-image').each(function(i, el) {
+		$(el).addClass('dropzone');
 		var dropzone = new Dropzone(el, {
 			paramName: el.getAttribute('data-file-input-name'),
 			uploadMultiple: false,

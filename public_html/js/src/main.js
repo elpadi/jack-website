@@ -9,11 +9,13 @@ require.config({
 });
 
 require(['jquery'], function(jquery) {
-	$(window).on('click', function(e) {
-		if (['P','H1'].indexOf(e.target.nodeName) === -1) {
-			window.location = $('#nda').data('forward-url');
-		}
-	});
+	if (document.body.className.indexOf('section-invite-confirmation') !== -1) {
+		$(window).on('click', function(e) {
+			if (['P','H1'].indexOf(e.target.nodeName) === -1) {
+				window.location = $('#nda').data('forward-url');
+			}
+		});
+	}
 });
 
 require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton','lib/dom/trackers/resize'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton, onResize) {

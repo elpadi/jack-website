@@ -9578,6 +9578,10 @@ define('lib/ui/SectionSwitcher',['jquery','lib/Events','lib/ui/interface/Easing'
 		this.currentIndex = newIndex;
 	};
 
+	SectionSwitcher.prototype.getCurrentSection = function() {
+		return this.$elements.eq(this.currentIndex);
+	};
+
 	SectionSwitcher.prototype.events = ['init','sectionselected','sectionswitched'];
 
 	return SectionSwitcher;
@@ -13087,7 +13091,9 @@ require(['jquery','lib/ui/SectionSwitcher','lib/ui/SectionSwitcher/SectionLinks'
 });
 
 require(['jquery','dropzone/downloads/dropzone-amd-module'], function(jquery, Dropzone) {
+	Dropzone.autoDiscover = false;
 	$('.admin-form-image').each(function(i, el) {
+		$(el).addClass('dropzone');
 		var dropzone = new Dropzone(el, {
 			paramName: el.getAttribute('data-file-input-name'),
 			uploadMultiple: false,

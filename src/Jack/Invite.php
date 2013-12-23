@@ -8,6 +8,7 @@ class Invite {
 	public $additional = "";
 	public $hash = "";
 
+	public $url = "";
 	public $uses = array();
 	public $sends = array();
 
@@ -18,13 +19,14 @@ class Invite {
 	public function __construct() {
 	}
 
-	public function hydrate(DbAccess $db) {
+	public function hydrate(DbAccess $db, Router $router) {
 		foreach ($db->query('SELECT * FROM '.$db->table('invites_uses')." WHERE `invite_id`=$this->id") as $row) {
 			$this->uses[] = $row['time'];
 		}
 		foreach ($db->query('SELECT * FROM '.$db->table('invites_sent')." WHERE `invite_id`=$this->id") as $row) {
 			$this->sends[] = $row['time'];
 		}
+		$this->url = $router->url('invite', array('hash' => $this->hash));
 	}
 
 	public function recordUse(DbAccess $db) {
@@ -43,17 +45,20 @@ class Invite {
 		$db->query($sql, array($this->id));
 	}
 
-	public function send(DbAccess $db, EmailSender $email, TemplateHandler $tpl) {
+	public function save(DbAccess $db) {
 		if ($this->id === 0) {
 			$this->addToDb($db);
 		}
-		$this->recordSend($db);
+	}
+
+	public function send(DbAccess $db, EmailSender $email, TemplateHandler $tpl) {
 		$tplVars = array(
 			'additional' => $this->additional,
-			'href' => "/invite/$this->hash",
+			'href' => $this->url,
 			'itExpires' => false,
 			'expirationDate' => null
 		);
+		$this->recordSend($db);
 		$email->sendHtml($this->email, self::EMAIL_SUBJECT, array(self::EMAIL_ADDRESS => self::EMAIL_NAME), array(
 			'plain' => $tpl->parseTemplate('email/invite-plain', $tplVars),
 			'html' => $tpl->parseTemplate('email/invite-html', $tplVars),

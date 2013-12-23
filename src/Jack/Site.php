@@ -25,7 +25,11 @@ interface TemplateHandler {
 	public function parseTemplate($template, $vars);
 }
 
-class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler {
+interface Router {
+	public function url($route, $args);
+}
+
+class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 
 	public $app;
 
@@ -170,6 +174,10 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler {
 
 	public function parseTemplate($template, $vars) {
 		return $this->getService('templates')->render("$template.twig", $vars);
+	}
+
+	public function url($route, $args) {
+		return $this->app->urlFor($route, $args);
 	}
 
 	public function getInviteById($id) {
