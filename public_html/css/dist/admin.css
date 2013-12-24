@@ -1028,6 +1028,12 @@ textarea {
   min-width: 50%;
   min-height: 100px;
 }
+td {
+  border: 1px solid #7bab2e;
+  padding: 1em;
+  vertical-align: middle;
+  text-align: right;
+}
 .issue-image {
   width: 928px;
   overflow: hidden;

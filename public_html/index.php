@@ -208,14 +208,22 @@ $app->post('/admin/users/create', array($site, 'requireAdmin'), function () use 
 
 
 $app->get('/admin/invites', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
-	$id = $app->request->get('id');
-	$invite = $id ? $site->getInviteById($id) : new Jack\Invite();
 	$app->render('admin/parts/invites.twig', array(
-		'invite' => $invite,
+		'title' => $view->get('title').' | Invites',
 		'sections' => $site->getAdminSections('Invites'),
+		'invites' => $site->getInvites(),
 	));
 })->setName('admin/invites');
-$app->post('/admin/invites', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+$app->get('/admin/invites/send', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+	$id = $app->request->get('id');
+	$invite = $id ? $site->getInviteById($id) : new Jack\Invite();
+	$app->render('admin/parts/invites/send.twig', array(
+		'title' => $view->get('title').' | Send Invite',
+		'sections' => $site->getAdminSections('Invites'),
+		'invite' => $invite,
+	));
+})->setName('admin/send-invite');
+$app->post('/admin/invites/send', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
 	$invite = new Jack\Invite();
 	try {
 		$invite->setData($app->request->post());

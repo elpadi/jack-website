@@ -205,6 +205,17 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		return $invite;
 	}
 
+	public function getInvites() {
+		$invites = array();
+		$stmt = $this->query('SELECT * FROM {invites}');
+		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Invite');
+		while ($invite = $stmt->fetch(\PDO::FETCH_CLASS)) {
+			$invite->hydrate($this, $this);
+			$invites[] = $invite;
+		}
+		return $invites;
+	}
+
 	public function getIssues() {
 		$issues = array();
 		$stmt = $this->query('SELECT * FROM {issues}');

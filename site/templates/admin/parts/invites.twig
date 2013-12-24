@@ -1,12 +1,24 @@
 {% extends "admin/site.twig" %}
 {% block content %}
-<h2>Send Invite</h2>
-<form method="POST" action="{{ urlFor('admin/invites') }}">
-	<input type="hidden" name="id" value="{{ invite.id }}">
-	<label>Email: <input type="email" name="email" value="{{ invite.email }}"></label>
-	<legend>Below you can enter special greetings. The instructions will not be affected.</legend>
-	<textarea placeholder="Optional special message." name="additional">{{ invite.additional }}</textarea>
-	<input type="submit" value="Send">
-</form>
-<p id="preview"></p>
+<h2>Invites</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Email</th>
+			<th>Times Invited</th>
+			<th>Last Time Invited</th>
+			<th>Invite Again (Not final)</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for i in invites %}
+		<tr>
+			<td>{{ i.email }}</td>
+			<td>{{ i.uses | length }}</td>
+			<td>{{ i.sends[i.sends|length - 1] }}</td>
+			<td><a href="{{ urlFor('admin/send-invite') }}?id={{ i.id }}">Re-send</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 {% endblock %}

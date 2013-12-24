@@ -26,7 +26,7 @@ class Invite {
 		foreach ($db->query('SELECT * FROM '.$db->table('invites_sent')." WHERE `invite_id`=$this->id") as $row) {
 			$this->sends[] = $row['time'];
 		}
-		$this->url = $router->url('invite', array('hash' => $this->hash));
+		$this->url = 'http://'.$_SERVER['HTTP_HOST'].$router->url('invite', array('hash' => $this->hash));
 	}
 
 	public function recordUse(DbAccess $db) {
