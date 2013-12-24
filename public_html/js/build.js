@@ -8,5 +8,6 @@
 		"underscore": "underscore/underscore",
 		"eventemitter": "eventemitter2/lib/eventemitter2",
 		"lib": "js-libs"
-	}
+	},
+	findNestedDependencies: true
 })

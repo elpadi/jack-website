@@ -33,7 +33,7 @@
 			{% for p in posters %}
 			<tr>
 				<td class="row-number">{{ loop.index }}</td>
-				<td>
+				<td class="item">
 					<input type="hidden" name="row{{ loop.index0 }}_front" value="{{ p.front.id }}">
 					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.front.id }}">
 						<img src="{{ p.front.thumb }}" alt="">
@@ -42,7 +42,7 @@
 					</div>
 				</td>
 				{% if p.back %}
-				<td>
+				<td class="item">
 					<input type="hidden" name="row{{ loop.index0 }}_back" value="{{ p.back.id }}">
 					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.back.id }}">
 						<img src="{{ p.back.thumb }}" alt="">

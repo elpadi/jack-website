@@ -66,27 +66,38 @@ require(['jquery'], function(jquery) {
 require(['jquery'], function(jquery) {
 	$('.ajax-link').on('click', function(e) {
 		var $el = $(e.target);
+		var $item = $el.closest('.item').css('border','3px solid red');
+		var clean = function() {
+			$item.css('border','');
+		};
 		var error = function() {
-			alert('Poster could not be deleted.');
-		}
+			alert('Item could not be deleted.');
+			clean();
+		};
 		e.preventDefault();
 		e.stopPropagation();
-		$.ajax({
-			url: $el.attr('href'),
-			type: 'POST',
-			error: error,
-			success: function(data, textStatus, jqXHR) {
-				if (data.success) {
-					if ($el.hasClass('ajax-link--refresh')) {
-						location.reload();
+		if (confirm("Are you sure you want to delete the item highlighted in red?")) {
+			$.ajax({
+				url: $el.attr('href'),
+				type: 'POST',
+				complete: clean,
+				error: error,
+				success: function(data, textStatus, jqXHR) {
+					if (data.success) {
+						if ($el.hasClass('ajax-link--refresh')) {
+							location.reload();
+						}
+						this.flash('Poster order saved.');
 					}
-					this.flash('Poster order saved.');
+					else {
+						error();
+					}
 				}
-				else {
-					error();
-				}
-			}
-		});
+			});
+		}
+		else {
+			clean();
+		}
 	});
 });
 
