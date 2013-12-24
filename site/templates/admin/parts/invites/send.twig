@@ -1,7 +1,7 @@
 {% extends "admin/site.twig" %}
 {% block content %}
 <h2>Send Invite</h2>
-<form method="POST" action="{{ urlFor('admin/invites') }}">
+<form method="POST" action="{{ urlFor('admin/send-invite') }}">
 	<input type="hidden" name="id" value="{{ invite.id }}">
 	<label>Email: <input type="email" name="email" value="{{ invite.email }}"></label>
 	<legend>Below you can enter special greetings. The instructions will not be affected.</legend>

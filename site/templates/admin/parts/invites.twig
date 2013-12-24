@@ -1,11 +1,12 @@
 {% extends "admin/site.twig" %}
 {% block content %}
 <h2>Invites</h2>
+<p><a href="{{ urlFor("admin/send-invite") }}">Invite new client</a></p>
 <table>
 	<thead>
 		<tr>
 			<th>Email</th>
-			<th>Times Invited</th>
+			<th>Times Has Logged In</th>
 			<th>Last Time Invited</th>
 			<th>Invite Again (Not final)</th>
 		</tr>
