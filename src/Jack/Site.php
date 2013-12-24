@@ -152,12 +152,20 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			$this->lastStatement->closeCursor();
 		}
 		$sql = $this->preprocessSql($sql);
-		if (count($params)) {
-			$this->lastStatement = $this->getService('db')->prepare($sql);
-			$this->lastStatement->execute($params);
+		try {
+			if (count($params)) {
+				$this->lastStatement = $this->getService('db')->prepare($sql);
+				$this->lastStatement->execute($params);
+			}
+			else {
+				$this->lastStatement = $this->getService('db')->query($sql);
+			}
 		}
-		else {
-			$this->lastStatement = $this->getService('db')->query($sql);
+		catch (PDOException $e) {
+			if (DEBUG) {
+				var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $e->getMessage(), $e->getTrace());
+			}
+			exit(0);
 		}
 		return $this->lastStatement;
 	}
@@ -180,7 +188,9 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			->setCc($from)
 			->setBody($bodies['plain'])
 			->addPart($bodies['html'], 'text/html');
-		$smtp->send($message);
+		if (!$smtp->send($message, $failures)) {
+			throw new \Exception("No emails were sent. Rejected addresses: " . implode(', ', $failures));
+		}
 	}
 
 	public function parseTemplate($template, $vars) {
@@ -194,14 +204,14 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	public function getInviteById($id) {
 		$stmt = $this->query('SELECT * FROM {invites} WHERE `id`=?', array($id));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Invite');
-		$invite = $stmt->fetch(\PDO::FETCH_CLASS);
+		$invite = $stmt->fetch();
 		return $invite;
 	}
 
 	public function getInviteByHash($hash) {
 		$stmt = $this->query('SELECT * FROM {invites} WHERE `hash`=?', array($hash));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Invite');
-		$invite = $stmt->fetch(\PDO::FETCH_CLASS);
+		$invite = $stmt->fetch();
 		return $invite;
 	}
 
@@ -209,9 +219,18 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$invites = array();
 		$stmt = $this->query('SELECT * FROM {invites}');
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Invite');
-		while ($invite = $stmt->fetch(\PDO::FETCH_CLASS)) {
-			$invite->hydrate($this, $this);
+		do {
+			$invite = $stmt->fetch();
+			if (!$invite) {
+				if (count($invites) < $stmt->rowCount()) {
+					throw new \Exception("Error processing row.");
+				}
+				break;
+			}
 			$invites[] = $invite;
+		} while (1);
+		foreach ($invites as &$invite) {
+			$invite->hydrate($this, $this);
 		}
 		return $invites;
 	}
@@ -220,7 +239,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$issues = array();
 		$stmt = $this->query('SELECT * FROM {issues}');
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
-		while ($issue = $stmt->fetch(\PDO::FETCH_CLASS)) {
+		while ($issue = $stmt->fetch()) {
 			$issue->hydrate($this);
 			$issues[] = $issue;
 		}
@@ -230,7 +249,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	public function getIssueBySlug($slug) {
 		$stmt = $this->query('SELECT * FROM {issues} WHERE `slug`=?', array($slug));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
-		$issue = $stmt->fetch(\PDO::FETCH_CLASS);
+		$issue = $stmt->fetch();
 		$issue->hydrate($this);
 		return $issue;
 	}
@@ -240,7 +259,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$i = 0;
 		$stmt = $this->query('SELECT * FROM {posters} JOIN {issue_posters} ON poster_id=id WHERE `issue_id`=? ORDER BY `sort_order` ASC', array($issueId));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Poster');
-		while ($poster = $stmt->fetch(\PDO::FETCH_CLASS)) {
+		while ($poster = $stmt->fetch()) {
 			$poster->hydrate($this);
 			$posters[floor($i / 2)][$i % 2 === 0 ? 'front' : 'back'] = $poster;
 			$i++;
@@ -251,7 +270,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	public function getPosterById($id) {
 		$stmt = $this->query('SELECT * FROM {posters} WHERE `id`=?', array($id));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Poster');
-		$poster = $stmt->fetch(\PDO::FETCH_CLASS);
+		$poster = $stmt->fetch();
 		$poster->hydrate($this);
 		return $poster;
 	}
