@@ -1,8 +1,7 @@
 <?php
 namespace Jack;
 
-use Imagine\Image\Box;
-use Imagine\Image\Point;
+use Functional as F;
 
 interface AssetManager {
 	public function asset($path);
@@ -82,6 +81,18 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			$this->app->flash('error', 'Login required.');
 			$this->app->redirect('/user/login?destination=' . $_SERVER['REQUEST_URI']);
 		}
+	}
+
+	public function getAdminSections($currentSection) {
+		$app = $this->app;
+		return F\map(array(
+			'admin/home' => 'Dashboard',
+			'admin/users' => 'Users',
+			'admin/invites' => 'Invites',
+			'admin/issues' => 'Issues',
+		), function($title, $route) use ($currentSection, $app) {
+			return array('title' => $title, 'url' => $app->urlFor($route), 'selected' => $title === $currentSection);
+		});
 	}
 
 	public function requireAdmin(\Slim\Route $route) {

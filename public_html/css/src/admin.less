@@ -1,11 +1,31 @@
+@import "lib/elements.less";
+@import "lib/compounds.less";
+@import "lib/normalize.less";
 @import "lib/classes.less";
+
 @import "lib/dropzone.less";
 @import "lib/jack.less";
 
 @dropzoneWidth:428px;
+@linkBgColor:#7bab2e;
 
 body {
 	margin:0;
+}
+
+#container {
+	max-width:1024px;
+	margin:0 auto;
+}
+
+input, textarea {
+	margin-bottom:1em;
+}
+
+textarea {
+	display:block;
+	min-width:50%;
+	min-height:100px;
 }
 
 .issue-image {
@@ -14,8 +34,11 @@ body {
 }
 
 .issue-image__image {
+	text-align:center;
+	width:491px;
 	img {
-		width:450px;
+		max-width:450px;
+		max-height:470px;
 	}
 }
 
@@ -58,5 +81,15 @@ body {
 	}
 	td.selected, tr.selected td {
 		opacity:1;
+	}
+}
+
+.horizontal-list a {
+	display:block;
+	padding:1em;
+	background-color:darken(@linkBgColor, 20%);
+	color:yellow;
+	&.selected, &:hover {
+		background-color:@linkBgColor;
 	}
 }

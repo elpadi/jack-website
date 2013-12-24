@@ -5,44 +5,23 @@
 <p><a href="{{ urlFor('admin/issue/newpage', {"slug": issue.slug}) }}">Add new poster</a></p>
 <p><a href="{{ urlFor('admin/issue/pages', {"slug": issue.slug}) }}">Current posters (change order)</a></p>
 <h3>Change main images</h3>
+<p>The covers image has the back cover on the left, the front cover in the middle, and the fold on the right.</p>
 <div class="section-switcher tabs">
 	<ul class="section-switcher__links horizontal-list">
-		<li class="selected"><a href="#front-cover">Front cover</a></li>
-		<li><a href="#back-cover" class="section-switcher__link">Back cover</a></li>
-		<li><a href="#index" class="section-switcher__link">Index</a></li>
+		<li><a href="#covers" class="section-switcher__link selected">Covers</a></li>
 		<li><a href="#cover-poster" class="section-switcher__link">Cover poster</a></li>
 		<li><a href="#centerfold-front" class="section-switcher__link">Centerfold front</a></li>
 		<li><a href="#centerfold-back" class="section-switcher__link">Centerfold back</a></li>
 	</ul>
 	<div class="section-switcher__sections-container">
-		<div id="front-cover" class="section-switcher__section issue-image">
+		<div id="covers" class="section-switcher__section issue-image">
 			<div class="left issue-image__image">
-				<img src="{{ issue.covers.front }}" alt="">
+				<img src="{{ issue.covers.covers }}" alt="">
 			</div>
 			<div class="right issue-image__input">
 				<h4>Change image</h4>
-				<p>The image size must be <strong>450 x 600</strong> pixels.</p>
-				<form class="admin-form-image" action="{{ urlFor('admin/issue/update', {"slug": issue.slug}) }}" data-file-input-name="FrontCover"></form>
-			</div>
-		</div>
-		<div id="back-cover" class="section-switcher__section issue-image">
-			<div class="left issue-image__image">
-				<img src="{{ issue.covers.back }}" alt="">
-			</div>
-			<div class="right issue-image__input">
-				<h4>Change image</h4>
-				<p>The image size must be <strong>450 x 600</strong> pixels.</p>
-				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update', {"slug": issue.slug}) }}" data-file-input-name="BackCover"></form>
-			</div>
-		</div>
-		<div id="index" class="section-switcher__section issue-image">
-			<div class="left issue-image__image">
-				<img src="{{ issue.covers.index }}" alt="">
-			</div>
-			<div class="right issue-image__input">
-				<h4>Change image</h4>
-				<p>The image size must be <strong>450 x 600</strong> pixels.</p>
-				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update', {"slug": issue.slug}) }}" data-file-input-name="Index"></form>
+				<p>The image size must be <strong>1350 x 600</strong> pixels.</p>
+				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update', {"slug": issue.slug}) }}" data-file-input-name="Covers"></form>
 			</div>
 		</div>
 		<div id="cover-poster" class="section-switcher__section issue-image">

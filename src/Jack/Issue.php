@@ -1,6 +1,9 @@
 <?php
 namespace Jack;
 
+use Imagine\Image\Box;
+use Imagine\Image\Point;
+
 class Issue {
 
 	public $id;
@@ -21,6 +24,7 @@ class Issue {
 	public function hydrate(AssetManager $assets) {
 		if (empty($this->covers)) {
 			$this->covers = array(
+				'covers' => $assets->asset("issues/$this->slug/covers/original.jpg"),
 				'front' => $assets->asset("issues/$this->slug/covers/front.jpg"),
 				'back' => $assets->asset("issues/$this->slug/covers/back.jpg"),
 				'index' => $assets->asset("issues/$this->slug/covers/index.jpg"),
@@ -70,17 +74,18 @@ class Issue {
 			call_user_func(array($this, "update$key"), $info['tmp_name'], $assets);
 		}
 	}
-	
-	public function updateFrontCover($imagePath, AssetManager $assets) {
-		$this->updateCoverImage('front', $imagePath, $assets);
-	}
 
-	public function updateBackCover($imagePath, AssetManager $assets) {
-		$this->updateCoverImage('back', $imagePath, $assets);
-	}
-
-	public function updateIndex($imagePath, AssetManager $assets) {
-		$this->updateCoverImage('index', $imagePath, $assets);
+	public function updateCovers($imagePath, AssetManager $assets) {
+		$imageBox = new Box(self::PAGE_WIDTH * 3, self::PAGE_HEIGHT);
+		$image = $this->updateImage("covers/original", $imageBox, $imagePath, $assets);
+		$pageBox = new Box(self::PAGE_WIDTH, self::PAGE_HEIGHT);
+		$base = $assets->basePath()."/issues/$this->slug/covers";
+		$path = function($part) use ($base) { return "$base/$part.jpg"; };
+		$image->copy()->crop(new Point(0, 0), $pageBox)->save($path("back"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH, 0), $pageBox)->save($path("front"));
+		$image->copy()->crop(new Point(self::PAGE_WIDTH * 2, 0), $pageBox)->save($path("index"));
+		$image->resize($imageBox->heighten(self::THUMB_HEIGHT))->save($path("thumb"));
+		$this->covers["covers"] = $assets->asset($path("original"));
 	}
 
 	public function updateCoverPoster($imagePath, AssetManager $assets) {

@@ -14,11 +14,10 @@
 		<div id="container">
 			<header>
 				<nav>
-					<ul>
-						<li><a href="{{ urlFor('admin/home') }}">Dashboard</a></li>
-						<li><a href="{{ urlFor('admin/users') }}">Users</a></li>
-						<li><a href="{{ urlFor('admin/invites') }}">Invites</a></li>
-						<li><a href="{{ urlFor('admin/issues') }}">Issues</a></li>
+					<ul class="horizontal-list">
+						{% for s in sections %}
+						<li><a class="{{ s.selected ? 'selected' : '' }}" href="{{ s.url }}">{{ s.title }}</a></li>
+						{% endfor %}
 					</ul>
 				</nav>
 			</header>

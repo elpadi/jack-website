@@ -30,6 +30,7 @@
 		"ornicar/php-user-agent": "*",
 		"danielstjules/stringy": "dev-master",
 		"swiftmailer/swiftmailer": "*",
+		"lstrojny/functional-php": "*",
 		"monolog/monolog": "*"
 	},
 	"autoload": {

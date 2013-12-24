@@ -11,12 +11,8 @@ require.config({
 
 function getIssueImageFromInputName(issue, name) {
 	switch (name) {
-		case 'FrontCover':
-			return issue.covers.front;
-		case 'BackCover':
-			return issue.covers.back;
-		case 'Index':
-			return issue.covers.index;
+		case 'Covers':
+			return issue.covers.covers;
 		case 'CoverPoster':
 			return issue.covers.poster;
 		case 'FrontCenterfold':

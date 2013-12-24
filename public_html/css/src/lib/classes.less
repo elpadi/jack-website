@@ -1,9 +1,53 @@
+.centered-content {
+	text-align:center;
+	&:before {
+		content:'';
+		display:inline-block;
+		vertical-align:middle;
+		height:100%;
+	}
+}
+.centered-content__content {
+	margin:0 auto;
+	display:inline-block;
+	vertical-align:middle;
+}
+
 .left {
-	float:left;
+  float:left;
 }
 .right {
-	float:right;
+  float:right;
 }
+
+.visibility--visible {
+	.visible();
+}
+.visibility--invisible {
+	.invisible();
+}
+.modernbrowser {
+	.visibility--visible {
+		.opacity(1);
+	}
+	.visibility--invisible {
+		.opacity(0);
+	}
+}
+
+.horizontal-list {
+  .horizontal-list;
+}
+.centered-horizontal-list {
+  .centered-horizontal-list;
+}
+
+.overlay {
+	.fullScreen;
+	.opacity(65);
+	background-color:black;
+}
+
 .text-right {
 	text-align:right;
 }

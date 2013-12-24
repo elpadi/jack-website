@@ -82,9 +82,12 @@ define('SITE_DIR', dirname(__DIR__).'/site');
 define('TEMPLATE_DIR', SITE_DIR.'/templates');
 define('CACHE_DIR', SITE_DIR.'/cache');
 
-define('DEBUG', true);
+define('IS_LOCAL', in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")));
+define('DEBUG', IS_LOCAL);
 
-ini_set('display_errors','off');
+if (!DEBUG) {
+	ini_set('display_errors','off');
+}
 
 require(SITE_DIR.'/config/db.php');
 require(SITE_DIR.'/config/smtp.php');
@@ -170,16 +173,20 @@ $app->get('/', array($site, 'requireLogin'), function () use ($site, $app, $view
 /**************************************************************
 ************************ Admin ********************************
 /*************************************************************/
-$app->get('/admin', array($site, 'requireAdmin'), function () use ($app, $view) {
-	$app->render('admin/parts/home.twig');
+$app->get('/admin', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+	$app->render('admin/parts/home.twig', array(
+		'sections' => $site->getAdminSections('Dashboard'),
+	));
 })->setName('admin/home');
 
 $app->get('/admin/users', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
 	$app->render('admin/parts/users.twig', array(
+		'sections' => $site->getAdminSections('Users'),
 	));
 })->setName('admin/users');
 $app->get('/admin/users/create', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
 	$app->render('admin/parts/user-add.twig', array(
+		'sections' => $site->getAdminSections('Users'),
 	));
 })->setName('admin/create-user');
 $app->post('/admin/users/create', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
@@ -205,6 +212,7 @@ $app->get('/admin/invites', array($site, 'requireAdmin'), function () use ($site
 	$invite = $id ? $site->getInviteById($id) : new Jack\Invite();
 	$app->render('admin/parts/invites.twig', array(
 		'invite' => $invite,
+		'sections' => $site->getAdminSections('Invites'),
 	));
 })->setName('admin/invites');
 $app->post('/admin/invites', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
@@ -236,7 +244,8 @@ $app->get('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) 
 	$issue = $site->getIssueBySlug($slug);
 	$app->render('admin/parts/issue.twig', array(
 		'title' => $view->get('title').' | Edit '.$issue->title,
-		'issue' => $site->getIssueBySlug($slug),
+		'issue' => $issue,
+		'sections' => $site->getAdminSections('Issues'),
 	));
 })->setName('admin/issue');
 $app->post('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
@@ -258,6 +267,7 @@ $app->get('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($
 		'title' => $view->get('title').' | Edit order '.$issue->title,
 		'issue' => $issue,
 		'posters' => $posters,
+		'sections' => $site->getAdminSections('Issues'),
 	));
 })->setName('admin/issue/pages');
 $app->post('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
@@ -276,6 +286,7 @@ $app->get('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), functio
 	$app->render('admin/parts/add_page.twig', array(
 		'title' => $view->get('title').' | Add poster to '.$issue->title,
 		'issue' => $site->getIssueBySlug($slug),
+		'sections' => $site->getAdminSections('Issues'),
 	));
 })->setName('admin/issue/newpage');
 $app->post('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
@@ -402,4 +413,6 @@ $app->delete(
  * This method should be called last. This executes the Slim application
  * and returns the HTTP response to the HTTP client.
  */
+ob_start();
 $app->run();
+ob_end_flush();
