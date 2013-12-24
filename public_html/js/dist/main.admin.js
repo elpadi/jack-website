@@ -13058,6 +13058,8 @@ require.config({
 	paths: {
 		"site": "../jack",
 		"jquery": "jquery/jquery",
+		"jquery-ui": "jquery-ui/ui/jquery-ui",
+		"jui-accordion": "jquery-ui/ui/jquery.ui.accordion",
 		"underscore": "underscore/underscore",
 		"eventemitter": "eventemitter2/lib/eventemitter2",
 		"lib": "js-libs"
@@ -13103,6 +13105,41 @@ require(['jquery','dropzone/downloads/dropzone-amd-module'], function(jquery, Dr
 			}
 			else {
 				alert("Error: " + response.error);
+			}
+		});
+	});
+});
+
+require(['jquery'], function(jquery) {
+	require(['jquery-ui'], function(jqueryUi) {
+		require(['jui-accordion'], function(jqAccordion) {
+			$('.accordion').accordion({collapsible: true, active: false});
+		});
+	});
+});
+
+require(['jquery'], function(jquery) {
+	$('.ajax-link').on('click', function(e) {
+		var $el = $(e.target);
+		var error = function() {
+			alert('Poster could not be deleted.');
+		}
+		e.preventDefault();
+		e.stopPropagation();
+		$.ajax({
+			url: $el.attr('href'),
+			type: 'POST',
+			error: error,
+			success: function(data, textStatus, jqXHR) {
+				if (data.success) {
+					if ($el.hasClass('ajax-link--refresh')) {
+						location.reload();
+					}
+					this.flash('Poster order saved.');
+				}
+				else {
+					error();
+				}
 			}
 		});
 	});

@@ -1,24 +1,25 @@
 {% extends "admin/site.twig" %}
 {% block content %}
-<h2>{{ issue.title }} Page Order</h2>
+<h2>{{ issue.title }}</h2>
+<ul class="covers horizontal-list">
+	<li><img src="{{ issue.covers.thumb }}" alt=""></li>
+	<li><img src="{{ issue.covers.poster_thumb }}" alt=""></li>
+</ul>
 <p><a href="{{ urlFor('admin/issue', {"slug": issue.slug}) }}">Back to issue</a></p>
 <p><a href="{{ urlFor('admin/issue/newpage', {"slug": issue.slug}) }}">Add new page</a></p>
-<h3>Instructions</h3>
-<p>Swap posters or sheets by clicking on one, which will then stay highlighted, and then on another to swap positions.</p>
-<p>An individual poster can only be swapped with another poster. Only sheet by sheet swapping as well.</p>
-<p>Sheets are selected by clicking on the sheet number, while posters are selected by clicking on the poster itself.</p>
-<p>When a sheet is highlighted, it is shown in <span style="color:skyblue;">sky blue</span>. Posters are coloured <span style="color:green;">green</span>.</p>
-<p>Every swap is saved, so there is no save button.</p>
-<div class="action-history">
-	<h3>Order history</h3>
-	<p>Click on a history item to undo order changes. You MUST click the save button below to save the order from the history.</p>
-	<ol class="action-history__list action-history__list--empty">
-		<li class="action-history__empty-notice">Nothing here yet.</li>
-	</ol>
-	<button id="action-history__clear-button">Clear</button>
-	<button id="action-history__show-all-button">Show All</button>
-	<button id="save-history">Save</button>
-</div>
+<h2>Page Order</h2>
+<section id="order-instructions">
+	<div class="accordion">
+		<h3>Show / Hide Instructions</h3>
+		<div>
+			<p>Swap posters or sheets by clicking on one, which will then stay highlighted, and then on another to swap positions.</p>
+			<p>An individual poster can only be swapped with another poster. Only sheet by sheet swapping as well.</p>
+			<p>Sheets are selected by clicking on the sheet number, while posters are selected by clicking on the poster itself.</p>
+			<p>When a sheet is highlighted, it is shown in <span style="color:skyblue;">sky blue</span>. Posters are coloured <span style="color:green;">green</span>.</p>
+			<p>Every swap is saved, so there is no save button.</p>
+		</div>
+	</div>
+</section>
 <form name="page_order" method="POST" target="{{ urlFor('admin/issue/pages', {"slug": issue.slug}) }}">
 	<table id="page-order" class="swappable-table">
 		<thead>

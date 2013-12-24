@@ -3,6 +3,8 @@ require.config({
 	paths: {
 		"site": "../jack",
 		"jquery": "jquery/jquery",
+		"jquery-ui": "jquery-ui/ui/jquery-ui",
+		"jui-accordion": "jquery-ui/ui/jquery.ui.accordion",
 		"underscore": "underscore/underscore",
 		"eventemitter": "eventemitter2/lib/eventemitter2",
 		"lib": "js-libs"
@@ -49,6 +51,14 @@ require(['jquery','dropzone/downloads/dropzone-amd-module'], function(jquery, Dr
 			else {
 				alert("Error: " + response.error);
 			}
+		});
+	});
+});
+
+require(['jquery'], function(jquery) {
+	require(['jquery-ui'], function(jqueryUi) {
+		require(['jui-accordion'], function(jqAccordion) {
+			$('.accordion').accordion({collapsible: true, active: false});
 		});
 	});
 });
