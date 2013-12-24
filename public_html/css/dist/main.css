@@ -953,12 +953,11 @@ body.section-issue {
 .section-invite-confirmation {
   height: 100%;
   width: 100%;
-  background: #000000 url(img/nda.jpg) center center no-repeat;
-  background-size: contain;
-  font-size: 2.2em;
+  font-size: 2em;
   letter-spacing: -3px;
-  line-height: 1;
+  line-height: 0.95;
   color: white;
+  background-color: black;
 }
 .section-invite-confirmation #container {
   display: table;
@@ -966,6 +965,8 @@ body.section-issue {
   height: 100%;
   max-width: 980px;
   margin: 0 auto;
+  background: #000000 url(img/nda.jpg) center center no-repeat;
+  background-size: contain;
 }
 .section-invite-confirmation #content {
   display: table-cell;
@@ -975,7 +976,7 @@ body.section-issue {
   overflow: hidden;
 }
 .section-invite-confirmation p {
-  margin: 0 0 0.4em;
+  margin: 0 0 0.7em;
 }
 .section-invite-confirmation h1,
 .section-invite-confirmation #enjoy {
@@ -984,8 +985,16 @@ body.section-issue {
 .section-invite-confirmation h1 {
   float: right;
   margin: 0;
+  font-size: 1.5em;
+}
+.section-invite-confirmation #nda {
+  padding: 1.4em;
+  margin-top: 0.75em;
 }
 .section-invite-confirmation #enjoy {
   float: left;
-  padding-top: 0.6em;
+  padding-top: 0.2em;
+}
+.section-invite-confirmation #thanks {
+  display: none;
 }
