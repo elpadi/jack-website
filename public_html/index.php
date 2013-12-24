@@ -8,6 +8,14 @@ use Assetic\Extension\Twig\AsseticExtension;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+function delTree($dir) {
+	$files = array_diff(scandir($dir), array('.','..'));
+	foreach ($files as $file) {
+		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+	}
+	return rmdir($dir);
+}
+
 function get_longest_common_subsequence($string_1, $string_2)
 {
 	$string_1_length = strlen($string_1);
@@ -313,6 +321,17 @@ $app->post('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), functi
 		}
 	}
 });
+$app->post('/admin/issues/poster/delete/:id', array($site, 'requireAdmin'), function ($id) use ($site, $app, $view) {
+	$app->response->headers->set('Content-Type', 'application/json');
+	$poster = $site->getPosterById($id);
+	try {
+		$poster->delete($site, $site);
+		echo json_encode(array('success' => true));
+	}
+	catch (\Exception $e) {
+		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
+	}
+})->setName('admin/delete-poster');
 
 /**************************************************************
 ************************ Issues *******************************

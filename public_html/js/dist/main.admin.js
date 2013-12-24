@@ -13066,12 +13066,8 @@ require.config({
 
 function getIssueImageFromInputName(issue, name) {
 	switch (name) {
-		case 'FrontCover':
-			return issue.covers.front;
-		case 'BackCover':
-			return issue.covers.back;
-		case 'Index':
-			return issue.covers.index;
+		case 'Covers':
+			return issue.covers.covers;
 		case 'CoverPoster':
 			return issue.covers.poster;
 		case 'FrontCenterfold':
@@ -13224,7 +13220,7 @@ require(['jquery','underscore','eventemitter'], function(jquery, underscore, Eve
 			else {
 				error(data.error);
 			}
-		}, function(jqXHR, textStatus, errorMsg) {
+		}.bind(this), function(jqXHR, textStatus, errorMsg) {
 			error(jqXHR, textStatus, errorMsg);
 		});
 	};

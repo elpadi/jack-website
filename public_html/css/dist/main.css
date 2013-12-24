@@ -448,6 +448,9 @@ table {
 .text-right {
   text-align: right;
 }
+.red {
+  color: red;
+}
 @font-face {
   font-family: 'liberation_sansbold';
   src: url('fonts/liberationsans-bold-webfont.eot');

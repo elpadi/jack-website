@@ -99,5 +99,11 @@ class Poster {
 		}
 	}
 
+	public function delete(AssetManager $assets, DbAccess $db) {
+			delTree($assets->basePath()."/posters/$this->id");
+			$db->query("DELETE FROM `".$db->table("posters")."` WHERE `id`=?", array($this->id));
+			$db->query("DELETE FROM `".$db->table("issue_posters")."` WHERE `poster_id`=?", array($this->id));
+	}
+
 }
 

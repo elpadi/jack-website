@@ -37,15 +37,19 @@
 					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.front.id }}">
 						<img src="{{ p.front.thumb }}" alt="">
 						<p>{{ p.front.title }}</p>
+						<p><a class="ajax-link ajax-link--refresh red" href="{{ urlFor("admin/delete-poster", {"id":p.front.id}) }}">Delete</a></p>
 					</div>
 				</td>
+				{% if p.back %}
 				<td>
 					<input type="hidden" name="row{{ loop.index0 }}_back" value="{{ p.back.id }}">
 					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.back.id }}">
 						<img src="{{ p.back.thumb }}" alt="">
 						<p>{{ p.back.title }}</p>
+						<p><a class="ajax-link ajax-link--refresh red" href="{{ urlFor("admin/delete-poster", {"id":p.back.id}) }}">Delete</a></p>
 					</div>
 				</td>
+				{% endif %}
 			</tr>
 			{% endfor %}
 		</tbody>

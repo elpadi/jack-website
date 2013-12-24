@@ -248,6 +248,14 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		return $posters;
 	}
 
+	public function getPosterById($id) {
+		$stmt = $this->query('SELECT * FROM {posters} WHERE `id`=?', array($id));
+		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Poster');
+		$poster = $stmt->fetch(\PDO::FETCH_CLASS);
+		$poster->hydrate($this);
+		return $poster;
+	}
+
 	public function basePath() {
 		return SITE_DIR.'/assets';
 	}

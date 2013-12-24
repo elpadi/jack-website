@@ -53,6 +53,33 @@ require(['jquery','dropzone/downloads/dropzone-amd-module'], function(jquery, Dr
 	});
 });
 
+require(['jquery'], function(jquery) {
+	$('.ajax-link').on('click', function(e) {
+		var $el = $(e.target);
+		var error = function() {
+			alert('Poster could not be deleted.');
+		}
+		e.preventDefault();
+		e.stopPropagation();
+		$.ajax({
+			url: $el.attr('href'),
+			type: 'POST',
+			error: error,
+			success: function(data, textStatus, jqXHR) {
+				if (data.success) {
+					if ($el.hasClass('ajax-link--refresh')) {
+						location.reload();
+					}
+					this.flash('Poster order saved.');
+				}
+				else {
+					error();
+				}
+			}
+		});
+	});
+});
+
 require(['jquery','underscore','eventemitter'], function(jquery, underscore, EventEmitter) {
 		$.fn.ajaxForm = function(success, error) {
 			return this.filter('form').each(function(i, el) {

@@ -448,6 +448,9 @@ table {
 .text-right {
   text-align: right;
 }
+.red {
+  color: red;
+}
 /* The MIT License */
 .dropzone,
 .dropzone *,
