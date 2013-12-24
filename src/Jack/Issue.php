@@ -56,10 +56,16 @@ class Issue {
 
 	public function updatePosterOrder($data, DbAccess $db) {
 		$sth = $db->prepare("UPDATE `".$db->table("issue_posters")."` SET `sort_order`=? WHERE `issue_id`=$this->id AND `poster_id`=?");
-		$order = 1;
-		for ($i = 0; $i < count($data) / 2; $i++) {
+		$order = count($data) * -1;
+		for ($i = 0; $i < count($data); $i++) {
+			if (empty($data['row'.$i.'_front'])) {
+				break;
+			}
 			$sth->execute(array($order, $data['row'.$i.'_front']));
 			$order++;
+			if (empty($data['row'.$i.'_back'])) {
+				break;
+			}
 			$sth->execute(array($order, $data['row'.$i.'_back']));
 			$order++;
 		}

@@ -1067,6 +1067,7 @@ td {
 #page-order td,
 #page-order .poster {
   width: 200px;
+  text-align: center;
 }
 #page-order td:hover,
 #page-order td.selected {

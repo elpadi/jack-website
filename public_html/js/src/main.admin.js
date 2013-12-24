@@ -165,7 +165,7 @@ require(['jquery','underscore','eventemitter'], function(jquery, underscore, Eve
 			else {
 				error(data.error);
 			}
-		}, function(jqXHR, textStatus, errorMsg) {
+		}.bind(this), function(jqXHR, textStatus, errorMsg) {
 			error(jqXHR, textStatus, errorMsg);
 		});
 	};

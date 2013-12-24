@@ -30,15 +30,23 @@
 		</thead>
 		<tbody>
 			{% for p in posters %}
-			{{ cycle(['<tr><td class="row-number">' ~ (loop.index0 // 2 + 1) ~ '</td>',''], loop.index0) | raw }}
+			<tr>
+				<td class="row-number">{{ loop.index }}</td>
 				<td>
-					<input type="hidden" name="row{{ loop.index0 // 2 }}_{{ cycle(['front','back'], loop.index0) }}" value="{{ p.id }}">
-					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.id }}">
-						<img src="{{ p.thumb }}" alt="">
-						<p>{{ p.title }}</p>
+					<input type="hidden" name="row{{ loop.index0 }}_front" value="{{ p.front.id }}">
+					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.front.id }}">
+						<img src="{{ p.front.thumb }}" alt="">
+						<p>{{ p.front.title }}</p>
 					</div>
 				</td>
-			{{ cycle(['','</tr>'], loop.index0) | raw }}
+				<td>
+					<input type="hidden" name="row{{ loop.index0 }}_back" value="{{ p.back.id }}">
+					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.back.id }}">
+						<img src="{{ p.back.thumb }}" alt="">
+						<p>{{ p.back.title }}</p>
+					</div>
+				</td>
+			</tr>
 			{% endfor %}
 		</tbody>
 	</table>

@@ -3,7 +3,7 @@ namespace Jack;
 
 use Imagine\Image\Box;
 use Imagine\Image\Point;
-use Stringy as S;
+use Stringy\Stringy as S;
 
 class Poster {
 	

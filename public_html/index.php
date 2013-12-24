@@ -273,9 +273,9 @@ $app->get('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($
 	$posters = $site->getPostersByIssueId($issue->id);
 	$app->render('admin/parts/pages.twig', array(
 		'title' => $view->get('title').' | Edit order '.$issue->title,
+		'sections' => $site->getAdminSections('Issues'),
 		'issue' => $issue,
 		'posters' => $posters,
-		'sections' => $site->getAdminSections('Issues'),
 	));
 })->setName('admin/issue/pages');
 $app->post('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
