@@ -14,7 +14,7 @@ class Invite {
 
 	const EMAIL_SUBJECT = 'For your eyes only. Invitation to thejackmag.com';
 	const EMAIL_ADDRESS = 'dah@thejackmag.com';
-	const EMAIL_NAME = 'Dahlen';
+	const EMAIL_NAME = 'Dah';
 
 	public function __construct() {
 	}
@@ -72,6 +72,9 @@ class Invite {
 		}
 		if (isset($data['additional'])) {
 			$this->additional = $data['additional'];
+		}
+		if (isset($data['hash'])) {
+			$this->hash = $data['hash'];
 		}
 	}
 

@@ -85,11 +85,8 @@ function get_longest_common_subsequence($string_1, $string_2)
 }
 
 define('PUBLIC_DIR', __DIR__);
-define('PATH_PREFIX', count(array_intersect(array_filter(explode('/', PUBLIC_DIR)), array_filter(explode('/', $_SERVER['REQUEST_URI'])))) > 0 ? get_longest_common_subsequence(PUBLIC_DIR.'/', $_SERVER['REQUEST_URI']) : '/');
-define('SITE_DIR', dirname(__DIR__).'/site');
-define('TEMPLATE_DIR', SITE_DIR.'/templates');
-define('CACHE_DIR', SITE_DIR.'/cache');
 
+define('PATH_PREFIX', count(array_intersect(array_filter(explode('/', PUBLIC_DIR)), array_filter(explode('/', $_SERVER['REQUEST_URI'])))) > 0 ? get_longest_common_subsequence(PUBLIC_DIR.'/', $_SERVER['REQUEST_URI']) : '/');
 define('IS_LOCAL', in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")));
 define('DEBUG', IS_LOCAL);
 
@@ -97,13 +94,15 @@ if (!DEBUG) {
 	ini_set('display_errors','off');
 }
 
+require(dirname(__DIR__).'/config.dirs.php');
+
 require(SITE_DIR.'/config/db.php');
 require(SITE_DIR.'/config/smtp.php');
 require(SITE_DIR.'/config/invite.php');
 
-require(dirname(__DIR__).'/vendor/autoload.php');
-require(dirname(__DIR__).'/vendor/ulogin/config/all.inc.php');
-require(dirname(__DIR__).'/vendor/ulogin/main.inc.php');
+require(VENDOR_DIR.'/autoload.php');
+require(VENDOR_DIR.'/ulogin/config/all.inc.php');
+require(VENDOR_DIR.'/ulogin/main.inc.php');
 
 /**
  * Step 2: Instantiate a Slim application
@@ -387,7 +386,7 @@ $app->get('/invite/:hash', function ($hash) use ($invite_config, $site, $app, $v
 		$app->notFound();
 	}
 	try {
-		$invite->hydrate($site);
+		$invite->hydrate($site, $site);
 		$invite->recordUse($site);
 		$user = new Jack\User();
 		$user->setData($invite_config['user']);
@@ -397,8 +396,8 @@ $app->get('/invite/:hash', function ($hash) use ($invite_config, $site, $app, $v
 		echo "Could not log in.";
 		if (DEBUG) {
 			echo ' --- '.$e->getFile().':'.$e->getLine().' - '.$e->getMessage();
-			exit(1);
 		}
+		exit(1);
 	}
 	$app->redirect($app->urlFor(empty($invite->uses) ? 'invite/confirmation' : 'home'));
 })->setName('invite');

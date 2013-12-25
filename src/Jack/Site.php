@@ -21,7 +21,7 @@ interface EmailSender {
 }
 
 interface TemplateHandler {
-	public function parseTemplate($template, $vars);
+	public function parseTemplate($template, $vars=array());
 }
 
 interface Router {
@@ -33,11 +33,12 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	public $app;
 
 	protected $uLogin;
-	protected $userIsLoggedIn = false;
 
 	protected $services;
 	
 	protected $lastStatement;
+
+	private static $adminIds = array(1,3);
 
 	function __construct() {
 		$this->services = array(
@@ -61,6 +62,8 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$view->appendData(array(
 			'title' => 'JACK',
 			'isLocal' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")),
+			'isLoggedIn' => $this->isUserLoggedIn(),
+			'isAdmin' => $this->isAdmin(),
 			'pathPrefix' => PATH_PREFIX,
 			'userAgent' => $userAgent->toArray(),
 		));
@@ -68,18 +71,6 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 
 		if (!\sses_running()) {
 			\sses_start();
-		}
-		$this->userIsLoggedIn = isset($_SESSION['uid']) && isset($_SESSION['username']) && isset($_SESSION['loggedIn']) && ($_SESSION['loggedIn']===true);
-	}
-
-	public function isUserLoggedIn() {
-		return $this->userIsLoggedIn;
-	}
-
-	public function requireLogin(\Slim\Route $route) {
-		if (false && !$this->userIsLoggedIn) {
-			$this->app->flash('error', 'Login required.');
-			$this->app->redirect('/user/login?destination=' . $_SERVER['REQUEST_URI']);
 		}
 	}
 
@@ -95,22 +86,40 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		});
 	}
 
-	public function requireAdmin(\Slim\Route $route) {
-		return true;
-		if (false && !$this->userIsLoggedIn || $_SESSION['uid'] !== 1) {
-			$this->app->flash('error', 'Not authorized.');
-			$this->app->redirect('/');
+	public function isUserLoggedIn() {
+		return isset($_SESSION['uid']) && isset($_SESSION['username']) && isset($_SESSION['loggedIn']) && ($_SESSION['loggedIn']===true);
+	}
+
+	public function isAdmin() {
+		return $this->isUserLoggedIn() && \in_array($_SESSION['uid'], self::$adminIds);
+	}
+
+	public function requireLogin(\Slim\Route $route) {
+		if (!$this->isUserLoggedIn()) {
+			$this->notAuthorized();
 		}
+	}
+
+	public function requireAdmin(\Slim\Route $route) {
+		if (!$this->isAdmin()) {
+			$this->notAuthorized();
+		}
+	}
+
+	public function notAuthorized() {
+		header('HTTP/1.0 403 Forbidden');
+		echo $this->parseTemplate('forbidden');
+		exit(1);
 	}
 
 	public function actionLogin() {
 		$app = $this->app;
+		$site = $this;
 		$success = function() use ($app) {
 			$app->redirect($_POST['destination']);
 		};
-		$error = function($msg) use ($app) {
-			$app->flash('error', $msg);
-			$app->redirect('/user/login?destination='.$_POST['destination'].'&email='.$_POST['email']);
+		$error = function($msg) use ($site) {
+			$site->notAuthorized();
 		};
 		new \uLogin();
 		$uLogin = new \uLogin(function($uid, $username, $uLogin) use ($success) {
@@ -193,7 +202,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		}
 	}
 
-	public function parseTemplate($template, $vars) {
+	public function parseTemplate($template, $vars=array()) {
 		return $this->getService('templates')->render("$template.twig", $vars);
 	}
 

@@ -1,3 +1,8 @@
+admin:
+	the back-front order breaks when deleting one poster.
+		fix:
+			provide a method to insert and push the rest.
+
 front end:
 	add favicon.
 	home:

@@ -481,6 +481,11 @@ body {
   text-align: left;
   display: inline-block;
 }
+.admin-link {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
 .section-switcher__section {
   position: absolute;
   display: none;
