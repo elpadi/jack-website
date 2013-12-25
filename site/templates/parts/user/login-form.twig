@@ -1,6 +1,6 @@
 {% extends "site.twig" %}
 {% block content %}
-<form method="POST" action="/user/login">
+<form method="POST" action="{{ urlFor('login') }}">
 	<input type="hidden" name="destination" value="{{ destination }}">
 	<input type="hidden" name="nonce" value="{{ nonce }}">
 	<label>Email: <input name="email" type="email" value="{{ email }}"></label>
