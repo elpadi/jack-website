@@ -26,6 +26,7 @@ interface TemplateHandler {
 
 interface Router {
 	public function url($route, $args);
+	public function redirect($path);
 }
 
 class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
@@ -113,10 +114,9 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	public function actionLogin() {
-		$app = $this->app;
 		$site = $this;
-		$success = function() use ($app) {
-			$app->redirect($_POST['destination']);
+		$success = function() use ($site) {
+			$site->redirect($_POST['destination']);
 		};
 		$error = function($msg) use ($site) {
 			$site->notAuthorized();
@@ -208,6 +208,13 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 
 	public function url($route, $args) {
 		return $this->app->urlFor($route, $args);
+	}
+
+	public function redirect($path) {
+		if ($path[0] === '/') {
+			$path = substr($path, 1);
+		}
+		return $this->app->redirect(PATH_PREFIX.$path);
 	}
 
 	public function getInviteById($id) {
