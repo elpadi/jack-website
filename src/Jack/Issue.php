@@ -3,12 +3,14 @@ namespace Jack;
 
 use Imagine\Image\Box;
 use Imagine\Image\Point;
+use Stringy\Stringy as S;
 
 class Issue {
 
 	public $id;
 	public $slug;
 	public $title;
+	public $published;
 	public $posters;
 
 	public $covers = array();
@@ -71,7 +73,7 @@ class Issue {
 		}
 	}
 	
-	public function update($data, $files, AssetManager $assets) {
+	public function updateImages($files, AssetManager $assets) {
 		$this->imagine = new \Imagine\Gd\Imagine();
 		foreach ($files as $key => $info) {
 			if (strpos($info['type'], 'image/jpeg') !== 0) {
@@ -79,6 +81,23 @@ class Issue {
 			}
 			call_user_func(array($this, "update$key"), $info['tmp_name'], $assets);
 		}
+	}
+
+	public function update($data, DbAccess $db, AssetManager $assets) {
+		if (isset($data['title']) && !empty($data['title']) && $data['title'] !== $this->title) {
+			$this->rename($data['title'], $db, $assets);
+		}
+		if (isset($data['published']) && !empty($data['published']) && $data['published'] !== $this->published) {
+			$db->query("UPDATE `".$db->table("issues")."` SET `published`=? WHERE `id`=$this->id", array($this->published));
+		}
+	}
+
+	protected function rename($title, DbAccess $db, AssetManager $assets) {
+		$asset_path = $assets->basePath()."/issues/$this->slug";
+		$this->title = $title;
+		$this->slug = S::create($title)->slugify()->__toString();
+		$db->query("UPDATE `".$db->table("issues")."` SET `title`=?, `slug`=? WHERE `id`=$this->id", array($this->title, $this->slug));
+		rename($asset_path, $assets->basePath()."/issues/$this->slug");
 	}
 
 	public function updateCovers($imagePath, AssetManager $assets) {

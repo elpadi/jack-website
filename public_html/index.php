@@ -256,7 +256,16 @@ $app->get('/admin/issues', array($site, 'requireAdmin'), function () use ($site,
 	));
 })->setName('admin/issues');
 $app->get('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
-	$issue = $site->getIssueBySlug($slug);
+	try {
+		$issue = $site->getIssueBySlug($slug);
+	}
+	catch (\Exception $e) {
+		if ($e->getCode() === Jack\Site::E_NOT_FOUND) {
+			return $app->notFound();
+		}
+		echo $e->getFile().':'.$e->getLine().'  '.$e->getMessage();
+		exit(0);
+	}
 	$app->render('admin/parts/issue.twig', array(
 		'title' => $view->get('title').' | Edit '.$issue->title,
 		'issue' => $issue,
@@ -264,16 +273,27 @@ $app->get('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) 
 	));
 })->setName('admin/issue');
 $app->post('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+	$issue = $site->getIssueBySlug($slug);
+	try {
+		$issue->update($app->request->post(), $site, $site);
+		$app->flash('info', "The issue '$issue->title' was successfully updated.");
+	}
+	catch (\Exception $e) {
+		$app->flash('error', "Error updating the issue. ".$e->getFile().':'.$e->getLine().'  '.$e->getMessage());
+	}
+	$app->redirect($app->urlFor('admin/issue', array('slug' => $issue->slug)));
+})->setName('admin/issue/update');
+$app->post('/admin/issues/:slug/images', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');
 	$issue = $site->getIssueBySlug($slug);
 	try {
-		$issue->update($app->request->post(), $_FILES, $site);
+		$issue->updateImages($_FILES, $site);
 		echo json_encode(array('success' => true, 'issue' => $issue));
 	}
 	catch (\Exception $e) {
 		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
-})->setName('admin/issue/update');
+})->setName('admin/issue/update-images');
 
 $app->get('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);

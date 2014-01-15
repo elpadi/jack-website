@@ -41,6 +41,8 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 
 	private static $adminIds = array(1,3);
 
+	const E_NOT_FOUND = 1;
+
 	function __construct() {
 		$this->services = array(
 			'constructors' => array(),
@@ -266,6 +268,9 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$stmt = $this->query('SELECT * FROM {issues} WHERE `slug`=?', array($slug));
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
 		$issue = $stmt->fetch();
+		if (!$issue) {
+			throw new \Exception("Issue with slug '$slug' not found.", self::E_NOT_FOUND);
+		}
 		$issue->hydrate($this);
 		return $issue;
 	}
