@@ -96,6 +96,7 @@ if (!DEBUG) {
 
 require(dirname(__DIR__).'/config.dirs.php');
 
+require(SITE_DIR.'/config/site.php');
 require(SITE_DIR.'/config/db.php');
 require(SITE_DIR.'/config/smtp.php');
 require(SITE_DIR.'/config/invite.php');

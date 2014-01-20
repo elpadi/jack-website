@@ -98,6 +98,9 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	public function requireLogin(\Slim\Route $route) {
+		if (!IS_LOGIN_REQUIRED) {
+			return true;
+		}
 		if (!$this->isUserLoggedIn()) {
 			$this->notAuthorized();
 		}
