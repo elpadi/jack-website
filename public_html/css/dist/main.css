@@ -531,6 +531,9 @@ body.section-issue {
 .section-issue #content {
   max-width: 100%;
 }
+.section-issue .admin-link {
+  display: none;
+}
 .section-switcher__sections-container {
   padding: 0 12%;
   position: relative;
