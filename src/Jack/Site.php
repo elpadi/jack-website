@@ -90,6 +90,9 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	public function isUserLoggedIn() {
+		if (!IS_LOGIN_REQUIRED) {
+			return true;
+		}
 		return isset($_SESSION['uid']) && isset($_SESSION['username']) && isset($_SESSION['loggedIn']) && ($_SESSION['loggedIn']===true);
 	}
 
@@ -98,9 +101,6 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	public function requireLogin(\Slim\Route $route) {
-		if (!IS_LOGIN_REQUIRED) {
-			return true;
-		}
 		if (!$this->isUserLoggedIn()) {
 			$this->notAuthorized();
 		}
