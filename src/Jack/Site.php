@@ -264,14 +264,35 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		return $issues;
 	}
 
-	public function getIssueBySlug($slug) {
-		$stmt = $this->query('SELECT * FROM {issues} WHERE `slug`=?', array($slug));
+	public function getIssue($sql, $vars=array()) {
+		$stmt = $this->query("SELECT {issues}.*, CONCAT(LOWER(`season`),'-',`year`) AS slug, CONCAT(`season`,' ',`year`) AS title FROM {issues} $sql", $vars);
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Issue');
 		$issue = $stmt->fetch();
 		if (!$issue) {
-			throw new \Exception("Issue with slug '$slug' not found.", self::E_NOT_FOUND);
+			throw new \Exception("Issue with sql '$sql' not found.", self::E_NOT_FOUND);
 		}
 		$issue->hydrate($this);
+		return $issue;
+	}
+
+	public function getFirstIssue() {
+		return $this->getIssue("ORDER BY `year`,`season` ASC");
+	}
+
+	public function getIssueBySlug($slug) {
+		$parts = explode('-', $slug);
+		if (count($parts) !== 2) {
+			throw new \InvalidArgumentException("Invalid slug '$slug'.");
+		}
+		try {
+			$issue = $this->getIssue('WHERE `season`=? AND `year`=?', $parts);
+		}
+		catch (\Exception $e) {
+			if ($e->getCode() === self::E_NOT_FOUND) {
+				throw new \Exception("Issue with slug '$slug' not found.", self::E_NOT_FOUND);
+			}
+			throw $e;
+		}
 		return $issue;
 	}
 

@@ -11,6 +11,8 @@ class Issue {
 	public $slug;
 	public $title;
 	public $published;
+	public $season;
+	public $year;
 	public $posters;
 
 	public $covers = array();
