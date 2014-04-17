@@ -1,3 +1,4 @@
+Change rename issue to use new columns season and year.
 admin:
 	the back-front order breaks when deleting one poster.
 		fix:

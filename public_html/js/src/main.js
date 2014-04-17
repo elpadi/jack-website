@@ -2,8 +2,10 @@ require.config({
 	baseUrl: '/js/src/bower_components',
 	paths: {
 		"site": "../jack",
-		"jquery": "jquery/jquery",
+		"jquery": "jquery/dist/jquery",
+		"threejs": "../vendor/three",
 		"underscore": "underscore/underscore",
+		"SectionSwitcher": "SectionSwitcher/dist/SectionSwitcher",
 		"lib": "js-libs"
 	}
 });
@@ -18,33 +20,63 @@ require(['jquery'], function(jquery) {
 	}
 });
 
-require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/SectionLinks','lib/ui/ToggleButton','lib/dom/trackers/resize'], function(jquery, Magazine, ArrowNav, SectionLinks, ToggleButton, onResize) {
-	var $window = $(window);
-	var mag = new Magazine($('.magazine'));
-	if (mag.$container.length === 0) {
-		return;
+require(['jquery','SectionSwitcher'], function(jquery, SectionSwitcher) {
+	$('.magazine').on('sectionswitcher.switch', function(e) {
+		var $mag = $(e.target);
+		var mag = $mag.data('magazine');
+		var sectionName = mag.getCurrentSection().name;
+		
+		console.log('magazine.switchsection --- sectionName', sectionName);
+		$mag.find('.magazine__toggle-open-button').text(mag.getCurrentSection().isOpen ? 'close' : 'open');
+		$mag.find('.section-switcher__nav').toggleClass('left-edge', sectionName === 'cover').toggleClass('right-edge', sectionName === 'centerfold');
+		(sectionName !== 'centerfold') && $mag.find('.section-switcher__nav__next').attr('href', '#' + mag.getNextSection().name);
+		(sectionName !== 'cover') && $mag.find('.section-switcher__nav__prev').attr('href', '#' + mag.getPreviousSection().name);
+	}).sectionswitcher({
+		currentIndex: 0,
+		show: function($section, $container) {
+		},
+		hide: function($section, $container) {
+		},
+		transition: function($newSection, $oldSection, $container) {
+			var mag = $container.data('magazine');
+			var section = $newSection.data('magazine-section');
+			console.log('magazine.transition --- section', section);
+			$oldSection.data('magazine-section').hide();
+			$container.one('magazine.sectionhide', function() {
+				section.show();
+				mag.currentSection = section.getSectionIndex();
+				console.log(mag.currentSection);
+				$container.trigger('sectionswitcher.switch')
+			});
+		},
+	});
+});
+
+require(['jquery','site/Magazine'], function(jquery, Magazine) {
+	var init_magazine = function(Mag) {
+		Magazine.jqueryPlugin(Mag);
+		$('.magazine').magazine();
+		require(['SectionSwitcher'], function(SectionSwitcher) {
+			$('.magazine').trigger('sectionswitcher.switch');
+		});
+	};
+	if (Modernizr.webgl) {
+		require(['site/Magazine/Webgl/Magazine'], init_magazine);
 	}
-	mag.addComponent(ArrowNav).addComponent(SectionLinks).init();
-	window.mag = mag;
+});
 
-	var openClose = new ToggleButton($('#magazine__open-close-button'));
-	openClose.on('newstate', function(state, oldState) {
-		switch (oldState) {
-			case 'open':
-				return mag.openCurrentPoster();
-			case 'close':
-				return mag.closeCurrentPoster();
-		}
+require(['jquery'], function(jquery) {
+	$('.magazine__flip-button').on('click', function(e) {
+		$(e.target).closest('.magazine').data('magazine').getCurrentSection().flip();
 	});
-	$('#magazine__flip-button').on('click', function(e) {
-		e.preventDefault();
-		mag.flipCurrentPoster();
-		return;
-	});
-	mag.on('sectionselected', function(newIndex, oldIndex, flipped) {
-		openClose.setState(mag.$elements.eq(newIndex).hasClass('open') ? 'close' : 'open');
-	});
+});
 
+require(['jquery','lib/ui/ToggleButton','lib/dom/trackers/resize'], function(jquery, ToggleButton, onResize) {
+	$('.magazine__toggle-open-button').togglebutton().on('newstate', function() {
+		console.log('toggle button . newstate', this);
+		$(this).closest('.magazine').data('magazine').getCurrentSection().toggleViewState();
+	});
+	/*
 	var resize = function(width, height, $page) {
 		var isCenterfold = $page.hasClass('magazine-centerfold');
 		var magHeight = Math.min(height * (76 / 100), isCenterfold ? height : $page.find('img').height());
@@ -63,6 +95,7 @@ require(['jquery','site/Magazine','lib/ui/SectionSwitcher/ArrowNav','site/Sectio
 		var height = $window.height();
 		resize(width, height, $el);
 	});
+	*/
 });
 
 require(['lib/dom/absolute-fixed']);

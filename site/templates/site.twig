@@ -17,6 +17,7 @@
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
 			<link rel="stylesheet" href="{{ pathPrefix }}css/dist/main.css" media="all">
+			<script src="{{ pathPrefix }}js/{% if isLocal %}src/bower_components/modernizr{% else %}dist{% endif %}/modernizr.js"></script>
 
 	{% endblock %}
 	</head>
