@@ -17,7 +17,11 @@
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
 			<link rel="stylesheet" href="{{ pathPrefix }}css/dist/main.css" media="all">
-			<script src="{{ pathPrefix }}js/{% if isLocal %}src/bower_components/modernizr{% else %}dist{% endif %}/modernizr.js"></script>
+			{% if isLocal %}
+			<script src="{{ pathPrefix }}js/src/bower_components/modernizrdist/modernizr.js"></script>
+			{% else %}
+			<script src="{{ pathPrefix }}js/dist/vendor/modernizr.min.js"></script>
+			{% endif %}
 
 	{% endblock %}
 	</head>
@@ -45,9 +49,9 @@
 		{% block footer %}
 		{% endblock %}
 		{% if isLocal %}
-		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/src/main"></script>
+		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/dist/main"></script>
 		{% else %}
-		<script src="{{ pathPrefix }}js/dist/main.min.js"></script>
+		<script src="{{ pathPrefix }}js/dist/vendor/require.min.js" data-main="{{ pathPrefix }}js/dist/main.min"></script>
 		{% endif %}
 	</body>
 </html>

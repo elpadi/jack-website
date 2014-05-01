@@ -1,15 +1,3 @@
-require.config({
-	baseUrl: '/js/src/bower_components',
-	paths: {
-		"site": "../jack",
-		"jquery": "jquery/dist/jquery",
-		"threejs": "../vendor/three",
-		"underscore": "underscore/underscore",
-		"SectionSwitcher": "SectionSwitcher/dist/SectionSwitcher",
-		"lib": "js-libs"
-	}
-});
-
 require(['jquery'], function(jquery) {
 	if (document.body.className.indexOf('section-invite-confirmation') !== -1) {
 		$(window).on('click', function(e) {
@@ -71,7 +59,7 @@ require(['jquery'], function(jquery) {
 	});
 });
 
-require(['jquery','lib/ui/ToggleButton','lib/dom/trackers/resize'], function(jquery, ToggleButton, onResize) {
+require(['jquery','lib/ui/ToggleButton'], function(jquery, ToggleButton) {
 	$('.magazine__toggle-open-button').togglebutton().on('newstate', function() {
 		console.log('toggle button . newstate', this);
 		$(this).closest('.magazine').data('magazine').getCurrentSection().toggleViewState();

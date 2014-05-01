@@ -97,7 +97,6 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	public function isAdmin() {
-		return true;
 		return $this->isUserLoggedIn() && \in_array($_SESSION['uid'], self::$adminIds);
 	}
 

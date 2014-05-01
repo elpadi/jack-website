@@ -1,10 +1,11 @@
-define(['underscore','threejs','lib/fn/curry'], function(underscore, three, curry) {
+define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(underscore, three, curry, Animation) {
 	
 	var FLIP_MATRIX = new THREE.Matrix4().makeRotationY(Math.PI);
 
 	function Sheet($sheet, number) {
 		this.onEnterFrame = function() {};
 		this.whole = new THREE.Object3D();
+		this.animation = new Animation(0, 1);
 		
 		this.$container = $sheet;
 		this.index = number - 1;
@@ -18,9 +19,12 @@ define(['underscore','threejs','lib/fn/curry'], function(underscore, three, curr
 	}
 
 	Sheet.prototype.width = 5;
-	Sheet.prototype.height = 5;
+	Sheet.prototype.height = 6.667;
+	Sheet.prototype.animationDuration = 500;
+	Sheet.prototype.currentOpacity = 0;
+	Sheet.prototype.planesLoaded = 0;
+	Sheet.prototype.isShowingFront = true;
 	Sheet.prototype.isOpen = false;
-	Sheet.prototype.isShowingFront = false;
 	Sheet.prototype.name = 'sheet-1';
 	Sheet.prototype.index = 0;
 	Sheet.prototype.parts = ['left','right'];
@@ -44,10 +48,16 @@ define(['underscore','threejs','lib/fn/curry'], function(underscore, three, curr
 		return group;
 	};
 
+	Sheet.prototype.onPlaneLoaded = function() {
+		this.planesLoaded++;
+		console.log('Sheet.onPlaneLoaded --- planesLoaded:', this.planesLoaded);
+		(this.planesLoaded === this.parts.length * this.faces.length) && this.$container.trigger('sectionready');
+	};
+
 	Sheet.prototype.createPlane = function(part, face) {
 		var plane = new THREE.PlaneGeometry(this.width, this.height);
 		var image = new THREE.MeshBasicMaterial({
-			map: THREE.ImageUtils.loadTexture(this.$container.find('.' + part + '.' + face).attr('src')),
+			map: THREE.ImageUtils.loadTexture(this.$container.find('.' + part + '.' + face).attr('src'), {}, this.onPlaneLoaded.bind(this)),
 			transparent: true,
 			opacity: 0
 		});
@@ -67,90 +77,71 @@ define(['underscore','threejs','lib/fn/curry'], function(underscore, three, curr
 		return this.isOpen ? this.close() : this.open();
 	};
 
-	Sheet.prototype.onOpenEnterFrame = function() {
-		var right = this.whole.getObjectByName('right');
-		if (right.rotation.y > 0) {
-			right.rotation.y -= 0.05;
-		}
-	};
-
-	Sheet.prototype.onCloseEnterFrame = function() {
-		var right = this.whole.getObjectByName('right');
-		if (right.rotation.y < this.rotations[1]) {
-			right.rotation.y += 0.05;
-		}
-	};
-
-	Sheet.prototype.open = function() {
-		if (!this.isOpen) {
-			this.isOpen = true;
-			this.$container.closest('.magazine').trigger('magazine.open');
-			this.onEnterFrame = this.onOpenEnterFrame.bind(this);
-		}
-		return this;
-	};
-
-	Sheet.prototype.close = function() {
-		if (this.isOpen) {
-			this.isOpen = false;
-			this.$container.closest('.magazine').trigger('magazine.close');
-			this.onEnterFrame = this.onCloseEnterFrame.bind(this);
-		}
-		return this;
-	};
-
 	Sheet.prototype.triggerMagEvent = function(name) {
 		this.$container.closest('.magazine').trigger('magazine.' + name);
 		return this;
 	};
 
-	Sheet.prototype.flip = function() {
-		this.triggerMagEvent('flip');
-		var nextStop = Math.floor(this.whole.rotation.y / Math.PI) + 1;
-		this.onEnterFrame = function() {
-			if (this.whole.rotation.y < nextStop * Math.PI) {
-				this.whole.rotation.y += 0.05;
+	Sheet.prototype.setOpacity = function(opacity) {
+		console.log('Sheet.setOpacity --- opacity:', opacity);
+		this.whole.traverse(function(obj) {
+			if ('material' in obj) {
+				console.log('Sheet.setOpacity --- setting opacity to a descendant.');
+				obj.material.opacity = opacity;
 			}
-		}.bind(this);
-		return this;
+			else {
+				console.log('Sheet.setOpacity --- descendant does not have a material.');
+			}
+		});
+		this.currentOpacity = opacity;
 	};
 
-	Sheet.prototype.hide = function() {
-		this.onEnterFrame = function() {
-			var that = this;
-			this.whole.traverse(function(obj) {
-				if ('material' in obj) {
-					if (obj.material.opacity > 0) {
-						obj.material.opacity -= 0.015;
-					}
-					else {
-						obj.visible = false;
-						that.triggerMagEvent('sectionhide');
-						that.onEnterFrame = function() {};
-					}
-				}
-			});
-		}.bind(this);
+	Sheet.prototype.rotateY = function(angle) {
+		this.whole.rotation.y = angle;
+	};
+
+	Sheet.prototype.rotateRightY = function(angle) {
+		this.whole.getObjectByName('right').rotation.y = angle;
+	};
+
+	Sheet.prototype.rotateLeftY = function(angle) {
+		this.whole.getObjectByName('left').rotation.y = angle;
+	};
+
+	Sheet.prototype.resetAnimation = function(initialValue, finalValue, valueSetter, endEvent) {
+		this.animation.stop();
+		this.animation = new Animation(initialValue, finalValue, this.animationDuration, function(val) {
+			valueSetter(val);
+			this.$container.trigger('webglrefresh');
+		}.bind(this), curry(this.triggerMagEvent, endEvent).bind(this));
+		this.animation.start();
 	};
 
 	Sheet.prototype.show = function() {
-		this.onEnterFrame = function() {
-			var that = this;
-			this.whole.traverse(function(obj) {
-				if ('material' in obj) {
-					obj.visible = true;
-					if (obj.material.opacity < 1) {
-						obj.material.opacity += 0.015;
-					}
-					else {
-						that.triggerMagEvent('sectionshow');
-						that.onEnterFrame = function() {};
-					}
-				}
-			});
-		}.bind(this);
+		console.log('Sheet.show --- ');
+		this.whole.traverse(function(obj) { obj.visible = true; });
+		this.resetAnimation(this.currentOpacity, 1, this.setOpacity.bind(this), 'sectionshow');
 	};
 
+	Sheet.prototype.hide = function() {
+		this.resetAnimation(this.currentOpacity, 0, this.setOpacity.bind(this), 'sectionhide');
+	};
+
+	Sheet.prototype.flip = function() {
+		this.isShowingFront = !this.isShowingFront;
+		this.resetAnimation(this.whole.rotation.y, (Math.floor(this.whole.rotation.y / Math.PI) + 1) * Math.PI, this.rotateY.bind(this), 'sectionflip');
+	};
+
+	Sheet.prototype.open = function() {
+		this.isOpen = true;
+		this.resetAnimation(this.whole.getObjectByName('right').rotation.y, 0, this.rotateRightY.bind(this), 'sectionopen');
+	};
+
+	Sheet.prototype.close = function() {
+		this.isOpen = false;
+		this.resetAnimation(this.whole.getObjectByName('right').rotation.y, this.rotations[1], this.rotateLeftY.bind(this), 'sectionclosed');
+	};
+	
 	return Sheet;
 });
 

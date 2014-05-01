@@ -32,7 +32,7 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
 			plane.translateX(this.translations.x[index] * this.width);
 			plane.translateY(this.translations.y[index] * this.height);
-			plane.translateZ(this.translations.z[index]);
+			plane.translateZ(this.translations.z[index] * 0.5);
 			plane.visible = false;
 			group.add(plane);
 		}.bind(this));
@@ -41,34 +41,30 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 		return group;
 	};
 
-	Centerfold.prototype.onOpenEnterFrame = function() {
-		var bottomright = this.whole.getObjectByName('bottomright');
-		var topright = this.whole.getObjectByName('topright');
-		var topleft = this.whole.getObjectByName('topleft');
-	
-		if (bottomright.rotation.y > 0) {
-			bottomright.rotation.y -= 0.05;
-			topright.rotation.y += 0.05;
-		}
-		else if (topright.rotation.x < 0) {
-			topright.rotation.x += 0.05;
-			topleft.rotation.x += 0.05;
-		}
+	Centerfold.prototype.rotateRightY = function(angle) {
+		this.whole.getObjectByName('bottomright').rotation.y = angle;
+		this.whole.getObjectByName('topright').rotation.y = angle * -1;
 	};
 
-	Centerfold.prototype.onCloseEnterFrame = function() {
-		var bottomright = this.whole.getObjectByName('bottomright');
-		var topright = this.whole.getObjectByName('topright');
-		var topleft = this.whole.getObjectByName('topleft');
-		
-		if (topright.rotation.x > this.rotations.x[1]) {
-			topright.rotation.x -= 0.05;
-			topleft.rotation.x -= 0.05;
-		}
-		else if (bottomright.rotation.y < this.rotations.y[3]) {
-			bottomright.rotation.y += 0.05;
-			topright.rotation.y -= 0.05;
-		}
+	Centerfold.prototype.rotateTopX = function(angle) {
+		this.whole.getObjectByName('topright').rotation.x = angle;
+		this.whole.getObjectByName('topleft').rotation.x = angle;
+	};
+
+	Centerfold.prototype.open = function() {
+		this.isOpen = true;
+		this.resetAnimation(this.whole.getObjectByName('bottomright').rotation.y, 0, this.rotateRightY.bind(this), 'halfopen');
+		this.$container.closest('.magazine').one('magazine.halfopen', function() {
+			this.resetAnimation(this.whole.getObjectByName('topright').rotation.x, 0, this.rotateTopX.bind(this), 'sectionopen');
+		}.bind(this));
+	};
+
+	Centerfold.prototype.close = function() {
+		this.isOpen = false;
+		this.resetAnimation(this.whole.getObjectByName('topright').rotation.x, this.rotations.x[1], this.rotateTopX.bind(this), 'halfclosed');
+		this.$container.closest('.magazine').one('magazine.halfclosed', function() {
+			this.resetAnimation(this.whole.getObjectByName('bottomright').rotation.y, this.rotations.y[3], this.rotateRightY.bind(this), 'sectionclosed');
+		}.bind(this));
 	};
 
 	return Centerfold;
