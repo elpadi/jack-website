@@ -18,7 +18,7 @@
 			
 			<link rel="stylesheet" href="{{ pathPrefix }}css/dist/main.css" media="all">
 			{% if isLocal %}
-			<script src="{{ pathPrefix }}js/src/bower_components/modernizrdist/modernizr.js"></script>
+			<script src="{{ pathPrefix }}js/src/bower_components/modernizr/modernizr.js"></script>
 			{% else %}
 			<script src="{{ pathPrefix }}js/dist/vendor/modernizr.min.js"></script>
 			{% endif %}
@@ -49,9 +49,9 @@
 		{% block footer %}
 		{% endblock %}
 		{% if isLocal %}
-		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/dist/main"></script>
+		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/src/rjs.init"></script>
 		{% else %}
-		<script src="{{ pathPrefix }}js/dist/vendor/require.min.js" data-main="{{ pathPrefix }}js/dist/main.min"></script>
+		<script src="{{ pathPrefix }}js/dist/vendor/require.min.js" data-main="{{ pathPrefix }}js/dist/rjs.init"></script>
 		{% endif %}
 	</body>
 </html>

@@ -64,7 +64,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		);
 		$view->appendData(array(
 			'title' => 'JACK',
-			'isLocal' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")),
+			'isLocal' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")) || strpos($_SERVER['HTTP_HOST'], 'localhost') !== false,
 			'isLoggedIn' => $this->isUserLoggedIn(),
 			'isAdmin' => $this->isAdmin(),
 			'pathPrefix' => PATH_PREFIX,
@@ -97,7 +97,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	public function isAdmin() {
-		return $this->isUserLoggedIn() && \in_array($_SESSION['uid'], self::$adminIds);
+		return $this->isUserLoggedIn() && isset($_SESSION['uid']) && in_array($_SESSION['uid'], self::$adminIds);
 	}
 
 	public function requireLogin(\Slim\Route $route) {

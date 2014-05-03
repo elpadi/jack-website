@@ -17,7 +17,7 @@ define(['jquery','threejs','lib/fn/curry','site/Magazine','./Sheet','./Cover','.
 		$('#cover').on('sectionready', this.cover.show.bind(this.cover));
 		this.scene.add(this.cover.getObject3D());
 		
-		this.sheets = $container.find('.magazine-poster').first().map(function(i, el) {
+		this.sheets = $container.find('.magazine-poster').map(function(i, el) {
 			var sheet = new Sheet($(el), i + 1);
 			this.scene.add(sheet.getObject3D());
 			return sheet

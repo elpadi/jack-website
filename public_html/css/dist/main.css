@@ -480,10 +480,10 @@ body {
   position: relative;
   display: block;
 }
-.section-switcher--left-edge .section-switcher__nav__prev {
+.section-switcher__nav.left-edge .section-switcher__nav__prev {
   display: none;
 }
-.section-switcher--right-edge .section-switcher__nav__next {
+.section-switcher__nav.right-edge .section-switcher__nav__next {
   display: none;
 }
 #home-format td:first-child {
@@ -567,11 +567,11 @@ body.section-issue {
 .magazine__nav button {
   vertical-align: middle;
 }
-.magazine.section-switcher--left-edge .section-switcher__nav__prev {
+.section-switcher__nav.left-edge .section-switcher__nav__prev {
   display: inline;
   visibility: hidden;
 }
-.magazine.section-switcher--right-edge .section-switcher__nav__next {
+.section-switcher__nav.right-edge .section-switcher__nav__next {
   display: inline;
   visibility: hidden;
 }

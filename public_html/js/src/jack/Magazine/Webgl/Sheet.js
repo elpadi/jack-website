@@ -40,7 +40,7 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 		group.name = part;
 		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
 			plane.translateX(this.translations.x[index] * this.width);
-			plane.translateZ(this.translations.z[index]);
+			plane.translateZ(this.translations.z[index] * 0.25);
 			plane.visible = false;
 			group.add(plane);
 		}.bind(this));
@@ -127,9 +127,14 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 		this.resetAnimation(this.currentOpacity, 0, this.setOpacity.bind(this), 'sectionhide');
 	};
 
-	Sheet.prototype.flip = function() {
+	Sheet.prototype.flip = function(immediate) {
 		this.isShowingFront = !this.isShowingFront;
-		this.resetAnimation(this.whole.rotation.y, (Math.floor(this.whole.rotation.y / Math.PI) + 1) * Math.PI, this.rotateY.bind(this), 'sectionflip');
+		if (immediate) {
+			this.whole.rotation.y = (Math.floor(this.whole.rotation.y / Math.PI) + 1) * Math.PI;
+		}
+		else {
+			this.resetAnimation(this.whole.rotation.y, (Math.floor(this.whole.rotation.y / Math.PI) + 1) * Math.PI, this.rotateY.bind(this), 'sectionflip');
+		}
 	};
 
 	Sheet.prototype.open = function() {
@@ -139,7 +144,7 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 
 	Sheet.prototype.close = function() {
 		this.isOpen = false;
-		this.resetAnimation(this.whole.getObjectByName('right').rotation.y, this.rotations[1], this.rotateLeftY.bind(this), 'sectionclosed');
+		this.resetAnimation(this.whole.getObjectByName('right').rotation.y, this.rotations[1], this.rotateRightY.bind(this), 'sectionclosed');
 	};
 	
 	return Sheet;

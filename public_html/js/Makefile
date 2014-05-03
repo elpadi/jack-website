@@ -3,13 +3,9 @@
 JS_FILES := $(shell find dist -name \*.js -print)
 all: $(JS_FILES)
 
-dist/main.min.js: src/main.js dist/rjs.config
-	cp dist/rjs.config dist/main.min.js
-	groundskeeper < src/main.js | uglifyjs2 >> dist/main.min.js
-
-dist/main.js: src/main.js src/rjs.config
-	cp src/rjs.config dist/main.js
-	cat src/main.js >> dist/main.js
+dist/main.min.js: src/main.js dist/rjs.init.js
+	cp dist/rjs.init.js dist/main.min.js
+	cat src/main.js >> dist/main.min.js
 
 dist/vendor/jquery.min.js: src/bower_components/jquery/dist/jquery.min.js
 	cp src/bower_components/jquery/dist/jquery.min.js dist/vendor/jquery.min.js

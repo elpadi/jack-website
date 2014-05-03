@@ -8,4 +8,4 @@ require.config({
 		"SectionSwitcher": "lib/SectionSwitcher.min"
 	}
 });
-
+require(["main.min"]);

@@ -8,17 +8,62 @@ require(['jquery'], function(jquery) {
 	}
 });
 
+var Jack = {
+	Mag: {
+		Section: {
+			show: function($section) {
+				$section.data('magazine-section').show();
+			},
+			face: function($section, face, immediate) {
+				var section = $section.data('magazine-section');
+				console.log('Jack.Mag.Section.face --- face:', face);
+				if (typeof(face) !== 'string') return;
+				((face === 'front') !== section.isShowingFront) && section.flip(immediate);
+			},
+			select: function($mag, $section) {
+				$mag.data('magazine').currentSection = $section.data('magazine-section').getSectionIndex();
+			},
+			hide: function($section) {
+				$section.data('magazine-section').hide();
+			}
+		},
+		Thumbs: {
+			select: function($mag, sectionName, isFront) {
+				var $selected = $mag.find('.section-switcher__link').filter((i, el) => el.getAttribute('href') === '#' + sectionName);
+				$mag.find('.section-switcher__links').children().removeClass('selected selected--front selected--back');
+				$selected.closest('li').addClass('selected selected--' + (isFront ? 'front' : 'back'));
+			}
+		},
+		Nav: {
+			resetOpenToggler: function($mag, isOpen) {
+				$mag.find('.magazine__toggle-open-button').data('togglebutton').setState(isOpen ? 'close' : 'open');
+			},
+			resetUrls: function($mag, mag, sectionName) {
+				(sectionName !== 'centerfold') && $mag.find('.section-switcher__nav__next').attr('href', '#' + mag.getNextSection().name);
+				(sectionName !== 'cover') && $mag.find('.section-switcher__nav__prev').attr('href', '#' + mag.getPreviousSection().name);
+			},
+			setEdgeClassnames: function($mag, sectionName) {
+				$mag.find('.section-switcher__nav').toggleClass('left-edge', sectionName === 'cover').toggleClass('right-edge', sectionName === 'centerfold');
+			}
+		}
+	}
+};
+
 require(['jquery','SectionSwitcher'], function(jquery, SectionSwitcher) {
 	$('.magazine').on('sectionswitcher.switch', function(e) {
 		var $mag = $(e.target);
 		var mag = $mag.data('magazine');
-		var sectionName = mag.getCurrentSection().name;
+		var section = mag.getCurrentSection();
 		
-		console.log('magazine.switchsection --- sectionName', sectionName);
-		$mag.find('.magazine__toggle-open-button').text(mag.getCurrentSection().isOpen ? 'close' : 'open');
-		$mag.find('.section-switcher__nav').toggleClass('left-edge', sectionName === 'cover').toggleClass('right-edge', sectionName === 'centerfold');
-		(sectionName !== 'centerfold') && $mag.find('.section-switcher__nav__next').attr('href', '#' + mag.getNextSection().name);
-		(sectionName !== 'cover') && $mag.find('.section-switcher__nav__prev').attr('href', '#' + mag.getPreviousSection().name);
+		console.log('magazine.switchsection --- sectionName', section.name);
+		Jack.Mag.Nav.resetOpenToggler($mag, section.isOpen);
+		Jack.Mag.Nav.setEdgeClassnames($mag, mag, section.name);
+		Jack.Mag.Nav.resetUrls($mag, mag, section.name);
+		Jack.Mag.Thumbs.select($mag, section.name, section.isShowingFront);
+	}).on('magazine.sectionflip', function(e) {
+		var $mag = $(e.target);
+		var section = $mag.data('magazine').getCurrentSection();
+		Jack.Mag.Thumbs.select($mag, section.name, section.isShowingFront);
 	}).sectionswitcher({
 		currentIndex: 0,
 		show: function($section, $container) {
@@ -26,14 +71,12 @@ require(['jquery','SectionSwitcher'], function(jquery, SectionSwitcher) {
 		hide: function($section, $container) {
 		},
 		transition: function($newSection, $oldSection, $container) {
-			var mag = $container.data('magazine');
-			var section = $newSection.data('magazine-section');
-			console.log('magazine.transition --- section', section);
-			$oldSection.data('magazine-section').hide();
+			console.log('magazine.transition --- ');
+			Jack.Mag.Section.hide($oldSection);
 			$container.one('magazine.sectionhide', function() {
-				section.show();
-				mag.currentSection = section.getSectionIndex();
-				console.log(mag.currentSection);
+				Jack.Mag.Section.face($newSection, $($container.data('sectionswitcher').switchEvent.currentTarget).data('section-face'), true);
+				Jack.Mag.Section.show($newSection);
+				Jack.Mag.Section.select($container, $newSection);
 				$container.trigger('sectionswitcher.switch')
 			});
 		},

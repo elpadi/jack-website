@@ -1,7 +1,7 @@
 {% extends "site.twig" %}
 {% block content %}
 <h1>{{ issue.title }}</h1>
-<article class="magazine section-switcher section-switcher--left-edge" data-transition="fade" data-touch-transition="scroll" data-wrap-around="false" data-scroll-direction="horizontal">
+<article class="magazine section-switcher" data-transition="fade" data-touch-transition="scroll" data-wrap-around="false" data-scroll-direction="horizontal">
 	<p class="magazine__section-title text-right">&nbsp;</p>
 	<aside class="magazine__thumbs absolute-fixed" data-min-top="5">
 		<ol class="section-switcher__links">
@@ -21,7 +21,7 @@
 			</li>
 		</ol>
 	</aside>
-	<div class="magazine__nav section-switcher__nav">
+	<div class="magazine__nav section-switcher__nav left-edge right-edge">
 		<a class="section-switcher__nav__prev section-switcher__link" href="#">❮</a>
 		<button id="magazine__open-close-button" class="magazine__toggle-open-button toggle-button" data-toggle-text="open,close">open</button>
 		<button id="magazine__flip-button" class="magazine__flip-button">flip</button>
