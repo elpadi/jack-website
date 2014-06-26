@@ -457,6 +457,7 @@ table {
 body {
   margin: 0;
   font-family: helvetica, sans-serif;
+  background-color: #F5EEE4;
 }
 #container {
   text-align: center;
@@ -583,6 +584,9 @@ body.section-issue {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  font-size: 0.9em;
+  letter-spacing: -1px;
+  text-transform: lowercase;
 }
 .magazine__thumbs ol {
   list-style-type: none;
