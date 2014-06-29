@@ -71,10 +71,6 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'userAgent' => $userAgent->toArray(),
 		));
 		$this->app = $app;
-
-		if (!\sses_running()) {
-			\sses_start();
-		}
 	}
 
 	public function getAdminSections($currentSection) {

@@ -31,7 +31,8 @@
 		"danielstjules/stringy": "dev-master",
 		"swiftmailer/swiftmailer": "*",
 		"lstrojny/functional-php": "*",
-		"monolog/monolog": "*"
+		"monolog/monolog": "*",
+		"ptejada/uflex": "*"
 	},
 	"autoload": {
 		"psr-0": {
