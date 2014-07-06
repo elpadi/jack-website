@@ -48,7 +48,6 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'constructors' => array(),
 			'instances' => array(),
 		);
-		$userAgent = new \phpUserAgent();
 		$app = new \Slim\Slim(array(
 			'view' => new \Slim\Views\Twig()
 		));
@@ -62,6 +61,12 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$view->parserExtensions = array(
 			new \Slim\Views\TwigExtension(),
 		);
+		$this->app = $app;
+	}
+
+	public function init() {
+		$view = $this->app->view();
+		$userAgent = new \phpUserAgent();
 		$view->appendData(array(
 			'CONTACT_EMAIL' => 'dah@thejackmag.com',
 			'IS_LOCAL' => IS_LOCAL,
@@ -71,7 +76,6 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'pathPrefix' => PATH_PREFIX,
 			'userAgent' => $userAgent->toArray(),
 		));
-		$this->app = $app;
 	}
 
 	public function getAdminSections($currentSection) {
