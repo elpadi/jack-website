@@ -5,3 +5,9 @@ $db_config = array(
 	'user' => '',
 	'pass' => '',
 );
+$users_db_config = array(
+	'host' => '',
+	'name' => '',
+	'user' => '',
+	'pass' => '',
+);

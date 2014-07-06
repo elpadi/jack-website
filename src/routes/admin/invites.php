@@ -1,13 +1,15 @@
 <?php
 
-$app->get('/admin/invites', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+$can_edit_invites = curry(array($site, 'checkPermission'), 'edit invites');
+
+$app->get('/admin/invites', $can_edit_invites, function () use ($site, $app, $view) {
 	$app->render('admin/parts/invites.twig', array(
 		'title' => $view->get('title').' | Invites',
 		'sections' => $site->getAdminSections('Invites'),
 		'invites' => $site->getInvites(),
 	));
 })->setName('admin/invites');
-$app->get('/admin/invites/send', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+$app->get('/admin/invites/send', $can_edit_invites, function () use ($site, $app, $view) {
 	$id = $app->request->get('id');
 	$invite = $id ? $site->getInviteById($id) : new Jack\Invite();
 	$app->render('admin/parts/invites/send.twig', array(
@@ -16,7 +18,7 @@ $app->get('/admin/invites/send', array($site, 'requireAdmin'), function () use (
 		'invite' => $invite,
 	));
 })->setName('admin/send-invite');
-$app->post('/admin/invites/send', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+$app->post('/admin/invites/send', $can_edit_invites, function () use ($site, $app, $view) {
 	$invite = new Jack\Invite();
 	try {
 		$invite->setData($app->request->post());

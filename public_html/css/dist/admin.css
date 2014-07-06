@@ -1886,6 +1886,9 @@ textarea {
   min-width: 50%;
   min-height: 100px;
 }
+select {
+  min-width: 300px;
+}
 td {
   border: 1px solid #7bab2e;
   padding: 1em;

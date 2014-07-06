@@ -1,29 +1,132 @@
 <?php
 
-$app->get('/admin/users', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+$can_edit_users = curry(array($site, 'checkPermission'), 'edit users');
+$can_edit_acl = curry(array($site, 'checkPermission'), 'edit acl');
+
+$app->get('/admin/users', $can_edit_users, function () use ($site, $app, $view) {
+	$acl = $site->getService('acl');
 	$app->render('admin/parts/users.twig', array(
-		'sections' => $site->getAdminSections('Users'),
+		'users' => $site->fetchUsersData(),
+		'roles' => array_map(function($role) use ($acl) {
+			$perms = $acl->Roles->permissions($role['ID']);
+			$role['Permissions'] = $perms ? array_map(function($permID) use ($acl) { return $acl->Permissions->getTitle($permID); }, $perms) : array();
+			return $role;
+		}, $acl->Roles->descendants(1)),
+		'permissions' => $acl->Permissions->descendants(1),
 	));
 })->setName('admin/users');
-$app->get('/admin/users/create', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+$app->get('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
 	$app->render('admin/parts/user-add.twig', array(
-		'sections' => $site->getAdminSections('Users'),
+		'roles' => $site->getService('acl')->Roles->descendants(1),
 	));
 })->setName('admin/create-user');
-$app->post('/admin/users/create', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
-	$user = new Jack\User();
+$app->post('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
+	$user = $site->getService('user');
+	$post = $app->request->post();
 	try {
-		$user->setData($app->request->post());
-		$user->save($site);
+		$user->addNew($site->getService('users_db'), $site->getService('acl'), array(
+			'Password' => $post['plainpass'],
+			'Email' => $post['email'],
+			'Username' => $post['username'],
+		), $post);
 	}
 	catch (\Exception $e) {
-		echo "User not saved.";
+		$app->flash('error', "User was not created.");
 		if (DEBUG) {
-			echo ' --- '.$e->getFile().':'.$e->getLine().' - '.$e->getMessage();
-			exit(1);
+			$app->flash('error', $e->getFile().':'.$e->getLine().' - '.$e->getMessage());
+		}
+		$app->render('admin/parts/user-add.twig', array(
+			'values' => $post,
+			'roles' => $site->getService('acl')->Roles->children(1),
+		));
+	}
+	$app->flash('info', "New user '$post[username]' added.");
+	$app->redirect($app->urlFor('admin/users'));
+});
+
+$app->get('/admin/users/role/:id', $can_edit_acl, function ($id) use ($site, $app, $view) {
+	$acl = $site->getService('acl');
+	$title = $acl->Roles->getTitle($id);
+	if (!$title) {
+		return $app->notFound();
+	}
+	$app->render('admin/parts/edit-role.twig', array(
+		'title' => $title,
+		'id' => $id,
+		'permissions' => array_map(function($perm) use ($acl, $id) {
+			$perm['Selected'] = $acl->Roles->hasPermission($id, $perm['ID']);
+			return $perm;
+		}, $acl->Permissions->descendants(1)),
+	));
+})->setName('admin/role');
+$app->post('/admin/users/role/:id', $can_edit_acl, function () use ($site, $app, $view) {
+	$acl = $site->getService('acl');
+	$post = $app->request->post();
+	$id = $post['id'];
+	$title = $acl->Roles->getTitle($id);
+	if (!$title) {
+		return $app->notFound();
+	}
+	$current = $acl->Roles->permissions($id);
+	if ($current) {
+		foreach ($current as $pID) {
+			if (!in_array($pID, $post['permissions'])) {
+				$acl->Roles->unassign($id, $pID);
+			}
 		}
 	}
-	$app->flash('info', "User '$user->username' saved.");
+	foreach ($post['permissions'] as $pID) {
+		$acl->Roles->assign($id, $pID);
+	}
+	$app->flash('info', "ACL role '$title' saved.");
+	$app->redirect($app->urlFor('admin/users'));
+});
+
+$app->get('/admin/users/create-role', $can_edit_acl, function () use ($site, $app, $view) {
+	$app->render('admin/parts/create-role.twig', array(
+		'roles' => $site->getService('acl')->Roles->descendants(1),
+	));
+})->setName('admin/create-role');
+$app->post('/admin/users/create-role', $can_edit_acl, function () use ($site, $app, $view) {
+	$acl = $site->getService('acl');
+	$post = $app->request->post();
+	try {
+		$acl->Roles->add($post['name'], $post['description'], $post['parent']);
+	}
+	catch (\Exception $e) {
+		$app->flash('error', "ACL role was not saved.");
+		if (DEBUG) {
+			$app->flash('error', $e->getFile().':'.$e->getLine().' - '.$e->getMessage());
+		}
+		$app->render('admin/parts/create-role.twig', array(
+			'values' => $post,
+		));
+	}
+	$app->flash('info', "ACL role '$post[name]' saved.");
+	$app->redirect($app->urlFor('admin/users'));
+});
+
+$app->get('/admin/users/create-permission', $can_edit_acl, function () use ($site, $app, $view) {
+	$app->render('admin/parts/create-permission.twig', array(
+		'permissions' => $site->getService('acl')->Permissions->descendants(1),
+	));
+})->setName('admin/create-permission');
+$app->post('/admin/users/create-permission', $can_edit_acl, function () use ($site, $app, $view) {
+	$acl = $site->getService('acl');
+	$post = $app->request->post();
+	try {
+		$acl->Permissions->add($post['name'], $post['description'], $post['parent']);
+	}
+	catch (\Exception $e) {
+		$app->flash('error', "ACL permission was not saved.");
+		if (DEBUG) {
+			$app->flash('error', $e->getFile().':'.$e->getLine().' - '.$e->getMessage());
+		}
+		$app->render('admin/parts/create-permission.twig', array(
+			'values' => $post,
+		));
+	}
+	$app->flash('info', "ACL permission '$post[name]' saved.");
 	$app->redirect($app->urlFor('admin/users'));
 });
 

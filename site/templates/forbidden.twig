@@ -1,12 +1,7 @@
-<html>
-	<title>403 Forbidden</title>
-	<style>
-		p {
-			font-size:5em;
-			text-align:center;
-		}
-	</style>
-	<body>
-		<p>403 Forbidden</p>
-	</body>
-</html>
+{% extends "site.twig" %}
+{% block content %}
+<article>
+<p>You are not authorized to access this page. Please <a href="{{ urlFor('login') }}">login here</a> if you have an account.<br>
+Otherwise you can <a href="mailto:{{ CONTACT_EMAIL }}">send us a message</a> if you are having problems loggin in, or to request an invitation.</p>
+</article>
+{% endblock %}

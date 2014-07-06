@@ -1,12 +1,30 @@
 <?php
 
-$app->get('/user/login', function () use ($app, $view) {
+$app->get('/user/login', function () use ($site, $app, $view) {
 	$app->render('parts/user/login-form.twig', array(
-		'nonce' => \ulNonce::Create('login'),
+		'nonce' => $site->getService('nonce')->create('login'),
 		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
-		'email' => isset($_GET['email']) ? $_GET['email'] : '',
-		'title' => $view->get('title') . ' | Login',
+		'title' => 'Login',
 		'section' => 'login',
 	));
 })->setName('login');
-$app->post('/user/login', array($site, 'actionLogin'));
+$app->post('/user/login', function () use ($site, $app, $view) {
+	$post = $app->request->post();
+	$error = function($msg) use ($site, $app) {
+		$app->flash('error', $msg);
+		$app->render('parts/user/login-form.twig', array(
+			'nonce' => $site->getService('nonce')->create('login'),
+			'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
+			'values' => $post,
+			'title' => 'Login',
+			'section' => 'login',
+		));
+	};
+	if (!$site->getService('nonce')->check($post['nonce'], 'login')) {
+		return $error("Invalid request. Please try again.");
+	}
+	if (!$site->getService('user')->login($post['username'], $post['password'])) {
+		return $error("Invalid username/password combination.");
+	}
+	$app->redirect($post['destination']);
+});

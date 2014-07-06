@@ -1,12 +1,14 @@
 <?php
 
-$app->get('/admin/issues', array($site, 'requireAdmin'), function () use ($site, $app, $view) {
+$can_edit_issues = curry(array($site, 'checkPermission'), 'edit issues');
+
+$app->get('/admin/issues', $can_edit_issues, function () use ($site, $app, $view) {
 	$app->render('admin/parts/issues.twig', array(
 		'title' => $view->get('title').' | Issues',
 		'issues' => $site->getIssues(),
 	));
 })->setName('admin/issues');
-$app->get('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->get('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	try {
 		$issue = $site->getIssueBySlug($slug);
 	}
@@ -23,7 +25,7 @@ $app->get('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) 
 		'sections' => $site->getAdminSections('Issues'),
 	));
 })->setName('admin/issue');
-$app->post('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->post('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	try {
 		$issue->update($app->request->post(), $site, $site);
@@ -34,7 +36,7 @@ $app->post('/admin/issues/:slug', array($site, 'requireAdmin'), function ($slug)
 	}
 	$app->redirect($app->urlFor('admin/issue', array('slug' => $issue->slug)));
 })->setName('admin/issue/update');
-$app->post('/admin/issues/:slug/images', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->post('/admin/issues/:slug/images', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');
 	$issue = $site->getIssueBySlug($slug);
 	try {
@@ -46,7 +48,7 @@ $app->post('/admin/issues/:slug/images', array($site, 'requireAdmin'), function 
 	}
 })->setName('admin/issue/update-images');
 
-$app->get('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->get('/admin/issues/:slug/pages', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	$posters = $site->getPostersByIssueId($issue->id);
 	$app->render('admin/parts/pages.twig', array(
@@ -56,7 +58,7 @@ $app->get('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($
 		'posters' => $posters,
 	));
 })->setName('admin/issue/pages');
-$app->post('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->post('/admin/issues/:slug/pages', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');
 	$issue = $site->getIssueBySlug($slug);
 	try {
@@ -67,7 +69,7 @@ $app->post('/admin/issues/:slug/pages', array($site, 'requireAdmin'), function (
 		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
 });
-$app->get('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->get('/admin/issues/:slug/pages/add', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	$app->render('admin/parts/add_page.twig', array(
 		'title' => $view->get('title').' | Add poster to '.$issue->title,
@@ -75,7 +77,7 @@ $app->get('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), functio
 		'sections' => $site->getAdminSections('Issues'),
 	));
 })->setName('admin/issue/newpage');
-$app->post('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), function ($slug) use ($site, $app, $view) {
+$app->post('/admin/issues/:slug/pages/add', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	$poster = new Jack\Poster();
 	$poster->issueId = $issue->id;
@@ -91,7 +93,7 @@ $app->post('/admin/issues/:slug/pages/add', array($site, 'requireAdmin'), functi
 		}
 	}
 });
-$app->post('/admin/issues/poster/delete/:id', array($site, 'requireAdmin'), function ($id) use ($site, $app, $view) {
+$app->post('/admin/issues/poster/delete/:id', $can_edit_issues, function ($id) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');
 	$poster = $site->getPosterById($id);
 	try {

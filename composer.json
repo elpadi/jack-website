@@ -32,6 +32,8 @@
 		"swiftmailer/swiftmailer": "*",
 		"lstrojny/functional-php": "*",
 		"monolog/monolog": "*",
+		"owasp/phprbac": "2.*",
+		"wukka/nonce": "*",
 		"ptejada/uflex": "*"
 	},
 	"autoload": {

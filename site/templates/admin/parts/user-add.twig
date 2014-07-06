@@ -1,16 +1,37 @@
 {% extends "admin/site.twig" %}
 {% block content %}
 <h1>Create new user</h1>
-<header>
-	<ul>
-		<li><a href="{{ urlFor('admin/users') }}">Back to users</a></li>
-	</ul>
-</header>
 <form method="POST" action="{{ urlFor('admin/create-user') }}">
-	<label>Username (email): <input type="email" name="username" required="required"></label>
-	<br >
+	<hr>
+	<h2>User information</h2>
+	<label>Username: <input type="text" name="username" required="required"></label>
+	<br>
 	<label>Password: <input type="password" name="plainpass" required="required"></label>
-	<br >
+	<br>
+	<label>Full name: <input type="text" name="fullname"></label>
+	<br>
+	<label>Email: <input type="email" name="email" required="required"></label>
+	<br>
+	<label>Company: <input type="text" name="company"></label>
+	<br>
+	<label>Position: <input type="text" name="position"></label>
+	<br>
+	<hr>
+	<h2>Roles</h2>
+	<p>The roles selected determine the pages this user will be able to access.</p>
+	<label>Select the roles for this user:
+		<br>
+		<br>
+		<select name="roles" multiple>
+			{% for r in roles %}
+			<option value="{{ r.ID }}">{{ r.Title }}</option>
+			{% endfor %}
+		</select>
+	</label>
+	<br>
+	<br>
+	<hr>
+	<br>
 	<input type="submit" value="create">
 </form>
 {% endblock %}

@@ -1,9 +1,73 @@
 {% extends "admin/site.twig" %}
 {% block content %}
-<h1>Users</h1>
-<header>
-	<ul>
-		<li><a href="{{ urlFor('admin/create-user') }}">Create new user</a></li>
-	</ul>
-</header>
+<h1>User management</h1>
+<h2>Current users</h2>
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Username</th>
+			<th>Email</th>
+			<th>Full Name</th>
+			<th>Company</th>
+			<th>Position</th>
+			<th>Roles</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for u in users %}
+		<tr>
+			<td>{{ u.ID }}</td>
+			<td>{{ u.Username }}</td>
+			<td>{{ u.Email }}</td>
+			<td>{{ u.full_name }}</td>
+			<td>{{ u.company }}</td>
+			<td>{{ u.position }}</td>
+			<td>{{ u.roles | join(', ') }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<p><a href="{{ urlFor('admin/create-user') }}">Create a new user</a></p>
+<h1>Access management</h1>
+<h2>Current roles</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Permissions</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for r in roles %}
+		<tr>
+			<td>{{ r.Title }}</td>
+			<td>{{ r.Description }}</td>
+			<td>{{ r.Permissions | join(', ') }}</td>
+			<td><a href="{{ urlFor('admin/role', { id: r.ID }) }}">Edit permissions</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<p><a href="{{ urlFor('admin/create-role') }}">Create a new ACL role</a></p>
+<h2>Current permissions</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for p in permissions %}
+		<tr>
+			<td>{{ p.Title }}</td>
+			<td>{{ p.Description }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<p><a href="{{ urlFor('admin/create-permission') }}">Create a new ACL permission</a></p>
 {% endblock %}

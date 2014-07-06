@@ -75,4 +75,19 @@ function delTree($dir) {
 	return rmdir($dir);
 }
 
-
+function curry($fn) {
+	$args = array_slice(func_get_args(), 1);
+	return function() use(&$fn, &$args) {
+		$new_args = func_get_args();
+		$final_args = array();
+		foreach ($args as &$arg) {
+			if ($arg === null and count($new_args) > 0) {
+				$final_args[] = array_shift($new_args);
+			}
+			else {
+				$final_args[] = $arg;
+			}
+		}
+		return call_user_func_array($fn, $final_args);
+	};
+}

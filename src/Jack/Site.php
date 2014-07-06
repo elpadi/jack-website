@@ -63,10 +63,11 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			new \Slim\Views\TwigExtension(),
 		);
 		$view->appendData(array(
-			'title' => 'JACK',
-			'isLocal' => in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")) || strpos($_SERVER['HTTP_HOST'], 'localhost') !== false,
-			'isLoggedIn' => $this->isUserLoggedIn(),
-			'isAdmin' => $this->isAdmin(),
+			'CONTACT_EMAIL' => 'dah@thejackmag.com',
+			'IS_LOCAL' => IS_LOCAL,
+			'CAN_ACCESS_ADMIN' => $this->hasPermission('access admin'),
+			'IS_LOGGED_IN' => intval($this->getService('user')->ID) > 0,
+			'BASE_TITLE' => 'JACK | ',
 			'pathPrefix' => PATH_PREFIX,
 			'userAgent' => $userAgent->toArray(),
 		));
@@ -85,57 +86,18 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		});
 	}
 
-	public function isUserLoggedIn() {
-		if (!IS_LOGIN_REQUIRED) {
-			return true;
+	protected function hasPermission($permission) {
+		$user = $this->getService('user');
+		if (!$user->isSigned()) {
+			return false;
 		}
-		return isset($_SESSION['uid']) && isset($_SESSION['username']) && isset($_SESSION['loggedIn']) && ($_SESSION['loggedIn']===true);
+		return $this->getService('acl')->check($permission, $user->ID);
 	}
 
-	public function isAdmin() {
-		return $this->isUserLoggedIn() && isset($_SESSION['uid']) && in_array($_SESSION['uid'], self::$adminIds);
-	}
-
-	public function requireLogin(\Slim\Route $route) {
-		if (!$this->isUserLoggedIn()) {
-			$this->notAuthorized();
+	public function checkPermission($permission) {
+		if (!$this->hasPermission($permission)) {
+			$this->redirect('/forbidden');
 		}
-	}
-
-	public function requireAdmin(\Slim\Route $route) {
-		if (!$this->isAdmin()) {
-			$this->notAuthorized();
-		}
-	}
-
-	public function notAuthorized() {
-		header('HTTP/1.0 403 Forbidden');
-		echo $this->parseTemplate('forbidden');
-		exit(1);
-	}
-
-	public function actionLogin() {
-		$site = $this;
-		$success = function() use ($site) {
-			$site->redirect($_POST['destination']);
-		};
-		$error = function($msg) use ($site) {
-			$site->notAuthorized();
-		};
-		new \uLogin();
-		$uLogin = new \uLogin(function($uid, $username, $uLogin) use ($success) {
-			$_SESSION['uid'] = $uid;
-			$_SESSION['username'] = $username;
-			$_SESSION['loggedIn'] = true;
-			$uLogin->SetAutologin($username, true);
-			$success();
-		}, function($uid, $username, $uLogin) use ($error) {
-			$error('Invalid email/password combination.');
-		});
-		if (!isset($_POST['nonce']) || !\ulNonce::Verify('login', $_POST['nonce'])) {
-			$error('Invalid submission. Please try again.');
-		}
-		$uLogin->Authenticate($_POST['email'], $_POST['password']);
 	}
 
 	public function addService($name, $constructor) {
@@ -230,6 +192,16 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$stmt->setFetchMode(\PDO::FETCH_CLASS, 'Jack\Invite');
 		$invite = $stmt->fetch();
 		return $invite;
+	}
+
+	public function fetchUsersData() {
+		$users = array();
+		$stmt = $this->getService('users_db')->query('SELECT * FROM `Users` JOIN `user_data` ON `Users`.`ID`=`user_id`');
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			$row['roles'] = array_map(function($role) { return $role['Title']; }, $this->getService('acl')->Users->allRoles($row['ID']));
+			$users[] = $row;
+		}
+		return $users;
 	}
 
 	public function getInvites() {

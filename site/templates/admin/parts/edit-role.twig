@@ -1,0 +1,19 @@
+{% extends "admin/site.twig" %}
+{% block content %}
+<h1>Edit ACL role &quot;{{ title }}&quot;</h1>
+<hr>
+<form method="POST" action="{{ urlFor('admin/role', { id: id }) }}">
+	<input type="hidden" name="id" value="{{ id }}">
+	<h2>Permissions</h2>
+	<fieldset name="permissions">
+		{% for p in permissions %}
+		<label><input name="permissions[]" value="{{ p.ID }}" type="checkbox" {% if p.Selected %}checked{% endif %}> {{ p.Title }}</label><br>
+		{% endfor %}
+	</fieldset>
+	<br>
+	<hr>
+	<br>
+	<input type="submit" value="update">
+</form>
+{% endblock %}
+
