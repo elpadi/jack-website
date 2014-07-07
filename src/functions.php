@@ -91,3 +91,7 @@ function curry($fn) {
 		return call_user_func_array($fn, $final_args);
 	};
 }
+
+function slug($s, $separator="-") {
+	return trim(preg_replace('/[^a-zA-Z0-9]+/', $separator, strtolower($s)), $separator);
+}

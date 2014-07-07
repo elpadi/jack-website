@@ -19,17 +19,41 @@ body {
 	text-align:center;
 }
 
+#masthead {
+	> h1, ul {
+		margin:0;
+		padding:0;
+		line-height:70px;
+	}
+	> h1 {
+		float:left;
+	}
+	> nav {
+		float:right;
+		width:75%;
+	}
+	ul {
+		list-style-type:none;
+		text-align:center;
+	}
+	li {
+		display:inline-block;
+		margin:0 2%;
+	}
+	&::after {
+		clear:both;
+		display:block;
+		visibility:hidden;
+		content:' ';
+		height:0;
+	}
+}
+
 #content {
 	margin:0 auto;
 	max-width:980px;
 	text-align:left;
 	display:inline-block;
-}
-
-.admin-link {
-	position:fixed;
-	top:0;
-	right:0;
 }
 
 @import "components/section-switcher.less";

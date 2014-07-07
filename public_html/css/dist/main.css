@@ -462,16 +462,39 @@ body {
 #container {
   text-align: center;
 }
+#masthead > h1,
+#masthead ul {
+  margin: 0;
+  padding: 0;
+  line-height: 70px;
+}
+#masthead > h1 {
+  float: left;
+}
+#masthead > nav {
+  float: right;
+  width: 75%;
+}
+#masthead ul {
+  list-style-type: none;
+  text-align: center;
+}
+#masthead li {
+  display: inline-block;
+  margin: 0 2%;
+}
+#masthead::after {
+  clear: both;
+  display: block;
+  visibility: hidden;
+  content: ' ';
+  height: 0;
+}
 #content {
   margin: 0 auto;
   max-width: 980px;
   text-align: left;
   display: inline-block;
-}
-.admin-link {
-  position: fixed;
-  top: 0;
-  right: 0;
 }
 .section-switcher__section {
   position: absolute;

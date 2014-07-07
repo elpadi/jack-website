@@ -65,6 +65,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	public function init() {
+		$app = $this->app;
 		$view = $this->app->view();
 		$userAgent = new \phpUserAgent();
 		$view->appendData(array(
@@ -73,8 +74,14 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'CAN_ACCESS_ADMIN' => $this->hasPermission('access admin'),
 			'IS_LOGGED_IN' => intval($this->getService('user')->ID) > 0,
 			'BASE_TITLE' => 'JACK | ',
-			'pathPrefix' => PATH_PREFIX,
-			'userAgent' => $userAgent->toArray(),
+			'PATH_PREFIX' => PATH_PREFIX,
+			'user_agent' => $userAgent->toArray(),
+			'menu_links' => array_map(function($l) use ($app) {
+				return array(
+					'title' => $l,
+					'url' => $app->urlFor(slug($l, '_')),
+				);
+			}, array('About','Issues')),
 		));
 	}
 
@@ -91,6 +98,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	protected function hasPermission($permission) {
+		return true;
 		$user = $this->getService('user');
 		if (!$user->isSigned()) {
 			return false;

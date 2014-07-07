@@ -9,27 +9,45 @@
 	{% block head %}
 			<meta charset="utf-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
-			<title>{{ title }}</title>
+			<title>{{ BASE_TITLE }}{{ title }}</title>
 			<meta name="description" content="The Jack Mag. Seasonal poster size magazine. The best of the best of each season.">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
-			<link rel="stylesheet" href="{{ pathPrefix }}css/dist/main.css" media="all">
+			<link rel="stylesheet" href="{{ PATH_PREFIX }}css/dist/main.css" media="all">
 			{% if isLocal %}
-			<script src="{{ pathPrefix }}js/src/bower_components/modernizr/modernizr.js"></script>
+			<script src="{{ PATH_PREFIX }}js/src/bower_components/modernizr/modernizr.js"></script>
 			{% else %}
-			<script src="{{ pathPrefix }}js/dist/vendor/modernizr.min.js"></script>
+			<script src="{{ PATH_PREFIX }}js/dist/vendor/modernizr.min.js"></script>
 			{% endif %}
 
 	{% endblock %}
 	</head>
-	<body class="os-{{ userAgent.operating_system }} browser-{{ userAgent.browser_name }} version-{{ userAgent.browser_version }} section-{{ section }}">
+	<body class="os-{{ user_agent.operating_system }} browser-{{ user_agent.browser_name }} version-{{ user_agent.browser_version }} section-{{ section }}">
 		<div id="container">
-			{% if isAdmin %}
+			{% if IS_ADMIN %}
 			<a class="admin-link button" href="{{ urlFor('admin/home') }}">Admin section</a>
 			{% endif %}
+			<header id="masthead">
+				<h1>JACK</h1>
+				{% block menu %}
+				<nav id="main-nav" role="navigation">
+					<ul>
+						{% for l in menu_links %}
+						<li {% if selected_link == l.title %}class="selected"{% endif %}><a href="{{ l.url }}">{{ l.title }}</a></li>
+						{% endfor %}
+						{% if CAN_ACCESS_ADMIN %}
+						<li><a href="{{ urlFor('admin') }}">Admin</a></li>
+						{% endif %}
+						{% if IS_LOGGED_IN %}
+						<li><span id="user-fullname">{{ user.fullname }}</span><a href="{{ urlFor('logout') }}">Logout</a></li>
+						{% endif %}
+					</ul>
+				</nav>
+				{% endblock %}
+			</header>
 			{% block header %}
 			{% endblock %}
 			{% block notice %}
@@ -49,9 +67,9 @@
 		{% block footer %}
 		{% endblock %}
 		{% if isLocal %}
-		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/src/rjs.init"></script>
+		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
 		{% else %}
-		<script src="{{ pathPrefix }}js/dist/vendor/require.min.js" data-main="{{ pathPrefix }}js/dist/rjs.init"></script>
+		<script src="{{ PATH_PREFIX }}js/dist/vendor/require.min.js" data-main="{{ PATH_PREFIX }}js/dist/rjs.init"></script>
 		{% endif %}
 	</body>
 </html>

@@ -16,15 +16,13 @@ error_reporting(DEBUG ? E_ERROR | E_WARNING | E_PARSE | E_NOTICE : 0);
 
 require(VENDOR_DIR.'/autoload.php');
 $site = new Jack\Site();
-require(ROOT_DIR.'/src/services.php');
-$site->init();
-
 $app = $site->app;
 $view = $app->view();
-
 $it = new RecursiveDirectoryIterator(ROOT_DIR.'/src/routes');
 foreach(new RecursiveIteratorIterator($it) as $file) {
 	if (is_file($file)) {
 		require($file);
 	}
 }
+require(ROOT_DIR.'/src/services.php');
+$site->init();
