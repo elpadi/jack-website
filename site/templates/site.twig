@@ -52,10 +52,9 @@
 			{% endblock %}
 			{% block notice %}
 			{% if flash|length > 0 %}
-			<div class="notices">
-				{% for f in flash %}
-				<p>{{ f }}</p>
-				{% endfor %}
+			<div id="notices">
+				<p class="info">{{ flash.info }}</p>
+				<p class="error">{{ flash.error }}</p>
 			</div>
 			{% endif %}
 			{% endblock %}

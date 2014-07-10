@@ -4,7 +4,7 @@ all:
 
 db-export:
 	mysqldump -uroot -pelpadi dahlen_jack > site/db-dump.sql
-	cat site/db-dump.sql | gzip > db-dump.sql.gz
+	mysqldump -uroot -pelpadi dahlen_jack_users > site/usersdb-dump.sql
 
 ftp-sync: js
 	echo "open jack" > /tmp/ftp-up

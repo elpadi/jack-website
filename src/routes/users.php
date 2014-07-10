@@ -5,7 +5,7 @@ $app->get('/user/login', function () use ($site, $app, $view) {
 		'nonce' => $site->getService('nonce')->create('login'),
 		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
 		'title' => 'Login',
-		'section' => 'login',
+		'section' => 'user',
 	));
 })->setName('login');
 $app->post('/user/login', function () use ($site, $app, $view) {
@@ -17,7 +17,7 @@ $app->post('/user/login', function () use ($site, $app, $view) {
 			'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
 			'values' => $post,
 			'title' => 'Login',
-			'section' => 'login',
+			'section' => 'user',
 		));
 	};
 	if (!$site->getService('nonce')->check($post['nonce'], 'login')) {
