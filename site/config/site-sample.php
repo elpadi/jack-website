@@ -1,3 +1,3 @@
 <?php
-define('IS_LOGIN_REQUIRED', true);
+define('GUEST_USER_ID', 0);
 define('NONCE_SECRET', '');

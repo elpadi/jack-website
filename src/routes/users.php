@@ -10,8 +10,8 @@ $app->get('/user/login', function () use ($site, $app, $view) {
 })->setName('login');
 $app->post('/user/login', function () use ($site, $app, $view) {
 	$post = $app->request->post();
-	$error = function($msg) use ($site, $app) {
-		$app->flash('error', $msg);
+	$error = function($msg) use ($site, $app, $post) {
+		$app->flashNow('error', $msg);
 		$app->render('parts/user/login-form.twig', array(
 			'nonce' => $site->getService('nonce')->create('login'),
 			'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
@@ -28,3 +28,8 @@ $app->post('/user/login', function () use ($site, $app, $view) {
 	}
 	$app->redirect($post['destination']);
 });
+$app->get('/user/logout', function () use ($site, $app, $view) {
+	$site->getService('user')->logout();
+	$app->flash('info', "You have successfully logged out.");
+	$app->redirect(isset($_GET['destination']) ? $_GET['destination'] : '/');
+})->setName('logout');
