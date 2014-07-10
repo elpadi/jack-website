@@ -15,6 +15,7 @@ ini_set('display_errors', DEBUG ? 'on' : 'off');
 error_reporting(DEBUG ? E_ERROR | E_WARNING | E_PARSE | E_NOTICE : 0);
 
 require(VENDOR_DIR.'/autoload.php');
+require(ROOT_DIR.'/src/vendor/owasp/phprbac/PhpRbac/autoload.php');
 $site = new Jack\Site();
 $app = $site->app;
 $view = $app->view();
