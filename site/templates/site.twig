@@ -43,6 +43,8 @@
 						{% endif %}
 						{% if IS_LOGGED_IN %}
 						<li><span id="user-fullname">{{ user.fullname }}</span><a href="{{ urlFor('logout') }}">Logout</a></li>
+						{% else %}
+						<li><a href="{{ urlFor('login') }}">Login</a></li>
 						{% endif %}
 					</ul>
 				</nav>

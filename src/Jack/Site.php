@@ -68,11 +68,12 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$app = $this->app;
 		$view = $this->app->view();
 		$userAgent = new \phpUserAgent();
+		$user_id = intval($this->getService('user')->ID);
 		$view->appendData(array(
 			'CONTACT_EMAIL' => 'dah@thejackmag.com',
 			'IS_LOCAL' => IS_LOCAL,
 			'CAN_ACCESS_ADMIN' => $this->hasPermission('access admin'),
-			'IS_LOGGED_IN' => intval($this->getService('user')->ID) > 0,
+			'IS_LOGGED_IN' => $user_id > 0 && $user_id !== GUEST_USER_ID,
 			'BASE_TITLE' => 'JACK | ',
 			'PATH_PREFIX' => PATH_PREFIX,
 			'user_agent' => $userAgent->toArray(),
@@ -98,12 +99,8 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	}
 
 	protected function hasPermission($permission) {
-		return true;
 		$user = $this->getService('user');
-		if (!$user->isSigned()) {
-			return false;
-		}
-		return $this->getService('acl')->check($permission, $user->ID);
+		return $this->getService('acl')->check($permission, $user->isSigned() ? $user->ID : GUEST_USER_ID);
 	}
 
 	public function checkPermission($permission) {
