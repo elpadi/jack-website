@@ -15,7 +15,7 @@ class Rbac
 {
     public function __construct($config)
     {
-        if ((string) $config === 'unit_test') {
+        if ($config === 'unit_test') {
             require_once dirname(dirname(__DIR__)) . '/tests/database/database.config';
         } else {
 			extract($config);

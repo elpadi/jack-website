@@ -17,7 +17,7 @@
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
 			<link rel="stylesheet" href="{{ PATH_PREFIX }}css/dist/main.css" media="all">
-			{% if isLocal %}
+			{% if IS_LOCAL %}
 			<script src="{{ PATH_PREFIX }}js/src/bower_components/modernizr/modernizr.js"></script>
 			{% else %}
 			<script src="{{ PATH_PREFIX }}js/dist/vendor/modernizr.min.js"></script>
@@ -67,7 +67,7 @@
 		</div>
 		{% block footer %}
 		{% endblock %}
-		{% if isLocal %}
+		{% if IS_LOCAL %}
 		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
 		{% else %}
 		<script src="{{ PATH_PREFIX }}js/dist/vendor/require.min.js" data-main="{{ PATH_PREFIX }}js/dist/rjs.init"></script>

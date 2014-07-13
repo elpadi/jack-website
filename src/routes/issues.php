@@ -1,6 +1,5 @@
 <?php
-
-$can_access_issues = curry(array($site, 'checkPermission'), 'access issues');
+$can_access_issues = curry(array($site, 'checkPermission'), 'access content');
 
 $app->get('/issues', $can_access_issues, function () use ($site, $app, $view) {
 	$app->render('parts/issues.twig', array(
@@ -19,3 +18,4 @@ $app->get('/issues/:slug', $can_access_issues, function ($slug) use ($site, $app
 		'posters' => $posters,
 	));
 })->setName('issue');
+
