@@ -76,6 +76,8 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'IS_LOGGED_IN' => $user_id > 0 && $user_id !== GUEST_USER_ID,
 			'BASE_TITLE' => 'JACK | ',
 			'PATH_PREFIX' => PATH_PREFIX,
+			'USER_ID' => $user_id > 0 ? $user_id : GUEST_USER_ID,
+			'PIWIK_URL' => PIWIK_URL,
 			'user_agent' => $userAgent->toArray(),
 			'menu_links' => array_map(function($l) use ($app) {
 				return array(
