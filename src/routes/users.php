@@ -3,7 +3,7 @@
 $app->get('/user/login', function () use ($site, $app, $view) {
 	$app->render('parts/user/login-form.twig', array(
 		'nonce' => $site->getService('nonce')->create('login'),
-		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
+		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : PATH_PREFIX),
 		'title' => 'Login',
 		'section' => 'user',
 	));
@@ -14,7 +14,7 @@ $app->post('/user/login', function () use ($site, $app, $view) {
 		$app->flashNow('error', $msg);
 		$app->render('parts/user/login-form.twig', array(
 			'nonce' => $site->getService('nonce')->create('login'),
-			'destination' => (isset($_GET['destination']) ? $_GET['destination'] : '/'),
+			'destination' => (isset($_GET['destination']) ? $_GET['destination'] : PATH_PREFIX),
 			'values' => $post,
 			'title' => 'Login',
 			'section' => 'user',
@@ -31,5 +31,5 @@ $app->post('/user/login', function () use ($site, $app, $view) {
 $app->get('/user/logout', function () use ($site, $app, $view) {
 	$site->getService('user')->logout();
 	$app->flash('info', "You have successfully logged out.");
-	$app->redirect(isset($_GET['destination']) ? $_GET['destination'] : '/');
+	$app->redirect(isset($_GET['destination']) ? $_GET['destination'] : PATH_PREFIX);
 })->setName('logout');
