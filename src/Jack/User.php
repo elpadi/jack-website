@@ -3,6 +3,8 @@ namespace Jack;
 
 class User extends \ptejada\uFlex\User {
 
+	public $userData;
+
 	public function __construct(array $info=array()) {
 		global $users_db_config;
 		$this->config['database'] = array(
@@ -29,43 +31,12 @@ class User extends \ptejada\uFlex\User {
 			throw new \Exception("Error registering new user.");
 		}
 	}
-	/*
-	public $id = 0;
-	public $username = "";
-	public $password = "";
-	public $plainpass = "";
 
-	public function __construct() {
-	}
-
-	public function setData($data) {
-		$this->id = isset($data['id']) ? (int)($data['id']) : 0;
-		if (isset($data['username'])) {
-			$this->username = $data['username'];
-		}
-		if (isset($data['plainpass'])) {
-			$this->plainpass = $data['plainpass'];
+	public function fetchData($users_db) {
+		if (!$this->userData) {
+			$stmt = $users_db->query('SELECT * FROM `user_data` WHERE `user_id`='.intval($this->ID));
+			$this->userData = $stmt->fetch(\PDO::FETCH_ASSOC);
 		}
 	}
-
-	public function save(DbAccess $db) {
-		$uLogin = new \uLogin();
-		if ($this->id === 0) {
-			$uLogin->CreateUser($this->username, $this->plainpass);
-		}
-	}
-
-	public function login() {
-		$uLogin = new \uLogin(function($uid, $username, $uLogin) {
-			$_SESSION['uid'] = $uid;
-			$_SESSION['username'] = $username;
-			$_SESSION['loggedIn'] = true;
-			$uLogin->SetAutologin($username, true);
-		}, function($uid, $username, $uLogin) {
-			throw new \Exception("Error logging in.");
-		});
-		$uLogin->Authenticate($this->username, $this->plainpass);
-	}
-	 */
 
 }

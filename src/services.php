@@ -68,9 +68,10 @@ $site->addService('acl', function() {
 	return $rbac;
 });
 
-$site->addService('user', function() {
+$site->addService('user', function() use ($site) {
 	$user = new Jack\User();
 	$user->start(true);
+	$user->fetchData($site->getService('users_db'));
 	return $user;
 });
 

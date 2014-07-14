@@ -77,6 +77,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'BASE_TITLE' => 'JACK | ',
 			'PATH_PREFIX' => PATH_PREFIX,
 			'USER_ID' => $user_id > 0 ? $user_id : GUEST_USER_ID,
+			'NAME' => $user_id > 0 ? $this->getService('user')->userData['full_name'] : 'Guest',
 			'PIWIK_URL' => PIWIK_URL,
 			'user_agent' => $userAgent->toArray(),
 			'menu_links' => array_map(function($l) use ($app) {
