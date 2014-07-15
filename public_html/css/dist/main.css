@@ -462,7 +462,7 @@ body {
 #container {
   text-align: center;
   min-width: 360px;
-  max-width: 1280px;
+  max-width: 980px;
   margin: 0 auto;
 }
 /* Narrow pages */
@@ -586,6 +586,9 @@ body.section-issue {
 .section-issue h1 {
   display: none;
 }
+.section-issue #masthead {
+  display: none;
+}
 .section-issue #container,
 .section-issue #content,
 .section-issue .magazine,
@@ -593,6 +596,8 @@ body.section-issue {
 .section-issue .section-switcher__sections-container {
   height: 100%;
   width: 100%;
+  max-width: none;
+  max-height: none;
 }
 .section-issue #content {
   max-width: 100%;
@@ -603,6 +608,8 @@ body.section-issue {
 .section-switcher__sections-container {
   padding: 0 12%;
   position: relative;
+  background: transparent url(../images/backgrounds/29jun14_bkln32c.jpg) center center no-repeat;
+  background-size: cover;
 }
 .magazine__section img {
   width: 33.33%;
@@ -639,6 +646,7 @@ body.section-issue {
 .magazine__nav a {
   text-decoration: none;
   font-size: 3em;
+  color: black;
 }
 .magazine__nav button {
   margin: 0 0.5em;
@@ -692,9 +700,6 @@ body.section-issue {
 }
 /**************************
  * ***** Issue Webgl ******/
-.webgl .magazine__sections > canvas {
-  background-color: white;
-}
 .webgl .magazine__section {
   display: none;
 }

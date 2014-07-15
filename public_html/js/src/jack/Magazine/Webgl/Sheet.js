@@ -14,6 +14,7 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 
 		_.each(parts, function(part) {
 			this.whole.add(part);
+			part.translateY(0.5);
 		}.bind(this));
 		$sheet.data('magazine-section', this);
 	}

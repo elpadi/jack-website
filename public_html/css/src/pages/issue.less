@@ -9,9 +9,14 @@ html, body.section-issue {
 	h1 {
 		display:none;
 	}
+	#masthead {
+		display:none;
+	}
 	#container, #content, .magazine, .magazine__section, .section-switcher__sections-container {
 		height:100%;
 		width:100%;
+		max-width:none;
+		max-height:none;
 	}
 	#content {
 		max-width:100%;
@@ -23,6 +28,8 @@ html, body.section-issue {
 .section-switcher__sections-container {
 	padding:0 12%;
 	position:relative;
+	background:transparent url(../images/backgrounds/29jun14_bkln32c.jpg) center center no-repeat;
+	background-size:cover;
 }
 .magazine__section img {
 	width:33.33%;
@@ -66,6 +73,7 @@ html, body.section-issue {
 	a {
 		text-decoration:none;
 		font-size:3em;
+		color:black;
 	}
 	button {
 		margin:0 0.5em;
@@ -122,9 +130,6 @@ html, body.section-issue {
 /**************************
  * ***** Issue Webgl ******/
 .webgl {
-	.magazine__sections > canvas {
-		background-color:white;
-	}
 	.magazine__section {
 		display:none;
 	}

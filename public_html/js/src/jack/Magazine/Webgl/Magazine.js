@@ -4,10 +4,9 @@ define(['jquery','threejs','lib/fn/curry','site/Magazine','./Sheet','./Cover','.
 		Magazine.call(this, $container);
 		this.scene = new THREE.Scene();
 		this.camera = new THREE.PerspectiveCamera(55, this.width / this.height, 0.1, 1000);
-		this.renderer = new THREE.WebGLRenderer();
+		this.renderer = new THREE.WebGLRenderer({ alpha: true });
 
 		this.camera.position.z = 15;
-		this.renderer.setClearColor(0xffffff, 1);
 		this.renderer.setSize(this.width, this.height)
 		$container.find('.magazine__sections').append(this.renderer.domElement);
 		
