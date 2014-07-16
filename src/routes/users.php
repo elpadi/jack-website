@@ -26,7 +26,7 @@ $app->post('/user/login', function () use ($site, $app, $view) {
 	if (!$site->getService('user')->login($post['username'], $post['password'])) {
 		return $error("Invalid username/password combination.");
 	}
-	$app->redirect($post['destination']);
+	$app->redirect($app->urlFor('welcome'));
 });
 $app->get('/user/logout', function () use ($site, $app, $view) {
 	$site->getService('user')->logout();

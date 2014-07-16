@@ -29,7 +29,7 @@ var Jack = {
 		},
 		Thumbs: {
 			select: function($mag, sectionName, isFront) {
-				var $selected = $mag.find('.section-switcher__link').filter((i, el) => el.getAttribute('href') === '#' + sectionName);
+				var $selected = $mag.find('.section-switcher__link').filter(function(i, el) { return el.getAttribute('href') === '#' + sectionName; });
 				$mag.find('.section-switcher__links').children().removeClass('selected selected--front selected--back');
 				$selected.closest('li').addClass('selected selected--' + (isFront ? 'front' : 'back'));
 			}
