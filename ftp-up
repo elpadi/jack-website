@@ -7,7 +7,7 @@ put -O /project/site/config/ site/config/invite.remote.php -o invite.php
 #put -O /project/site/config/ site/config/site.remote.php -o site.php
 
 mirror --delete --only-newer -R site/templates/ /project/site/templates
-mirror --delete --only-newer -R src/ /project/src
+mirror --delete --only-newer -R -x 'vendor' src/ /project/src
 
 mirror --delete --only-newer -R -x '\.git' vendor/composer/ /project/vendor/composer
 mirror --delete --only-newer -R -x '\.git' vendor/wukka/ /project/vendor/wukka
@@ -32,6 +32,7 @@ put -O /project/vendor vendor/autoload.php
 
 mirror --delete --only-newer -R -x '\.git' public_html/js/dist /public_html/project/js/dist
 mirror --delete --only-newer -R -x '\.git' public_html/css/dist /public_html/project/css/dist
+mirror --delete --only-newer -R -x '\.git' public_html/css/images /public_html/project/css/images
 put -O /public_html/project public_html/index.php
 put -O /public_html/project public_html/config.dirs.remote.php -o config.dirs.php
 put -O /public_html/project public_html/.htaccess.remote -o .htaccess

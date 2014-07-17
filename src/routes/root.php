@@ -10,26 +10,22 @@ $app->get('/', $can_access_site, function () use ($site, $app, $view) {
 	));
 })->setName('home');
 $app->get('/welcome', $can_access_site, function () use ($site, $app, $view) {
-	$app->render('parts/introduction.twig', array(
+	$app->render('parts/welcome.twig', array(
 		'title' => 'Welcome',
-		'section' => 'home',
+		'section' => 'welcome',
 	));
 })->setName('welcome');
 $app->get('/questions', $can_access_site, function () use ($site, $app, $view) {
 	$app->render('parts/questions.twig', array(
 		'title' => 'Questions',
-		'section' => 'home',
+		'section' => 'questions',
 		'answers_url' => $app->urlFor('answers'),
 	));
 })->setName('questions');
 $app->get('/answers', $can_access_site, function () use ($site, $app, $view) {
 	$app->render('parts/answers.twig', array(
 		'title' => 'Answers',
-		'section' => 'home',
-		'images' => array(
-			'why_a' => $site->asset('images/unsq_a.jpg'),
-			'why_b' => $site->asset('images/unsq_b.jpg'),
-		),
+		'section' => 'answers',
 	));
 })->setName('answers');
 $app->get('/about', function () use ($site, $app, $view) {
