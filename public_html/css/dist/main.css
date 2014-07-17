@@ -579,6 +579,10 @@ body {
 .section-welcome #masthead {
   display: none;
 }
+.section-welcome #content {
+  padding-bottom: 20%;
+  position: relative;
+}
 .section-welcome h2 {
   font-size: 1.65em;
   letter-spacing: -4px;
@@ -586,6 +590,23 @@ body {
 .section-welcome footer {
   margin-top: 5%;
   text-align: right;
+}
+#welcome-links {
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  bottom: 0;
+}
+#welcome-links a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+#welcome-links a:first-child {
+  float: left;
+}
+#welcome-links a:last-child {
+  float: right;
 }
 .section-questions {
   background: url(../images/backgrounds/questions.jpg) right bottom no-repeat;
@@ -694,6 +715,7 @@ body {
   text-overflow: clip;
 }
 .section-answers article {
+  position: relative;
   padding: 0 5%;
   line-height: 0.9;
   margin-bottom: 10%;
@@ -754,6 +776,27 @@ body {
   background-clip: content-box;
   z-index: -2;
   background-blend-mode: multiply;
+}
+#answers-links {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  bottom: -2.5%;
+  font-size: 3em;
+  letter-spacing: 0;
+  font-weight: 500;
+  right: 5%;
+}
+#answers-links a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+#answers-links a:first-child {
+  float: left;
+}
+#answers-links a:last-child {
+  float: right;
 }
 .issues-list img {
   display: block;

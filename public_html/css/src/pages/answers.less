@@ -47,6 +47,7 @@
 		text-overflow:clip;
 	}
 	article {
+		position:relative;
 		padding:0 5%;
 		line-height:0.9;
 		margin-bottom:10%;
@@ -107,5 +108,26 @@
 		background-clip:content-box;
 		z-index:-2;
 		background-blend-mode:multiply;
+	}
+}
+#answers-links {
+	position:absolute;
+	width:100%;
+	overflow:hidden;
+	bottom:-2.5%;
+	font-size:3em;
+	letter-spacing:0;
+	font-weight:500;
+	right:5%;
+	a {
+		color:white;
+		text-decoration:none;
+		text-transform:uppercase;
+		&:first-child {
+			float:left;
+		}
+		&:last-child {
+			float:right;
+		}
 	}
 }

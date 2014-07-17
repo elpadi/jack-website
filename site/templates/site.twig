@@ -32,31 +32,14 @@
 			{% endif %}
 			<header id="masthead">
 				<h1>JACK</h1>
-				{% block menu %}
-				<nav id="main-nav" role="navigation">
-					<ul>
-						{% for l in menu_links %}
-						<li {% if selected_link == l.title %}class="selected"{% endif %}><a href="{{ l.url }}">{{ l.title }}</a></li>
-						{% endfor %}
-						{% if CAN_ACCESS_ADMIN %}
-						<li><a href="{{ urlFor('admin') }}">Admin</a></li>
-						{% endif %}
-						{% if IS_LOGGED_IN %}
-						<li><span id="user-fullname">{{ user.fullname }}</span><a href="{{ urlFor('logout') }}">Logout</a></li>
-						{% else %}
-						<li><a href="{{ urlFor('login') }}">Login</a></li>
-						{% endif %}
-					</ul>
-				</nav>
-				{% endblock %}
 			</header>
 			{% block header %}
 			{% endblock %}
 			{% block notice %}
 			{% if flash|length > 0 %}
 			<div id="notices">
-				<p class="info">{{ flash.info }}</p>
-				<p class="error">{{ flash.error }}</p>
+				{% if flash.info %}<p class="info">{{ flash.info }}</p>{% endif %}
+				{% if flash.error %}<p class="error">{{ flash.error }}</p>{% endif %}
 			</div>
 			{% endif %}
 			{% endblock %}

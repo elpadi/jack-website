@@ -1,6 +1,3 @@
-
-mirror --delete --only-newer -R src/ /project/src
-
 put -O /project/site/config/ site/config/db.remote.php -o db.php
 put -O /project/site/config/ site/config/smtp.remote.php -o smtp.php
 put -O /project/site/config/ site/config/invite.remote.php -o invite.php

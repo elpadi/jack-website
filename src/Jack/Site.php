@@ -108,7 +108,8 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 
 	public function checkPermission($permission) {
 		if (!$this->hasPermission($permission)) {
-			$this->redirect('/forbidden');
+			$this->app->flash('info', "Please login in order to access the site.");
+			$this->app->redirect($this->app->urlFor('login'));
 		}
 	}
 

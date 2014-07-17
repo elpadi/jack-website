@@ -7,6 +7,10 @@
 	#masthead {
 		display:none;
 	}
+	#content {
+		padding-bottom:20%;
+		position:relative;
+	}
 	h2 {
 		font-size:1.65em;
 		letter-spacing:-4px;
@@ -14,5 +18,22 @@
 	footer {
 		margin-top:5%;
 		text-align:right;
+	}
+}
+#welcome-links {
+	position:absolute;
+	width:100%;
+	overflow:auto;
+	bottom:0;
+	a {
+		color:white;
+		text-decoration:none;
+		text-transform:uppercase;
+		&:first-child {
+			float:left;
+		}
+		&:last-child {
+			float:right;
+		}
 	}
 }
