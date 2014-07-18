@@ -454,6 +454,11 @@ table {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+html {
+  margin: 0;
+  padding: 0;
+  min-height: 100% !important;
+}
 body {
   margin: 0;
   font-family: helvetica, sans-serif;
@@ -614,6 +619,7 @@ body {
   font-size: 2em;
   letter-spacing: -2px;
   color: #b4b4ac;
+  padding-bottom: 10%;
 }
 .section-questions #content {
   max-width: none;
@@ -803,13 +809,10 @@ body {
   width: 150px;
 }
 /** Skeleton Layout **/
-html,
-body.section-issue {
+.section-issue {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-.section-issue {
   overflow: hidden;
 }
 .section-issue h1 {
