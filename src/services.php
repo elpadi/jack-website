@@ -35,7 +35,7 @@ $site->addService('templates', function() use ($smtp_config) {
 	$loader = new Twig_Loader_Filesystem(TEMPLATE_DIR);
 	$twig = new Twig_Environment($loader, array(
 		'debug' => DEBUG,
-		'cache' => CACHE_DIR.'/twig',
+		'cache' => DEBUG ? '' : CACHE_DIR.'/twig',
 	));
 	return $twig;
 });

@@ -1,0 +1,1 @@
+define([],function(){return function isLinkInternal(link){return!(link.href.indexOf("http")===0&&link.href.indexOf(location.protocol+"//"+location.host)!==0)}});

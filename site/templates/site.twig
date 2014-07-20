@@ -16,16 +16,18 @@
 			<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
-			<link rel="stylesheet" href="{{ PATH_PREFIX }}css/dist/main.css" media="all">
+			<link rel="stylesheet" href="{{ STYLES_PATH }}/main.css" media="all">
+			<link rel="stylesheet" href="{{ STYLES_PATH }}/sections/{{ section }}.css" media="all">
+			<link rel="stylesheet" href="{{ STYLES_PATH }}/pages/{{ page }}.css" media="all">
 			{% if IS_LOCAL %}
 			<script src="{{ PATH_PREFIX }}js/src/bower_components/modernizr/modernizr.js"></script>
 			{% else %}
-			<script src="{{ PATH_PREFIX }}js/dist/vendor/modernizr.min.js"></script>
+			<script src="{{ PATH_PREFIX }}js/dist/vendor/modernizr.js"></script>
 			{% endif %}
 
 	{% endblock %}
 	</head>
-	<body class="os-{{ user_agent.operating_system }} browser-{{ user_agent.browser_name }} version-{{ user_agent.browser_version }} section-{{ section }}">
+	<body class="os-{{ user_agent.operating_system }} browser-{{ user_agent.browser_name }} version-{{ user_agent.browser_version }} section-{{ section }} page-{{ page }}">
 		<div id="container">
 			{% if IS_ADMIN %}
 			<a class="admin-link button" href="{{ urlFor('admin/home') }}">Admin section</a>
@@ -50,10 +52,10 @@
 		</div>
 		{% block footer %}
 		{% endblock %}
-		{% if IS_LOCAL %}
+		{% if DEBUG %}
 		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
 		{% else %}
-		<script src="{{ PATH_PREFIX }}js/dist/vendor/require.min.js" data-main="{{ PATH_PREFIX }}js/dist/rjs.init"></script>
+		<script src="{{ PATH_PREFIX }}js/dist/vendor/require.js" data-main="{{ PATH_PREFIX }}js/dist/rjs.init"></script>
 		{% endif %}
 		<script>
 			var _paq = _paq || [];

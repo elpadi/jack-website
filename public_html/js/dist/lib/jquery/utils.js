@@ -1,0 +1,1 @@
+define(["jquery"],function(jquery){$.fn.hasScrollbar=function(){if(!this.length)return false;return this[0].clientHeight<this[0].scrollHeight};$.fn.refresh=function(){var _this,ctx=this.context,sel=this.selector;if(/^\.[0-9a-zA-Z_]+\(.*\)$/.test(sel)){_this=eval("$(ctx)"+sel)}else{_this=$(sel,ctx)}return _this};return{}});

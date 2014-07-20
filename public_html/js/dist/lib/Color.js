@@ -1,0 +1,1 @@
+define(["./strings"],function(str){function Color(r,g,b,a){if(arguments.length<4){a=1}this.r=r;this.g=g;this.b=b;this.a=a}Color.prototype={setAlpha:function(a){if(a>=0&&a<=1){this.a=a;return this}throw"Invalid value."},toString:function(){return str.sprintf("rgba(%d,%d,%d,%d)",this.r,this.g,this.b,this.a)}};return Color});

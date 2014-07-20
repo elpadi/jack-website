@@ -1,0 +1,1 @@
+define([],function(){return{easing:"linear",setEasing:function(easing){if(!(easing in jQuery.easing)){throw"The easing function '"+easing+"' is not in jQuery.easing"}this.easing=easing}}});

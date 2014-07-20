@@ -6,6 +6,12 @@ require(['jquery'], function(jquery) {
 			}
 		});
 	}
+	if (document.body.className.indexOf('section-welcome') !== -1) {
+		$(window).on('resize', function() {
+			var $cont = $('#container');
+			$cont.css('margin-top', $cont.outerHeight() < window.innerHeight ? ((window.innerHeight - $cont.outerHeight()) / 2) + 'px' : '');
+		}).resize();
+	}
 });
 
 var Jack = {

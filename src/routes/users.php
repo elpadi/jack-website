@@ -6,6 +6,7 @@ $app->get('/user/login', function () use ($site, $app, $view) {
 		'destination' => (isset($_GET['destination']) ? $_GET['destination'] : PATH_PREFIX),
 		'title' => 'Login',
 		'section' => 'user',
+		'page' => 'login',
 	));
 })->setName('login');
 $app->post('/user/login', function () use ($site, $app, $view) {
@@ -18,6 +19,7 @@ $app->post('/user/login', function () use ($site, $app, $view) {
 			'values' => $post,
 			'title' => 'Login',
 			'section' => 'user',
+			'page' => 'login',
 		));
 	};
 	if (!$site->getService('nonce')->check($post['nonce'], 'login')) {

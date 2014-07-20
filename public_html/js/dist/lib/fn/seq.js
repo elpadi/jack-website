@@ -1,0 +1,1 @@
+define([],function(){return function seq(fn1,fn2){var fns=Array.prototype.slice.call(arguments,0),l=arguments.length;return function seqRun(){for(var i=0;i<l;i++){fns[i].call(this)}}}});

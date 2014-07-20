@@ -1,7 +1,11 @@
-all: dist/admin.css dist/main.css
+DIRS := $(shell find src -mindepth 1 -type d | sed 's/^src/dist/')
+DIST_FILES := $(shell find src -type f -name '*.css' | sed 's/^src/dist/')
 
-dist/admin.css: src/admin.less src/pages src/lib src/components
-	lessc src/admin.less > dist/admin.css
+.PHONY: all
+all: $(DIRS) $(DIST_FILES)
 
-dist/main.css: src/main.less src/sections src/pages src/lib src/components
-	lessc src/main.less > dist/main.css
+dist/%.css: src/%.css
+	cleancss $< > $@
+
+$(DIRS):
+	if [ ! -d $@ ]; then mkdir -p $@; fi

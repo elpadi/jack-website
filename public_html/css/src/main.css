@@ -1,0 +1,85 @@
+@import "lib/normalize.css";
+@import "lib/classes.css";
+
+@import  "fonts.css";
+* {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html {
+  margin: 0;
+  padding: 0;
+  min-height: 100% !important;
+}
+body {
+  min-width: 360px;
+  max-width: 980px;
+  margin: 0 auto;
+  font-family: helvetica, sans-serif;
+  background-color: #F5EEE4;
+}
+#container {
+	padding:0 1%;
+}
+#masthead > h1,
+#masthead ul {
+  margin: 0;
+  padding: 0;
+  line-height: 70px;
+}
+#masthead > h1 {
+  float: left;
+}
+#masthead > nav {
+  float: right;
+  width: 75%;
+}
+#masthead ul {
+  list-style-type: none;
+  text-align: right;
+}
+#masthead li {
+  display: inline-block;
+  margin: 0 2%;
+}
+#masthead::after {
+  clear: both;
+  display: block;
+  visibility: hidden;
+  content: ' ';
+  height: 0;
+}
+#notices {
+  text-align: left;
+}
+#notices p {
+  border: 1px solid transparent;
+  margin-bottom: 5%;
+  padding: 4%;
+}
+#notices p:last-child {
+  margin-bottom: 0;
+}
+#notices .info {
+  background-color: #BBB;
+  border-color: #999;
+}
+#notices .error {
+  background-color: #ff9999;
+  border-color: #ff6666;
+}
+/*
+@import "components/section-switcher.css";
+
+@import "sections/user.css";
+
+@import "pages/home.css";
+@import "pages/welcome.css";
+@import "pages/questions.css";
+@import "pages/answers.css";
+@import "pages/issues.css";
+@import "pages/issue.css";
+@import "pages/nda.css";
+*/

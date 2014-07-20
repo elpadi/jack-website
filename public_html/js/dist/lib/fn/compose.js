@@ -1,0 +1,1 @@
+define([],function(){return function compose(fn1,fn2){var fns=Array.prototype.slice.call(arguments,0);return function composed(){var val=fns[fns.length-1].apply(this,arguments);for(var i=fns.length-2;i>=0;i--){val=fns[i](val)}return val}}});

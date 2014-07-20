@@ -1,0 +1,1 @@
+define([],function(){return{none:function($out,$in,fn){$out.css("display","none");$in.css("display","block");fn()},fade:function($out,$in,fn,duration){$out.fadeOut(duration,function(){$in.fadeIn(duration);fn()})}}});

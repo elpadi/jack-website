@@ -76,6 +76,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'IS_LOGGED_IN' => $user_id > 0 && $user_id !== GUEST_USER_ID,
 			'BASE_TITLE' => 'JACK | ',
 			'PATH_PREFIX' => PATH_PREFIX,
+			'STYLES_PATH' => PATH_PREFIX.'css/'.(DEBUG ? 'src' : 'dist'),
 			'USER_ID' => $user_id > 0 ? $user_id : GUEST_USER_ID,
 			'NAME' => $user_id > 0 ? $this->getService('user')->userData['full_name'] : 'Guest',
 			'PIWIK_URL' => PIWIK_URL,
@@ -85,7 +86,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 					'title' => $l,
 					'url' => $app->urlFor(slug($l, '_')),
 				);
-			}, array('About','Issues')),
+			}, array(/*'About','Issues'*/)),
 		));
 	}
 
@@ -108,6 +109,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 
 	public function checkPermission($permission) {
 		if (!$this->hasPermission($permission)) {
+			header('HTTP/1.0 403 Forbidden');
 			$this->app->flash('info', "Please login in order to access the site.");
 			$this->app->redirect($this->app->urlFor('login'));
 		}

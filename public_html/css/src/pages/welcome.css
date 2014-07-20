@@ -1,0 +1,45 @@
+body {
+	min-width:765px;
+  font-size: 2em;
+  letter-spacing: -2px;
+}
+#container {
+  background-image:url(../../images/backgrounds/welcome.jpg);
+	padding-bottom:74.96%;
+}
+#content {
+	padding:2% 1% 0;
+}
+h2 {
+  font-size: 1.65em;
+  letter-spacing: -4px;
+	margin:0;
+}
+#content > article {
+	line-height:1;
+}
+#content > footer {
+	position:absolute;
+	right:3%;
+	bottom:3%;
+}
+#content > footer p {
+	margin:0;
+}
+#welcome-links {
+	margin-top:5%;
+  width: 100%;
+  overflow: auto;
+}
+#welcome-links > a {
+  color: white;
+  text-decoration: none;
+}
+#welcome-links > a:first-child {
+  float: left;
+	color:#c8ecdb;
+}
+#welcome-links > a:last-child {
+  float: right;
+	color:#f1f5c1;
+}

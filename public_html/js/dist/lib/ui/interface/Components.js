@@ -1,0 +1,1 @@
+define(["lib/fn/bind"],function(bind){return{addComponent:function(component){for(var eventName in component){this.on(eventName,bind(component[eventName],this))}return this}}});

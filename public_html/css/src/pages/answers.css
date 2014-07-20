@@ -1,0 +1,136 @@
+html {
+	background-color:black;
+}
+body {
+	width:830px;
+}
+#container {
+  background-image: url(../../images/backgrounds/answers.jpg);
+	background-repeat:repeat-y;
+  position: relative;
+  font-family: 'Helvetica Neue', helvetica, sans-serif;
+  background-size: 100% auto;
+  letter-spacing: -1px;
+  font-weight: 100;
+  color: #d6d6d4;
+	height:auto;
+	margin-top:6%;
+}
+#container::after {
+  box-sizing: border-box;
+  position: absolute;
+  content: '';
+  width: 100%;
+  height:94.46%;
+  left: 0;
+  top: 0;
+  background: #939ded url(../../images/backgrounds/answers.jpg) center top repeat-y;
+  background-size: 100% auto;
+  padding: 6.4% 5.07%;
+  background-clip: content-box;
+  background-blend-mode: multiply;
+}
+#content {
+	position:relative;
+	z-index:1;
+  padding-bottom: 43em;
+}
+/*
+.section-answers header,
+.section-answers footer {
+  overflow: hidden;
+  width: 100%;
+  float: left;
+}
+*/
+#content > header {
+  margin-bottom: 6%;
+}
+#content h2 {
+  margin: -0.25em 0 0;
+  font-size: 4.4em;
+  font-weight: 500;
+  letter-spacing: -6px;
+  color: #ebe695;
+  white-space: nowrap;
+  text-overflow: clip;
+	overflow:hidden;
+}
+#content > footer {
+  font-size:31.5em;
+  position:absolute;
+	width:100%;
+	height:0.84em;
+  bottom:0;
+	overflow:hidden;
+  color:#e4e0a2;
+  opacity:0.09;
+  font-weight:500;
+  letter-spacing:-0.1em;
+  line-height:1;
+  text-align:center;
+	text-indent:-8%;
+}
+#content > footer p {
+  white-space: nowrap;
+  text-overflow: clip;
+	margin:0;
+}
+#content > article {
+  position: relative;
+  padding: 0 3%;
+  line-height: 0.9;
+  margin-bottom: 10%;
+  clear: both;
+}
+#content > article > div {
+  position: relative;
+  margin-top: 6%;
+}
+#content > article dt {
+  font-size: 1.4em;
+  font-weight: 500;
+  margin-bottom: 0.1em;
+  color: white;
+}
+#content > article dd {
+  margin:0 2.75%;
+  font-size: 1.05em;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.95;
+}
+#content > article p {
+  margin: 0;
+}
+#content > article .dark {
+  color: #a8a79d;
+}
+#why-me {
+  padding-bottom: 106%;
+  background: url(../../images/backgrounds/subway.jpg) center bottom no-repeat;
+  background-size: 100% auto;
+}
+#sponsors::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 250%;
+  right: 0;
+  top: -70%;
+  background: url(../../images/backgrounds/sponsors-street.jpg) right center no-repeat;
+  background-size: auto 100%;
+}
+#answers-links {
+  position: absolute;
+  top: 45%;
+	right:0;
+  font-size: 2.5em;
+  letter-spacing:-4px;
+  font-weight: 500;
+}
+#answers-links a {
+  color: white;
+  text-decoration: none;
+}

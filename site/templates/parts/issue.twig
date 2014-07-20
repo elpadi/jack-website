@@ -10,7 +10,7 @@
 				<a href="#cover" class="section-switcher__link" data-section-face="back"><img src="{{ issue.covers.poster_thumb }}" alt=""></a>
 			</li>
 			{% for p in posters %}
-			<li data-poster-size="36,24"><span class="thumb__title">Page {{ loop.index }}</span>
+			<li data-poster-size="36,24"><span class="thumb__title">Poster {{ loop.index }}</span>
 				<a href="#sheet-{{ loop.index }}" class="section-switcher__link" data-section-face="front"><img src="{{ p.front.thumb }}" alt=""></a>
 				<a href="#sheet-{{ loop.index }}" class="section-switcher__link" data-section-face="back"><img src="{{ p.back.thumb }}" alt=""></a>
 			</li>
