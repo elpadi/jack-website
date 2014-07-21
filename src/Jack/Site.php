@@ -71,6 +71,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$user_id = intval($this->getService('user')->ID);
 		$view->appendData(array(
 			'CONTACT_EMAIL' => 'dah@thejackmag.com',
+			'DEBUG' => DEBUG,
 			'IS_LOCAL' => IS_LOCAL,
 			'CAN_ACCESS_ADMIN' => $this->hasPermission('access admin'),
 			'IS_LOGGED_IN' => $user_id > 0 && $user_id !== GUEST_USER_ID,

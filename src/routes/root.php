@@ -30,3 +30,16 @@ $app->get('/answers', $can_access_site, function () use ($site, $app, $view) {
 		'page' => 'answers',
 	));
 })->setName('answers');
+$app->get('/add-shader', $can_access_site, function () use ($site, $app, $view) {
+	$shaderDir = TEMPLATE_DIR.'/shaders/'.$_GET['s'];
+	if (!is_dir($shaderDir)) {
+		$app->pass();
+	}
+	$app->response->headers->set('Content-Type', 'text/javascript');
+	echo 'define([], function() { return {'.
+		'uniforms: '.str_replace("\n", '', file_get_contents("$shaderDir/uniforms.js")).','.
+		'attributes: '.str_replace("\n", '', file_get_contents("$shaderDir/attributes.js")).','.
+		'vertexShader: "'.str_replace("\n", '', file_get_contents("$shaderDir/vertex.glsl")).'",'.
+		'fragmentShader: "'.str_replace("\n", '', file_get_contents("$shaderDir/fragment.glsl")).'"'.
+	'}; });';
+})->setName('shader');

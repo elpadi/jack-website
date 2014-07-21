@@ -3,27 +3,28 @@ define(['jquery','threejs','lib/fn/curry','site/Magazine','./Sheet','./Cover','.
 	function WebglMagazine($container) {
 		Magazine.call(this, $container);
 		this.scene = new THREE.Scene();
-		this.camera = new THREE.PerspectiveCamera(55, this.width / this.height, 0.1, 1000);
-		this.renderer = new THREE.WebGLRenderer({ alpha: true });
+		this.camera = new THREE.PerspectiveCamera(65, this.width / this.height, 0.1, 2000);
+		this.createRenderer();
+		this.settings = {
+			rotAngles: [0,0],
+			rotDistances: [0,0],
+			crossfade: 0,
+			openclose: { stack: [], phase: 0 },
+			sides: [true, true],
+			front: null,
+			back: null,
+			newFront: null,
+			newBack: null
+		};
+		this._animations = {
+			current: ''
+		};
 
-		this.camera.position.z = 15;
-		this.renderer.setSize(this.width, this.height)
+		this.camera.position.z = 999;
 		$container.find('.magazine__sections').append(this.renderer.domElement);
 		
 		$container.on('webglrefresh', this.render.bind(this));
-
-		this.cover = new Cover($('#cover'));
-		$('#cover').on('sectionready', this.cover.show.bind(this.cover));
-		this.scene.add(this.cover.getObject3D());
-		
-		this.sheets = $container.find('.magazine-poster').map(function(i, el) {
-			var sheet = new Sheet($(el), i + 1);
-			this.scene.add(sheet.getObject3D());
-			return sheet
-		}.bind(this)).get();
-		
-		this.centerfold = new Centerfold($('#centerfold'));
-		this.scene.add(this.centerfold.getObject3D());
+		this.addRenderObjects();
 	}
 
 	function A() {}
@@ -31,8 +32,18 @@ define(['jquery','threejs','lib/fn/curry','site/Magazine','./Sheet','./Cover','.
 	WebglMagazine.prototype = new A();
 	WebglMagazine.prototype.constructor = WebglMagazine;
 
+	WebglMagazine.prototype.createRenderer = function() {};
+	WebglMagazine.prototype.addRenderObjects = function() {};
+
 	WebglMagazine.prototype.render = function() {
 		this.renderer.render(this.scene, this.camera);
+	};
+
+	WebglMagazine.prototype.resize = function(w, h) {
+		this.renderer.setSize(w, h);
+		this.camera.aspect = w / h;
+		this.camera.updateProjectionMatrix();
+		this.renderer.domElement.style.paddingTop = ((window.innerHeight - h) / 2) + 'px';
 	};
 
 	return WebglMagazine;

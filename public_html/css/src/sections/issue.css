@@ -12,6 +12,12 @@ body {
   overflow: hidden;
 	font-family:'Helvetica Neue',helvetica,sans-serif;
 }
+canvas {
+	display:block;
+	margin:0 auto;
+	background-color:black;
+	background-clip:content-box;
+}
 #container {
 	padding:0;
 }

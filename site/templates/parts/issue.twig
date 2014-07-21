@@ -11,8 +11,8 @@
 			</li>
 			{% for p in posters %}
 			<li data-poster-size="36,24"><span class="thumb__title">Poster {{ loop.index }}</span>
-				<a href="#sheet-{{ loop.index }}" class="section-switcher__link" data-section-face="front"><img src="{{ p.front.thumb }}" alt=""></a>
-				<a href="#sheet-{{ loop.index }}" class="section-switcher__link" data-section-face="back"><img src="{{ p.back.thumb }}" alt=""></a>
+				<a href="#poster-{{ loop.index }}" class="section-switcher__link" data-section-face="front"><img src="{{ p.front.thumb }}" alt=""></a>
+				<a href="#poster-{{ loop.index }}" class="section-switcher__link" data-section-face="back"><img src="{{ p.back.thumb }}" alt=""></a>
 			</li>
 			{% endfor %}
 			<li data-poster-size="36,48"><span class="thumb__title">Centerfold</span>
@@ -28,31 +28,31 @@
 		<a class="section-switcher__nav__next section-switcher__link" href="#">❯</a>
 	</div>
 	<div class="magazine__sections section-switcher__sections-container">
-		<section id="cover" class="magazine__section section-switcher__section magazine-cover" data-titles="Front cover / Back Cover / Index,Cover poster" data-poster-size="54,24">
-			<img class="front middle magazine-cover__front-cover" src="{{ issue.covers.front }}" alt="">
-			<img class="front left magazine-cover__back-cover" src="{{ issue.covers.back }}" alt="">
-			<img class="front right magazine-cover__cover-index" src="{{ issue.covers.index }}" alt="">
-			<img class="back middle magazine-cover__poster-middle" src="{{ issue.covers.poster_middle }}" alt="">
-			<img class="back left magazine-cover__poster-right" src="{{ issue.covers.poster_right }}" alt="">
-			<img class="back right magazine-cover__poster-left" src="{{ issue.covers.poster_left }}" alt="">
+		<section id="cover" class="magazine__section section-switcher__section magazine-cover" data-src-front="{{ issue.covers.covers }}" data-src-back="{{ issue.covers.poster }}">
+			<img class="front middle magazine-cover__front-cover" data-src="{{ issue.covers.front }}" src="/blank.gif" alt="">
+			<img class="front left magazine-cover__back-cover" data-src="{{ issue.covers.back }}" src="/blank.gif" alt="">
+			<img class="front right magazine-cover__cover-index" data-src="{{ issue.covers.index }}" src="/blank.gif" alt="">
+			<img class="back middle magazine-cover__poster-middle" data-src="{{ issue.covers.poster_middle }}" src="/blank.gif" alt="">
+			<img class="back left magazine-cover__poster-right" data-src="{{ issue.covers.poster_right }}" src="/blank.gif" alt="">
+			<img class="back right magazine-cover__poster-left" data-src="{{ issue.covers.poster_left }}" src="/blank.gif" alt="">
 		</section>
 		{% for p in posters %}
-		<section id="sheet-{{ loop.index }}" class="magazine__section section-switcher__section magazine-poster" data-titles="Page {{ loop.index }} front,Page {{ loop.index }} back"  data-poster-size="36,24">
-			<img class="front left magazine-poster__front-left" src="{{ p.front.left }}" alt="">
-			<img class="front right magazine-poster__front-right" src="{{ p.front.right }}" alt="">
-			<img class="back left magazine-poster__back-left" src="{{ p.back.right_flipped }}" alt="">
-			<img class="back right magazine-poster__back-right" src="{{ p.back.left_flipped }}" alt="">
+		<section id="poster-{{ loop.index }}" class="magazine__section section-switcher__section magazine-poster"  data-src-front="{{ p.front.poster }}" data-src-back="{{ p.back.poster }}">
+			<img class="front left magazine-poster__front-left" data-src="{{ p.front.left }}" src="/blank.gif" alt="">
+			<img class="front right magazine-poster__front-right" data-src="{{ p.front.right }}" src="/blank.gif" alt="">
+			<img class="back left magazine-poster__back-left" data-src="{{ p.back.right_flipped }}" src="/blank.gif" alt="">
+			<img class="back right magazine-poster__back-right" data-src="{{ p.back.left_flipped }}" src="/blank.gif" alt="">
 		</section>
 		{% endfor %}
-		<section id="centerfold" class="magazine__section section-switcher__section magazine-centerfold" data-titles="Centerfold front,Centerfold back" data-poster-size="36,48">
-			<img class="front topleft top left magazine-centerfold__front-top-left" src="{{ issue.centerfold.front_top_left }}" alt="">
-			<img class="front topright top right magazine-centerfold__front-top-right" src="{{ issue.centerfold.front_top_right }}" alt="">
-			<img class="front bottomleft bottom left magazine-centerfold__front-bottom-left" src="{{ issue.centerfold.front_bottom_left }}" alt="">
-			<img class="front bottomright bottom right magazine-centerfold__front-bottom-right" src="{{ issue.centerfold.front_bottom_right }}" alt="">
-			<img class="back topleft top left magazine-centerfold__back-top-left" src="{{ issue.centerfold.back_top_right }}" alt="">
-			<img class="back topright top right magazine-centerfold__back-top-right" src="{{ issue.centerfold.back_top_left }}" alt="">
-			<img class="back bottomleft bottom left magazine-centerfold__back-bottom-left" src="{{ issue.centerfold.back_bottom_right }}" alt="">
-			<img class="back bottomright bottom right magazine-centerfold__back-bottom-right" src="{{ issue.centerfold.back_bottom_left }}" alt="">
+		<section id="centerfold" class="magazine__section section-switcher__section magazine-centerfold"  data-src-front="{{ issue.centerfold.front }}" data-src-back="{{ issue.centerfold.back }}">
+			<img class="front topleft top left magazine-centerfold__front-top-left" data-src="{{ issue.centerfold.front_top_left }}" src="/blank.gif" alt="">
+			<img class="front topright top right magazine-centerfold__front-top-right" data-src="{{ issue.centerfold.front_top_right }}" src="/blank.gif" alt="">
+			<img class="front bottomleft bottom left magazine-centerfold__front-bottom-left" data-src="{{ issue.centerfold.front_bottom_left }}" src="/blank.gif" alt="">
+			<img class="front bottomright bottom right magazine-centerfold__front-bottom-right" data-src="{{ issue.centerfold.front_bottom_right }}" src="/blank.gif" alt="">
+			<img class="back topleft top left magazine-centerfold__back-top-left" data-src="{{ issue.centerfold.back_top_right }}" src="/blank.gif" alt="">
+			<img class="back topright top right magazine-centerfold__back-top-right" data-src="{{ issue.centerfold.back_top_left }}" src="/blank.gif" alt="">
+			<img class="back bottomleft bottom left magazine-centerfold__back-bottom-left" data-src="{{ issue.centerfold.back_bottom_right }}" src="/blank.gif" alt="">
+			<img class="back bottomright bottom right magazine-centerfold__back-bottom-right" data-src="{{ issue.centerfold.back_bottom_left }}" src="/blank.gif" alt="">
 		</section>
 	</div>
 </article>

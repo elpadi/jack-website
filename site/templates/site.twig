@@ -52,6 +52,29 @@
 		</div>
 		{% block footer %}
 		{% endblock %}
+		<script>
+			window.CONFIG = {
+				SITE: {
+					PATH_PREFIX: '{{ PATH_PREFIX }}'
+				},
+				MAGAZINE: {
+					WEBGL_UNIT_MULTIPLIER: 90,
+					WEBGL_WIDTH: 5,
+					WEBGL_HEIGHT: 6.66667,
+					ANIMATIONS: {
+						SWITCHSECTION: {
+							DURATION: 500
+						},
+						OPENCLOSE: {
+							DURATION: 500
+						},
+						FLIP: {
+							DURATION: 500
+						}
+					}
+				}
+			};
+		</script>
 		{% if DEBUG %}
 		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
 		{% else %}

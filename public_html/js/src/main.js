@@ -57,6 +57,7 @@ var Jack = {
 
 require(['jquery','SectionSwitcher'], function(jquery, SectionSwitcher) {
 	$('.magazine').on('sectionswitcher.switch', function(e) {
+		/*
 		var $mag = $(e.target);
 		var mag = $mag.data('magazine');
 		var section = mag.getCurrentSection();
@@ -66,6 +67,7 @@ require(['jquery','SectionSwitcher'], function(jquery, SectionSwitcher) {
 		Jack.Mag.Nav.setEdgeClassnames($mag, mag, section.name);
 		Jack.Mag.Nav.resetUrls($mag, mag, section.name);
 		Jack.Mag.Thumbs.select($mag, section.name, section.isShowingFront);
+		*/
 	}).on('magazine.sectionflip', function(e) {
 		var $mag = $(e.target);
 		var section = $mag.data('magazine').getCurrentSection();
@@ -89,29 +91,43 @@ require(['jquery','SectionSwitcher'], function(jquery, SectionSwitcher) {
 	});
 });
 
-require(['jquery','site/Magazine'], function(jquery, Magazine) {
-	var init_magazine = function(Mag) {
-		Magazine.jqueryPlugin(Mag);
-		$('.magazine').magazine();
-		require(['SectionSwitcher'], function(SectionSwitcher) {
-			$('.magazine').trigger('sectionswitcher.switch');
+require(['jquery','threejs','site/MagazineManager'], function(jquery, threejs, MagazineManager) {
+	var hasWebgl = window.WebGLRenderingContext && document.createElement('canvas').getContext('webgl');
+	var aspectRatio = (window.CONFIG.MAGAZINE.WEBGL_WIDTH * 3) / (window.CONFIG.MAGAZINE.WEBGL_HEIGHT * 2);
+	require(['site/Magazine/Webgl/' + (hasWebgl ? 'Shader' : 'Canvas') + 'Magazine'], function(Magazine) {
+		$('.magazine').each(function(i, el) {
+			$(el).data('magazine-manager', new MagazineManager($(el), Magazine));
 		});
-	};
-	if (Modernizr.webgl) {
-		require(['site/Magazine/Webgl/Magazine'], init_magazine);
-	}
+		$(window).on('resize', function() {
+			$('.magazine').each(function(i, el) {
+				var manager = $(el).data('magazine-manager');
+				var $sections = manager.$container.find('.magazine__sections');
+				var w = $sections.outerWidth(), h = $sections.outerHeight();
+				if (aspectRatio > w / h) {
+					w *= 0.75; h = w / aspectRatio;
+				}
+				else {
+					h *= 0.75; w = h * aspectRatio;
+				}
+				manager._magazine.resize(w, h);
+			});
+		}).resize();
+		require(['SectionSwitcher'], function(SectionSwitcher) {
+			//$('.magazine').trigger('sectionswitcher.switch');
+		});
+	});
 });
 
 require(['jquery'], function(jquery) {
 	$('.magazine__flip-button').on('click', function(e) {
-		$(e.target).closest('.magazine').data('magazine').getCurrentSection().flip();
+		$(e.target).closest('.magazine').data('magazine-manager').flip();
 	});
 });
 
 require(['jquery','lib/ui/ToggleButton'], function(jquery, ToggleButton) {
-	$('.magazine__toggle-open-button').togglebutton().on('newstate', function() {
+	$('.magazine__toggle-open-button').togglebutton().on('newstate', function(e) {
 		console.log('toggle button . newstate', this);
-		$(this).closest('.magazine').data('magazine').getCurrentSection().toggleViewState();
+		$(e.target).closest('.magazine').data('magazine-manager').openclose();
 	});
 	/*
 	var resize = function(width, height, $page) {
