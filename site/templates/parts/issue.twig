@@ -40,8 +40,8 @@
 		<section id="sheet-{{ loop.index }}" class="magazine__section section-switcher__section magazine-poster" data-titles="Page {{ loop.index }} front,Page {{ loop.index }} back"  data-poster-size="36,24">
 			<img class="front left magazine-poster__front-left" src="{{ p.front.left }}" alt="">
 			<img class="front right magazine-poster__front-right" src="{{ p.front.right }}" alt="">
-			<img class="back left magazine-poster__back-left" src="{{ p.back.right_flipped }}" alt="">
-			<img class="back right magazine-poster__back-right" src="{{ p.back.left_flipped }}" alt="">
+			<img class="back left magazine-poster__back-left" src="{{ p.back.right }}" alt="">
+			<img class="back right magazine-poster__back-right" src="{{ p.back.left }}" alt="">
 		</section>
 		{% endfor %}
 		<section id="centerfold" class="magazine__section section-switcher__section magazine-centerfold" data-titles="Centerfold front,Centerfold back" data-poster-size="36,48">
