@@ -1,5 +1,6 @@
 html {
-	background-color:black;
+	background:black url(../../images/backgrounds/answers2.jpg) center top no-repeat fixed;
+	background-size:980px auto;
 }
 body {
 	width:830px;

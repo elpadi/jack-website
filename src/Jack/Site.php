@@ -54,7 +54,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$view = $app->view();
 		$view->twigTemplateDirs = array(TEMPLATE_DIR);
 		$view->parserOptions = array(
-			'debug' => true,
+			'debug' => DEBUG,
 			'cache' => CACHE_DIR.'/twig',
 			'twigTemplateDirs' => array(TEMPLATE_DIR),
 		);
@@ -72,6 +72,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$view->appendData(array(
 			'CONTACT_EMAIL' => 'dah@thejackmag.com',
 			'IS_LOCAL' => IS_LOCAL,
+			'DEBUG' => DEBUG,
 			'CAN_ACCESS_ADMIN' => $this->hasPermission('access admin'),
 			'IS_LOGGED_IN' => $user_id > 0 && $user_id !== GUEST_USER_ID,
 			'BASE_TITLE' => 'JACK | ',
