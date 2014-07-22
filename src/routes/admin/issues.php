@@ -6,6 +6,8 @@ $app->get('/admin/issues', $can_edit_issues, function () use ($site, $app, $view
 	$app->render('admin/parts/issues.twig', array(
 		'title' => $view->get('title').' | Issues',
 		'issues' => $site->getIssues(),
+		'section' => 'issues',
+		'page' => 'issues',
 	));
 })->setName('admin/issues');
 $app->get('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
@@ -22,7 +24,8 @@ $app->get('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, 
 	$app->render('admin/parts/issue.twig', array(
 		'title' => $view->get('title').' | Edit '.$issue->title,
 		'issue' => $issue,
-		'sections' => $site->getAdminSections('Issues'),
+		'section' => 'issues',
+		'page' => 'issue',
 	));
 })->setName('admin/issue');
 $app->post('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
@@ -53,9 +56,10 @@ $app->get('/admin/issues/:slug/pages', $can_edit_issues, function ($slug) use ($
 	$posters = $site->getPostersByIssueId($issue->id);
 	$app->render('admin/parts/pages.twig', array(
 		'title' => $view->get('title').' | Edit order '.$issue->title,
-		'sections' => $site->getAdminSections('Issues'),
 		'issue' => $issue,
 		'posters' => $posters,
+		'section' => 'issues',
+		'page' => 'issue-posters',
 	));
 })->setName('admin/issue/pages');
 $app->post('/admin/issues/:slug/pages', $can_edit_issues, function ($slug) use ($site, $app, $view) {
@@ -74,7 +78,8 @@ $app->get('/admin/issues/:slug/pages/add', $can_edit_issues, function ($slug) us
 	$app->render('admin/parts/add_page.twig', array(
 		'title' => $view->get('title').' | Add poster to '.$issue->title,
 		'issue' => $site->getIssueBySlug($slug),
-		'sections' => $site->getAdminSections('Issues'),
+		'section' => 'issues',
+		'page' => 'add-poster',
 	));
 })->setName('admin/issue/newpage');
 $app->post('/admin/issues/:slug/pages/add', $can_edit_issues, function ($slug) use ($site, $app, $view) {

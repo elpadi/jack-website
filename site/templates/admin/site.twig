@@ -8,15 +8,20 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>{{ title }}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="{{ pathPrefix }}css/dist/admin.css" media="all">
+		{% if DEBUG %}
+		<link rel="stylesheet" href="{{ PATH_PREFIX }}css/src/admin.css" media="all">
+		{% else %}
+		<link rel="stylesheet" href="{{ PATH_PREFIX }}css/dist/admin.css" media="all">
+		{% endif %}
 	</head>
 	<body>
 		<div id="container">
 			<header>
+				<h1>Admin Section</h1>
 				<nav>
 					<ul class="horizontal-list">
-						{% for s in sections %}
-						<li><a class="{{ s.selected ? 'selected' : '' }}" href="{{ s.url }}">{{ s.title }}</a></li>
+						{% for s in admin_sections %}
+						<li><a class="{{ section == s.name ? 'selected' : '' }}" href="{{ s.url }}">{{ s.name }}</a></li>
 						{% endfor %}
 					</ul>
 				</nav>
@@ -31,10 +36,10 @@
 				{% endblock %}
 			</div>
 		</div>
-		{% if isLocal %}
-		<script src="{{ pathPrefix }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/src/main.admin"></script>
+		{% if DEBUG %}
+		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ pathPrefix }}js/src/main.admin"></script>
 		{% else %}
-		<script src="{{ pathPrefix }}js/dist/main.admin.js"></script>
+		<script src="{{ PATH_PREFIX }}js/dist/main.admin.js"></script>
 		{% endif %}
 	</body>
 </html>

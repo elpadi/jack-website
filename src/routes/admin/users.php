@@ -13,11 +13,15 @@ $app->get('/admin/users', $can_edit_users, function () use ($site, $app, $view) 
 			return $role;
 		}, $acl->Roles->descendants(1)),
 		'permissions' => $acl->Permissions->descendants(1),
+		'section' => 'users',
+		'page' => 'users',
 	));
 })->setName('admin/users');
 $app->get('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
 	$app->render('admin/parts/user-add.twig', array(
 		'roles' => $site->getService('acl')->Roles->descendants(1),
+		'section' => 'users',
+		'page' => 'create-user',
 	));
 })->setName('admin/create-user');
 $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
@@ -57,6 +61,8 @@ $app->get('/admin/users/role/:id', $can_edit_acl, function ($id) use ($site, $ap
 			$perm['Selected'] = $acl->Roles->hasPermission($id, $perm['ID']);
 			return $perm;
 		}, $acl->Permissions->descendants(1)),
+		'section' => 'users',
+		'page' => 'edit-role',
 	));
 })->setName('admin/role');
 $app->post('/admin/users/role/:id', $can_edit_acl, function () use ($site, $app, $view) {
@@ -85,6 +91,8 @@ $app->post('/admin/users/role/:id', $can_edit_acl, function () use ($site, $app,
 $app->get('/admin/users/create-role', $can_edit_acl, function () use ($site, $app, $view) {
 	$app->render('admin/parts/create-role.twig', array(
 		'roles' => $site->getService('acl')->Roles->descendants(1),
+		'section' => 'users',
+		'page' => 'create-role',
 	));
 })->setName('admin/create-role');
 $app->post('/admin/users/create-role', $can_edit_acl, function () use ($site, $app, $view) {
@@ -109,6 +117,8 @@ $app->post('/admin/users/create-role', $can_edit_acl, function () use ($site, $a
 $app->get('/admin/users/create-permission', $can_edit_acl, function () use ($site, $app, $view) {
 	$app->render('admin/parts/create-permission.twig', array(
 		'permissions' => $site->getService('acl')->Permissions->descendants(1),
+		'section' => 'users',
+		'page' => 'create-permission',
 	));
 })->setName('admin/create-permission');
 $app->post('/admin/users/create-permission', $can_edit_acl, function () use ($site, $app, $view) {

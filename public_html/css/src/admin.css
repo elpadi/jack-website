@@ -99,3 +99,11 @@ section {
 .horizontal-list a:hover {
   background-color: #7bab2e;
 }
+
+.issues-list li {
+	width:25%;
+}
+.issues-list img {
+	display:block;
+	width:100%;
+}

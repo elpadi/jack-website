@@ -82,6 +82,12 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'NAME' => $user_id > 0 ? $this->getService('user')->userData['full_name'] : 'Guest',
 			'PIWIK_URL' => PIWIK_URL,
 			'user_agent' => $userAgent->toArray(),
+			'admin_sections' => array_map(function($l) use ($app) {
+				return array(
+					'name' => $l,
+					'url' => $app->urlFor("admin/$l"),
+				);
+			}, array('users','issues')),
 			'menu_links' => array_map(function($l) use ($app) {
 				return array(
 					'title' => $l,
