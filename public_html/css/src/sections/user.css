@@ -17,6 +17,9 @@ body {
 	text-transform:lowercase;
 	font-weight:500;
 }
+#notices {
+	display:none;
+}
 /*
 #masthead {
   padding-bottom: 5%;

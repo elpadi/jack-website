@@ -41,6 +41,7 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 		group.name = part;
 		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
 			plane.translateX(this.translations.x[index] * this.width);
+			plane.translateY(0.25 * this.height);
 			plane.translateZ(this.translations.z[index] * 0.25);
 			plane.visible = false;
 			group.add(plane);

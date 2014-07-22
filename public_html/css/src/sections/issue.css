@@ -34,7 +34,7 @@ body {
 .section-switcher__sections-container {
   padding: 0 12%;
   position: relative;
-  background:transparent url(../../images/backgrounds/29jun14_bkln32c.jpg) center center no-repeat;
+  background:transparent url(../../images/backgrounds/issue.jpg) center center no-repeat;
   background-size: cover;
 }
 .magazine__section img {
@@ -61,21 +61,27 @@ body {
   position: relative;
 }
 .magazine__nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  text-align: center;
-  width: 100%;
-  padding-left: 24%;
-  z-index: 2;
+  position:absolute;
+  top:0;
+  left:24%;
+  text-align:center;
+  width:76%;
+  z-index:2;
 }
 .magazine__nav a {
   text-decoration: none;
   font-size: 3em;
-  color: black;
+  color:white;
+	font-weight:900;
 }
 .magazine__nav button {
   margin: 0 0.5em;
+	color:#cedfd7;
+	background-color:#fffdfd;
+	border:none;
+	font-size:1.3em;
+	margin-top:0.6em;
+	text-transform:uppercase;
 }
 .magazine__nav a,
 .magazine__nav button {

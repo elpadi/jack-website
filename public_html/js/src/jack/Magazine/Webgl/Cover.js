@@ -23,6 +23,7 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 		group.name = part;
 		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
 			plane.translateX(this.translations.x[index] * this.width / 2);
+			plane.translateY(0.25 * this.height);
 			plane.translateZ(this.translations.z[index] * 0.25);
 			plane.visible = false;
 			group.add(plane);
