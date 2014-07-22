@@ -29,8 +29,8 @@
 	</head>
 	<body class="os-{{ user_agent.operating_system }} browser-{{ user_agent.browser_name }} version-{{ user_agent.browser_version }} section-{{ section }} page-{{ page }}">
 		<div id="container">
-			{% if IS_ADMIN %}
-			<a class="admin-link button" href="{{ urlFor('admin/home') }}">Admin section</a>
+			{% if CAN_ACCESS_ADMIN %}
+			<a id="admin-link" class="button" href="{{ urlFor('admin') }}">Admin section</a>
 			{% endif %}
 			<header id="masthead">
 				<h1>JACK</h1>
