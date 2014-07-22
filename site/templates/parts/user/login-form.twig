@@ -4,8 +4,8 @@
 <form method="POST" action="{{ urlFor('login') }}">
 	<input type="hidden" name="destination" value="{{ destination }}">
 	<input type="hidden" name="nonce" value="{{ nonce }}">
-	<label>Username: <input name="username" type="text" value="{{ values.username }}"></label><br>
-	<label>Password: <input name="password" type="password"></label><br>
+	<label>Username <input name="username" type="text" value="{{ values.username }}"></label>
+	<label>Password <input name="password" type="password"></label>
 	<input type="submit" value="login">
 </form>
 {% endblock %}

@@ -39,6 +39,7 @@ body {
 	right:0;
 	width:90px;
 }
+/*
 #masthead > h1,
 #masthead ul {
   margin: 0;
@@ -67,6 +68,7 @@ body {
   content: ' ';
   height: 0;
 }
+*/
 #notices {
   text-align: left;
 }

@@ -6,7 +6,7 @@ require(['jquery'], function(jquery) {
 			}
 		});
 	}
-	if (document.body.className.indexOf('section-welcome') !== -1) {
+	if (/section-(welcome|user)/.test(document.body.className)) {
 		$(window).on('resize', function() {
 			var $cont = $('#container');
 			$cont.css('margin-top', $cont.outerHeight() < window.innerHeight ? ((window.innerHeight - $cont.outerHeight()) / 2) + 'px' : '');
