@@ -18,6 +18,7 @@ class User extends \ptejada\uFlex\User {
 	}
 
 	public function addNew($db, $acl, $info, $data) {
+		$this->RegDate = time();
 		if (parent::register($info, false)) {
 			// add data row.
 			$stmt = $db->prepare("INSERT INTO `user_data` SET `user_id`=?, `full_name`=?, `company`=?, `position`=?");

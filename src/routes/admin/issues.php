@@ -89,14 +89,16 @@ $app->post('/admin/issues/:slug/pages/add', $can_edit_issues, function ($slug) u
 	try {
 		$poster->update($app->request->post(), $_FILES, $site, $site);
 		$app->flash('info', "The poster '$poster->title' was added to this issue.");
-		$app->redirect($app->urlFor('admin/issue', array('slug' => $slug)));
 	}
 	catch (\Exception $e) {
-		echo "Adding poster failed.";
 		if (DEBUG) {
-			echo ' --- '.$e->getFile().':'.$e->getLine().' - '.$e->getMessage();
+			d($e->getFile().':'.$e->getLine().' - '.$e->getMessage(), $e, $issue, $poster);
+		}
+		else {
+			echo "Adding poster failed.";
 		}
 	}
+	$app->redirect($app->urlFor('admin/issue/pages', array('slug' => $slug)));
 });
 $app->post('/admin/issues/poster/delete/:id', $can_edit_issues, function ($id) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');

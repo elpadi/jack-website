@@ -1,16 +1,3 @@
-require.config({
-	baseUrl: '/js/src/bower_components',
-	paths: {
-		"site": "../jack",
-		"jquery": "jquery/jquery",
-		"jquery-ui": "jquery-ui/ui/jquery-ui",
-		"jui-accordion": "jquery-ui/ui/jquery.ui.accordion",
-		"underscore": "underscore/underscore",
-		"eventemitter": "eventemitter2/lib/eventemitter2",
-		"lib": "js-libs"
-	}
-});
-
 function getIssueImageFromInputName(issue, name) {
 	switch (name) {
 		case 'Covers':
@@ -33,7 +20,7 @@ require(['jquery','lib/ui/SectionSwitcher','lib/ui/SectionSwitcher/SectionLinks'
 	});
 });
 
-require(['jquery','dropzone/downloads/dropzone-amd-module'], function(jquery, Dropzone) {
+require(['jquery','dropzone'], function(jquery, Dropzone) {
 	Dropzone.autoDiscover = false;
 	$('.admin-form-image').each(function(i, el) {
 		$(el).addClass('dropzone');
@@ -202,10 +189,11 @@ require(['jquery','underscore','eventemitter'], function(jquery, underscore, Eve
 	};
 
 	SwappableTable.prototype.setupForm = function() {
-		var error = function(/*args*/) {
+		var errorFn = function(/*args*/) {
 			this.flashError('Could not save the poster order.');
 			console.error.apply(console, Array.prototype.slice.call(arguments, 0));
-		}.bind(this);
+		};
+		var error = errorFn.bind(this);
 		this.$form.ajaxForm(function(data, textStatus, jqXHR) {
 			if (data.success) {
 				this.flash('Poster order saved.');

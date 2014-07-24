@@ -23,10 +23,20 @@ $app->post('/user/login', function () use ($site, $app, $view) {
 		));
 	};
 	if (!$site->getService('nonce')->check($post['nonce'], 'login')) {
-		return $error("Invalid request. Please try again.");
+		if (DEBUG) {
+			d("Nonces do not match.", $post['nonce']);
+		}
+		else {
+			return $error("Invalid request. Please try again.");
+		}
 	}
 	if (!$site->getService('user')->login($post['username'], $post['password'])) {
-		return $error("Invalid username/password combination.");
+		if (DEBUG) {
+			d($site->getService('user')->log->getFullConsole());
+		}
+		else {
+			return $error("Invalid username/password combination.");
+		}
 	}
 	$app->redirect($app->urlFor('welcome'));
 });

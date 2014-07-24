@@ -25,7 +25,7 @@ $app->get('/admin/users/create', $can_edit_users, function () use ($site, $app, 
 	));
 })->setName('admin/create-user');
 $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
-	$user = $site->getService('user');
+	$user = $site->getService('user')->manageUser(1);
 	$post = $app->request->post();
 	try {
 		$user->addNew($site->getService('users_db'), $site->getService('acl'), array(
@@ -35,14 +35,19 @@ $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app,
 		), $post);
 	}
 	catch (\Exception $e) {
-		$app->flash('error', "User was not created.");
+		$error = $e->getFile().':'.$e->getLine().' - '.$e->getMessage();
+		$site->getService('loggers')->error->addError($error);
 		if (DEBUG) {
-			$app->flash('error', $e->getFile().':'.$e->getLine().' - '.$e->getMessage());
+			d($user->log->getFullConsole(), $e->getTrace());
 		}
-		$app->render('admin/parts/user-add.twig', array(
-			'values' => $post,
-			'roles' => $site->getService('acl')->Roles->children(1),
-		));
+		else {
+			$app->flash('error', "User was not created.");
+			$app->render('admin/parts/user-add.twig', array(
+				'values' => $post,
+				'roles' => $site->getService('acl')->Roles->children(1),
+			));
+		}
+		exit(1);
 	}
 	$app->flash('info', "New user '$post[username]' added.");
 	$app->redirect($app->urlFor('admin/users'));

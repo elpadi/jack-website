@@ -5,7 +5,7 @@ LIB_DIRS := $(shell find src/bower_components/js-libs -mindepth 1 -type d | grep
 LIB_JS_FILES := $(shell find src/bower_components/js-libs -type f -name '*.js' | grep -v 'test' | sed 's,^src/bower_components/js-libs,dist/lib,')
 
 .PHONY: all
-all: $(DIRS) $(LIB_DIRS) dist/vendor $(JS_FILES) $(LIB_JS_FILES) dist/rjs.init.js dist/main.js dist/vendor/jquery.js dist/vendor/underscore.js dist/vendor/require.js dist/vendor/three.js dist/vendor/modernizr.js dist/vendor/SectionSwitcher.js
+all: $(DIRS) $(LIB_DIRS) dist/vendor $(JS_FILES) $(LIB_JS_FILES) dist/rjs.init.js dist/main.js dist/main.admin.js dist/vendor/jquery.js dist/vendor/underscore.js dist/vendor/require.js dist/vendor/three.js dist/vendor/modernizr.js dist/vendor/jquery-ui.js dist/vendor/jquery.ui.accordion.js dist/vendor/eventemitter2.js dist/vendor/dropzone.js dist/vendor/SectionSwitcher.js
 
 dist/lib/%.js: src/bower_components/js-libs/%.js
 	groundskeeper < $< | uglifyjs > $@
@@ -23,16 +23,28 @@ dist/vendor/jquery.js: src/bower_components/jquery/dist/jquery.min.js
 	cp src/bower_components/jquery/dist/jquery.min.js dist/vendor/jquery.js
 
 dist/vendor/underscore.js: src/bower_components/underscore/underscore.js
-	groundskeeper < src/bower_components/underscore/underscore.js | uglifyjs > dist/vendor/underscore.js
+	groundskeeper < $< | uglifyjs > $@
 
 dist/vendor/require.js: src/bower_components/requirejs/require.js
-	groundskeeper < src/bower_components/requirejs/require.js | uglifyjs > dist/vendor/require.js
+	groundskeeper < $< | uglifyjs > $@
 
 dist/vendor/modernizr.js: src/bower_components/modernizr/modernizr.js
-	groundskeeper < src/bower_components/modernizr/modernizr.js | uglifyjs > dist/vendor/modernizr.js
+	groundskeeper < $< | uglifyjs > $@
+
+dist/vendor/jquery-ui.js: src/bower_components/jquery-ui/ui/jquery-ui.js
+	groundskeeper < $< | uglifyjs > $@
+
+dist/vendor/jquery.ui.accordion.js: src/bower_components/jquery-ui/ui/jquery.ui.accordion.js
+	groundskeeper < $< | uglifyjs > $@
+
+dist/vendor/eventemitter2.js: src/bower_components/eventemitter2/lib/eventemitter2.js
+	groundskeeper < $< | uglifyjs > $@
+
+dist/vendor/dropzone.js: src/bower_components/dropzone/downloads/dropzone-amd-module.js
+	groundskeeper < $< | uglifyjs > $@
 
 dist/vendor/SectionSwitcher.js: src/bower_components/SectionSwitcher/dist/SectionSwitcher.js
-	groundskeeper < src/bower_components/SectionSwitcher/dist/SectionSwitcher.js | uglifyjs > dist/vendor/SectionSwitcher.js
+	groundskeeper < $< | uglifyjs > $@
 
 dist/vendor/three.js: src/vendor/three.min.js
 	cp src/vendor/three.min.js dist/vendor/three.js

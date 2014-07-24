@@ -52,6 +52,7 @@
 		</div>
 		{% block footer %}
 		{% endblock %}
+		<script>var RJS_MAIN = 'main';</script>
 		{% if DEBUG %}
 		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
 		{% else %}

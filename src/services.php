@@ -7,6 +7,7 @@ use Assetic\Extension\Twig\AsseticExtension;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\BrowserConsoleHandler;
 
 $site->addService('db', function() use ($db_config) {
 	$db = new PDO("mysql:host=$db_config[host];dbname=$db_config[name]", $db_config['user'], $db_config['pass']);
@@ -49,6 +50,15 @@ $site->addService('assets', function() {
 });
 $site->addService('asset writer', function() {
 	return new AssetWriter(PUBLIC_DIR.'/assets');
+});
+$site->addService('loggers', function() {
+	$loggers = new StdClass;
+	$error_file_stream = new StreamHandler(SITE_DIR.'/logs/errors.log', Logger::ERROR);
+	$console_handler = new BrowserConsoleHandler(Logger::DEBUG);
+	foreach (array('info','error') as $name) $loggers->$name = new Logger($name);
+	$loggers->error->pushHandler($error_file_stream);
+	foreach ($loggers as &$logger) $logger->pushHandler($console_handler);
+	return $loggers;
 });
 $site->addService('logger', function() {
 	$log = new Logger('name');

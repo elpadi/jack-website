@@ -33,6 +33,7 @@
 		"lstrojny/functional-php": "*",
 		"monolog/monolog": "*",
 		"wukka/nonce": "*",
+		"raveren/kint": "v0.9",
 		"ptejada/uflex": "*"
 	},
 	"autoload": {

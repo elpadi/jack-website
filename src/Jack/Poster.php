@@ -38,7 +38,7 @@ class Poster {
 			throw new \Exception("Invalid data.");
 		}
 		if (isset($data['title'])) {
-			$data['slug'] = S::create($data['title'])->slugify();
+			$data['slug'] = preg_replace('/[^a-zA-Z0-9]+/', '-', strtolower(trim($data['title'])));
 		}
 		$middleSql = "SET `title`=?, `slug`=?, `description`=? ";
 		if ($data['id'] !== '0') {

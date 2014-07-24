@@ -7,25 +7,26 @@ mirror --delete --only-newer -R site/templates/ /project/site/templates
 mirror --delete --only-newer -R -x 'vendor' src/ /project/src
 
 mirror --delete --only-newer -R -x '\.git' vendor/composer/ /project/vendor/composer
-mirror --delete --only-newer -R -x '\.git' vendor/wukka/ /project/vendor/wukka
-mirror --delete --only-newer -R -x '\.git' vendor/owasp/ /project/vendor/owasp
-mirror --delete --only-newer -R -x '\.git' vendor/ptejada/ /project/vendor/ptejada
 put -O /project/vendor vendor/autoload.php
 
-#mirror --delete --only-newer -R -x '\.git' vendor/danielstjules vendor/danielstjules
-#mirror --delete --only-newer -R -x '\.git' vendor/imagine/imagine/lib/ vendor/imagine/imagine/lib/
-#mirror --delete --only-newer -R -x '\.git' vendor/kriswallsmith/assetic/src/ vendor/kriswallsmith/assetic/src/
-#mirror --delete --only-newer -R -x '\.git' vendor/lstrojny/ vendor/lstrojny/
-#mirror --delete --only-newer -R -x '\.git' vendor/monolog/monolog/src/ vendor/monolog/monolog/src/
-#mirror --delete --only-newer -R -x '\.git' vendor/ornicar vendor/ornicar
-#mirror --delete --only-newer -R -x '\.git' vendor/psr/log/Psr vendor/psr/log/Psr
-#mirror --delete --only-newer -R -x '\.git' vendor/slim/slim/Slim vendor/slim/slim/Slim
-#mirror --delete --only-newer -R -x '\.git' vendor/slim/views/Slim/Views vendor/slim/views/Slim/Views
-#mirror --delete --only-newer -R -x '\.git' vendor/swiftmailer vendor/swiftmailer
-#mirror --delete --only-newer -R -x '\.git' vendor/symfony vendor/symfony
-#mirror --delete --only-newer -R -x '\.git' vendor/twig/twig/lib/ vendor/twig/twig/lib/
-#mirror --delete --only-newer -R -x '\.git' vendor/ulogin vendor/ulogin
-#mirror --delete --only-newer -R -x '\.git' vendor/zendframework vendor/zendframework
+#mirror --delete --only-newer -R -x '\.git' vendor/wukka/ /project/vendor/wukka
+#mirror --delete --only-newer -R -x '\.git' vendor/owasp/ /project/vendor/owasp
+#mirror --delete --only-newer -R -x '\.git' vendor/ptejada/ /project/vendor/ptejada
+#mirror --delete --only-newer -R -x '\.git' vendor/danielstjules /project/vendor/danielstjules
+#mirror --delete --only-newer -R -x '\.git' vendor/imagine/imagine/lib/ /project/vendor/imagine/imagine/lib/
+#mirror --delete --only-newer -R -x '\.git' vendor/kriswallsmith/assetic/src/ /project/vendor/kriswallsmith/assetic/src/
+#mirror --delete --only-newer -R -x '\.git' vendor/lstrojny/ /project/vendor/lstrojny/
+#mirror --delete --only-newer -R -x '\.git' vendor/monolog/monolog/src/ /project/vendor/monolog/monolog/src/
+#mirror --delete --only-newer -R -x '\.git' vendor/ornicar /project/vendor/ornicar
+#mirror --delete --only-newer -R -x '\.git' vendor/psr/log/Psr /project/vendor/psr/log/Psr
+#mirror --delete --only-newer -R -x '\.git' vendor/slim/slim/Slim /project/vendor/slim/slim/Slim
+#mirror --delete --only-newer -R -x '\.git' vendor/slim/views/Slim/Views /project/vendor/slim/views/Slim/Views
+#mirror --delete --only-newer -R -x '\.git' vendor/swiftmailer /project/vendor/swiftmailer
+#mirror --delete --only-newer -R -x '\.git' vendor/symfony /project/vendor/symfony
+#mirror --delete --only-newer -R -x '\.git' vendor/twig/twig/lib/ /project/vendor/twig/twig/lib/
+#mirror --delete --only-newer -R -x '\.git' vendor/ulogin /project/vendor/ulogin
+#mirror --delete --only-newer -R -x '\.git' vendor/zendframework /project/vendor/zendframework
+#mirror --delete --only-newer -R -x '\.git' vendor/raveren/kint /project/vendor/raveren/kint
 
 mirror --delete --only-newer -R -x '\.git' public_html/js/dist /public_html/project/js/dist
 mirror --delete --only-newer -R -x '\.git' public_html/css/dist /public_html/project/css/dist
