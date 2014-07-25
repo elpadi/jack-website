@@ -17,6 +17,7 @@ $app->get('/admin/users', $can_edit_users, function () use ($site, $app, $view) 
 		'page' => 'users',
 	));
 })->setName('admin/users');
+
 $app->get('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
 	$app->render('admin/parts/user-add.twig', array(
 		'roles' => $site->getService('acl')->Roles->descendants(1),
@@ -54,6 +55,44 @@ $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app,
 		$app->redirect($app->urlFor('admin/users'));
 	}
 });
+
+$app->get('/admin/users/:id/change-password', $can_edit_users, function ($id) use ($site, $app, $view) {
+	$user = $site->getService('user')->manageUser($id);
+	if ($user) {
+		$app->render('admin/parts/user-pass.twig', array(
+			'id' => $id,
+			'username' => $user->Username,
+			'section' => 'users',
+			'page' => 'create-user',
+		));
+	}
+	else {
+		$app->flash('error', "User with id '$id' does not exist.");
+		$app->redirect($app->urlFor('admin/users'));
+	}
+})->setName('passchange');
+$app->post('/admin/users/:id/change-password', $can_edit_users, function ($id) use ($site, $app, $view) {
+	$user = $site->getService('user')->manageUser($id);
+	$post = $app->request->post();
+	$errors = array();
+	if ($user) {
+		if ($data = $user->resetPassword($user->Email)) {
+			if ($user->newPassword($data->Confirmation, array(
+				'Password' => $post['plainpass'],
+				'Password2' => $post['plainpass2'],
+			))) {
+				$app->flash('info', "Password successfully changed.");
+				return $app->redirect($app->urlFor('admin/users'));
+			}
+		}
+		foreach (array_merge($user->log->getErrors(), array_values($user->log->getFormErrors())) as $error) $errors[] = $error;
+	}
+	else {
+		$app->flash('error', "User with id '$id' does not exist.");
+	}
+	$app->redirect($app->urlFor('admin/users'));
+});
+
 
 $app->get('/admin/users/role/:id', $can_edit_acl, function ($id) use ($site, $app, $view) {
 	$acl = $site->getService('acl');
