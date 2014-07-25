@@ -7,30 +7,29 @@ class User extends \ptejada\uFlex\User {
 
 	public function __construct(array $info=array()) {
 		global $users_db_config;
-		$this->config['database'] = array(
-			'dsn' => "mysql:host=$users_db_config[host];dbname=$users_db_config[name]",
-			'user' => $users_db_config['user'],
-			'password' => $users_db_config['pass'],
-			'host' => $users_db_config['host'],
-			'name' => $users_db_config['name'],
-		);
 		parent::__construct($info);
+		$this->config->database->dsn = "mysql:host=$users_db_config[host];dbname=$users_db_config[name]";
+		$this->config->database->host = $users_db_config['host'];
+		$this->config->database->name = $users_db_config['name'];
+		$this->config->database->user = $users_db_config['user'];
+		$this->config->database->password = $users_db_config['pass'];
+		$this->start(false);
 	}
 
 	public function addNew($db, $acl, $info, $data) {
-		$this->RegDate = time();
 		if (parent::register($info, false)) {
 			// add data row.
 			$stmt = $db->prepare("INSERT INTO `user_data` SET `user_id`=?, `full_name`=?, `company`=?, `position`=?");
 			$stmt->execute(array($this->_data['ID'], $data['fullname'], $data['company'], $data['position']));
 			// add roles.
-			foreach (explode('&', $data['roles']) as $roleId) {
-				$acl->Users->assign($roleId, $this->_data['ID']);
+			if (isset($data['roles'])) {
+				foreach (explode('&', $data['roles']) as $roleId) {
+					$acl->Users->assign($roleId, $this->_data['ID']);
+				}
 			}
+			return true;
 		}
-		else {
-			throw new \Exception("Error registering new user.");
-		}
+		return false;
 	}
 
 	public function fetchData($users_db) {
@@ -38,6 +37,10 @@ class User extends \ptejada\uFlex\User {
 			$stmt = $users_db->query('SELECT * FROM `user_data` WHERE `user_id`='.intval($this->ID));
 			$this->userData = $stmt->fetch(\PDO::FETCH_ASSOC);
 		}
+	}
+
+	public function clearData() {
+		$this->_data = array();
 	}
 
 }

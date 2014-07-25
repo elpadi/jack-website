@@ -79,10 +79,14 @@ $site->addService('acl', function() {
 });
 
 $site->addService('user', function() use ($site) {
-	$user = new Jack\User();
-	$user->start(true);
-	$user->fetchData($site->getService('users_db'));
-	return $user;
+	return new Jack\User();
+});
+
+$site->addService('newuser', function() use ($site) {
+	$real = new Jack\User();
+	$blank = $real->manageUser(GUEST_USER_ID);
+	$blank->clearData();
+	return $blank;
 });
 
 $site->addService('nonce', function() {

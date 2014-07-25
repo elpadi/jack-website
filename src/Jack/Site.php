@@ -82,6 +82,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'NAME' => $user_id > 0 ? $this->getService('user')->userData['full_name'] : 'Guest',
 			'PIWIK_URL' => PIWIK_URL,
 			'user_agent' => $userAgent->toArray(),
+			'errors' => array(),
 			'admin_sections' => array_map(function($l) use ($app) {
 				return array(
 					'name' => $l,
@@ -117,7 +118,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 	public function checkPermission($permission) {
 		if (!$this->hasPermission($permission)) {
 			header('HTTP/1.0 403 Forbidden');
-			$this->app->flash('info', "Please login in order to access the site.");
+			$this->app->flash('error', "You do not have permission to $permission.");
 			$this->app->redirect($this->app->urlFor('login'));
 		}
 	}
@@ -220,7 +221,8 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$users = array();
 		$stmt = $this->getService('users_db')->query('SELECT * FROM `Users` JOIN `user_data` ON `Users`.`ID`=`user_id`');
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-			$row['roles'] = array_map(function($role) { return $role['Title']; }, $this->getService('acl')->Users->allRoles($row['ID']));
+			$roles = $this->getService('acl')->Users->allRoles($row['ID']);
+			$row['roles'] = is_array($roles) ? array_map(function($role) { return $role['Title']; }, $roles) : array();
 			$users[] = $row;
 		}
 		return $users;

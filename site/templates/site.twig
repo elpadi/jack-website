@@ -38,12 +38,13 @@
 			{% block header %}
 			{% endblock %}
 			{% block notice %}
-			{% if flash|length > 0 %}
 			<div id="notices">
 				{% if flash.info %}<p class="info">{{ flash.info }}</p>{% endif %}
 				{% if flash.error %}<p class="error">{{ flash.error }}</p>{% endif %}
+				{% for e in errors %}
+				<p class="error">{{ e }}</p>
+				{% endfor %}
 			</div>
-			{% endif %}
 			{% endblock %}
 			<div id="content">
 				{% block content %}

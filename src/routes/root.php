@@ -3,6 +3,7 @@
 $can_access_site = curry(array($site, 'checkPermission'), 'access content');
 
 $app->get('/', function () use ($site, $app, $view) {
+	$app->flashKeep();
 	$app->redirect($app->urlFor('welcome'));
 })->setName('home');
 

@@ -12,6 +12,13 @@ require(['jquery'], function(jquery) {
 			$cont.css('margin-top', $cont.outerHeight() < window.innerHeight ? ((window.innerHeight - $cont.outerHeight()) / 2) + 'px' : '');
 		}).resize();
 	}
+
+	$(document).on('ready', function() {
+		var $notices = $('#notices').css('opacity','1');
+		setInterval(function() {
+			$notices.css({ top: (-1 * $notices.outerHeight()) + 'px', opacity:'0' });
+		}, 1500);
+	});
 });
 
 var Jack = {

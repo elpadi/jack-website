@@ -70,23 +70,24 @@ body {
 }
 */
 #notices {
-  text-align: left;
+	position:fixed;
+	top:0;
+	left:50%;
+	width:980px;
+	margin-left:-490px;
+	text-align:center;
+	line-height:1.5;
+	opacity:0;
+	transition:all 0.5s;
 }
 #notices p {
-  border: 1px solid transparent;
-  margin-bottom: 5%;
-  padding: 4%;
-}
-#notices p:last-child {
-  margin-bottom: 0;
+	margin:0;
 }
 #notices .info {
-  background-color: #BBB;
-  border-color: #999;
+	color:black;
 }
 #notices .error {
-  background-color: #ff9999;
-  border-color: #ff6666;
+	color:red;
 }
 /*
 @import "components/section-switcher.css";
