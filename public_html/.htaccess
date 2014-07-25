@@ -27,5 +27,9 @@ RewriteEngine On
 #
 # RewriteBase /
 
+# remove trailing slash
+RewriteCond %{HTTPS} off
+RewriteRule ^(.+[^/])/$ http://%{HTTP_HOST}/$1 [R=301,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
