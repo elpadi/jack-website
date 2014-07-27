@@ -12,9 +12,9 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 		this.name = 'sheet-' + number;
 		var parts = _.map(this.parts, this.createPart.bind(this));
 
+		this.whole.translateY(0.5);
 		_.each(parts, function(part) {
 			this.whole.add(part);
-			part.translateY(0.5);
 		}.bind(this));
 		$sheet.data('magazine-section', this);
 	}
@@ -32,7 +32,7 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 	Sheet.prototype.faces = ['front','back'];
 	Sheet.prototype.translations = {
 		x: [-0.5,0.5],
-		z: [0,0.1]
+		z: [0,1].map(function(n) { return n * 0.01; })
 	};
 	Sheet.prototype.rotations = [0, Math.PI];
 
@@ -41,8 +41,8 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 		group.name = part;
 		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
 			plane.translateX(this.translations.x[index] * this.width);
-			plane.translateY(0.25 * this.height);
-			plane.translateZ(this.translations.z[index] * 0.25);
+			plane.translateY(0.125 * this.height);
+			plane.translateZ(this.translations.z[index]);
 			plane.visible = false;
 			group.add(plane);
 		}.bind(this));

@@ -14,7 +14,7 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 	Cover.prototype.faces = ['front','back'];
 	Cover.prototype.translations = {
 		x: [-1,0,1],
-		z: [0.1,0,0.2]
+		z: [1,0,2].map(function(n) { return n * 0.01; })
 	};
 	Cover.prototype.rotations = [-Math.PI, 0, Math.PI];
 
@@ -23,8 +23,8 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 		group.name = part;
 		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
 			plane.translateX(this.translations.x[index] * this.width / 2);
-			plane.translateY(0.25 * this.height);
-			plane.translateZ(this.translations.z[index] * 0.25);
+			plane.translateY(0.125 * this.height);
+			plane.translateZ(this.translations.z[index]);
 			plane.visible = false;
 			group.add(plane);
 		}.bind(this));

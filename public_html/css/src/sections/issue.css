@@ -32,7 +32,6 @@ body {
 	display:none;
 }
 .section-switcher__sections-container {
-  padding: 0 12%;
   position: relative;
   background:transparent url(../../images/backgrounds/issue.jpg) center center no-repeat;
   background-size: cover;
@@ -126,6 +125,14 @@ body {
 .magazine__thumbs a {
   display: block;
   margin-top: 5px;
+}
+.magazine__thumbs li:last-child a {
+	-webkit-transform:rotateZ(-90deg) translateX(9%);
+	transform:rotateZ(-90deg) translateX(9%);
+}
+.magazine__thumbs li:last-child a:last-child {
+	-webkit-transform:rotateZ(-90deg) translateX(26%);
+	transform:rotateZ(-90deg) translateX(26%);
 }
 .magazine__thumbs a:hover {
   opacity: 0.5 !important;
