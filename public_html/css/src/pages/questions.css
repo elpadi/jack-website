@@ -5,8 +5,9 @@ body {
 }
 #container {
   background-image:url(../../images/backgrounds/questions.jpg);
-	padding-bottom:66.6667%;
+  padding-bottom:66.6667%;
   color: #b4b4ac;
+  padding-left:3.5%;
 }
 #content > article {
   line-height: 0.8;

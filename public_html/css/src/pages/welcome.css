@@ -6,6 +6,8 @@ body {
 #container {
   background-image:url(../../images/backgrounds/welcome.jpg);
 	padding-bottom:74.96%;
+	border:0.45em solid rgb(67, 60, 60);
+	background-size:auto 100%;
 }
 #content {
 	padding:2% 1% 0;
