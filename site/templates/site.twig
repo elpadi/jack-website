@@ -24,7 +24,7 @@
 			{% else %}
 			<script src="{{ PATH_PREFIX }}js/dist/vendor/modernizr.js"></script>
 			{% endif %}
-
+			<script>window.onload = function() { document.body.className += ' loaded'; };</script>
 	{% endblock %}
 	</head>
 	<body class="os-{{ user_agent.operating_system }} browser-{{ user_agent.browser_name }} version-{{ user_agent.browser_version }} section-{{ section }} page-{{ page }}">

@@ -4,6 +4,11 @@ html {
 }
 body {
 	width:830px;
+	opacity:0;
+	transition:opacity 0.3s linear 0.1s;
+}
+body.loaded {
+	opacity:1;
 }
 #container {
   background-image: url(../../images/backgrounds/answers.jpg);
