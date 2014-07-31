@@ -1,44 +1,44 @@
 <?php
 
-$can_edit_issues = curry(array($site, 'checkPermission'), 'edit issues');
+//$can_edit_cms = curry(array($site, 'checkPermission'), 'edit cms');
+$can_edit_cms = function() { return true; };
 
-$app->get('/admin/issues', $can_edit_issues, function () use ($site, $app, $view) {
-	$app->render('admin/parts/issues/issues.twig', array(
-		'title' => $view->get('title').' | Issues',
-		'issues' => $site->getIssues(),
-		'section' => 'issues',
-		'page' => 'issues',
+$app->get('/admin/cms', $can_edit_cms, function () use ($site, $app, $view) {
+	$app->render('admin/parts/cms/cms.twig', array(
+		'title' => $view->get('title').' | Content',
+		'pages' => array(
+			array(
+				'name' => 'answers',
+				'editUrl' => $app->urlFor('stories'),
+			),
+		),
+		'section' => 'cms',
+		'page' => 'cms',
 	));
-})->setName('admin/issues');
-$app->get('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
-	try {
-		$issue = $site->getIssueBySlug($slug);
-	}
-	catch (\Exception $e) {
-		if ($e->getCode() === Jack\Site::E_NOT_FOUND) {
-			return $app->notFound();
-		}
-		echo $e->getFile().':'.$e->getLine().'  '.$e->getMessage();
-		exit(0);
-	}
-	$app->render('admin/parts/issues/issue.twig', array(
-		'title' => $view->get('title').' | Edit '.$issue->title,
-		'issue' => $issue,
-		'section' => 'issues',
-		'page' => 'issue',
+})->setName('admin/cms');
+$app->get('/admin/cms/stories', $can_edit_cms, function () use ($site, $app, $view) {
+	$stories = unserialize(file_get_contents(ROOT_DIR.'/site/cms/stories.php'));
+	$app->render('admin/parts/cms/stories.twig', array(
+		'title' => $view->get('title').' | Edit the story of Jack',
+		'stories' => $stories,
+		'colors' => array('dark','light'),
+		'section' => 'cms',
+		'page' => 'stories',
 	));
-})->setName('edit-issue');
-$app->post('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
-	$issue = $site->getIssueBySlug($slug);
-	try {
-		$issue->update($app->request->post(), $site, $site);
-		$app->flash('info', "The issue '$issue->title' was successfully updated.");
-	}
-	catch (\Exception $e) {
-		$app->flash('error', "Error updating the issue. ".$e->getFile().':'.$e->getLine().'  '.$e->getMessage());
-	}
-	$app->redirect($app->urlFor('admin/issue', array('slug' => $issue->slug)));
-})->setName('admin/issue/update');
+})->setName('stories');
+$app->post('/admin/cms/stories', $can_edit_cms, function () use ($site, $app, $view) {
+	$data = $app->request->post();
+	file_put_contents(ROOT_DIR.'/site/cms/stories.php', serialize($data['stories']));
+	$app->flashNow('info', "The stories were saved");
+	$app->render('admin/parts/cms/stories.twig', array(
+		'title' => $view->get('title').' | Edit the story of Jack',
+		'stories' => $data['stories'],
+		'colors' => array('dark','light'),
+		'section' => 'cms',
+		'page' => 'stories',
+	));
+});
+/*
 $app->post('/admin/issues/:slug/images', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');
 	$issue = $site->getIssueBySlug($slug);
@@ -49,20 +49,20 @@ $app->post('/admin/issues/:slug/images', $can_edit_issues, function ($slug) use 
 	catch (\Exception $e) {
 		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
-})->setName('update-images');
+})->setName('admin/issue/update-images');
 
-$app->get('/admin/issues/:slug/posters', $can_edit_issues, function ($slug) use ($site, $app, $view) {
+$app->get('/admin/issues/:slug/pages', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	$posters = $site->getPostersByIssueId($issue->id);
-	$app->render('admin/parts/issue/posters.twig', array(
+	$app->render('admin/parts/pages.twig', array(
 		'title' => $view->get('title').' | Edit order '.$issue->title,
 		'issue' => $issue,
 		'posters' => $posters,
 		'section' => 'issues',
 		'page' => 'issue-posters',
 	));
-})->setName('edit-posters');
-$app->post('/admin/issues/:slug/posters', $can_edit_issues, function ($slug) use ($site, $app, $view) {
+})->setName('admin/issue/pages');
+$app->post('/admin/issues/:slug/pages', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');
 	$issue = $site->getIssueBySlug($slug);
 	try {
@@ -73,7 +73,7 @@ $app->post('/admin/issues/:slug/posters', $can_edit_issues, function ($slug) use
 		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
 });
-$app->get('/admin/issues/:slug/posters/add', $can_edit_issues, function ($slug) use ($site, $app, $view) {
+$app->get('/admin/issues/:slug/pages/add', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	$app->render('admin/parts/add_page.twig', array(
 		'title' => $view->get('title').' | Add poster to '.$issue->title,
@@ -81,8 +81,8 @@ $app->get('/admin/issues/:slug/posters/add', $can_edit_issues, function ($slug) 
 		'section' => 'issues',
 		'page' => 'add-poster',
 	));
-})->setName('add-poster');
-$app->post('/admin/issues/:slug/posters/add', $can_edit_issues, function ($slug) use ($site, $app, $view) {
+})->setName('admin/issue/newpage');
+$app->post('/admin/issues/:slug/pages/add', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	$poster = new Jack\Poster();
 	$poster->issueId = $issue->id;
@@ -110,5 +110,5 @@ $app->post('/admin/issues/poster/delete/:id', $can_edit_issues, function ($id) u
 	catch (\Exception $e) {
 		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
-})->setName('delete-poster');
-
+})->setName('admin/delete-poster');
+*/

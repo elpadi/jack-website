@@ -24,9 +24,11 @@ $app->get('/questions', $can_access_site, function () use ($site, $app, $view) {
 	));
 })->setName('questions');
 $app->get('/answers', $can_access_site, function () use ($site, $app, $view) {
+	$stories = unserialize(file_get_contents(ROOT_DIR.'/site/cms/stories.php'));
 	$app->render('parts/answers.twig', array(
 		'title' => 'Answers',
 		'first_issue' => $site->getFirstIssue(),
+		'stories' => $stories,
 		'section' => 'welcome',
 		'page' => 'answers',
 	));

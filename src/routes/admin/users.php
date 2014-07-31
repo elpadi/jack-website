@@ -5,7 +5,7 @@ $can_edit_acl = curry(array($site, 'checkPermission'), 'edit acl');
 
 $app->get('/admin/users', $can_edit_users, function () use ($site, $app, $view) {
 	$acl = $site->getService('acl');
-	$app->render('admin/parts/users.twig', array(
+	$app->render('admin/parts/users/users.twig', array(
 		'users' => $site->fetchUsersData(),
 		'roles' => array_map(function($role) use ($acl) {
 			$perms = $acl->Roles->permissions($role['ID']);
@@ -19,12 +19,12 @@ $app->get('/admin/users', $can_edit_users, function () use ($site, $app, $view) 
 })->setName('admin/users');
 
 $app->get('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
-	$app->render('admin/parts/user-add.twig', array(
+	$app->render('admin/parts/users/add-user.twig', array(
 		'roles' => $site->getService('acl')->Roles->descendants(1),
 		'section' => 'users',
 		'page' => 'create-user',
 	));
-})->setName('admin/create-user');
+})->setName('create-user');
 $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app, $view) {
 	$user = $site->getService('newuser');
 	$post = $app->request->post();
@@ -42,7 +42,7 @@ $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app,
 		$errors[] = $e->getMessage();
 	}
 	if (count($errors) > 0) {
-		$app->render('admin/parts/user-add.twig', array(
+		$app->render('admin/parts/users/add-users.twig', array(
 			'roles' => $site->getService('acl')->Roles->children(1),
 			'section' => 'users',
 			'page' => 'create-user',
@@ -59,7 +59,7 @@ $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app,
 $app->get('/admin/users/:id/change-password', $can_edit_users, function ($id) use ($site, $app, $view) {
 	$user = $site->getService('user')->manageUser($id);
 	if ($user) {
-		$app->render('admin/parts/user-pass.twig', array(
+		$app->render('admin/parts/users/change-password.twig', array(
 			'id' => $id,
 			'username' => $user->Username,
 			'section' => 'users',
@@ -100,7 +100,7 @@ $app->get('/admin/users/role/:id', $can_edit_acl, function ($id) use ($site, $ap
 	if (!$title) {
 		return $app->notFound();
 	}
-	$app->render('admin/parts/edit-role.twig', array(
+	$app->render('admin/parts/users/edit-role.twig', array(
 		'title' => $title,
 		'id' => $id,
 		'permissions' => array_map(function($perm) use ($acl, $id) {
@@ -110,7 +110,7 @@ $app->get('/admin/users/role/:id', $can_edit_acl, function ($id) use ($site, $ap
 		'section' => 'users',
 		'page' => 'edit-role',
 	));
-})->setName('admin/role');
+})->setName('edit-role');
 $app->post('/admin/users/role/:id', $can_edit_acl, function () use ($site, $app, $view) {
 	$acl = $site->getService('acl');
 	$post = $app->request->post();
@@ -135,12 +135,12 @@ $app->post('/admin/users/role/:id', $can_edit_acl, function () use ($site, $app,
 });
 
 $app->get('/admin/users/create-role', $can_edit_acl, function () use ($site, $app, $view) {
-	$app->render('admin/parts/create-role.twig', array(
+	$app->render('admin/parts/users/create-role.twig', array(
 		'roles' => $site->getService('acl')->Roles->descendants(1),
 		'section' => 'users',
 		'page' => 'create-role',
 	));
-})->setName('admin/create-role');
+})->setName('create-role');
 $app->post('/admin/users/create-role', $can_edit_acl, function () use ($site, $app, $view) {
 	$acl = $site->getService('acl');
 	$post = $app->request->post();
@@ -152,7 +152,7 @@ $app->post('/admin/users/create-role', $can_edit_acl, function () use ($site, $a
 		if (DEBUG) {
 			$app->flash('error', $e->getFile().':'.$e->getLine().' - '.$e->getMessage());
 		}
-		$app->render('admin/parts/create-role.twig', array(
+		$app->render('admin/parts/users/create-role.twig', array(
 			'values' => $post,
 		));
 	}
@@ -161,12 +161,12 @@ $app->post('/admin/users/create-role', $can_edit_acl, function () use ($site, $a
 });
 
 $app->get('/admin/users/create-permission', $can_edit_acl, function () use ($site, $app, $view) {
-	$app->render('admin/parts/create-permission.twig', array(
+	$app->render('admin/parts/users/create-permission.twig', array(
 		'permissions' => $site->getService('acl')->Permissions->descendants(1),
 		'section' => 'users',
 		'page' => 'create-permission',
 	));
-})->setName('admin/create-permission');
+})->setName('create-permission');
 $app->post('/admin/users/create-permission', $can_edit_acl, function () use ($site, $app, $view) {
 	$acl = $site->getService('acl');
 	$post = $app->request->post();
@@ -178,7 +178,7 @@ $app->post('/admin/users/create-permission', $can_edit_acl, function () use ($si
 		if (DEBUG) {
 			$app->flash('error', $e->getFile().':'.$e->getLine().' - '.$e->getMessage());
 		}
-		$app->render('admin/parts/create-permission.twig', array(
+		$app->render('admin/parts/users/create-permission.twig', array(
 			'values' => $post,
 		));
 	}

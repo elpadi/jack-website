@@ -60,6 +60,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		);
 		$view->parserExtensions = array(
 			new \Slim\Views\TwigExtension(),
+			new \Twig_Extension_Debug(),
 		);
 		$this->app = $app;
 	}
@@ -88,7 +89,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 					'name' => $l,
 					'url' => $app->urlFor("admin/$l"),
 				);
-			}, array('users','issues')),
+			}, array('users','issues','cms')),
 			'menu_links' => array_map(function($l) use ($app) {
 				return array(
 					'title' => $l,
