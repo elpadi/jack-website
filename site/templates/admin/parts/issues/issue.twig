@@ -1,14 +1,14 @@
 {% extends "admin/site.twig" %}
 {% block content %}
 <h2>Edit Issue {{ issue.title }}</h2>
-<form method="POST" action="{{ urlFor('admin/issue', {"slug": issue.slug}) }}">
+<form method="POST" action="{{ urlFor('edit-issue', {"slug": issue.slug}) }}">
 	<label><input type="checkbox" name="published" value="1" {{ issue.published ? 'checked="checked"' : '' }}> This issue is visible on the site.</label><br >
 	<label>Rename issue to <input type="text" name="title" value="{{ issue.title }}"></label><br >
 	<input type="submit" value="Update">
 </form>
 <h3>Edit Posters</h3>
-<p><a href="{{ urlFor('admin/issue/newpage', {"slug": issue.slug}) }}">Add new poster</a></p>
-<p><a href="{{ urlFor('admin/issue/pages', {"slug": issue.slug}) }}">Current posters (change order, delete posters)</a></p>
+<p><a href="{{ urlFor('add-poster', {"slug": issue.slug}) }}">Add new poster</a></p>
+<p><a href="{{ urlFor('edit-posters', {"slug": issue.slug}) }}">Current posters (change order, delete posters)</a></p>
 <h3>Change main images</h3>
 <p>The covers image has the back cover on the left, the front cover in the middle, and the fold on the right.</p>
 <div class="section-switcher tabs">
@@ -26,7 +26,7 @@
 			<div class="right issue-image__input">
 				<h4>Change image</h4>
 				<p>The image size must be <strong>1350 x 600</strong> pixels.</p>
-				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update-images', {"slug": issue.slug}) }}" data-file-input-name="Covers"></form>
+				<form class="admin-form-image dropzone" action="{{ urlFor('update-images', {"slug": issue.slug}) }}" data-file-input-name="Covers"></form>
 			</div>
 		</div>
 		<div id="cover-poster" class="section-switcher__section issue-image">
@@ -36,7 +36,7 @@
 			<div class="right issue-image__input">
 				<h4>Change image</h4>
 				<p>The image size must be <strong>1350 x 600</strong> pixels.</p>
-				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update-images', {"slug": issue.slug}) }}" data-file-input-name="CoverPoster"></form>
+				<form class="admin-form-image dropzone" action="{{ urlFor('update-images', {"slug": issue.slug}) }}" data-file-input-name="CoverPoster"></form>
 			</div>
 		</div>
 		<div id="centerfold-front" class="section-switcher__section issue-image">
@@ -46,7 +46,7 @@
 			<div class="right issue-image__input">
 				<h4>Change image</h4>
 				<p>The image size must be <strong>900 x 1200</strong> pixels.</p>
-				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update-images', {"slug": issue.slug}) }}" data-file-input-name="FrontCenterfold"></form>
+				<form class="admin-form-image dropzone" action="{{ urlFor('update-images', {"slug": issue.slug}) }}" data-file-input-name="FrontCenterfold"></form>
 			</div>
 		</div>
 		<div id="centerfold-back" class="section-switcher__section issue-image">
@@ -56,7 +56,7 @@
 			<div class="right issue-image__input">
 				<h4>Change image</h4>
 				<p>The image size must be <strong>900 x 1200</strong> pixels.</p>
-				<form class="admin-form-image dropzone" action="{{ urlFor('admin/issue/update-images', {"slug": issue.slug}) }}" data-file-input-name="BackCenterfold"></form>
+				<form class="admin-form-image dropzone" action="{{ urlFor('update-images', {"slug": issue.slug}) }}" data-file-input-name="BackCenterfold"></form>
 			</div>
 		</div>
 	</div>

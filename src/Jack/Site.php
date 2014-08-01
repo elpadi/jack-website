@@ -330,5 +330,9 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		return $path;
 	}
 
+	public function clearCache() {
+		del_tree(ROOT_DIR.'/site/cache/twig', false);
+	}
+
 }
 

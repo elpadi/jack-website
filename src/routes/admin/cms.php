@@ -21,7 +21,7 @@ $app->get('/admin/cms/stories', $can_edit_cms, function () use ($site, $app, $vi
 	$app->render('admin/parts/cms/stories.twig', array(
 		'title' => $view->get('title').' | Edit the story of Jack',
 		'stories' => $stories,
-		'colors' => array('dark','light'),
+		'colors' => array('delta','quill-gray'),
 		'section' => 'cms',
 		'page' => 'stories',
 	));
@@ -33,7 +33,7 @@ $app->post('/admin/cms/stories', $can_edit_cms, function () use ($site, $app, $v
 	$app->render('admin/parts/cms/stories.twig', array(
 		'title' => $view->get('title').' | Edit the story of Jack',
 		'stories' => $data['stories'],
-		'colors' => array('dark','light'),
+		'colors' => array('delta','quill-gray'),
 		'section' => 'cms',
 		'page' => 'stories',
 	));

@@ -4,7 +4,7 @@
 <ol class="issues-list">
 	{% for issue in issues %}
 	<li>
-		<a href="{{ urlFor('admin/issue', {"slug": issue.slug}) }}">
+		<a href="{{ urlFor('edit-issue', {"slug": issue.slug}) }}">
 			{{ issue.title }}
 			<img src="{{ issue.covers.front }}" alt="">
 		</a>

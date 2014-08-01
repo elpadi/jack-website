@@ -10,6 +10,8 @@ body {
 body.loaded {
 	opacity:1;
 }
+.delta { color:rgb(168, 167, 157); }
+.quill-gray { color:rgb(214, 214, 212); }
 #container {
   background-image: url(../../images/backgrounds/answers.jpg);
 	background-repeat:repeat-y;
@@ -18,7 +20,7 @@ body.loaded {
   background-size: 100% auto;
   letter-spacing: -1px;
   font-weight: 100;
-  color: #d6d6d4;
+  color: white;
 	height:auto;
 	margin-top:6%;
 }
@@ -108,9 +110,6 @@ body.loaded {
 }
 #content > article p {
   margin: 0;
-}
-#content > article .dark {
-  color: #a8a79d;
 }
 #why-me {
   padding-bottom: 106%;

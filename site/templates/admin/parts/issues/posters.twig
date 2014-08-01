@@ -5,8 +5,8 @@
 	<li><img src="{{ issue.covers.thumb }}" alt=""></li>
 	<li><img src="{{ issue.covers.poster_thumb }}" alt=""></li>
 </ul>
-<p><a href="{{ urlFor('admin/issue', {"slug": issue.slug}) }}">Back to issue</a></p>
-<p><a href="{{ urlFor('admin/issue/newpage', {"slug": issue.slug}) }}">Add new page</a></p>
+<p><a href="{{ urlFor('edit-issue', {"slug": issue.slug}) }}">Back to issue</a></p>
+<p><a href="{{ urlFor('add-poster', {"slug": issue.slug}) }}">Add new page</a></p>
 <h2>Page Order</h2>
 <section id="order-instructions">
 	<div class="accordion">
@@ -20,7 +20,7 @@
 		</div>
 	</div>
 </section>
-<form name="page_order" method="POST" target="{{ urlFor('admin/issue/pages', {"slug": issue.slug}) }}">
+<form name="page_order" method="POST" target="{{ urlFor('edit-posters', {"slug": issue.slug}) }}">
 	<table id="page-order" class="swappable-table">
 		<thead>
 			<tr>
@@ -38,7 +38,7 @@
 					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.front.id }}">
 						<img src="{{ p.front.thumb }}" alt="">
 						<p>{{ p.front.title }}</p>
-						<p><a class="ajax-link ajax-link--refresh red" href="{{ urlFor("admin/delete-poster", {"id":p.front.id}) }}">Delete</a></p>
+						<p><a class="ajax-link ajax-link--refresh red" href="{{ urlFor("delete-poster", {"id":p.front.id}) }}">Delete</a></p>
 					</div>
 				</td>
 				{% if p.back %}
@@ -47,7 +47,7 @@
 					<div class="poster swappable-table__cell-content" data-poster-id="{{ p.back.id }}">
 						<img src="{{ p.back.thumb }}" alt="">
 						<p>{{ p.back.title }}</p>
-						<p><a class="ajax-link ajax-link--refresh red" href="{{ urlFor("admin/delete-poster", {"id":p.back.id}) }}">Delete</a></p>
+						<p><a class="ajax-link ajax-link--refresh red" href="{{ urlFor("delete-poster", {"id":p.back.id}) }}">Delete</a></p>
 					</div>
 				</td>
 				{% endif %}

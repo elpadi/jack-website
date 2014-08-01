@@ -33,6 +33,12 @@ td {
 section {
   margin-bottom: 2em;
 }
+fieldset {
+	margin-bottom:5%;
+}
+label {
+	display:block;
+}
 .issue-image {
   width: 928px;
   overflow: hidden;

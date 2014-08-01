@@ -4,7 +4,7 @@ $can_edit_issues = curry(array($site, 'checkPermission'), 'edit issues');
 
 $app->get('/admin/issues', $can_edit_issues, function () use ($site, $app, $view) {
 	$app->render('admin/parts/issues/issues.twig', array(
-		'title' => $view->get('title').' | Issues',
+		'title' => 'Issues',
 		'issues' => $site->getIssues(),
 		'section' => 'issues',
 		'page' => 'issues',
@@ -22,7 +22,7 @@ $app->get('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, 
 		exit(0);
 	}
 	$app->render('admin/parts/issues/issue.twig', array(
-		'title' => $view->get('title').' | Edit '.$issue->title,
+		'title' => 'Edit issue '.$issue->title,
 		'issue' => $issue,
 		'section' => 'issues',
 		'page' => 'issue',
@@ -54,7 +54,7 @@ $app->post('/admin/issues/:slug/images', $can_edit_issues, function ($slug) use 
 $app->get('/admin/issues/:slug/posters', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	$posters = $site->getPostersByIssueId($issue->id);
-	$app->render('admin/parts/issue/posters.twig', array(
+	$app->render('admin/parts/issues/posters.twig', array(
 		'title' => $view->get('title').' | Edit order '.$issue->title,
 		'issue' => $issue,
 		'posters' => $posters,

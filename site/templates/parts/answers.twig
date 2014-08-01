@@ -7,9 +7,14 @@
 		<dt>{{ s.title }}</dt>
 		<dd>
 			{% for p in s.paragraphs %}
-			<p class="{{ p.color }}">{{ p.text }}</p>
+			<p class="{{ p.color }}">{{ p.text | nl2br }}</p>
 			{% endfor %}
 		</dd>
+		{% if s.id == 'timeline' %}
+		<div id="answers-links">
+			<a href="{{ urlFor('issue', {"slug":first_issue.slug}) }}">Skip &gt;</a>
+		</div>
+		{% endif %}
 	</div>
 	{% endfor %}
 </article>

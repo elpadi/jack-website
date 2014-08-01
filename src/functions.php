@@ -67,14 +67,6 @@ function get_longest_common_subsequence($string_1, $string_2) {
 	return $return;
 }
 
-function delTree($dir) {
-	$files = array_diff(scandir($dir), array('.','..'));
-	foreach ($files as $file) {
-		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
-	}
-	return rmdir($dir);
-}
-
 function curry($fn) {
 	$args = array_slice(func_get_args(), 1);
 	return function() use(&$fn, &$args) {
@@ -95,3 +87,24 @@ function curry($fn) {
 function slug($s, $separator="-") {
 	return trim(preg_replace('/[^a-zA-Z0-9]+/', $separator, strtolower($s)), $separator);
 }
+
+function walk_dir($dir, $file_fn=null, $dir_fn=null) {
+	$it = new RecursiveDirectoryIterator($dir);
+	foreach (new RecursiveIteratorIterator($it) as $file) {
+		if (strpos("$file", '..') !== false) continue;
+		if (strpos($dir, realpath("$file")) !== false) continue;
+		$file_fn && is_file($file) && call_user_func($file_fn, $file);
+		$dir_fn && is_dir($file) && call_user_func($dir_fn, $file);
+	}
+	return true;
+}
+
+function del_tree($dir, $include_itself=true) {
+	return walk_dir($dir, function($f) {
+		unlink("$f");
+	}, function($d) {
+		rmdir("$d");
+	});
+	$include_itself && rmdir($dir);
+}
+

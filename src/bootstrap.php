@@ -19,11 +19,9 @@ require(ROOT_DIR.'/src/vendor/owasp/phprbac/PhpRbac/autoload.php');
 $site = new Jack\Site();
 $app = $site->app;
 $view = $app->view();
-$it = new RecursiveDirectoryIterator(ROOT_DIR.'/src/routes');
-foreach(new RecursiveIteratorIterator($it) as $file) {
-	if (is_file($file)) {
-		require($file);
-	}
-}
+walk_dir(ROOT_DIR.'/src/routes', function($f) {
+	global $site, $app, $view, $db_config, $users_db_config, $site_config, $smtp_config, $invite_config;
+	require("$f");
+});
 require(ROOT_DIR.'/src/services.php');
 $site->init();
