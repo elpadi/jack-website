@@ -1,6 +1,11 @@
 body {
 	position:relative;
 	background-color:white;
+	opacity:0;
+	transition:opacity 0.3s linear 0.1s;
+}
+body.content-loaded.content-ready {
+	opacity:1;
 }
 #container {
 	padding:0;

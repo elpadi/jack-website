@@ -4,11 +4,6 @@ html {
 }
 body {
 	width:830px;
-	opacity:0;
-	transition:opacity 0.3s linear 0.1s;
-}
-body.loaded {
-	opacity:1;
 }
 .delta { color:rgb(168, 167, 157); }
 .quill-gray { color:rgb(214, 214, 212); }

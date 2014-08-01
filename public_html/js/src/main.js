@@ -10,14 +10,16 @@ require(['jquery'], function(jquery) {
 		$(window).on('resize', function() {
 			var $cont = $('#container');
 			$cont.css('margin-top', $cont.outerHeight() < window.innerHeight ? ((window.innerHeight - $cont.outerHeight()) / 2) + 'px' : '');
-		}).resize();
+		})
 	}
 
 	$(document).on('ready', function() {
+		$(document.body).addClass('content-ready');
 		var $notices = $('#notices').css('opacity','1');
 		setInterval(function() {
 			$notices.css({ top: (-1 * $notices.outerHeight()) + 'px', opacity:'0' });
 		}, 1500);
+		$(window).resize();
 	});
 });
 
