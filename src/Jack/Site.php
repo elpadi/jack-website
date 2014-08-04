@@ -54,7 +54,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 		$view = $app->view();
 		$view->twigTemplateDirs = array(TEMPLATE_DIR);
 		$view->parserOptions = array(
-			'debug' => DEBUG,
+			'debug' => true,//DEBUG,
 			'cache' => CACHE_DIR.'/twig',
 			'twigTemplateDirs' => array(TEMPLATE_DIR),
 		);
@@ -78,7 +78,7 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 			'IS_LOGGED_IN' => $user_id > 0 && $user_id !== GUEST_USER_ID,
 			'BASE_TITLE' => 'JACK | ',
 			'PATH_PREFIX' => PATH_PREFIX,
-			'STYLES_PATH' => PATH_PREFIX.'css/'.(DEBUG ? 'src' : 'dist'),
+			'STYLES_DIR' => IS_LOCAL && DEBUG ? 'src' : 'dist',
 			'USER_ID' => $user_id > 0 ? $user_id : GUEST_USER_ID,
 			'NAME' => $user_id > 0 ? $this->getService('user')->userData['full_name'] : 'Guest',
 			'PIWIK_URL' => PIWIK_URL,
@@ -97,6 +97,11 @@ class Site implements AssetManager,DbAccess,EmailSender,TemplateHandler,Router {
 				);
 			}, array(/*'About','Issues'*/)),
 		));
+		$twig = $app->view->getInstance();
+		$twig->addFilter(new \Twig_SimpleFilter('asset_url', function($url) {
+			$file = PUBLIC_ROOT_DIR.$url;
+			return (IS_LOCAL && DEBUG) || !is_file($file) ? $url : $url.'?date='.filemtime($file);
+		}));
 	}
 
 	public function getAdminSections($currentSection) {

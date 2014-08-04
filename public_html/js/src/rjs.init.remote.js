@@ -1,5 +1,6 @@
 require.config({
 	baseUrl: '/project/js/dist',
+	urlArgs: 'date=LAST_MTIME',
 	paths: {
 		"site": "jack",
 		"jquery": "vendor/jquery",

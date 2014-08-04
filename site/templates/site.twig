@@ -16,13 +16,13 @@
 			<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
-			<link rel="stylesheet" href="{{ STYLES_PATH }}/main.css" media="all">
-			<link rel="stylesheet" href="{{ STYLES_PATH }}/sections/{{ section }}.css" media="all">
-			<link rel="stylesheet" href="{{ STYLES_PATH }}/pages/{{ page }}.css" media="all">
-			{% if IS_LOCAL %}
+			<link rel="stylesheet" href="{{ (PATH_PREFIX ~ 'css/' ~ STYLES_DIR ~ '/main.css') | asset_url }}" media="all">
+			<link rel="stylesheet" href="{{ (PATH_PREFIX ~ 'css/' ~ STYLES_DIR ~ '/sections/' ~ section ~ '.css') | asset_url }}" media="all">
+			<link rel="stylesheet" href="{{ (PATH_PREFIX ~ 'css/' ~ STYLES_DIR ~ '/pages/' ~ page ~ '.css') | asset_url }}" media="all">
+			{% if IS_LOCAL and DEBUG %}
 			<script src="{{ PATH_PREFIX }}js/src/bower_components/modernizr/modernizr.js"></script>
 			{% else %}
-			<script src="{{ PATH_PREFIX }}js/dist/vendor/modernizr.js"></script>
+			<script src="{{ PATH_PREFIX ~ 'js/dist/vendor/modernizr.js' | asset_url }}"></script>
 			{% endif %}
 			<script>window.onload = function() { document.body.className += ' content-loaded'; };</script>
 	{% endblock %}
@@ -62,7 +62,7 @@
 		</div>
 		{% endblock %}
 		<script>var RJS_MAIN = 'main';</script>
-		{% if DEBUG %}
+		{% if IS_LOCAL and DEBUG %}
 		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
 		{% else %}
 		<script src="{{ PATH_PREFIX }}js/dist/vendor/require.js" data-main="{{ PATH_PREFIX }}js/dist/rjs.init"></script>
