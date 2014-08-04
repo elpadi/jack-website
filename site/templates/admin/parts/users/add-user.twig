@@ -1,7 +1,7 @@
 {% extends "admin/site.twig" %}
 {% block content %}
 <h1>Create new user</h1>
-<form method="POST" action="{{ urlFor('admin/create-user') }}">
+<form method="POST" action="{{ urlFor('create-user') }}">
 	<hr>
 	<h2>User information</h2>
 	<label>Username: <input type="text" name="username" required="required"></label>
