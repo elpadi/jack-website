@@ -17,9 +17,15 @@ body {
   color:#b4b4ac;
   text-decoration: none;
 }
+#content > header a:hover {
+  color:#faa0a8;
+}
 #content > article a {
   color: white;
   text-decoration: none;
+}
+#content > article a:hover {
+  color:#c3c3bb;
 }
 h2 {
   font-size:1.82em;

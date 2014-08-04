@@ -48,6 +48,19 @@ body {
 */
 #content > header {
   margin-bottom: 6%;
+	position:relative;
+}
+#content > header p {
+	position:absolute;
+	right:0;
+	bottom:-1.3em;
+	font-size:1.6em;
+	font-weight:400;
+	margin:0;
+}
+#content > header a {
+	color:#4a483e;
+	text-decoration:none;
 }
 #content h2 {
   margin: -0.25em 0 0;

@@ -1,6 +1,9 @@
 {% extends "site.twig" %}
 {% block content %}
-<header><h2>thoughts & reasons, then plans</h2></header>
+<header>
+	<h2>thoughts & reasons, then plans</h2>
+	<p><a href="{{ urlFor('issue', {"slug":first_issue.slug}) }}">issue #1&gt;</a></p>
+</header>
 <article>
 	{% for s in stories %}
 	<div id="{{ s.id }}">

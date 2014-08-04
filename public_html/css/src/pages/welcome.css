@@ -41,7 +41,13 @@ h2 {
   float: left;
 	color:#c8ecdb;
 }
+#welcome-links > a:first-child:hover {
+	color:#eae7b1;
+}
 #welcome-links > a:last-child {
   float: right;
 	color:#f1f5c1;
+}
+#welcome-links > a:last-child:hover {
+	color:#cdf2ef;
 }
