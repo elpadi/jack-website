@@ -5,17 +5,40 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 	function Sheet($sheet, number) {
 		this.onEnterFrame = function() {};
 		this.whole = new THREE.Object3D();
+		this.loader = new THREE.TextureLoader();
 		this.animation = new Animation(0, 1);
 		
 		this.$container = $sheet;
 		this.index = number - 1;
 		this.name = 'sheet-' + number;
-		var parts = _.map(this.parts, this.createPart.bind(this));
 
-		this.whole.translateY(0.5);
-		_.each(parts, function(part) {
-			this.whole.add(part);
+		var addToScene = this.whole.add.bind(this.whole);
+		var createImagePromise = function(pos, pIndex, posGroup, face) {
+			return this.createImageMesh(pos, face, pIndex).done(posGroup.add.bind(posGroup));
+		}.bind(this);
+		var groupPromises = _.map(this.imagePositions, function(pos, pIndex) {
+			var promise = $.Deferred(),
+					posGroup = new THREE.Object3D();
+			posGroup.name = pos;
+			// when all image meshes in a group are created, resolve the group.
+			$.when.apply(null, _.map(this.faces, curry(createImagePromise, pos, pIndex, posGroup)))
+			  .done(function() {
+					posGroup.translateX(this.groupTranslations.x[pIndex] * this.width);
+					posGroup.translateZ(this.translations.z[pIndex]);
+					posGroup.rotation.x = this.rotations.x[pIndex];
+					posGroup.rotation.y = this.rotations.y[pIndex];
+					promise.resolve(posGroup)
+			  }.bind(this));
+			return promise;
 		}.bind(this));
+		// when all the groups are resolved, add to the scene.
+		$.when.apply(null, groupPromises).done(function() {
+			_.each(arguments, addToScene);
+			$sheet.trigger('sectionready');
+		});
+	
+		// push the whole thing up a little bit.
+		this.whole.translateY(0.5);
 		$sheet.data('magazine-section', this);
 	}
 
@@ -28,43 +51,39 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 	Sheet.prototype.isOpen = false;
 	Sheet.prototype.name = 'sheet-1';
 	Sheet.prototype.index = 0;
-	Sheet.prototype.parts = ['left','right'];
+	Sheet.prototype.imagePositions = ['left','right'];
 	Sheet.prototype.faces = ['front','back'];
+	Sheet.prototype.groupTranslations = {
+		x: [0,0]
+	};
 	Sheet.prototype.translations = {
 		x: [-0.5,0.5],
+		y: [1,1].map(function(n) { return n * 0.125; }),
 		z: [0,1].map(function(n) { return n * 0.01; })
 	};
-	Sheet.prototype.rotations = [0, Math.PI];
-
-	Sheet.prototype.createPart = function(part, index) {
-		var group = new THREE.Object3D();
-		group.name = part;
-		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
-			plane.translateX(this.translations.x[index] * this.width);
-			plane.translateY(0.125 * this.height);
-			plane.translateZ(this.translations.z[index]);
-			plane.visible = false;
-			group.add(plane);
-		}.bind(this));
-		group.rotation.y = this.rotations[index];
-		return group;
+	Sheet.prototype.rotations = {
+		x: [0,0],
+		y: [0, Math.PI]
 	};
 
-	Sheet.prototype.onPlaneLoaded = function() {
-		this.planesLoaded++;
-		console.log('Sheet.onPlaneLoaded --- planesLoaded:', this.planesLoaded);
-		(this.planesLoaded === this.parts.length * this.faces.length) && this.$container.trigger('sectionready');
-	};
-
-	Sheet.prototype.createPlane = function(part, face) {
-		var plane = new THREE.PlaneGeometry(this.width, this.height);
-		var image = new THREE.MeshBasicMaterial({
-			map: THREE.ImageUtils.loadTexture(this.$container.find('.' + part + '.' + face).attr('src'), {}, this.onPlaneLoaded.bind(this)),
-			transparent: true,
-			opacity: 0
-		});
+	Sheet.prototype.createImageMesh = function(pos, face, posIndex) {
+		var promise = $.Deferred(),
+				plane = new THREE.PlaneGeometry(this.width, this.height);
 		(face === 'back') && plane.applyMatrix(FLIP_MATRIX);
-		return new THREE.Mesh(plane, image);
+		this.loader.load(this.$container.find('.' + pos + '.' + face).attr('src'), function(texture) {
+			var mesh = new THREE.Mesh(plane, new THREE.MeshBasicMaterial({
+				map: texture,
+				transparent: true,
+				overdraw: 1,
+				opacity: 0
+			}));
+			mesh.translateX(this.translations.x[posIndex] * this.width);
+			mesh.translateY(this.translations.y[posIndex] * this.height);
+			(face === 'back') && mesh.translateZ(0.02);
+			mesh.visible = false;
+			promise.resolve(mesh);
+		}.bind(this));
+		return promise;
 	};
 
 	Sheet.prototype.getObject3D = function() {
@@ -146,7 +165,7 @@ define(['underscore','threejs','lib/fn/curry','lib/Animation'], function(undersc
 
 	Sheet.prototype.close = function() {
 		this.isOpen = false;
-		this.resetAnimation(this.whole.getObjectByName('right').rotation.y, this.rotations[1], this.rotateRightY.bind(this), 'sectionclosed');
+		this.resetAnimation(this.whole.getObjectByName('right').rotation.y, this.rotations.y[1], this.rotateRightY.bind(this), 'sectionclosed');
 	};
 	
 	return Sheet;

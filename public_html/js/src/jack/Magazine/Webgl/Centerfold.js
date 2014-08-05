@@ -11,8 +11,12 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 	Centerfold.prototype = new A();
 	Centerfold.prototype.constructor = Centerfold;
 
-	Centerfold.prototype.parts = ['topleft','topright','bottomleft','bottomright'];
+	Centerfold.prototype.imagePositions = ['topleft','topright','bottomleft','bottomright'];
 	Centerfold.prototype.faces = ['front','back'];
+	
+	Centerfold.prototype.groupTranslations = {
+		x: [0,0,0,0]
+	};
 	Centerfold.prototype.translations = {
 		x: [-0.5,0.5,-0.5,0.5],
 		y: [0.5,0.5,-0.5,-0.5],
@@ -26,21 +30,6 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 
 	Centerfold.prototype.getSectionIndex = function() {
 		return this.name;
-	};
-
-	Centerfold.prototype.createPart = function(part, index) {
-		var group = new THREE.Object3D();
-		group.name = part;
-		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
-			plane.translateX(this.translations.x[index] * this.width);
-			plane.translateY(this.translations.y[index] * this.height);
-			plane.translateZ(this.translations.z[index]);
-			plane.visible = false;
-			group.add(plane);
-		}.bind(this));
-		group.rotation.x = this.rotations.x[index];
-		group.rotation.y = this.rotations.y[index];
-		return group;
 	};
 
 	Centerfold.prototype.rotateRightY = function(angle) {

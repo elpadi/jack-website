@@ -1,4 +1,4 @@
-define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
+define(['./Sheet'], function(Sheet) {
 	
 	function Cover($cover) {
 		Sheet.call(this, $cover, 0);
@@ -10,27 +10,20 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 	Cover.prototype = new A();
 	Cover.prototype.constructor = Cover;
 
-	Cover.prototype.parts = ['left','middle','right'];
+	Cover.prototype.imagePositions = ['left','middle','right'];
 	Cover.prototype.faces = ['front','back'];
-	Cover.prototype.translations = {
-		x: [-1,0,1],
-		z: [1,0,2].map(function(n) { return n * 0.01; })
-	};
-	Cover.prototype.rotations = [-Math.PI, 0, Math.PI];
 
-	Cover.prototype.createPart = function(part, index) {
-		var group = new THREE.Object3D();
-		group.name = part;
-		_.each(_.map(this.faces, curry(this.createPlane.bind(this), part)), function(plane) {
-			plane.translateX(this.translations.x[index] * this.width / 2);
-			plane.translateY(0.125 * this.height);
-			plane.translateZ(this.translations.z[index]);
-			plane.visible = false;
-			group.add(plane);
-		}.bind(this));
-		group.translateX(this.translations.x[index] * this.width / 2);
-		group.rotation.y = this.rotations[index];
-		return group;
+	Cover.prototype.groupTranslations = {
+		x: [-0.5,0,0.5]
+	};
+	Cover.prototype.translations = {
+		x: [-0.5,0,0.5],
+		y: [1,1,1].map(function(n) { return n * 0.125; }),
+		z: [2,0,1].map(function(n) { return n * 0.01; })
+	};
+	Cover.prototype.rotations = {
+		x: [0,0,0],
+		y: [-Math.PI, 0, Math.PI]
 	};
 
 	Cover.prototype.getSectionIndex = function() {
@@ -47,9 +40,9 @@ define(['lib/fn/curry','./Sheet'], function(curry, Sheet) {
 
 	Cover.prototype.close = function() {
 		this.isOpen = false;
-		this.resetAnimation(this.whole.getObjectByName('left').rotation.y, this.rotations[0], this.rotateLeftY.bind(this), 'halfclosed');
+		this.resetAnimation(this.whole.getObjectByName('left').rotation.y, this.rotations.y[0], this.rotateLeftY.bind(this), 'halfclosed');
 		this.$container.closest('.magazine').one('magazine.halfclosed', function() {
-			this.resetAnimation(this.whole.getObjectByName('right').rotation.y, this.rotations[2], this.rotateRightY.bind(this), 'sectionclosed');
+			this.resetAnimation(this.whole.getObjectByName('right').rotation.y, this.rotations.y[2], this.rotateRightY.bind(this), 'sectionclosed');
 		}.bind(this));
 	};
 

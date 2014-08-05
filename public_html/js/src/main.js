@@ -1,3 +1,5 @@
+window.HAS_WEBGL = window.WebGLRenderingContext && document.createElement('canvas').getContext('webgl');
+
 require(['jquery'], function(jquery) {
 	if (document.body.className.indexOf('section-invite-confirmation') !== -1) {
 		$(window).on('click', function(e) {
@@ -108,6 +110,9 @@ require(['jquery','site/Magazine'], function(jquery, Magazine) {
 	};
 	if (Modernizr.webgl) {
 		require(['site/Magazine/Webgl/Magazine'], init_magazine);
+	}
+	else {
+		alert('Your browser does not support 3D content. This section will not work.');
 	}
 });
 

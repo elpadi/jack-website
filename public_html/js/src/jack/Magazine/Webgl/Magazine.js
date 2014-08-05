@@ -4,7 +4,7 @@ define(['jquery','threejs','lib/fn/curry','site/Magazine','./Sheet','./Cover','.
 		Magazine.call(this, $container);
 		this.scene = new THREE.Scene();
 		this.camera = new THREE.PerspectiveCamera(55, this.width / this.height, 0.1, 1000);
-		this.renderer = new THREE.WebGLRenderer({ alpha: true });
+		this.renderer = new THREE[window.HAS_WEBGL ? 'WebGLRenderer' : 'CanvasRenderer']({ alpha: true });
 
 		this.camera.position.z = 13;
 		this.renderer.setSize(this.width, this.height)
