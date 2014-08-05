@@ -116,13 +116,13 @@ body.content-loaded #main-loader {
 }
 @-webkit-keyframes loadersize {
 	from {
-		transform:translateX(0) scale(0.25);
+		-webkit-transform:translateX(0) scale(0.25);
 	}
 	50% {
-		transform:translateX(250%) scale(1);
+		-webkit-transform:translateX(250%) scale(1);
 	}
 	to {
-		transform:translateX(500%) scale(0.25);
+		-webkit-transform:translateX(500%) scale(0.25);
 	}
 }
 @keyframes loadersize {
