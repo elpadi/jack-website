@@ -30,23 +30,20 @@ h2 {
 }
 #welcome-links {
 	margin-top:5%;
-  width: 100%;
-  overflow: auto;
+	font-style: italic;
 }
 #welcome-links > a {
-  color: white;
+	display: block;
   text-decoration: none;
 }
 #welcome-links > a:first-child {
-  float: left;
-	color:#c8ecdb;
+	color:#e86c7b;
 }
 #welcome-links > a:first-child:hover {
 	color:#eae7b1;
 }
 #welcome-links > a:last-child {
-  float: right;
-	color:#f1f5c1;
+	color:#5df79b;
 }
 #welcome-links > a:last-child:hover {
 	color:#cdf2ef;
