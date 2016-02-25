@@ -42,7 +42,7 @@ $app->post('/admin/users/create', $can_edit_users, function () use ($site, $app,
 		$errors[] = $e->getMessage();
 	}
 	if (count($errors) > 0) {
-		$app->render('admin/parts/users/add-users.twig', array(
+		$app->render('admin/parts/users/add-user.twig', array(
 			'roles' => $site->getService('acl')->Roles->children(1),
 			'section' => 'users',
 			'page' => 'create-user',
