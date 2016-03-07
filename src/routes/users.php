@@ -1,5 +1,6 @@
 <?php
 
+/*
 $app->get('/user/login', function () use ($site, $app, $view) {
 	$app->render('parts/user/login-form.twig', array(
 		'nonce' => $site->getService('nonce')->create('login'),
@@ -39,3 +40,4 @@ $app->get('/user/logout', function () use ($site, $app, $view) {
 	$app->flash('info', "You have successfully logged out.");
 	$app->redirect($app->urlFor('login'));
 })->setName('logout');
+ */

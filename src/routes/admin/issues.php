@@ -1,5 +1,29 @@
 <?php
 
+\Jack\App::$framework->group('/admin/issues', function() {
+	
+	$slim = \Jack\App::$framework;
+
+	$slim->get('/{slug}', function ($request, $response, $args) {
+		try {
+			$issue = new \Jack\Issue($args['slug']);
+		}
+		catch (\Exception $e) {
+			return Jack\App::notFound($response, $e);
+		}
+		return $response->write(\Jack\App::template('admin/parts/issues/issue', $issue));
+	})->setName('edit-issue');
+
+})->add(function ($request, $response, $next) {
+	
+	if (!\Jack\App::userCan('edit issues')) return
+		$response->withStatus(403);
+	return $next($request, $response);
+
+});
+
+/*
+
 $can_edit_issues = curry(array($site, 'checkPermission'), 'edit issues');
 
 $app->get('/admin/issues', $can_edit_issues, function () use ($site, $app, $view) {
@@ -10,24 +34,6 @@ $app->get('/admin/issues', $can_edit_issues, function () use ($site, $app, $view
 		'page' => 'issues',
 	));
 })->setName('admin/issues');
-$app->get('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
-	try {
-		$issue = $site->getIssueBySlug($slug);
-	}
-	catch (\Exception $e) {
-		if ($e->getCode() === Jack\Site::E_NOT_FOUND) {
-			return $app->notFound();
-		}
-		echo $e->getFile().':'.$e->getLine().'  '.$e->getMessage();
-		exit(0);
-	}
-	$app->render('admin/parts/issues/issue.twig', array(
-		'title' => 'Edit issue '.$issue->title,
-		'issue' => $issue,
-		'section' => 'issues',
-		'page' => 'issue',
-	));
-})->setName('edit-issue');
 $app->post('/admin/issues/:slug', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$issue = $site->getIssueBySlug($slug);
 	try {
@@ -111,4 +117,4 @@ $app->post('/admin/issues/poster/delete/:id', $can_edit_issues, function ($id) u
 		echo json_encode(array('success' => false, 'error' => $e->getFile().':'.$e->getLine().'  '.$e->getMessage()));
 	}
 })->setName('delete-poster');
-
+ */

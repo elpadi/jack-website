@@ -1,4 +1,5 @@
 <?php
+/*
 
 //$can_edit_cms = curry(array($site, 'checkPermission'), 'edit cms');
 $can_edit_cms = function() { return true; };
@@ -38,6 +39,7 @@ $app->post('/admin/cms/stories', $can_edit_cms, function () use ($site, $app, $v
 		'page' => 'stories',
 	));
 });
+ */
 /*
 $app->post('/admin/issues/:slug/images', $can_edit_issues, function ($slug) use ($site, $app, $view) {
 	$app->response->headers->set('Content-Type', 'application/json');

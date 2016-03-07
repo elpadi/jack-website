@@ -1,4 +1,5 @@
 <?php
+/*
 
 $app->get('/invite/confirmation', function () use ($site, $app, $view) {
 	$app->render('parts/invites/confirmation.twig', array(
@@ -29,3 +30,4 @@ $app->get('/invite/:hash', function ($hash) use ($invite_config, $site, $app, $v
 	}
 	$app->redirect($app->urlFor(empty($invite->uses) ? 'invite/confirmation' : 'home'));
 })->setName('invite');
+ */

@@ -1,5 +1,7 @@
 <?php
 
+/*
+
 $can_edit_users = curry(array($site, 'checkPermission'), 'edit users');
 $can_edit_acl = curry(array($site, 'checkPermission'), 'edit acl');
 
@@ -186,3 +188,4 @@ $app->post('/admin/users/create-permission', $can_edit_acl, function () use ($si
 	$app->redirect($app->urlFor('admin/users'));
 });
 
+ */

@@ -1,6 +1,19 @@
 <?php
 namespace Jack;
 
+class Issue {
+
+	public function __construct($slug) {
+		$this->model = \JackIssuesQuery::create()->findOneBySlug($slug);
+	}
+
+	public function templateVars() {
+		return ['a' => 'b'];
+	}
+
+}
+
+/*
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Stringy\Stringy as S;
@@ -198,3 +211,4 @@ class Issue {
 
 }
 
+ */

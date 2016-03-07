@@ -1,4 +1,5 @@
 <?php
+/*
 $can_access_issues = curry(array($site, 'checkPermission'), 'access content');
 
 $app->get('/issues', $can_access_issues, function () use ($site, $app, $view) {
@@ -22,4 +23,4 @@ $app->get('/issues/:slug', $can_access_issues, function ($slug) use ($site, $app
 		'posters' => $posters,
 	));
 })->setName('issue');
-
+ */

@@ -22,8 +22,7 @@
 	"require": {
 		"php": ">=5.3.0",
 		"ext-mcrypt": "*",
-		"slim/slim": "*",
-		"slim/views": "*",
+		"slim/slim": "^3.0",
 		"twig/twig": "*",
 		"kriswallsmith/assetic": "*",
 		"imagine/imagine": "*",
@@ -34,11 +33,13 @@
 		"monolog/monolog": "*",
 		"wukka/nonce": "*",
 		"raveren/kint": "v0.9",
+		"propel/propel": "~2.0@dev",
 		"ptejada/uflex": "*"
 	},
 	"autoload": {
 		"psr-0": {
 			"Jack": "src"
-		}
+		},
+		"classmap": ["src/Jack/Propel/"]
 	}
 }

@@ -1,134 +1,22 @@
-Change rename issue to use new columns season and year.
-admin:
-	the back-front order breaks when deleting one poster.
-		fix:
-			provide a method to insert and push the rest.
+Each layout has a field for "issue".
 
-front end:
-	add favicon.
-	home:
-		add a long description.
+On the issue page, fetch all layouts that belong to "issue" and allow for ordering.
+
+Issue:
+	string name:
+	select visibility: (public | private)
+	multi select layout_order: [name,name,...]
+
+Layout:
+
+	name:
 	issue:
-		reduce height for the centerfold.
-		reduce width for the cover.
-		implement hash change switching.
-	admin:
-		add issue/:slug/pages/add section.
-			POST: add new page.
-				onSave: redirect to edit issue.
-				onError: redirect to add page.
-		add page/:slug/ section.
-			GET: form to update page.
-			POST: update page.
-php:
-	set routes:
-		/: homepage, message about site.
-		/issues: list issues
-		/issues/[:slug:]: fullscreen magazine.
-		
-		/user/login: post
-		/user/register: post
-		/user/password-reset get: form with email to reset password.
-		/user/password-reset post: send email and send to login with notice.
-		/user/edit get: user fields form.
-		/user/edit post: edit user fields.
-
-		/one-time-login/[:hash:] get: process login.
-
-		/admin: dashboard
-		/admin/invites: view already sent invites, form to send new one.
-		/admin/login-stats: show login-stats table.
-		/admin/issues: show magazines.
-		/admin/issue/[:slug:] get: issue form.
-		/admin/issue/[:slug:] post: save issue.
-		/admin/issue/[:slug:]/order get: drag to order thumbs.
-		/admin/issue/[:slug:]/order post: reorder.
-		/admin/issue/[:slug:]/page put: add page
-		/admin/issue/[:slug:]/page/[:number:] post: update page.
+	rows:
+	columns:
+	orientation: (landscape | portrait) 
+	images: ["number-face","number-face",...]
+	
+Images saved under directory images/full/{issue slug} with name sheet_number-sheet_face.jpg
+Thumbnails saved under directory images/thumbs/{issue slug} with name sheet_number-sheet_face.jpg
 
 
-
-site settings:
-	table jack_settings:
-		name
-		value
-	form on /admin/settings.
-	default invite subject.
-	invite message template.
-	invite from name<email>.
-
-login hashes:
-	table jack_login_hash:
-		uid
-		hash
-		type:invite|reset
-		when_was_created
-	reset hashes get removed after use.
-
-table jack_users:
-	uid
-	name
-	company
-
-invites:
-	add fields:
-		name
-		company
-		subject
-
-	require confirmation when email has already been invited.
-	implement preview.
-
-	flow:
-		if needs confirm:
-			confirm.
-		send email.
-		if first time email:
-			create user with default password.
-		on /one-time-login visit:
-			if (default password):
-				log user in.
-				disable autoLogin.
-				send to homepage.
-			else:
-				send to edit user page.
-
-table jack_logins:
-	uid
-	when
-	hash_id
-
-
-browse issue:
-	centerfold starts in the middle, and moves down on the open transition.
-	first: back cover, front cover, index.
-	second: three part poster.
-		left and right poster must be horizontally flipped.
-	...: posters
-		back posters must be horizontally flipped.
-	last: centerfold closed, centerfold front centerfold back.
-
-	thumbs: height 100px;
-
-	on submit:
-		covers:
-			if all three are set, create thumb.
-		cover poster:
-			create thumb.
-			break into three.
-			horizontally flip the edges.
-		centerfold front:
-			create thumb.
-			break into four.
-		centerfold back:
-			create thumb.
-			break into four.
-			horizontally flip all four.
-		page front:
-			create thumb.
-			break into two.
-		page back:
-			create thumb.
-			break into two.
-			horizontally flip all two.
-	add thumbnails.

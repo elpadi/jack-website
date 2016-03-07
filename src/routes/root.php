@@ -1,5 +1,6 @@
 <?php
 
+/*
 $can_access_site = curry(array($site, 'checkPermission'), 'access content');
 
 $app->get('/', function () use ($site, $app, $view) {
@@ -33,3 +34,4 @@ $app->get('/answers', $can_access_site, function () use ($site, $app, $view) {
 		'page' => 'answers',
 	));
 })->setName('answers');
+ */

@@ -1,5 +1,6 @@
 <?php
 
+/*
 $can_edit_invites = curry(array($site, 'checkPermission'), 'edit invites');
 
 $app->get('/admin/invites', $can_edit_invites, function () use ($site, $app, $view) {
@@ -36,4 +37,4 @@ $app->post('/admin/invites/send', $can_edit_invites, function () use ($site, $ap
 	$app->flash('info', "Invite sent to $invite->email.");
 	$app->redirect($app->urlFor('admin/invites'));
 });
-
+ */

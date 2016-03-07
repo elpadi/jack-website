@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="jack_invites" idMethod="native" phpName="JackInvites">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="hash" phpName="Hash" type="VARCHAR" size="32" required="true"/>
+    <column name="additional" phpName="Additional" type="LONGVARCHAR" required="true"/>
+    <index name="hash">
+      <index-column name="hash"/>
+    </index>
+    <unique name="email">
+      <unique-column name="email"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="jack_invites_sent" idMethod="native" phpName="JackInvitesSent">
+    <column name="invite_id" phpName="InviteId" type="INTEGER" required="true"/>
+    <column name="time" phpName="Time" type="TIMESTAMP" required="true"/>
+    <index name="invite_id">
+      <index-column name="invite_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="jack_invites_uses" idMethod="native" phpName="JackInvitesUses">
+    <column name="invite_id" phpName="InviteId" type="INTEGER" required="true"/>
+    <column name="time" phpName="Time" type="TIMESTAMP" required="true"/>
+    <index name="invite_id">
+      <index-column name="invite_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="jack_issue_posters" idMethod="native" phpName="JackIssuePosters">
+    <column name="issue_id" phpName="IssueId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="poster_id" phpName="PosterId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="sort_order" phpName="SortOrder" type="INTEGER" required="true" defaultValue="0"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="jack_issues" idMethod="native" phpName="JackIssues">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="title" phpName="Title" type="VARCHAR" size="64" required="true"/>
+    <column name="slug" phpName="Slug" type="VARCHAR" size="64" required="true"/>
+    <column name="published" phpName="Published" type="BOOLEAN" size="1" required="true" defaultValue="true"/>
+    <column name="season" phpName="Season" type="CHAR" sqlType="enum('Spring','Summer','Fall','Winter')" required="true"/>
+    <column name="year" phpName="Year" type="INTEGER" required="true"/>
+    <unique name="season">
+      <unique-column name="season"/>
+      <unique-column name="year"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="jack_posters" idMethod="native" phpName="JackPosters">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="title" phpName="Title" type="VARCHAR" size="64" required="true"/>
+    <column name="slug" phpName="Slug" type="VARCHAR" size="64" required="true"/>
+    <column name="description" phpName="Description" type="LONGVARCHAR" required="true"/>
+    <unique name="slug">
+      <unique-column name="slug"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="ul_blocked_ips" idMethod="native" phpName="UlBlockedIps">
+    <column name="ip" phpName="Ip" type="VARCHAR" size="39" primaryKey="true" required="true"/>
+    <column name="block_expires" phpName="BlockExpires" type="VARCHAR" size="26" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="ul_log" idMethod="native" phpName="UlLog">
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR" size="26" required="true"/>
+    <column name="action" phpName="Action" type="VARCHAR" size="20" required="true"/>
+    <column name="comment" phpName="Comment" type="VARCHAR" size="255" required="true" defaultValue=""/>
+    <column name="user" phpName="User" type="VARCHAR" size="400" required="true"/>
+    <column name="ip" phpName="Ip" type="VARCHAR" size="39" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="ul_logins" idMethod="native" phpName="UlLogins">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="username" phpName="Username" type="VARCHAR" size="400" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="2048" required="true"/>
+    <column name="date_created" phpName="DateCreated" type="VARCHAR" size="26" required="true"/>
+    <column name="last_login" phpName="LastLogin" type="VARCHAR" size="26" required="true"/>
+    <column name="block_expires" phpName="BlockExpires" type="VARCHAR" size="26" required="true"/>
+    <unique name="username">
+      <unique-column name="username" size="255"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="ul_nonces" idMethod="native" phpName="UlNonces">
+    <column name="code" phpName="Code" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="action" phpName="Action" type="VARCHAR" size="850" required="true"/>
+    <column name="nonce_expires" phpName="NonceExpires" type="VARCHAR" size="26" required="true"/>
+    <unique name="action">
+      <unique-column name="action" size="255"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="ul_sessions" idMethod="native" phpName="UlSessions">
+    <column name="id" phpName="Id" type="VARCHAR" size="128" primaryKey="true" required="true" defaultValue=""/>
+    <column name="data" phpName="Data" type="BLOB" required="true"/>
+    <column name="session_expires" phpName="SessionExpires" type="VARCHAR" size="26" required="true"/>
+    <column name="lock_expires" phpName="LockExpires" type="VARCHAR" size="26" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>
