@@ -1,0 +1,20 @@
+{% extends "admin.twig" %}
+{% block content %}
+<h2>{{ poster.getId() ? 'Edit poster ' ~ ' from' : 'Add poster to' }} layout {{ layout.getTitle() }}</h2>
+<form action="{{ urlFor('poster-form-handler') }}" method="POST">
+	<input type="hidden" name="id" value="{{ poster.getId() }}">
+	<input type="hidden" name="layout_id" value="{{ layout.getId() }}">
+	<p><label>Page (0 for cover): <input type="number" name="page" value="{{ poster.getRows() }}"></label></p>
+	<p>Face:
+	<label><input type="radio" name="face" value="Front" {% if poster.getFace() == 'Front' %}checked{% endif %}> Front</label>
+		<label><input type="radio" name="face" value="Back" {% if poster.getFace() == 'Back' %}checked{% endif %}> Back</label>
+	</p>
+	<p><label>Row: <input type="number" name="row" value="{{ poster.getRow() }}"></label></p>
+	<p><label>Column: <input type="number" name="column" value="{{ poster.getColumn() }}"></label></p>
+	<p>Orientation:
+		<label><input type="radio" name="orientation" value="Portrait" {% if poster.getOrientation() == 'Portrait' %}checked{% endif %}> Portrait</label>
+		<label><input type="radio" name="orientation" value="Landscape" {% if poster.getOrientation() == 'Landscape' %}checked{% endif %}> Landscape</label>
+	</p>
+	<p><input class="btn" type="submit" value="Submit"></p>
+</form>
+{% endblock %}

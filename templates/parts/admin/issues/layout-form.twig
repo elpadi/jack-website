@@ -1,0 +1,51 @@
+{% extends "admin.twig" %}
+{% block content %}
+<h2>{{ layout.getId() ? 'Edit layout ' ~ layout.getTitle() ~ ' from' : 'Add new layout to' }} issue {{ issue.getTitle() }}</h2>
+<form action="{{ urlFor('layout-form-handler') }}" method="POST">
+	<input type="hidden" name="id" value="{{ layout.getId() }}">
+	<input type="hidden" name="issue_id" value="{{ issue.getId() }}">
+	<p><label>Title: <input name="title" value="{{ layout.getTitle() }}"></label></p>
+	<p><label>Rows: <input type="number" name="rows" value="{{ layout.getRows() }}"></label></p>
+	<p><label>Columns: <input type="number" name="columns" value="{{ layout.getColumns() }}"></label></p>
+	<p><label>Select section: <select name="section_id">{% for section in sections %}
+		<option value="{{ section.getId() }}">{{ section.getTitle() }}</option>
+		{% endfor %}<option value="0">Add new section</option></select></label>
+		<label>New section title: <input name="section_title"></label>
+	</p>
+	<p><input class="btn" type="submit" value="Submit"></p>
+</form>
+{% if layout.getId() %}
+<h2>Posters</h2>
+{% if posters.count() > 0 %}
+<table>
+	<thead>
+		<tr>
+			<th>Image</th>
+			<th>Page</th>
+			<th>Face</th>
+			<th>Orientation</th>
+			<th>Row</th>
+			<th>Column</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for poster in posters %}
+		<tr>
+			<td>{{ poster.getImage() }}</td>
+			<td>{{ poster.getPage() }}</td>
+			<td>{{ poster.getFace() }}</td>
+			<td>{{ poster.getOrientation() }}</td>
+			<td>{{ poster.getRow() }}</td>
+			<td>{{ poster.getCol() }}</td>
+			<td><a href="{{ urlFor('edit-poster', { "poster_id": poster.getId() }) }}">Edit</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p>No posters created yet.</p>
+{% endif %}
+<p><a class="btn" href="{{ urlFor('add-poster', { "layout_id": layout.getId() }) }}">Add poster</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "admin.twig" %}
+{% block content %}
+<h2>Edit Issue {{ issue.getTitle() }}</h2>
+<form action="{{ urlFor('issue-form-handler') }}" method="POST">
+	<input type="hidden" name="id" value="{{ issue.getId() }}">
+	<p><label>Issue number: <input type="number" name="number" value="{{ issue.getNumber() }}"></label></p>
+	<p><label>Title: <input name="title" value="{{ issue.getTitle() }}"></label></p>
+	<p><label><input type="checkbox" name="published" {% if issue.getPublished() %}checked{% endif %}> Published?</label></p>
+	<p><input class="btn" type="submit" value="Submit"></p>
+</form>
+<h2>Layouts</h2>
+{% if layouts.count() > 0 %}
+<table>
+	<thead>
+		<tr>
+			<th>Section</th>
+			<th>Image</th>
+			<th>Title</th>
+			<th>Rows</th>
+			<th>Columns</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for layout in layouts %}
+		<tr>
+			<td>{{ layout.getSection().getTitle() }}</td>
+			<td>{{ layout.getImage() }}</td>
+			<td>{{ layout.getTitle() }}</td>
+			<td>{{ layout.getRows() }}</td>
+			<td>{{ layout.getColumns() }}</td>
+			<td><a href="{{ urlFor('edit-layout', {"slug": issue.getSlug(), "layout_slug": layout.getSlug()}) }}">Edit</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p>No layouts created yet for this issue.</p>
+{% endif %}
+<a class="btn" href="{{ urlFor('add-layout', { slug: issue.getSlug() }) }}">Add layout</a>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends "admin.twig" %}
 {% block content %}
 <h2>Add new issue</h2>
-<form action="{{ urlFor('add-issue') }}" method="POST">
+<form action="{{ urlFor('issue-form-handler') }}" method="POST">
 	<input type="hidden" name="id" value="{{ issue.id }}">
 	<p><label>Issue number: <input type="number" name="number" value="{{ issue.number }}"></label></p>
 	<p><label>Title: <input name="title" value="{{ issue.title }}"></label></p>
