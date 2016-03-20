@@ -1,12 +1,21 @@
 <?php
-/*
+use Website\App;
 
-$can_access_admin = curry(array($site, 'checkPermission'), 'access admin');
-
-$app->get('/admin', $can_access_admin, function () use ($site, $app, $view) {
-	$app->render('admin/parts/home.twig', array(
-		'section' => 'home',
-		'page' => 'home',
-	));
-})->setName('admin');
- */
+$routes[] = array(
+	'path' => '/admin',
+	'routes' => array(
+		array(
+			'name' => 'admin',
+			'method' => 'get',
+			'path' => '',
+			'action' => function($request, $response, $args) {
+				return $response->write(App::render('admin/index'));
+			},
+		),
+	),
+	'middleware' => array(
+		function ($request, $response, $next) {
+			return App::userCan('access admin') ? $next($request, $response) : App::notAuthorized($response);
+		}
+	),
+);

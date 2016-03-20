@@ -1,4 +1,21 @@
 <?php
+use Website\App;
+
+$routes[] = array(
+	'path' => '/',
+	'routes' => array(
+		array(
+			'name' => 'index',
+			'method' => 'get',
+			'path' => '',
+			'action' => function($request, $response, $args) {
+				return $response->withRedirect(App::routeLookup('issue', ['name' => '1-dare-to-dream']));
+			},
+		),
+	),
+	'middleware' => array(
+	),
+);
 
 /*
 $can_access_site = curry(array($site, 'checkPermission'), 'access content');

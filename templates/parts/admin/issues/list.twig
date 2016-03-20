@@ -1,0 +1,30 @@
+{% extends "admin.twig" %}
+{% block content %}
+<h2>Issues</h2>
+<p><a class="btn" href="{{ urlFor('add-issue') }}">Add issue</a></p>
+{% if issues.count() > 0 %}
+<table>
+	<thead>
+		<tr>
+			<th>Cover</th>
+			<th>Number</th>
+			<th>Title</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for issue in issues %}
+		<tr>
+			<td>{{ issue.getCover() }}</td>
+			<td>{{ issue.getNumber() }}</td>
+			<td>{{ issue.getTitle() }}</td>
+			<td><a href="{{ urlFor('edit-issue', {"slug": issue.getSlug()}) }}">Edit</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p>No issues created yet.</p>
+{% endif %}
+{% endblock %}
+

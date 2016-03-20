@@ -1,4 +1,28 @@
 <?php
+use Website\App;
+use Website\Issue;
+
+$routes[] = array(
+	'path' => '/issues',
+	'routes' => array(
+		array(
+			'name' => 'issue',
+			'method' => 'get',
+			'path' => '/{slug}',
+			'action' => function($request, $response, $args) {
+				try {
+					if ($issue = Issue::bySlug($args['slug'])) return $response->write(App::template('issue', ['issue' => $issue]));
+				}
+				catch (Exception $e) {
+					return App::notFound($response, $e);
+				}
+				return App::notFound($response);
+			},
+		),
+	),
+	'middleware' => array(
+	),
+);
 /*
 $can_access_issues = curry(array($site, 'checkPermission'), 'access content');
 

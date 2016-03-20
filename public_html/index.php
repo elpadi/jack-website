@@ -1,9 +1,11 @@
 <?php
+use Website\App;
 
-define('PUBLIC_DIR', __DIR__);
-require(PUBLIC_DIR.'/config.dirs.php');
-require(ROOT_DIR.'/src/bootstrap.php');
+$jack_dir = isset($_ENV['JACK_DIR']) ? $_ENV['JACK_DIR'] : dirname(dirname(__DIR__));
+$app_dir = isset($_ENV['APP_DIR']) ? $_ENV['APP_DIR'] : dirname(__DIR__);
+define('PUBLIC_ROOT', '/' . (isset($_ENV['APP_PUBLIC_DIR']) ? $_ENV['APP_PUBLIC_DIR'].'/' : ''));
 
-ob_start();
-$app->run();
-ob_end_flush();
+require(realpath($jack_dir).'/src/bootstrap.php');
+require(realpath($app_dir).'/src/bootstrap.php');
+
+App::$framework->run();

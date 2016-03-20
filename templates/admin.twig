@@ -6,7 +6,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>JACK Admin | {{ title }}</title>
+		<title>JACK Admin</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% if DEBUG %}
 		<link rel="stylesheet" href="{{ PATH_PREFIX }}css/src/admin.css" media="all">
@@ -20,29 +20,14 @@
 				<h1>Admin Section</h1>
 				<nav>
 					<ul class="horizontal-list">
-						{% for s in admin_sections %}
-						<li><a class="{{ section == s.name ? 'selected' : '' }}" href="{{ s.url }}">{{ s.name }}</a></li>
-						{% endfor %}
+						<li><a href="{{ urlFor('list-issues') }}">Issues</a></li>
 					</ul>
 				</nav>
 			</header>
-			<div id="page-notices" class="notices">
-				<p class="info">{{ f.info }}</p>
-				<p class="error">{{ f.error }}</p>
-				{% for e in errors %}
-				<p class="errors">{{ e }}</p>
-				{% endfor %}
-			</div>
 			<div id="content">
 				{% block content %}
 				{% endblock %}
 			</div>
 		</div>
-		<script>var RJS_MAIN = 'main.admin';</script>
-		{% if DEBUG %}
-		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
-		{% else %}
-		<script src="{{ PATH_PREFIX }}js/dist/vendor/require.js" data-main="{{ PATH_PREFIX }}js/dist/rjs.init"></script>
-		{% endif %}
 	</body>
 </html>
