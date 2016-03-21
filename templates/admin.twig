@@ -9,9 +9,9 @@
 		<title>JACK Admin</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% if DEBUG %}
-		<link rel="stylesheet" href="{{ PATH_PREFIX }}css/src/admin.css" media="all">
+		<link rel="stylesheet" href="{{ 'css/admin.css' | url }}" media="all">
 		{% else %}
-		<link rel="stylesheet" href="{{ PATH_PREFIX }}css/dist/admin.css" media="all">
+		<link rel="stylesheet" href="{{ 'css/admin.css' | asset_url }}" media="all">
 		{% endif %}
 	</head>
 	<body>

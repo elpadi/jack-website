@@ -39,7 +39,7 @@ $routes[] = array(
 			'path' => '/issue/{issue_id}',
 			'action' => function($request, $response, $args) {
 				$issue = Model::byId('issue', $args['issue_id']);
-				return $response->write(App::render('admin/issues/edit', [
+				return $response->write(App::render('admin/issues/issue-form', [
 					'issue' => $issue,
 					'layouts' => $issue->getLayouts(),
 				]));

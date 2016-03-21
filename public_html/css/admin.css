@@ -30,6 +30,9 @@ td {
   vertical-align: middle;
   text-align: right;
 }
+td img {
+	max-width:300px;
+}
 section {
   margin-bottom: 2em;
 }

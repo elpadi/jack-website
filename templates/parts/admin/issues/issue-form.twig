@@ -13,6 +13,7 @@
 <table>
 	<thead>
 		<tr>
+			<th>ID</th>
 			<th>Section</th>
 			<th>Image</th>
 			<th>Title</th>
@@ -24,12 +25,13 @@
 	<tbody>
 		{% for layout in layouts %}
 		<tr>
+			<td>{{ layout.getId() }}</td>
 			<td>{{ layout.getSection().getTitle() }}</td>
-			<td>{{ layout.getImage() }}</td>
+			<td><img alt="" src="{{ layout | image }}"></td>
 			<td>{{ layout.getTitle() }}</td>
 			<td>{{ layout.getRows() }}</td>
 			<td>{{ layout.getColumns() }}</td>
-			<td><a href="{{ urlFor('edit-layout', {"slug": issue.getSlug(), "layout_slug": layout.getSlug()}) }}">Edit</a></td>
+			<td><a href="{{ urlFor('edit-layout', { "layout_id": layout.getId() }) }}">Edit</a></td>
 		</tr>
 		{% endfor %}
 	</tbody>
