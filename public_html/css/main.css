@@ -18,6 +18,9 @@ body {
 	height:100vh;
   font-family: helvetica, sans-serif;
 }
+html, body, #container, #content {
+	height:100%;
+}
 .js #content {
 	opacity:0;
 	transition:opacity 0.3s linear 0.1s;
@@ -25,12 +28,12 @@ body {
 .js #content {
 	opacity:1;
 }
-#container {
-	padding:0 10px;
-}
 #content {
-	padding-top:50px;
+	position:relative;
+	padding:50px 10px 10px;
+	overflow:hidden;
 }
 body[data-path^="issues"] #content {
 	padding-top:90px;
 }
+.background > img[data-image="issue1"] { object-position:top left; }
