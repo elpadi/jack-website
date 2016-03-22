@@ -11,15 +11,12 @@
   box-sizing: border-box;
 }
 html {
+	height:100%;
   margin: 0;
   padding: 0;
 }
 body {
-	height:100vh;
   font-family: helvetica, sans-serif;
-}
-html, body, #container, #content {
-	height:100%;
 }
 .js #content {
 	opacity:0;
@@ -30,9 +27,46 @@ html, body, #container, #content {
 }
 #content {
 	position:relative;
-	padding:50px 10px 10px;
-	overflow:hidden;
+	padding:50px 10px 0;
+	min-height:100vh;
 }
+#content p {
+	line-height:1.5;
+}
+#content p:nth-of-type(1) {
+	margin-top:0;
+}
+#content p:nth-last-of-type(1) {
+	margin-bottom:0;
+}
+
+#masthead > nav { z-index:20; }
+
+body[data-path="intro"] #content {
+	color:white;
+}
+body[data-path="intro"] #content > p {
+	max-width:100vh;
+	position: relative;
+	z-index: 3;
+	padding: 1em;
+	background-color: rgba(0,0,0,0.5);
+}
+body[data-path="intro"] #content > p > span {
+	display:block;
+}
+body[data-path="intro"] #content img {
+}
+body[data-path="intro"] #content .foreground {
+	height:calc(100% - 50px);
+	top:50px;
+}
+body[data-path="intro"] #content .foreground img {
+	height:100%;
+	width:100%;
+	object-fit:contain;
+}
+
 body[data-path^="issues"] #content {
 	padding-top:90px;
 }
