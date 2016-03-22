@@ -1,1 +1,0 @@
-define(["jquery"],function(jquery){$.fn.onTap=function(fn){return this.on("touchstart",function(e){var isTap=false,$el=$(e.target),onTouchMove=function(){isTap=false},onToucEnd=function(){if(isTap){$el.off("touchmove",onTouchMove);fn(e)}};if(e.originalEvent.touches.length===1){isTap=true;$el.one("touchmove",onTouchMove);$el.one("touchend",onToucEnd)}})};return{}});

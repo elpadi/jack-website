@@ -1,0 +1,55 @@
+#masthead h1 {
+	margin:0;
+}
+#masthead > nav {
+	position:fixed;
+	display:flex;
+	border-bottom:1px solid black;
+	font-size:15px;
+	letter-spacing:2px;
+}
+#masthead > nav,
+#masthead > nav a {
+	height:50px;
+}
+#masthead > nav a {
+	display:block;
+	line-height:41px;
+	padding:5px 15px;
+	border-right:1px solid black;
+	transition:color 0.2s, background-color 0.2s;
+}
+#masthead > nav > .far-left,
+#masthead > nav > .far-right {
+	flex-grow:2;
+}
+#masthead > nav > .far-right a {
+	border-right-style:none;
+}
+
+#masthead > .subnav {
+	top:50px;
+	font-size:13px;
+}
+#masthead > .subnav,
+#masthead > .subnav a {
+	height:40px;
+}
+#masthead > .subnav a {
+	line-height:31px;
+}
+
+body[data-path=""] #masthead a[data-section="home"],
+body[data-path="intro"] #masthead a[data-section="home"],
+body[data-path="about"] #masthead a[data-section="about"],
+body[data-path="team"] #masthead a[data-section="team"],
+body[data-path^="issues"] #masthead a[data-section="issues"],
+body[data-path="issues_single"] #masthead a[data-section="issue-index"],
+#masthead > nav a:hover {
+	background-color:black;
+	color:white;
+}
+#masthead > .main-nav > .far-left a {
+	padding-top:8px;
+	padding-bottom:5px;
+}

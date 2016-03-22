@@ -1,1 +1,0 @@
-define(["jquery"],function(jquery){var fns=[];var $window=$(window);$(window).on("hashchange",function(e){var url="newURL"in e.originalEvent?e.originalEvent.newURL:window.location.href;var hash="";if(url.indexOf("#")!==-1){hash="#"+url.split("#").pop()}for(var i in fns)fns[i](hash)});return function onHashChange(fn){fn(window.location.hash);fns.push(fn)}});

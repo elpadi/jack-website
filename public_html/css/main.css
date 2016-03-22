@@ -1,0 +1,36 @@
+@import "base/normalize.css";
+@import "base/fonts.css";
+@import "base/classes.css";
+@import "components/loader.css";
+@import "sections/main-nav.css";
+
+* {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html {
+  margin: 0;
+  padding: 0;
+}
+body {
+	height:100vh;
+  font-family: helvetica, sans-serif;
+}
+.js #content {
+	opacity:0;
+	transition:opacity 0.3s linear 0.1s;
+}
+.js #content {
+	opacity:1;
+}
+#container {
+	padding:0 10px;
+}
+#content {
+	padding-top:50px;
+}
+body[data-path^="issues"] #content {
+	padding-top:90px;
+}

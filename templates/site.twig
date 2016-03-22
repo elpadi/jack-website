@@ -9,42 +9,36 @@
 	{% block head %}
 			<meta charset="utf-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
-			<title>{{ BASE_TITLE }}{{ title }}</title>
+			<title>Jack</title>
 			<meta name="description" content="The Jack Mag. Seasonal poster size magazine. The best of the best of each season.">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 			
-			<link rel="stylesheet" href="{{ (PATH_PREFIX ~ 'css/' ~ STYLES_DIR ~ '/main.css') | asset_url }}" media="all">
-			<link rel="stylesheet" href="{{ (PATH_PREFIX ~ 'css/' ~ STYLES_DIR ~ '/sections/' ~ section ~ '.css') | asset_url }}" media="all">
-			<link rel="stylesheet" href="{{ (PATH_PREFIX ~ 'css/' ~ STYLES_DIR ~ '/pages/' ~ page ~ '.css') | asset_url }}" media="all">
-			{% if IS_LOCAL and DEBUG %}
-			<script src="{{ PATH_PREFIX }}js/src/bower_components/modernizr/modernizr.js"></script>
-			{% else %}
-			<script src="{{ PATH_PREFIX ~ 'js/dist/vendor/modernizr.js' | asset_url }}"></script>
-			{% endif %}
+			<link rel="stylesheet" href="{{ 'css/main.css' | url }}" media="all">
+			<script src="{{ 'js/vendor/modernizr.js' | url }}"></script>
+
 			<script>window.onload = function() { document.body.className += ' content-loaded'; };</script>
 	{% endblock %}
 	</head>
-	<body class="os-{{ user_agent.operating_system }} browser-{{ user_agent.browser_name }} version-{{ user_agent.browser_version }} section-{{ section }} page-{{ page }}">
+	<body class="" data-path="{{ PATH }}">
+		{% import "macros/svg.twig" as svg %}
 		<div id="container">
-			{% if CAN_ACCESS_ADMIN %}
-			<a id="admin-link" class="button" href="{{ urlFor('admin') }}">Admin section</a>
-			{% endif %}
 			<header id="masthead">
-				<h1>Jack</h1>
+				<nav class="foreground tc uppercase main-nav">
+					<span class="far-left tr"><h1><a class="plain" data-section="home" href="{{ urlFor('home') }}">{{ svg.object('logo', 'Jack') }}</a></h1></span>
+					<ul class="horizontal-list floats">
+						{% for section in ['about','issues','team'] %}
+						<li><a class="plain" data-section="{{ section }}" href="{{ urlFor(section) }}">{{ section | capitalize }}</a></li>
+						{% endfor %}
+					</ul>
+					<span class="far-right tl"><a class="plain" data-section="art-gallery" href="{{ urlFor('art-gallery') }}">Art Gallery</a></span>
+				</nav>
+				{% block subnav %}
+				{% endblock %}
 			</header>
 			{% block header %}
-			{% endblock %}
-			{% block notice %}
-			<div id="notices">
-				{% if flash.info %}<p class="info">{{ flash.info }}</p>{% endif %}
-				{% if flash.error %}<p class="error">{{ flash.error }}</p>{% endif %}
-				{% for e in errors %}
-				<p class="error">{{ e }}</p>
-				{% endfor %}
-			</div>
 			{% endblock %}
 			<div id="content">
 				{% block content %}
@@ -52,6 +46,7 @@
 			</div>
 		</div>
 		{% block footer %}
+		{% endblock %}
 		<div id="main-loader" class="loader">
 			<svg viewBox="0 0 90 100" preserveAspectRatio="xMidYMid meet">
 				<circle class="one" cx="5" cy="50" r="5"/>
@@ -61,14 +56,8 @@
 				<circle class="five" cx="85" cy="50" r="5"/>
 			</svg>
 		</div>
-		{% endblock %}
-		<script>var RJS_MAIN = 'main';</script>
-		{% if IS_LOCAL and DEBUG %}
-		<script src="{{ PATH_PREFIX }}js/src/bower_components/requirejs/require.js" data-main="{{ PATH_PREFIX }}js/src/rjs.init"></script>
-		{% else %}
-		<script src="{{ PATH_PREFIX }}js/dist/vendor/require.js" data-main="{{ PATH_PREFIX }}js/dist/rjs.init"></script>
-		{% endif %}
-		<script>
+		<script src="{{ 'js/snippets/svg-rollovers.js' | url }}"></script>
+		<!--script>
 			var _paq = _paq || [];
 			_paq.push(['setCustomVariable', 1, 'User ID', '{{ USER_ID }}', 'visit']);
 			_paq.push(['setCustomVariable', 2, 'Name', '{{ NAME }}', 'visit']);
@@ -81,6 +70,6 @@
 				 var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
 				 g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
 			 })();
-		</script>
+		</script-->
 	</body>
 </html>

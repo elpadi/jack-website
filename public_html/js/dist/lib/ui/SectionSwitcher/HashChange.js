@@ -1,1 +1,0 @@
-define(["lib/fn/bind","lib/dom/trackers/hashchange"],function(bind,onHashChange){var HashChange={init:function($container){onHashChange(function(hash){if(this.selectedIndex===-1){this.selectedIndex=hash.length<2?0:this.$elements.index($(hash))}else{hash.length<2?this.switchByIndex(0):this.switchByHash(hash)}}.bind(this))}};return HashChange});

@@ -1,1 +1,0 @@
-define(function(){var getValue=function(_var){return typeof _var==="function"?_var():_var};var isNumber=function(val){return typeof val==="number"};var isTruthy=function(val){return!!val};var isFalsy=function(val){return!val};var exports={};exports.is={number:isNumber,truthy:isTruthy,falsy:isFalsy,value:getValue};return exports});

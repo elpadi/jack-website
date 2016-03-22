@@ -14,7 +14,7 @@ class App extends \Jack\App {
 	}	
 
 	public static function url($path) {
-		return PUBLIC_ROOT.$path;
+		return DEBUG ? PUBLIC_ROOT.$path : static::asset_url($path);
 	}
 
 	public static function asset_url($path) {

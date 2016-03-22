@@ -1,1 +1,0 @@
-define(["jquery"],function(jquery){$.if=function(selector,fn){var $collection=$(selector);$collection.length>0&&fn($collection)}});

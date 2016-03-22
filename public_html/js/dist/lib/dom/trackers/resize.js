@@ -1,1 +1,0 @@
-define(["jquery"],function(jquery){var fns=[];var $window=$(window);$window.on("resize",function(e){var wWidth=$window.width();var wHeight=$window.height();for(var i in fns)fns[i](wWidth,wHeight)});return function onResize(fn){fn($window.width(),$window.height());fns.push(fn)}});

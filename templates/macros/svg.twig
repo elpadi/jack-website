@@ -1,0 +1,3 @@
+{% macro object(name, text) %}
+<object class="svg-image" type="image/svg+xml" data="{{ ('svg/' ~ name ~ '.svg') | asset_url }}">{{ text|default('') }}</object>
+{% endmacro %}

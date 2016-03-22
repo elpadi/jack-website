@@ -1,1 +1,0 @@
-define(["jquery","lib/dom/trackers/resize"],function(jquery,resizeTracker){$(".window-height").each(function(i,el){var $el=$(el);var onResize=function(wWidth,wHeight){$el.css("height",wHeight+"px")};resizeTracker(onResize)})});

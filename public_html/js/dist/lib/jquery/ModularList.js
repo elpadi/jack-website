@@ -1,1 +1,0 @@
-define(["lib/list/Modular"],function(ModularList){function JqueryModularList($collection){ModularList.call(this,$collection)}function A(){}A.prototype=ModularList.prototype;JqueryModularList.prototype=new A;JqueryModularList.prototype.constructor=JqueryModularList;JqueryModularList.prototype.accessor=function(index){return this.list.eq(index)};return JqueryModularList});
