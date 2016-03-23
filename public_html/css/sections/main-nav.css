@@ -7,7 +7,7 @@
 	border-bottom:1px solid black;
 	font-size:15px;
 	letter-spacing:2px;
-	background-color:rgba(255,255,255,0.3);
+	background-color:rgba(255,255,255,0.6);
 }
 #masthead > nav,
 #masthead > nav a {
@@ -47,7 +47,7 @@ body[data-path="team"] #masthead a[data-section="team"],
 body[data-path^="issues"] #masthead a[data-section="issues"],
 body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 #masthead > nav a:hover {
-	background-color:rgba(0,0,0,0.3);
+	background-color:rgba(0,0,0,0.6);
 	color:white;
 }
 #masthead > .main-nav > .far-left a {

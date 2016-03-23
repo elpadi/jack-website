@@ -44,9 +44,10 @@ body {
 
 body[data-path="intro"] #content {
 	color:white;
+	padding-left:0;
 }
 body[data-path="intro"] #content > p {
-	max-width:100vh;
+	max-width:500px;
 	position: relative;
 	z-index: 3;
 	padding: 1em;
