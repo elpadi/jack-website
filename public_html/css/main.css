@@ -82,3 +82,13 @@ body[data-path^="issues"] #content {
 }
 .background > img[data-image="issue1"] { object-position:top left; }
 .background > img[data-image="gallery"] { object-position:top right; }
+
+.columns {
+	display:flex;
+	justify-content:center;
+	align-content:center;
+	align-items:center;
+}
+body[data-path="team"] .columns > .col {
+	margin:1em !important;
+}

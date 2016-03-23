@@ -1,0 +1,5 @@
+{% macro contact(name, position, email) %}
+{{ name }}<br>
+{{ position }}<br>
+<a class="plain" href="mailto:{{ email }}">{{ email }}</a>
+{% endmacro %}
