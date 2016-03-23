@@ -61,12 +61,9 @@ body {
 	display:block;
 }
 
-body[data-path="intro"] #content {
-	padding-left:0;
-}
-body[data-path="intro"] #content > p {
+#content > p.left {
 	max-width:500px;
-	margin-left:0;
+	margin-left:-10px;
 }
 body[data-path="intro"] #content img {
 }
@@ -84,3 +81,4 @@ body[data-path^="issues"] #content {
 	padding-top:90px;
 }
 .background > img[data-image="issue1"] { object-position:top left; }
+.background > img[data-image="gallery"] { object-position:top right; }
