@@ -42,19 +42,31 @@ body {
 
 #masthead > nav { z-index:20; }
 
-body[data-path="intro"] #content {
+#content {
+	color:#444;
+}
+#content > p {
+	max-width:600px;
+	margin-left:auto;
+	margin-right:auto;
+	position: relative;
+	z-index: 3;
+	padding: 1em;
+}
+#content > p.white {
 	color:white;
+	background-color: rgba(0,0,0,0.5);
+}
+#content > p > span {
+	display:block;
+}
+
+body[data-path="intro"] #content {
 	padding-left:0;
 }
 body[data-path="intro"] #content > p {
 	max-width:500px;
-	position: relative;
-	z-index: 3;
-	padding: 1em;
-	background-color: rgba(0,0,0,0.5);
-}
-body[data-path="intro"] #content > p > span {
-	display:block;
+	margin-left:0;
 }
 body[data-path="intro"] #content img {
 }

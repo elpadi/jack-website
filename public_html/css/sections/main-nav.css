@@ -24,6 +24,9 @@
 #masthead > nav > .far-right {
 	flex-grow:2;
 }
+#masthead > nav > .far-left {
+	flex-basis:82px;
+}
 #masthead > nav > .far-right a {
 	border-right-style:none;
 }

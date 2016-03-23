@@ -1,9 +1,10 @@
 {% extends "site.twig" %}
 {% block content %}
 {% import "macros/img.twig" as img %}
-<div class="background">{{ img.resp_img('backgrounds/intro' ~ issue.getNumber(), 5000) }}</div>
-<div class="foreground">{{ img.resp_img('backgrounds/intro' ~ issue.getNumber(), 5000) }}</div>
-<p class="justified">Jack, the long awaited poster size magazine is finally here.
+<div class="background">{{ img.resp_img('backgrounds/intro', 5000) }}</div>
+<div class="foreground">{{ img.resp_img('backgrounds/intro', 5000) }}</div>
+<p class="white justified">
+Jack, the long awaited poster size magazine is finally here.
 A collectable piece of art where we collaborate with some of
 the most talented individuals in the world, where neither
 politics nor limits exist, where we challenge ourselves and dare

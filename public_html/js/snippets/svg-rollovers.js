@@ -18,7 +18,7 @@
 		if (obj.parentNode.classList.contains('selected')) setSvgClass(obj, 'selected');
 	});
 	Array.from(document.getElementById('masthead').getElementsByClassName('svg-image')).filter(function(obj) {
-		return window.getComputedStyle(obj.parentNode)["background-color"].includes('rgba(0');
+		return window.getComputedStyle(obj.parentNode)["background-color"].includes('0.');
 	}).forEach(function(obj) { setSvgClass(obj, 'selected') });
 
 })();
