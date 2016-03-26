@@ -17,6 +17,8 @@ html {
 }
 body {
   font-family: helvetica, sans-serif;
+	background-color:black;
+	color:white;
 }
 .js #content {
 	opacity:0;
@@ -30,7 +32,24 @@ body {
 	padding:50px 10px 0;
 	min-height:100vh;
 }
+
+#masthead > nav { z-index:20; }
+
+#content .text-content {
+	position:relative;
+	z-index: 3;
+}
+#content .text-content.center {
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+}
 #content p {
+	max-width:600px;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 1em;
 	line-height:1.5;
 }
 #content p:nth-of-type(1) {
@@ -39,32 +58,19 @@ body {
 #content p:nth-last-of-type(1) {
 	margin-bottom:0;
 }
-
-#masthead > nav { z-index:20; }
-
-#content {
-	color:#444;
-}
-#content > p {
-	max-width:600px;
-	margin-left:auto;
-	margin-right:auto;
-	position: relative;
-	z-index: 3;
-	padding: 1em;
-}
-#content > p.white {
-	color:white;
-	background-color: rgba(0,0,0,0.5);
-}
-#content > p > span {
-	display:block;
-}
-
-#content > p.left {
+#content p.left {
 	max-width:500px;
 	margin-left:-10px;
 }
+#content p.white {
+	color:white;
+	background-color: rgba(0,0,0,0.5);
+	display:inline-block;
+}
+#content p > span {
+	display:block;
+}
+
 body[data-path="intro"] #content img {
 }
 body[data-path="intro"] #content .foreground {

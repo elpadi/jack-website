@@ -1,4 +1,5 @@
 #main-loader {
+	display:none;
 	position:fixed;
 	width:100%;
 	height:100%;
@@ -11,6 +12,9 @@
 	opacity:1;
 	visibility:visible;
 	transition:opacity 0.3s linear 0s, visibility 0s linear 0.7s;
+}
+body[data-path^="issues"] #main-loader {
+	display:block;
 }
 #main-loader svg {
 	width:10%;

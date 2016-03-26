@@ -12,13 +12,13 @@
 		else obj.addEventListener('load', fn);
 	};
 
-	Array.from(document.getElementsByClassName('svg-image')).forEach(function(obj) {
+	Array.from(document.getElementsByClassName('svg-image')).filter(obj => obj.parentNode.dataset.section !== 'home').forEach(function(obj) {
 		obj.parentNode.addEventListener('mouseover', function(e) { setSvgClass(obj, 'over'); });
 		obj.parentNode.addEventListener('mouseout', function(e) { setSvgClass(obj, '', 'over'); });
 		if (obj.parentNode.classList.contains('selected')) setSvgClass(obj, 'selected');
 	});
 	Array.from(document.getElementById('masthead').getElementsByClassName('svg-image')).filter(function(obj) {
 		return window.getComputedStyle(obj.parentNode)["background-color"].includes('0.');
-	}).forEach(function(obj) { setSvgClass(obj, 'selected') });
+	}).forEach(function(obj) { setSvgClass(obj, 'selected'); });
 
 })();
