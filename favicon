@@ -1,0 +1,4 @@
+#!/bin/sh
+
+convert assets/favicon.svg -format ico -density 600 -define icon:auto-resize=128,64,48,32,16 public_html/favicon.ico
+convert assets/favicon.svg -resize 180x180 public_html/apple-touch-icon.png
