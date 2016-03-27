@@ -10,8 +10,8 @@
 	color:black;
 }
 body[data-path="about"] #masthead a[data-section="about"],
-body[data-path="team"] #masthead a[data-section="team"],
-body[data-path="art-gallery"] #masthead a[data-section="art-gallery"],
+body[data-path="contact"] #masthead a[data-section="contact"],
+body[data-path="event"] #masthead a[data-section="event"],
 body[data-path^="issues"] #masthead a[data-section="issues"],
 body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 #masthead > nav a:not([data-section="home"]):hover {
