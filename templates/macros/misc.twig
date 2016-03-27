@@ -1,3 +1,6 @@
+{% macro menu_item(section) %}
+<a class="plain" data-section="{{ section }}" href="{{ urlFor(section) }}">{{ section | capitalize }}</a>
+{% endmacro %}
 {% macro contact(name, position, email) %}
 {{ name }}<br>
 {{ position }}<br>

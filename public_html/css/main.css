@@ -16,9 +16,8 @@ html {
   padding: 0;
 }
 body {
-  font-family: helvetica, sans-serif;
-	background-color:black;
-	color:white;
+	background-color:white;
+	color:black;
 }
 .js #content {
 	opacity:0;
@@ -32,6 +31,9 @@ body {
 	padding:50px 10px 0;
 	min-height:100vh;
 }
+.white {
+	color:white;
+}
 
 #masthead > nav { z-index:20; }
 
@@ -39,14 +41,20 @@ body {
 	position:relative;
 	z-index: 3;
 }
-#content .text-content.center {
+#content .text-content:not(.center) {
+	margin-top:50px;
+}
+#content .center {
 	position:absolute;
 	left:50%;
 	top:50%;
 	transform:translate(-50%,-50%);
 }
+#content {
+	font-size:18px;
+}
 #content p {
-	max-width:600px;
+	max-width:476px;
 	margin-left:auto;
 	margin-right:auto;
 	padding: 1em;
@@ -61,11 +69,6 @@ body {
 #content p.left {
 	max-width:500px;
 	margin-left:-10px;
-}
-#content p.white {
-	color:white;
-	background-color: rgba(0,0,0,0.5);
-	display:inline-block;
 }
 #content p > span {
 	display:block;
@@ -86,7 +89,7 @@ body[data-path="intro"] #content .foreground img {
 body[data-path^="issues"] #content {
 	padding-top:90px;
 }
-.background > img[data-image="issue1"] { object-position:top left; }
+.background > img[data-image="issue1"] { object-fit:contain; }
 .background > img[data-image="gallery"] { object-position:top right; }
 
 .columns {
@@ -97,4 +100,58 @@ body[data-path^="issues"] #content {
 }
 body[data-path="team"] .columns > .col {
 	margin:1em !important;
+}
+
+body[data-path="intro"] .logo > p {
+	font-size:18px;
+	padding-top:0;
+}
+body[data-path="intro"] .logo > object {
+	max-width: 350px;
+	max-height: 60vh;
+	width: 50VW;
+	height: auto;
+}
+.flags > img {
+	object-fit:contain;
+}
+body:not([data-path="intro"]) .post-intro-fade {
+	opacity:1;
+	visibility:visible;
+}
+body.content-loaded[data-path="intro"] #masthead,
+body[data-path="intro"] .fade {
+	transition-duration:2s, 0s;
+}
+body[data-path="intro"] .post-intro-fade,
+body[data-path="intro"] .intro-fade {
+	transition-duration:3s, 0s;
+}
+body[data-path="intro"] .intro-fade:not(.visible) {
+	transition-delay:0s, 3s;
+}
+body[data-path="intro"] .posters.visible { transition-delay:0s, 0s; }
+body[data-path="intro"] .flags.visible { transition-delay:6s, 6s; }
+body[data-path="intro"] .logo.visible { transition-delay:12s, 12s; }
+body[data-path="intro"] .post-intro-fade.visible { transition-delay:18s, 18s; }
+
+#content img {
+	max-width:100%;
+}
+
+body[data-path="issues_single"] .background {
+	z-index:4;
+}
+body[data-path="issues_single"] .fade {
+	transition-duration:3s, 0s;
+}
+body[data-path="issues_single"] .fade:not(.visible) {
+	transition-delay:0s, 3s;
+}
+body[data-path="issues_single"] .cover.visible { transition-delay:0s, 0s; }
+body[data-path="issues_single"] .intro.visible { transition-delay:6s, 6s; }
+body[data-path="issues_single"] .text-content.visible { transition-delay:12s, 12s; }
+
+.event-image {
+	max-width:640px !important;
 }

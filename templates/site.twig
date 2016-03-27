@@ -24,16 +24,15 @@
 	</head>
 	<body class="" data-path="{{ PATH }}">
 		{% import "macros/svg.twig" as svg %}
+		{% import "macros/misc.twig" as misc %}
 		<div id="container">
-			<header id="masthead">
-				<nav class="foreground tc uppercase main-nav">
-					<span class="far-left tr"><h1><a class="plain" data-section="home" href="{{ urlFor('home') }}">{{ svg.object('logo', 'Jack') }}</a></h1></span>
+			<header id="masthead" class="post-intro-fade fade">
+				<nav class="foreground tc lowercase main-nav">
+					<span class="far-left tr"><h1><a class="plain svg-button" data-section="home" href="{{ urlFor('home') }}">{{ svg.object('logo', 'Jack') }}</a></h1></span>
 					<ul class="horizontal-list floats">
-						{% for section in ['about','issues','team'] %}
-						<li><a class="plain" data-section="{{ section }}" href="{{ urlFor(section) }}">{{ section | capitalize }}</a></li>
-						{% endfor %}
+						{% for section in ['about','issues','contact','event'] %}<li>{{ misc.menu_item(section) }}</li>{% endfor %}
 					</ul>
-					<span class="far-right tl"><a class="plain" data-section="art-gallery" href="{{ urlFor('art-gallery') }}">Art Gallery</a></span>
+					<span class="far-right tl"><a class="plain" target="_blank" href="https://jack-mag.myshopify.com">Store</a></span>
 				</nav>
 				{% block subnav %}
 				{% endblock %}

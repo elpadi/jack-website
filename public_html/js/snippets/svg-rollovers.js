@@ -12,9 +12,12 @@
 		else obj.addEventListener('load', fn);
 	};
 
-	Array.from(document.getElementsByClassName('svg-image')).filter(obj => obj.parentNode.dataset.section !== 'home').forEach(function(obj) {
+	Array.from(document.getElementsByClassName('svg-button')).filter(button => button.dataset.section !== 'home').forEach(function(button) {
+		var obj = button.chidlren[0];
 		obj.parentNode.addEventListener('mouseover', function(e) { setSvgClass(obj, 'over'); });
 		obj.parentNode.addEventListener('mouseout', function(e) { setSvgClass(obj, '', 'over'); });
+	});
+	Array.from(document.getElementsByClassName('svg-image')).forEach(function(obj) {
 		if (obj.parentNode.classList.contains('selected')) setSvgClass(obj, 'selected');
 	});
 	Array.from(document.getElementById('masthead').getElementsByClassName('svg-image')).filter(function(obj) {

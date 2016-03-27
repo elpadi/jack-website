@@ -15,8 +15,10 @@ $routes[] = array(
 		),
 		array('name' => 'intro'),
 		array('name' => 'about'),
-		array('name' => 'team'),
-		array('name' => 'art-gallery'),
+		array('name' => 'contact'),
+		array('name' => 'event', 'vars' => array(
+			'images' => array_map(function($path) { return str_replace(WEBSITE_DIR.'/assets/', '', $path); }, glob(WEBSITE_DIR.'/assets/event/*.jpg')),
+		)),
 	),
 	'middleware' => array(
 	),

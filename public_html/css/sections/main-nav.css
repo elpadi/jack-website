@@ -4,10 +4,10 @@
 #masthead > nav {
 	position:fixed;
 	display:flex;
-	font-size:14px;
+	font-size:16px;
 	letter-spacing:2px;
-	background-color:rgba(0,0,0,0.9);
-	color:white;
+	background-color:rgba(255,255,255,0.9);
+	color:black;
 }
 body[data-path="about"] #masthead a[data-section="about"],
 body[data-path="team"] #masthead a[data-section="team"],
@@ -15,8 +15,8 @@ body[data-path="art-gallery"] #masthead a[data-section="art-gallery"],
 body[data-path^="issues"] #masthead a[data-section="issues"],
 body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 #masthead > nav a:not([data-section="home"]):hover {
-	background-color:rgba(255,255,255,0.7);
-	color:black;
+	background-color:rgba(0,0,0,0.7);
+	color:white;
 }
 #masthead > nav,
 #masthead > nav a {
@@ -58,4 +58,7 @@ body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 #masthead > .main-nav > .far-left a {
 	padding-top:8px;
 	padding-bottom:5px;
+}
+body[data-path="issues_single"] #masthead .subnav {
+	display:none;
 }

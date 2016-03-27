@@ -1,9 +1,7 @@
-<nav class="subnav foreground tc uppercase">
-	<span class="far-left tr"><a class="plain" data-section="issue-index" href="{{ urlFor('issue', { "slug": issue.getSlug() }) }}">Issue #{{ issue.getNumber() }} {{ issue.getTitle() }}</a></span>
+<nav class="subnav foreground tc lowercase">
 	<ul class="horizontal-list floats">
 		{% for browse in ['sections','layouts'] %}
 		<li><a class="plain" data-section="issue-{{ browse }}" href="{{ browse }}">{{ browse | capitalize }}</a></li>
 		{% endfor %}
 	</ul>
-	<span class="far-right tl"><a class="plain" data-section="issue-posters" href="posters">Posters</a></span>
 </nav>

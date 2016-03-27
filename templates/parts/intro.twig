@@ -1,9 +1,15 @@
 {% extends "site.twig" %}
 {% block content %}
 {% import "macros/img.twig" as img %}
-<div class="background">{{ img.resp_img('backgrounds/intro', 5000) }}</div>
-<div class="text-content">
-	<p class="white justified left">
+{% import "macros/svg.twig" as svg %}
+<div id="intro-animation">
+	<!--div class="background posters fade">{{ img.resp_img('backgrounds/intro', 5000) }}</div-->
+	<div class="background posters intro-fade fade"><img src="{{ 'intro/posters.jpg' | asset_url }}" alt=""></div>
+	<div class="background flags intro-fade fade"><img src="{{ 'intro/flags.jpg' | asset_url }}" alt=""></div>
+	<div class="tc center logo intro-fade selected fade">{{ svg.object('logo', 'Jack') }}<p class="tc">Premiere issue number 1</p></div>
+</div>
+<div class="text-content post-intro-fade fade">
+	<p class="tc">
 	Jack, the long awaited poster size magazine is finally here.
 	A collectable piece of art where we collaborate with some of
 	the most talented individuals in the world, where neither
@@ -19,4 +25,5 @@
 	We are Jack xo</span>
 	</p>
 </div>
+<script src="{{ 'js/snippets/intro.js' | url }}"></script>
 {% endblock %}

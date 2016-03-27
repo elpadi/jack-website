@@ -16,8 +16,9 @@ foreach ($routes as $group) {
 		foreach ($group['routes'] as $route) {
 			if (!isset($route['method'])) $route['method'] = 'get';
 			if (!isset($route['path'])) $route['path'] = $route['name'];
+			if (!isset($route['vars'])) $route['vars'] = array();
 			if (!isset($route['action'])) $route['action'] = function($request, $response, $args) use ($route) {
-				return $response->write(App::render($route['name']));
+				return $response->write(App::render($route['name'], $route['vars']));
 			};
 			$app_route = call_user_func(array(App::$framework, $route['method']), $route['path'], $route['action']);
 			if (isset($route['name'])) $app_route->setName($route['name']);

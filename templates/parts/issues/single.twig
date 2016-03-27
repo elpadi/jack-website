@@ -4,8 +4,10 @@
 {% endblock %}
 {% block content %}
 {% import "macros/img.twig" as img %}
-<div class="background">{{ img.resp_img('backgrounds/issue' ~ issue.getNumber(), 5000) }}</div>
-<div class="text-content tc center">
-	<p class="white">Coming soon.</p>
+<div class="background fade cover">{{ img.resp_img('backgrounds/issue' ~ issue.getNumber(), 5000) }}</div>
+<div class="background fade intro">{{ img.resp_img('backgrounds/intro', 5000) }}</div>
+<div class="text-content tc center fade">
+	<p class="sans">Coming soon.</p>
 </div>
+<script src="{{ 'js/snippets/issue.js' | url }}"></script>
 {% endblock %}

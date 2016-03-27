@@ -1,9 +1,9 @@
 {% extends "site.twig" %}
 {% block content %}
 {% import "macros/img.twig" as img %}
-<div class="background"><img src="{{ 'backgrounds/gallery/space.jpg' | asset_url }}" alt=""></div>
+<div class="background"></div>
 <div class="text-content">
-	<p class="justified white left">
+	<p class="tc">
 	Jack Events will feature the upcoming premiere of issue #1 &mdash; “dare to dream“ &mdash; in 
 	the art of peep couture.  An art installation with the entire collection of Jack's
 	first issue will be featured in the form of posters and limited edition museum 
@@ -14,5 +14,8 @@
 	march 25<sup>th</sup> &ndash; april 3<sup>rd</sup>
 	</span>
 	</p>
+	{% for img in images %}
+	<p class="event-image tc"><img src="{{ img | asset_url }}" alt=""></p>
+	{% endfor %}
 </div>
 {% endblock %}
