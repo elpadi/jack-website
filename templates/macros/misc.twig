@@ -1,8 +1,14 @@
 {% macro menu_item(section) %}
 <a class="plain" data-section="{{ section }}" href="{{ urlFor(section) }}">{{ section | capitalize }}</a>
 {% endmacro %}
+
 {% macro contact(name, position, email) %}
 {{ name }}<br>
 {{ position }}<br>
 <a class="plain" href="mailto:{{ email }}">{{ email }}</a>
+{% endmacro %}
+
+{% macro social_button(name, url) %}
+{% import "macros/svg.twig" as svg %}
+<a class="plain svg-button" target="_blank" href="{{ url }}">{{ svg.object(name, name | capitalize) }}</a>
 {% endmacro %}

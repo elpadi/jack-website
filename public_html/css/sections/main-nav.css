@@ -29,16 +29,14 @@ body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 	transition:color 0.2s, background-color 0.2s;
 }
 #masthead > nav > ul,
-#masthead > nav > .far-left,
 #masthead > nav > .far-right {
 	height:50px;
 }
 #masthead > nav > .far-left,
 #masthead > nav > .far-right {
+	position:relative;
+	flex-basis:150px;
 	flex-grow:2;
-}
-#masthead > nav > .far-left {
-	flex-basis:82px;
 }
 #masthead > nav > .far-right a {
 }
@@ -54,11 +52,39 @@ body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 #masthead > .subnav a {
 	line-height:31px;
 }
-
-#masthead > .main-nav > .far-left a {
-	padding-top:8px;
-	padding-bottom:5px;
+#masthead > nav > .far-left {
 }
+#masthead > nav > .far-left, #masthead > nav > .far-left a, #masthead > nav > .far-left .svg-image {
+	height:73px;
+}
+#masthead > nav > .far-left a {
+	float:left;
+	padding-left:0;
+	padding-top:0;
+}
+#masthead > nav > .far-left .svg-image {
+	width:auto;
+}
+
 body[data-path="issues_single"] #masthead .subnav {
 	display:none;
+}
+
+.social-buttons {
+	float:right;
+}
+.social-buttons .svg-image {
+	width:30px;
+	height:auto;
+}
+.social-buttons .svg-image:not(.svg--facebook) {
+	width:20px;
+}
+#masthead .social-buttons li {
+	width:50px;
+}
+#masthead .social-buttons a {
+	padding-left:10px;
+	padding-right:10px;
+	line-height:50px;
 }

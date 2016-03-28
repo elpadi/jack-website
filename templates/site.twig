@@ -28,11 +28,20 @@
 		<div id="container">
 			<header id="masthead" class="post-intro-fade fade">
 				<nav class="foreground tc lowercase main-nav">
-					<span class="far-left tr"><h1><a class="plain svg-button" data-section="home" href="{{ urlFor('home') }}">{{ svg.object('logo', 'Jack') }}</a></h1></span>
+					<span class="far-left tr">
+						<h1><a class="plain svg-button" data-section="home" href="{{ urlFor('home') }}">{{ svg.object('logo', 'Jack') }}</a></h1>
+					</span>
 					<ul class="horizontal-list floats">
 						{% for section in ['about','issues','contact','event'] %}<li>{{ misc.menu_item(section) }}</li>{% endfor %}
+						<li><a class="plain" target="_blank" href="https://jack-mag.myshopify.com">Store</a></li>
 					</ul>
-					<span class="far-right tl"><a class="plain" target="_blank" href="https://jack-mag.myshopify.com">Store</a></span>
+					<span class="far-right tl">
+						<ul class="social-buttons horizontal-list floats tc">
+							<li>{{ misc.social_button('facebook','https://www.facebook.com/thejackmag/') }}</li>
+							<li>{{ misc.social_button('twitter','https://twitter.com/thejackmag') }}</li>
+							<li>{{ misc.social_button('instagram','https://www.instagram.com/thejackmagazine/') }}</li>
+						</ul>
+					</span>
 				</nav>
 				{% block subnav %}
 				{% endblock %}

@@ -13,7 +13,7 @@
 	};
 
 	Array.from(document.getElementsByClassName('svg-button')).filter(button => button.dataset.section !== 'home').forEach(function(button) {
-		var obj = button.chidlren[0];
+		var obj = button.children[0];
 		obj.parentNode.addEventListener('mouseover', function(e) { setSvgClass(obj, 'over'); });
 		obj.parentNode.addEventListener('mouseout', function(e) { setSvgClass(obj, '', 'over'); });
 	});
