@@ -4,7 +4,8 @@ use Symfony\Component\Finder\Finder;
 
 define('WEBSITE_DIR', dirname(__DIR__));
 
-App::$framework = new \Slim\App(new \Slim\Container(['settings' => ['displayErrorDetails' => DEBUG]]));
+require(WEBSITE_DIR.'/vendor/autoload.php');
+App::$framework = new \Slim\App(new \Slim\Container(['settings' => ['displayErrorDetails' => false]]));
 
 $routes = array();
 $finder = new Symfony\Component\Finder\Finder();
