@@ -1,16 +1,5 @@
-.PHONY: js
+assets/css/main.build.css: $(shell find public_html/css type -f)
+	postcss --use postcss-import --use autoprefixer public_html/css/main.css -o assets/css/main.build.css
 
-all:
-
-db-export:
-	mysqldump -uroot -pelpadi dahlen_jack > site/db-dump.sql
-	mysqldump -uroot -pelpadi dahlen_jack_users > site/usersdb-dump.sql
-
-ftp-sync: js
-	echo "open jack" > /tmp/ftp-up
-	echo "cd spread" >> /tmp/ftp-up
-	cat ftp-up >> /tmp/ftp-up
-	lftp -f /tmp/ftp-up
-
-js:
-	make -C public_html/js
+assets/css/main.css: assets/css/main.build.css
+	cssmin assets/css/main.build.css > assets/css/main.css

@@ -16,9 +16,8 @@
 	"require": {
 	},
 	"autoload": {
-		"psr-0": {
-			"Jack": "src"
-		},
-		"classmap": ["src/Jack/Propel/"]
+		"psr-4": {
+			"Website\\": "src/Website"
+		}
 	}
 }
