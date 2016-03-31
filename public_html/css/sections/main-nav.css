@@ -15,8 +15,7 @@ body[data-path="event"] #masthead a[data-section="event"],
 body[data-path^="issues"] #masthead a[data-section="issues"],
 body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 #masthead > nav a:not([data-section="home"]):hover {
-	background-color:rgba(0,0,0,0.7);
-	color:white;
+	border-color:black;
 }
 #masthead > nav,
 #masthead > nav a {
@@ -24,9 +23,11 @@ body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 }
 #masthead > nav a {
 	display:block;
-	line-height:41px;
-	padding:5px 15px;
-	transition:color 0.2s, background-color 0.2s;
+	line-height:31px;
+	padding:5px 0;
+	margin:0 15px;
+	border-top:3px solid white;
+	transition:border-color 0.2s;
 }
 #masthead > nav > ul,
 #masthead > nav > .far-right {
@@ -61,6 +62,8 @@ body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 	float:left;
 	padding-left:0;
 	padding-top:0;
+	margin:0;
+	border-style:none;
 }
 #masthead > nav > .far-left .svg-image {
 	width:auto;
@@ -72,6 +75,7 @@ body[data-path="issues_single"] #masthead .subnav {
 
 .social-buttons {
 	float:right;
+	padding-right:15px;
 }
 .social-buttons .svg-image {
 	width:30px;
@@ -84,7 +88,6 @@ body[data-path="issues_single"] #masthead .subnav {
 	width:50px;
 }
 #masthead .social-buttons a {
-	padding-left:10px;
-	padding-right:10px;
+	margin:0 10px;
 	line-height:50px;
 }
