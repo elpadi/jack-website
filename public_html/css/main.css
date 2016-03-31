@@ -35,7 +35,8 @@ body {
 	color:white;
 }
 
-#masthead > nav { z-index:20; }
+#masthead > .main-nav { z-index:20; }
+#masthead > .subnav { z-index:19; }
 
 #content .text-content {
 	position:relative;

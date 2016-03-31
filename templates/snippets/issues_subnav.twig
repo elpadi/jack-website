@@ -1,7 +1,7 @@
 <nav class="subnav foreground tc lowercase">
 	<ul class="horizontal-list floats">
-		{% for browse in ['sections','layouts'] %}
-		<li><a class="plain" data-section="issue-{{ browse }}" href="{{ browse }}">{{ browse | capitalize }}</a></li>
+		{% for browse in ['cover','editorial-part-1','editorial-part-2'] %}
+		<li><a class="plain" data-section="issue-{{ browse }}" href="{{ browse }}">{{ browse | replace({'-': ' '}) | capitalize }}</a></li>
 		{% endfor %}
 	</ul>
 </nav>
