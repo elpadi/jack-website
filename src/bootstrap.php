@@ -5,7 +5,10 @@ use Symfony\Component\Finder\Finder;
 define('WEBSITE_DIR', dirname(__DIR__));
 
 require(WEBSITE_DIR.'/vendor/autoload.php');
-App::$framework = new \Slim\App(new \Slim\Container(['settings' => ['displayErrorDetails' => DEBUG]]));
+App::$framework = new \Slim\App(new \Slim\Container(['settings' => [
+	'displayErrorDetails' => DEBUG,
+	'determineRouteBeforeAppMiddleware' => true,
+]]));
 
 $routes = array();
 $finder = new Symfony\Component\Finder\Finder();
@@ -25,4 +28,5 @@ foreach ($routes as $group) {
 			if (isset($route['name'])) $app_route->setName($route['name']);
 		}
 	});
+	foreach ($group['middleware'] as $fn) $app_group->add($fn);
 }

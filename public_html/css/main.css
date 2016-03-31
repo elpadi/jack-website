@@ -75,19 +75,19 @@ body {
 	display:block;
 }
 
-body[data-path="intro"] #content img {
+body[data-template-path="intro"] #content img {
 }
-body[data-path="intro"] #content .foreground {
+body[data-template-path="intro"] #content .foreground {
 	height:calc(100% - 50px);
 	top:50px;
 }
-body[data-path="intro"] #content .foreground img {
+body[data-template-path="intro"] #content .foreground img {
 	height:100%;
 	width:100%;
 	object-fit:contain;
 }
 
-body[data-path^="issues"] #content {
+body[data-template-path^="issues"] #content {
 	padding-top:90px;
 }
 .background > img[data-image="issue1"] { object-fit:contain; }
@@ -99,15 +99,15 @@ body[data-path^="issues"] #content {
 	align-content:center;
 	align-items:center;
 }
-body[data-path="team"] .columns > .col {
+body[data-template-path="team"] .columns > .col {
 	margin:1em !important;
 }
 
-body[data-path="intro"] .logo > p {
+body[data-template-path="intro"] .logo > p {
 	font-size:18px;
 	padding-top:0;
 }
-body[data-path="intro"] .logo > object {
+body[data-template-path="intro"] .logo > object {
 	max-width: 350px;
 	max-height: 60vh;
 	width: 50VW;
@@ -116,35 +116,33 @@ body[data-path="intro"] .logo > object {
 .flags > img {
 	object-fit:contain;
 }
-body:not([data-path="intro"]) .post-intro-fade {
+body:not([data-template-path="intro"]) .post-intro-fade {
 	opacity:1;
 	visibility:visible;
 }
-body.content-loaded[data-path="intro"] #masthead,
-body[data-path="intro"] .fade {
+body.content-loaded[data-template-path="intro"] #masthead,
+body[data-template-path="intro"] .fade {
 	transition-duration:2s, 0s;
 }
-body[data-path="intro"] .post-intro-fade,
-body[data-path="intro"] .intro-fade {
+body[data-template-path="intro"] .post-intro-fade,
+body[data-template-path="intro"] .intro-fade {
 	transition-duration:3s, 0s;
 }
-body[data-path="intro"] .intro-fade:not(.visible) {
+body[data-template-path="intro"] .intro-fade:not(.visible) {
 	transition-delay:0s, 3s;
 }
-body[data-path="intro"] .posters.visible { transition-delay:0s, 0s; }
-body[data-path="intro"] .flags.visible { transition-delay:6s, 6s; }
-body[data-path="intro"] .logo.visible { transition-delay:12s, 12s; }
-body[data-path="intro"] .post-intro-fade.visible { transition-delay:18s, 18s; }
+body[data-template-path="intro"] .posters.visible { transition-delay:0s, 0s; }
+body[data-template-path="intro"] .flags.visible { transition-delay:6s, 6s; }
+body[data-template-path="intro"] .logo.visible { transition-delay:12s, 12s; }
+body[data-template-path="intro"] .post-intro-fade.visible { transition-delay:18s, 18s; }
 
 #content img {
 	max-width:100%;
 }
 
-body[data-path="issues_single"] .cover {
-	height:calc(100% - 65px);
-	top:65px;
+body[data-template-path="issues single"] .cover {
 }
-body[data-path="issues_single"] .cover > img {
+body[data-template-path="issues single"] .cover > img {
 	object-fit:contain;
 }
 @keyframes coverfade {
@@ -153,13 +151,20 @@ body[data-path="issues_single"] .cover > img {
 	75% { opacity:1; }
   to { opacity:1; }
 }
-body[data-path="issues_single"] .cover.back {
+body[data-template-path="issues single"] .cover.back {
 	opacity:0;
 	animation-name:coverfade;
 	animation-duration:10s;
 	animation-delay:3s;
 	animation-iteration-count:infinite;
 	animation-direction:alternate;
+}
+body[data-template-path~="editorial"] #content {
+	margin-top:10px;
+}
+.editorial-image {
+	max-width:100% !important;
+}
 
 .event-image {
 	max-width:640px !important;

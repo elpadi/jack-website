@@ -6,15 +6,26 @@
 	display:flex;
 	font-size:16px;
 	letter-spacing:2px;
-	background-color:rgba(255,255,255,0.9);
 	color:black;
 }
-body[data-path="about"] #masthead a[data-section="about"],
-body[data-path="contact"] #masthead a[data-section="contact"],
-body[data-path="event"] #masthead a[data-section="event"],
-body[data-path^="issues"] #masthead a[data-section="issues"],
-body[data-path="issues_single"] #masthead a[data-section="issue-index"],
-body[data-path="issues_single"] #masthead a[data-section="issue-cover"] {
+#masthead::after {
+	content:'';
+	position:fixed;
+	left:0;
+	width:100%;
+	top:0;
+	height:100px;
+	z-index:18;
+	background-image:linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+}
+
+body[data-template-path="about"] #masthead a[data-section="about"],
+body[data-template-path="contact"] #masthead a[data-section="contact"],
+body[data-template-path="event"] #masthead a[data-section="event"],
+body[data-template-path~="issues"] #masthead a[data-section="issues"],
+body[data-template-path="issues single"] #masthead a[data-section="issue-cover"],
+body[data-url-path~="editorial-1"] #masthead a[data-section="editorial-1"],
+body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 	border-color:gray;
 }
 #masthead > nav a:not([data-section="home"]):hover {

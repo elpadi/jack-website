@@ -22,7 +22,7 @@
 			<script>window.onload = function() { document.body.className += ' content-loaded'; };</script>
 	{% endblock %}
 	</head>
-	<body class="" data-path="{{ PATH }}">
+	<body class="" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
 		{% import "macros/svg.twig" as svg %}
 		{% import "macros/misc.twig" as misc %}
 		<div id="container">

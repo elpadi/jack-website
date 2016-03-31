@@ -1,0 +1,9 @@
+{% extends "site.twig" %}
+{% block subnav %}
+{% include "snippets/issues_subnav.twig" %}
+{% endblock %}
+{% block content %}
+{% for img in images %}
+<p class="editorial-image tc"><img src="{{ img | asset_url }}" alt=""></p>
+{% endfor %}
+{% endblock %}
