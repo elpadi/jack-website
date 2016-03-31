@@ -27,6 +27,7 @@ body[data-path="issues_single"] #masthead a[data-section="issue-index"],
 	padding:5px 0;
 	margin:0 15px;
 	border-top:3px solid white;
+	outline-style:none !important;
 	transition:border-color 0.2s;
 }
 #masthead > nav > ul,
@@ -89,5 +90,5 @@ body[data-path="issues_single"] #masthead .subnav {
 }
 #masthead .social-buttons a {
 	margin:0 10px;
-	line-height:50px;
+	line-height:40px;
 }
