@@ -4,5 +4,6 @@
 {% endblock %}
 {% block content %}
 {% import "macros/img.twig" as img %}
-<div class="background cover">{{ img.resp_img('backgrounds/issue' ~ issue.getNumber(), 5000) }}</div>
+<div class="background cover front"><img src="{{ ('issue-' ~ issue.getNumber() ~ '/layouts/1/cover_front.jpg') | asset_url }}" alt="Front cover"></div>
+<div class="background cover back"><img src="{{ ('issue-' ~ issue.getNumber() ~ '/layouts/1/cover_back.jpg') | asset_url }}" alt="Back cover"></div>
 {% endblock %}

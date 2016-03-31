@@ -144,6 +144,22 @@ body[data-path="issues_single"] .cover {
 	height:calc(100% - 65px);
 	top:65px;
 }
+body[data-path="issues_single"] .cover > img {
+	object-fit:contain;
+}
+@keyframes coverfade {
+  from { opacity:0; }
+	25% { opacity:0; }
+	75% { opacity:1; }
+  to { opacity:1; }
+}
+body[data-path="issues_single"] .cover.back {
+	opacity:0;
+	animation-name:coverfade;
+	animation-duration:10s;
+	animation-delay:3s;
+	animation-iteration-count:infinite;
+	animation-direction:alternate;
 
 .event-image {
 	max-width:640px !important;
