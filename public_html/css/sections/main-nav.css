@@ -13,7 +13,8 @@ body[data-path="about"] #masthead a[data-section="about"],
 body[data-path="contact"] #masthead a[data-section="contact"],
 body[data-path="event"] #masthead a[data-section="event"],
 body[data-path^="issues"] #masthead a[data-section="issues"],
-body[data-path="issues_single"] #masthead a[data-section="issue-index"] {
+body[data-path="issues_single"] #masthead a[data-section="issue-index"],
+body[data-path="issues_single"] #masthead a[data-section="issue-cover"] {
 	border-color:gray;
 }
 #masthead > nav a:not([data-section="home"]):hover {

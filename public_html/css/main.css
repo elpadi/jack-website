@@ -140,18 +140,10 @@ body[data-path="intro"] .post-intro-fade.visible { transition-delay:18s, 18s; }
 	max-width:100%;
 }
 
-body[data-path="issues_single"] .background {
-	z-index:4;
+body[data-path="issues_single"] .cover {
+	height:calc(100% - 65px);
+	top:65px;
 }
-body[data-path="issues_single"] .fade {
-	transition-duration:3s, 0s;
-}
-body[data-path="issues_single"] .fade:not(.visible) {
-	transition-delay:0s, 3s;
-}
-body[data-path="issues_single"] .cover.visible { transition-delay:0s, 0s; }
-body[data-path="issues_single"] .intro.visible { transition-delay:6s, 6s; }
-body[data-path="issues_single"] .text-content.visible { transition-delay:12s, 12s; }
 
 .event-image {
 	max-width:640px !important;
