@@ -64,7 +64,7 @@ button.plain,
 	text-overflow:ellipsis;
 }
 
-.icon-rollover:hover .icon-object.over + .icon-object,
+.has-intro .intro-fade,
 .fade {
 	visibility:hidden;
 	opacity:0;
@@ -73,13 +73,19 @@ button.plain,
 	transition-duration:0.3s, 0s;
 	transition-delay:0s, 0.3s;
 }
-.icon-rollover:hover .icon-object.over,
+.has-intro .intro-fade.visible,
 .fade.visible {
 	visibility:visible;
 	opacity:1;
 	transition-delay:0s, 0s;
 }
 
+.center {
+	position:absolute;
+	left:51%;
+	top:46%;
+	transform:translate(-50%,-50%);
+}
 .slider-controls button object,
 .entry-pagination > .prev object,
 .entry-pagination > .next object,

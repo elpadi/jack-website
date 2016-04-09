@@ -1,14 +1,6 @@
 {% extends "site.twig" %}
 {% block content %}
-{% import "macros/img.twig" as img %}
-{% import "macros/svg.twig" as svg %}
-<div id="intro-animation">
-	<!--div class="background posters fade">{{ img.resp_img('backgrounds/intro', 5000) }}</div-->
-	<div class="background posters intro-fade fade"><img src="{{ 'intro/posters.jpg' | asset_url }}" alt=""></div>
-	<div class="background flags intro-fade fade"><img src="{{ 'intro/flags.jpg' | asset_url }}" alt=""></div>
-	<div class="tc center logo intro-fade fade">{{ svg.object('logo', 'Jack') }}<p class="tc">Premiere issue number 1</p></div>
-</div>
-<div class="text-content post-intro-fade fade">
+<div class="text-content post-intro-fade intro-fade">
 	<p class="tc">
 	Jack, the long awaited poster size magazine is finally here.
 	A collectable piece of art where we collaborate with some of
@@ -25,5 +17,15 @@
 	We are Jack xo</span>
 	</p>
 </div>
+{% endblock %}
+{% block extra_content %}
+{% if 'has-intro' in bodyClass %}
+{% import "macros/svg.twig" as svg %}
+<div id="intro-animation" class="content">
+	<div class="background posters intro-fade"><img src="{{ 'intro/posters.jpg' | asset_url }}" alt=""></div>
+	<div class="background flags intro-fade"><img src="{{ 'intro/flags.jpg' | asset_url }}" alt=""></div>
+	<div class="tc center logo intro-fade">{{ svg.object('logo', 'Jack') }}<p class="tc">Premiere issue number 1</p></div>
+</div>
 <script src="{{ 'js/snippets/intro.js' | url }}"></script>
+{% endif %}
 {% endblock %}

@@ -6,14 +6,16 @@ $routes[] = array(
 	'routes' => array(
 		array(
 			'name' => 'home',
-			'method' => 'get',
 			'path' => '',
+			'action' => 'intro',
+		),
+		array(
+			'name' => 'intro',
 			'action' => function($request, $response, $args) {
-				return $response->withRedirect(App::routeLookup('intro'));
-				return $response->withRedirect(App::routeLookup('issue', ['slug' => '1-dare-to-dream']));
+				App::setIntroAsSeen();
+				return $response->write(App::render('intro', ['bodyClass' => sprintf('%s-intro', App::hasSeenIntro() ? 'no' : 'has')]));
 			},
 		),
-		array('name' => 'intro'),
 		array('name' => 'about'),
 		array('name' => 'contact'),
 		array('name' => 'event', 'vars' => array(

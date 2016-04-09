@@ -6,27 +6,28 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 {% endblock %}
 	<head>
-	{% block head %}
-			<meta charset="utf-8">
-			<meta http-equiv="X-UA-Compatible" content="IE=edge">
-			<title>Jack</title>
-			<meta name="description" content="The Jack Mag. Seasonal poster size magazine. The best of the best of each season.">
-			<meta name="viewport" content="width=device-width, initial-scale=1">
+		{% block head %}
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Jack</title>
+		<meta name="description" content="The Jack Mag. Seasonal poster size magazine. The best of the best of each season.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-			<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-			<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-			
-			<link rel="stylesheet" href="{{ 'css/main.css' | url }}" media="all">
-			<script src="{{ 'js/vendor/modernizr.js' | url }}"></script>
-
-			<script>window.onload = function() { document.body.className += ' content-loaded'; };</script>
-	{% endblock %}
+		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		
+		<link rel="stylesheet" href="{{ 'css/main.css' | url }}" media="all">
+		{% endblock %}
+		{% block head_scripts %}
+		<script>document.documentElement.className = 'js';</script>
+		{% endblock %}
+		<script>window.onload = function() { document.body.className += ' content-loaded'; };</script>
 	</head>
-	<body class="" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
+	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
 		{% import "macros/svg.twig" as svg %}
 		{% import "macros/misc.twig" as misc %}
 		<div id="container">
-			<header id="masthead" class="post-intro-fade fade">
+			<header id="masthead" class="post-intro-fade intro-fade">
 				<nav class="foreground tc lowercase main-nav">
 					<span class="far-left tr">
 						<h1><a class="plain svg-button" data-section="home" href="{{ urlFor('home') }}">{{ svg.object('logo', 'Jack') }}</a></h1>
@@ -45,14 +46,16 @@
 				</nav>
 				{% block subnav %}
 				{% endblock %}
+				{% block header_content %}
+				{% endblock %}
 			</header>
-			{% block header %}
-			{% endblock %}
-			<div id="content">
+			<div id="content" class="content">
 				{% block content %}
 				{% endblock %}
 			</div>
 		</div>
+		{% block extra_content %}
+		{% endblock %}
 		{% block footer %}
 		{% endblock %}
 		<div id="main-loader" class="loader">

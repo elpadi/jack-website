@@ -24,6 +24,9 @@ foreach ($routes as $group) {
 			if (!isset($route['action'])) $route['action'] = function($request, $response, $args) use ($route) {
 				return $response->write(App::render($route['name'], $route['vars']));
 			};
+			if (is_string($route['action'])) $route['action'] = function($request, $response, $args) use ($route) {
+				return $response->withRedirect(App::routeLookup($route['action']));
+			};
 			$app_route = call_user_func(array(App::$framework, $route['method']), $route['path'], $route['action']);
 			if (isset($route['name'])) $app_route->setName($route['name']);
 		}
