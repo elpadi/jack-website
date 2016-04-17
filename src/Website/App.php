@@ -46,12 +46,10 @@ class App extends \Jack\App {
 	}
 
 	public static function setIntroAsSeen() {
-		return null;
 		if (!static::hasSeenIntro()) setcookie(static::prefix('has_seen_intro'), '1', PHP_INT_MAX, PUBLIC_ROOT);
 	}
 
 	public static function hasSeenIntro() {
-		return false;
 		return isset($_COOKIE[static::prefix('has_seen_intro')]) && $_COOKIE[static::prefix('has_seen_intro')] === '1';
 	}
 
