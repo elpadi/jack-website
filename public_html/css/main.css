@@ -20,11 +20,8 @@ body {
 	color:black;
 }
 .js #content {
-	opacity:0;
-	transition:opacity 0.3s linear 0.1s;
-}
-.js #content {
 	opacity:1;
+	transition:opacity 0.3s linear 0.1s;
 }
 #content {
 	position:relative;
@@ -111,12 +108,21 @@ body[data-template-path="intro"] .logo > object {
 .flags > img {
 	object-fit:contain;
 }
+.has-intro .intro-fade { transition-duration:2s, 0s; }
+.skip-intro .intro-fade { transition-duration:0.5s, 0s !important; transition-delay:0s, 0.5s !important; }
+body.skip-intro .post-intro-fade,
 body:not([data-template-path="intro"]) .post-intro-fade {
 	opacity:1;
 	visibility:visible;
 }
-.has-intro .intro-fade {
-	transition-duration:2s, 0s;
+body.skip-intro .post-intro-fade {
+	transition-property:none;
+}
+body.skip-intro .intro-fade:not(.post-intro-fade) {
+	opacity:0;
+	visibility:hidden;
+	transition-duration:0.5s, 0s !important;
+	transition-delay:0s, 0.5s !important;
 }
 body[data-template-path="intro"] .post-intro-fade,
 body[data-template-path="intro"] .intro-fade {
@@ -129,10 +135,6 @@ body[data-template-path="intro"] .posters.visible { transition-delay:0s, 0s; }
 body[data-template-path="intro"] .flags.visible { transition-delay:6s, 6s; }
 body[data-template-path="intro"] .logo.visible { transition-delay:12s, 12s; }
 body[data-template-path="intro"] .post-intro-fade.visible { transition-delay:18s, 18s; }
-.skip-intro .intro-fade {
-	transition-duration:0.5s !important;
-	transition-delay:0s !important;
-}
 
 #content img {
 	max-width:100%;
