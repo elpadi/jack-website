@@ -15,7 +15,7 @@ class Issue {
 	}
 
 	public static function getImages($number, $part, $size=4) {
-		$images = array_map(function($path) { return str_replace(WEBSITE_DIR.'/assets/', '', $path); }, glob(WEBSITE_DIR.sprintf('/assets/issue-%d/layouts/part-%d/%d/*.jpg', $number, $part, $size)));
+		$images = array_map(function($path) { return str_replace(AssetManager::getAssetsDir().'/', '', $path); }, glob(AssetManager::getAssetsDir().sprintf('/issue-%d/layouts/part-%d/%d/*.jpg', $number, $part, $size)));
 		usort($images, function($a, $b) {
 			return static::imageOrderScore(basename($a)) - static::imageOrderScore(basename($b));
 		});

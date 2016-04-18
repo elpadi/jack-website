@@ -35,6 +35,7 @@ body {
 #masthead > .main-nav { z-index:20; }
 #masthead > .subnav { z-index:19; }
 #masthead::after { z-index:18; }
+#content { z-index:5; }
 
 #content .text-content {
 	position:relative;

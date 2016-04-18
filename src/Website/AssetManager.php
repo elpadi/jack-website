@@ -3,8 +3,8 @@ namespace Website;
 
 class AssetManager extends \Jack\AssetManager {
 
-	protected static function getAssetsDir() {
-		return WEBSITE_DIR.'/assets';
+	public static function getAssetsDir() {
+		return PUBLIC_ROOT_DIR.'/admin/assets';
 	}
 
 	protected static function getPublicDir() {
