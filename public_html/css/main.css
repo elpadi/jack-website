@@ -170,3 +170,45 @@ body[data-template-path~="editorial"] #content {
 .event-image {
 	max-width:640px !important;
 }
+
+body[data-template-path~="contact"] .main-content {
+	height:21em;
+}
+body[data-template-path~="contact"] .columns {
+	height:6em;
+}
+body[data-template-path~="contact"] form {
+	max-width:640px;
+	margin:0 auto 100px;
+}
+body[data-template-path~="contact"] #content form p {
+	margin:0;
+	padding:0;
+	width:49%;
+	max-width:50%;
+}
+body[data-template-path~="contact"] input,
+body[data-template-path~="contact"] textarea {
+	width:100%;
+	background-color:transparent;
+	border:1px solid white;
+	color:white;
+	font-size:18px;
+	outline-style:none;
+}
+body[data-template-path~="contact"] input[name="email"] {
+	height:40px;
+	line-height:40px;
+	margin-bottom:1em;
+	padding:0 0.5em;
+}
+body[data-template-path~="contact"] textarea {
+	height:10em;
+	line-height:30px;
+	padding:0.25em 0.5em;
+}
+body[data-template-path~="contact"] input[type="submit"] {
+	background-color:white;
+	width:auto;
+	color:black;
+}

@@ -1,5 +1,8 @@
 .fl { float:left; }
 .fr { float:right; }
+.cl { clear:left; }
+.cr { clear:right; }
+.cb { clear:both; }
 .tc { text-align:center; }
 .tl { text-align:left; }
 .tr { text-align:right; }
@@ -22,6 +25,14 @@ a.plain { text-decoration:none; color:inherit; }
 	content:'';
 	display:block;
 	clear:both;
+}
+
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
 }
 
 .article-tiles button,
