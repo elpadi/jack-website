@@ -127,6 +127,9 @@ button.plain,
 	display:block;
 	object-fit:cover;
 }
+.background.page-background {
+	position:fixed;
+}
 
 .horizontal-list {
   margin: 0;

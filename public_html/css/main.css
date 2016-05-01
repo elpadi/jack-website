@@ -181,11 +181,14 @@ body[data-template-path~="contact"] form {
 	max-width:640px;
 	margin:0 auto 100px;
 }
-body[data-template-path~="contact"] #content form p {
+body[data-template-path~="contact"] #content form p:not(#form-message) {
 	margin:0;
 	padding:0;
 	width:49%;
 	max-width:50%;
+}
+#content #form-message {
+	margin:-75px auto 50px;
 }
 body[data-template-path~="contact"] input,
 body[data-template-path~="contact"] textarea {

@@ -2,13 +2,22 @@
 {% block content %}
 {% import "macros/img.twig" as img %}
 {% import "macros/misc.twig" as misc %}
-<div class="background">{{ img.resp_img('backgrounds/contact', 5000) }}</div>
+<div class="background page-background">{{ img.resp_img('backgrounds/contact', 5000) }}</div>
 <div class="main-content absolute-center">
 	<form method="POST" action="{{ urlFor('contact') }}" class="white clearfix">
 		<p class="fl"><label for="email" class="screen-reader-text">Email: </label><input type="email" name="email" placeholder="Your email"></p>
 		<p class="fr"><label for="message" class="screen-reader-text">Message: </label><textarea name="message" placeholder="Message"></textarea></p>
 		<p class="fl cl"><input type="submit" value="Send" class="fr"></label></p>
 	</form>
+	{% if sent is defined %}
+	<p id="form-message" class="white tc">
+		{% if sent %}
+		Thanks for your time. We'll get back to you soon.
+		{% else %}
+		Failed to send message. Please try again or use one of the email links below.
+		{% endif %}
+	</p>
+	{% endif %}
 	<div class="white columns tc">
 		<p class="col">{{ misc.contact('Carlos Padilla', 'Technical Director', 'carlos@thejackmag.com') }}</p>
 		<p class="col">{{ misc.contact('Dah Wee', 'Creative Director', 'dah@thejackmag.com') }}</p>

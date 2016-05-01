@@ -53,4 +53,8 @@ class App extends \Jack\App {
 		return isset($_COOKIE[static::prefix('has_seen_intro')]) && $_COOKIE[static::prefix('has_seen_intro')] === '1';
 	}
 
+	public static function contactEmail() {
+		return static::email($_POST['email'], Jack::$config->get('contact_email'), 'Message sent through the contact form', $_POST['message']);
+	}
+
 }
