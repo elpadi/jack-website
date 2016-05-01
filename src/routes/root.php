@@ -23,7 +23,16 @@ $routes[] = array(
 			'path' => 'contact',
 			'name' => 'contact-message',
 			'action' => function($request, $response, $args) {
-				$sent = true || App::contactEmail();
+				try {
+					$sent = App::contactEmail();
+				}
+				catch (\Exception $e) {
+					if (DEBUG) {
+						var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);
+						exit(0);
+					}
+					$sent = false;
+				}
 				return $response->write(App::render('contact', ['sent' => $sent]));
 			},
 		),

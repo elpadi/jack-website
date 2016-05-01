@@ -54,7 +54,7 @@ class App extends \Jack\App {
 	}
 
 	public static function contactEmail() {
-		return static::email($_POST['email'], Jack::$config->get('contact_email'), 'Message sent through the contact form', $_POST['message']);
+		return static::email($_POST['email'], \Jack\Jack::$config->get('contact_email'), 'Message sent through the contact form', $_POST['message']);
 	}
 
 }
