@@ -14,6 +14,10 @@ class Issue {
 		$issue->save();
 	}
 
+	public static function getSections($number, $part) {
+		return \Jack\App::$config->get(sprintf('issues.issue-%d.part-%d.sections', $number, $part));
+	}
+
 	public static function getImages($number, $part, $size=4) {
 		$images = array_map(function($path) { return str_replace(AssetManager::getAssetsDir().'/', '', $path); }, glob(AssetManager::getAssetsDir().sprintf('/issue-%d/layouts/part-%d/%d/*.jpg', $number, $part, $size)));
 		usort($images, function($a, $b) {

@@ -3,7 +3,16 @@
 {% include "snippets/issues_subnav.twig" %}
 {% endblock %}
 {% block content %}
-{% for img in images %}
-<p class="editorial-image tc"><img src="{{ img | asset_url }}" alt=""></p>
+{% for section in sections %}
+<section class="issue-section">
+	<main class="right">
+		<h1 class="title">{{ section.title }}</h1>
+		<p class="tags">{{ section.tags | join('/') }}</p>
+		<p class="description">{{ section.description | nl2br }}</p>
+	</main>
+	<aside class="left">
+	<div class="images tc">{% for img in section.images %}<img src="{{ (asset_path ~ '/' ~ img.filename ~ '.jpg') | asset_url }}" alt=""><br>{% endfor %}</div>
+	</aside>
+</section>
 {% endfor %}
 {% endblock %}

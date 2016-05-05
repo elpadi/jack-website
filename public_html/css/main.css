@@ -161,9 +161,43 @@ body[data-template-path="issues single"] .cover.back {
 	animation-direction:alternate;
 }
 body[data-template-path~="editorial"] #content {
-	margin-top:10px;
+	margin-top:100px;
 }
-.editorial-image {
+.issue-section {
+	position:relative;
+	max-width:1280px;
+	margin:150px auto;
+}
+.issue-section:first-child {
+	margin-top:0;
+}
+.issue-section .right {
+	position:absolute;
+	top:0;
+	right:0;
+	width:40%;
+	padding:0 1em 0 2em;
+}
+.issue-section.behind .right {
+	bottom:0;
+}
+.issue-section.current .right {
+	position:fixed;
+	top:190px;
+}
+.issue-section .left {
+	width:60%;
+}
+.issue-section .title {
+	line-height:1;
+	margin:0;
+}
+.issue-section .tags {
+	margin-bottom:2em;
+}
+.issue-section p,
+.issue-section img {
+	padding:0 !important;
 	max-width:100% !important;
 }
 

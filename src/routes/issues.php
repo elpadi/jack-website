@@ -1,5 +1,6 @@
 <?php
 use Website\App;
+use Website\AssetManager;
 use Website\Model;
 use Website\Issue;
 
@@ -25,7 +26,19 @@ $routes[] = array(
 			'path' => '/{slug}/editorial-{part}',
 			'action' => function($request, $response, $args) {
 				$issue = Model::bySlug('issue', $args['slug']);
-				return $response->write(App::render('issues/editorial', ['issue' => $issue, 'images' => Issue::getImages($issue->getNumber(), $args['part'])]));
+				return $response->write(App::render('issues/editorial', [
+					'issue' => $issue,
+					'sections' => Issue::getSections($issue->getNumber(), $args['part']),
+					'asset_path' => AssetManager::getAssetsDir().sprintf('/issue-%d/layouts/part-%d/4', $issue->getNumber(), $args['part']),
+				]));
+			},
+		),
+		array(
+			'name' => 'editorial',
+			'path' => '/{issue}/editorial-{part}/{layout}',
+			'action' => function($request, $response, $args) {
+				$issue = Model::bySlug('issue', $args['issue']);
+				return $response->write(App::render('issues/layout', ['issue' => $issue, 'layout' => Issue::getLayout($issue->getNumber(), $args['part'], $args['layout'])]));
 			},
 		),
 	),
