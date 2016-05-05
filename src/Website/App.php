@@ -46,7 +46,7 @@ class App extends \Jack\App {
 	}
 
 	public static function setIntroAsSeen() {
-		if (!static::hasSeenIntro()) setcookie(static::prefix('has_seen_intro'), '1', PHP_INT_MAX, PUBLIC_ROOT);
+		if (!static::hasSeenIntro()) setcookie(static::prefix('has_seen_intro'), '1', time() + 3600 * 24000, PUBLIC_ROOT);
 	}
 
 	public static function hasSeenIntro() {
