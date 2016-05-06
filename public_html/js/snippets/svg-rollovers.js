@@ -12,7 +12,7 @@
 		else obj.addEventListener('load', fn);
 	};
 
-	Array.from(document.getElementsByClassName('svg-button')).filter(button => button.dataset.section !== 'home').forEach(function(button) {
+	Array.from(document.getElementsByClassName('svg-button')).filter(function(button) { return button.dataset.section !== 'home'; }).forEach(function(button) {
 		var obj = button.children[0];
 		obj.parentNode.addEventListener('mouseover', function(e) { setSvgClass(obj, 'over'); });
 		obj.parentNode.addEventListener('mouseout', function(e) { setSvgClass(obj, '', 'over'); });
