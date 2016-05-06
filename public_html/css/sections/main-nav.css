@@ -18,6 +18,12 @@
 	background-image:linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
 }
 
+#masthead a:not([data-section="home"]) {
+	border:3px none rgba(84, 84, 84, 0);
+}
+#masthead a:not([data-section="home"]):hover {
+	border-color:rgba(84, 84, 84, 1);
+}
 body[data-template-path="about"] #masthead a[data-section="about"],
 body[data-template-path="contact"] #masthead a[data-section="contact"],
 body[data-template-path="event"] #masthead a[data-section="event"],
@@ -25,10 +31,13 @@ body[data-template-path~="issues"] #masthead a[data-section="issues"],
 body[data-template-path="issues single"] #masthead a[data-section="issue-cover"],
 body[data-url-path~="editorial-1"] #masthead a[data-section="editorial-1"],
 body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
-	border-color:gray;
+	border-color:rgba(0, 0, 0, 1);
 }
-#masthead > nav a:not([data-section="home"]):hover {
-	border-color:black;
+#masthead > .main-nav a:not([data-section="home"]) {
+	border-top-style:solid;
+}
+#masthead > .subnav a {
+	border-bottom-style:solid;
 }
 #masthead > nav,
 #masthead > nav a,
@@ -41,7 +50,6 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 	line-height:21px;
 	padding:5px 0;
 	margin:0 15px;
-	border-top:3px solid transparent;
 	outline-style:none !important;
 	transition:border-color 0.2s;
 }
@@ -102,10 +110,6 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 
 .subnav > ul {
 	margin:auto;
-}
-#masthead > .subnav a {
-	border-top-style:none;
-	border-bottom:3px solid white;
 }
 body[data-path="issues_single"] #masthead .subnav {
 }
