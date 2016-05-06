@@ -15,7 +15,16 @@
 	</aside>
 </section>
 {% endfor %}
+<section id="fixed-issue-section" class="issue-section">
+	{% for section in sections %}
+		<main class="right">
+			<h1 class="title">{{ section.title }}</h1>
+			<p class="tags">{{ section.tags | join('/') }}</p>
+			<p class="description">{{ section.description | nl2br }}</p>
+		</main>
+	{% endfor %}
+</section>
 {% endblock %}
 {% block foot_scripts %}
-<script src="{{ 'js/snippets/editorial.js' | url }}" async></script>
+<script src="{{ 'js/lib/editorial.js' | url }}" async></script>
 {% endblock %}

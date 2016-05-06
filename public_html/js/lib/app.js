@@ -26,8 +26,12 @@ Object.defineProperty(App.prototype, 'addEventListener', {
 Object.defineProperty(App.prototype, 'init', {
 	value: function init() {
 		this.initialEvents.push('init');
+		this.scrollData = {
+			before: window.scrollY
+		};
 		this.addEventListener('click');
 		this.addEventListener('resize', undefined, window);
+		this.addEventListener('scroll', undefined, window);
 	}
 });
 
@@ -37,6 +41,7 @@ Object.defineProperty(App.prototype, 'load', {
 		this.initialEvents.push('resize');
 		document.body.className += ' content-loaded';
 		setTimeout(function() { this.dispatchEvent('resize'); }.bind(this), 100);
+		setTimeout(function() { this.dispatchEvent('scroll'); }.bind(this), 200);
 	}
 });
 
@@ -46,6 +51,14 @@ Object.defineProperty(App.prototype, 'resize', {
 			width: document.documentElement.clientWidth,
 			height: document.documentElement.clientHeight
 		};
+	}
+});
+
+Object.defineProperty(App.prototype, 'scroll', {
+	value: function scroll(e) {
+		if (e && e.target !== document && e.target !== window) return;
+		if (this.scrollData.before === window.scrollY) this.scrollData.before = 0;
+		this.scrollData.current = window.scrollY;
 	}
 });
 
