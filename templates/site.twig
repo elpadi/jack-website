@@ -15,10 +15,15 @@
 
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-		
-		<link rel="stylesheet" href="{{ 'css/main.css' | url }}" media="all">
 		{% endblock %}
+		
+		{% if MINIFY_SCRIPTS %}
+		<link rel="stylesheet" href="{{ 'css/main.min.css' | url }}" media="all">
+		{% else %}
+		<link rel="stylesheet" href="{{ 'css/main.css' | url }}" media="all">
 		<script src="{{ 'js/app.js' | url }}"></script>
+		{% endif %}
+
 		{% block head_scripts %}
 		{% endblock %}
 	</head>
@@ -68,7 +73,11 @@
 		</div>
 		{% block foot_scripts %}
 		{% endblock %}
+		{% if MINIFY_SCRIPTS %}
+		<script src="{{ 'js/main.min.js' | url }}"></script>
+		{% else %}
 		<script src="{{ 'js/lib/app.js' | url }}" async></script>
+		{% endif %}
 		<!--script>
 			var _paq = _paq || [];
 			_paq.push(['setCustomVariable', 1, 'User ID', '{{ USER_ID }}', 'visit']);

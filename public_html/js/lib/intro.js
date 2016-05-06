@@ -38,7 +38,8 @@ Object.defineProperty(Intro.prototype, 'hide', {
 
 Object.defineProperty(Intro.prototype, 'hideOne', {
 	value: function hideOne(query, delay) {
-		this.timeoutIds.push(setTimeout(function() { document.querySelector(query).classList.remove('visible'); }, delay));
+		var node = document.querySelector(query);
+		if (node) this.timeoutIds.push(setTimeout(function() { node.classList.remove('visible'); }, delay));
 	}
 });
 

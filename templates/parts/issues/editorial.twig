@@ -26,5 +26,7 @@
 </section>
 {% endblock %}
 {% block foot_scripts %}
+{% if not MINIFY_SCRIPTS %}
 <script src="{{ 'js/lib/editorial.js' | url }}" async></script>
+{% endif %}
 {% endblock %}

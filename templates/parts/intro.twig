@@ -31,7 +31,7 @@
 {% endblock %}
 
 {% block foot_scripts %}
-{% if 'has-intro' in bodyClass %}
+{% if not MINIFY_SCRIPTS and 'has-intro' in bodyClass %}
 <script src="{{ 'js/lib/intro.js' | url }}" async></script>
 {% endif %}
 {% endblock %}
