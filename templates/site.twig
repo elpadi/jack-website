@@ -18,10 +18,9 @@
 		
 		<link rel="stylesheet" href="{{ 'css/main.css' | url }}" media="all">
 		{% endblock %}
+		<script src="{{ 'js/app.js' | url }}"></script>
 		{% block head_scripts %}
-		<script>document.documentElement.className = 'js';</script>
 		{% endblock %}
-		<script>window.onload = function() { document.body.className += ' content-loaded'; };</script>
 	</head>
 	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
 		{% import "macros/svg.twig" as svg %}
@@ -67,6 +66,9 @@
 				<circle class="five" cx="85" cy="50" r="5"/>
 			</svg>
 		</div>
+		{% block foot_scripts %}
+		{% endblock %}
+		<script src="{{ 'js/lib/app.js' | url }}" async></script>
 		<!--script>
 			var _paq = _paq || [];
 			_paq.push(['setCustomVariable', 1, 'User ID', '{{ USER_ID }}', 'visit']);

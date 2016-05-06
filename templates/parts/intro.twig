@@ -18,6 +18,7 @@
 	</p>
 </div>
 {% endblock %}
+
 {% block extra_content %}
 {% if 'has-intro' in bodyClass %}
 {% import "macros/svg.twig" as svg %}
@@ -26,6 +27,11 @@
 	<div class="background flags intro-fade"><img src="{{ 'intro/flags.jpg' | asset_url }}" alt=""></div>
 	<div class="tc center logo intro-fade">{{ svg.object('logo', 'Jack') }}<p class="tc">Premiere issue number 1</p></div>
 </div>
-<script src="{{ 'js/snippets/intro.js' | url }}"></script>
+{% endif %}
+{% endblock %}
+
+{% block foot_scripts %}
+{% if 'has-intro' in bodyClass %}
+<script src="{{ 'js/lib/intro.js' | url }}" async></script>
 {% endif %}
 {% endblock %}

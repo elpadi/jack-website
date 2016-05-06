@@ -1,0 +1,9 @@
+{% extends "site.twig" %}
+{% block subnav %}
+{% include "snippets/issues_subnav.twig" %}
+{% endblock %}
+{% block content %}
+<div class="background"><img src="{{ layout.asset_path | asset_url }}" alt=""></div>
+<h1>{{ layout.title }}</h1>
+<p>Description</p>
+{% endblock %}
