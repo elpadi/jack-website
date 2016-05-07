@@ -9,5 +9,5 @@ check:
 main.min.css: build/final.css
 	cssmin $^ > $@
 
-build/final.css: $(shell find public_html/css -type f)
+build/final.css: $(shell find base components sections -type f) main.css
 	postcss --use postcss-import --use autoprefixer main.css -o $@

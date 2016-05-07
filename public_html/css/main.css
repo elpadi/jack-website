@@ -192,10 +192,14 @@ body[data-template-path~="editorial"] #content {
 .issue-section .tags {
 	margin-bottom:2em;
 }
-.issue-section p,
-.issue-section img {
-	padding:0 !important;
-	max-width:100% !important;
+#content .issue-section p,
+#content .issue-section img {
+	padding:0;
+	max-width:100%;
+}
+#content .issue-section h3,
+#content .issue-section p:not(.description) {
+	margin:0;
 }
 #fixed-issue-section {
 	position:fixed;

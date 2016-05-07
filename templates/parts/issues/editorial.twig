@@ -7,11 +7,15 @@
 <section class="issue-section">
 	<main class="right">
 		<h1 class="title">{{ section.title }}</h1>
-		<p class="tags">{{ section.tags | join('/') }}</p>
-		<p class="description">{{ section.description | nl2br }}</p>
+		{% if section.subtitle %}<h3 class="subtitle">{{ section.subtitle }}</h3>{% endif %}
+		{% if section.subtitle %}<p class="tags">{{ section.tags | join('/') }}</p>{% endif %}
+		{% if section.description %}<p class="description">{{ section.description | nl2br }}</p>{% endif %}
 	</main>
 	<aside class="left">
-	<div class="images tc">{% for img in section.images %}<img src="{{ (asset_path ~ '/' ~ img.filename ~ '.jpg') | asset_url }}" alt=""><br>{% endfor %}</div>
+	<div class="images tc">{% for img in section.images %}
+		<h2>{{ img.title }}</h2>
+		<img src="{{ (asset_path ~ '/' ~ img.filename ~ '.jpg') | asset_url }}" alt="">
+	{% endfor %}</div>
 	</aside>
 </section>
 {% endfor %}
@@ -19,8 +23,9 @@
 	{% for section in sections %}
 		<main class="right">
 			<h1 class="title">{{ section.title }}</h1>
-			<p class="tags">{{ section.tags | join('/') }}</p>
-			<p class="description">{{ section.description | nl2br }}</p>
+			{% if section.subtitle %}<h3 class="subtitle">{{ section.subtitle }}</h3>{% endif %}
+			{% if section.subtitle %}<p class="tags">{{ section.tags | join('/') }}</p>{% endif %}
+			{% if section.description %}<p class="description">{{ section.description | nl2br }}</p>{% endif %}
 		</main>
 	{% endfor %}
 </section>

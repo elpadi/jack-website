@@ -15,7 +15,7 @@ class Issue {
 	}
 
 	public static function getSections($number, $part) {
-		return \Jack\App::$config->get(sprintf('issues.issue-%d.part-%d.sections', $number, $part));
+		return \Jack\App::$config->get(sprintf('issues.issue-%d.part-%d', $number, $part));
 	}
 
 	public static function getImages($number, $part, $size=4) {
