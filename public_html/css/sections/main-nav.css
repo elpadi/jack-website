@@ -6,7 +6,7 @@
 	display:flex;
 	font-size:16px;
 	letter-spacing:2px;
-	color:#c3c3c3;
+	color:rgb(195,195,195);
 }
 #masthead::after {
 	content:'';
@@ -19,10 +19,10 @@
 }
 
 #masthead a:not([data-section="home"]) {
-	border:3px none rgba(84, 84, 84, 0);
+	border:3px none rgba(195,195,195,0);
 }
 #masthead a:not([data-section="home"]):hover {
-	border-color:rgba(84, 84, 84, 1);
+	border-color:rgba(195,195,195,1);
 }
 body[data-template-path="about"] #masthead a[data-section="about"],
 body[data-template-path="contact"] #masthead a[data-section="contact"],
@@ -31,7 +31,7 @@ body[data-template-path~="issues"] #masthead a[data-section="issues"],
 body[data-template-path="issues single"] #masthead a[data-section="issue-cover"],
 body[data-url-path~="editorial-1"] #masthead a[data-section="editorial-1"],
 body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
-	border-color:rgba(0, 0, 0, 1);
+	border-color:rgba(195,195,195,1);
 }
 #masthead > .main-nav a:not([data-section="home"]) {
 	border-top-style:solid;
