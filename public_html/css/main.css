@@ -197,6 +197,9 @@ body[data-template-path~="editorial"] #content {
 	padding:0;
 	max-width:100%;
 }
+#content .issue-section .description {
+	color:;#b3b0b0;
+}
 #content .issue-section h3,
 #content .issue-section p:not(.description) {
 	margin:0;
