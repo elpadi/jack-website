@@ -1,5 +1,9 @@
-jack_website.sql
 vendor
-assets
 cache
 logs
+
+public_html/assets/*
+!public_html/assets/src
+!public_html/assets/svg
+!public_html/assets/Makefile
+

@@ -18,23 +18,22 @@
 		{% endblock %}
 		
 		{% if MINIFY_SCRIPTS %}
-		<link rel="stylesheet" href="{{ 'css/main.min.css' | url }}" media="all">
+		<link rel="stylesheet" href="{{ 'dist/main.min.css' | asset_url }}" media="all">
 		{% else %}
-		<link rel="stylesheet" href="{{ 'css/main.css' | url }}" media="all">
-		<script src="{{ 'js/app.js' | url }}"></script>
+		<link rel="stylesheet" href="{{ 'src/css/main.css' | asset_url }}" media="all">
+		<script src="{{ 'src/js/app.js' | asset_url }}"></script>
 		{% endif %}
 
 		{% block head_scripts %}
 		{% endblock %}
 	</head>
 	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
-		{% import "macros/svg.twig" as svg %}
 		{% import "macros/misc.twig" as misc %}
 		<div id="container">
 			<header id="masthead" class="post-intro-fade intro-fade">
 				<nav class="foreground tc lowercase main-nav">
-					<span class="far-left tr">
-						<h1><a class="plain svg-button" data-section="home" href="{{ urlFor('home') }}">{{ svg.object('logo', 'Jack') }}</a></h1>
+					<span class="far-left tl">
+						<h1><a class="plain svg-button" data-section="home" href="{{ urlFor('home') }}">{{ svg('logo', 'Jack') | raw }}</a></h1>
 					</span>
 					<ul class="horizontal-list floats">
 						{% for section in ['about','issues','contact','event'] %}<li>{{ misc.menu_item(section) }}</li>{% endfor %}
@@ -42,7 +41,7 @@
 					</ul>
 					<span class="far-right tl">
 						<ul class="social-buttons horizontal-list floats tc">
-							<li>{{ misc.social_button('facebook','https://www.facebook.com/thejackmag/') }}</li>
+							<li class="button--facebook">{{ misc.social_button('facebook','https://www.facebook.com/thejackmag/') }}</li>
 							<li>{{ misc.social_button('twitter','https://twitter.com/thejackmag') }}</li>
 							<li>{{ misc.social_button('instagram','https://www.instagram.com/thejackmagazine/') }}</li>
 						</ul>
@@ -54,7 +53,7 @@
 				{% endblock %}
 			</header>
 			<div id="content" class="content">
-				{% block content %}<article class="text-content">{% if content %}{{ content | raw }}{% endif %}</article>{% endblock %}
+				{% block content %}<article class="text-content justified">{% if content %}{{ content | raw }}{% endif %}</article>{% endblock %}
 			</div>
 		</div>
 		{% block extra_content %}
@@ -73,9 +72,9 @@
 		{% block foot_scripts %}
 		{% endblock %}
 		{% if MINIFY_SCRIPTS %}
-		<script src="{{ 'js/main.min.js' | url }}"></script>
+		<script src="{{ 'dist/main.min.js' | asset_url }}"></script>
 		{% else %}
-		<script src="{{ 'js/lib/app.js' | url }}" async></script>
+		<script src="{{ 'src/js/lib/app.js' | asset_url }}" async></script>
 		{% endif %}
 		<!--script>
 			var _paq = _paq || [];

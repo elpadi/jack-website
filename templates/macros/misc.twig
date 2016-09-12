@@ -9,8 +9,7 @@
 {% endmacro %}
 
 {% macro social_button(name, url) %}
-{% import "macros/svg.twig" as svg %}
-<a class="plain svg-button" target="_blank" href="{{ url }}">{{ svg.object(name, name | capitalize) }}</a>
+<a class="plain svg-button" target="_blank" href="{{ url }}">{{ svg(name, name | capitalize) | raw }}</a>
 {% endmacro %}
 
 {% macro event_date(date) %}{{ date | date('F jS') | ordinal_sup | raw }}{% endmacro %}

@@ -5,6 +5,17 @@ use Functional as F;
 
 class Action extends \Jack\Action {
 
+	protected function getPage($name) {
+		return cockpit('collections:findOne', 'blocks', ['title' => ucwords($name)]);
+	}
+
+	protected function getActionCallback($name) {
+		$fn = [$this, str_replace('/', '_', $name)];
+		if (is_callable($fn)) return $fn;
+		if ($this->getPage($name)) return [$this, 'page']; 
+		return [$this, '_default'];
+	}
+	
 	protected function parseIssueSlug($slug) {
 		preg_match('/([0-9]+)-([a-z-]+)/', $slug, $matches);
 		if (!$matches) $app->notFound($response);
@@ -44,8 +55,8 @@ class Action extends \Jack\Action {
 		return $this->_default($request, $response, $args, $name);
 	}
 
-	public function about($request, $response, $args, $name) {
-		return $this->_default($request, $response, array_merge($args, cockpit('collections:findOne', 'blocks', ['title' => 'About'])), $name);
+	public function page($request, $response, $args, $name) {
+		return $this->_default($request, $response, array_merge($args, $this->getPage($name)));
 	}
 
 }

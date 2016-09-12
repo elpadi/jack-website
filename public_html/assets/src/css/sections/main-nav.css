@@ -19,19 +19,21 @@
 }
 
 #masthead a:not([data-section="home"]) {
-	border:3px none rgba(195,195,195,0);
+	border:3px none transparent;
 }
 #masthead a:not([data-section="home"]):hover {
-	border-color:rgba(195,195,195,1);
+	color: black;
+	border-color: black;
 }
-body[data-template-path="about"] #masthead a[data-section="about"],
-body[data-template-path="contact"] #masthead a[data-section="contact"],
-body[data-template-path="event"] #masthead a[data-section="event"],
+body[data-url-path="about"] #masthead a[data-section="about"],
+body[data-url-path="contact"] #masthead a[data-section="contact"],
+body[data-url-path="event"] #masthead a[data-section="event"],
 body[data-template-path~="issues"] #masthead a[data-section="issues"],
 body[data-template-path="issues single"] #masthead a[data-section="issue-cover"],
 body[data-url-path~="editorial-1"] #masthead a[data-section="editorial-1"],
 body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
-	border-color:rgba(195,195,195,1);
+	color: inherit;
+	border-color: rgb(195, 195, 195) !important;
 }
 #masthead > .main-nav a:not([data-section="home"]) {
 	border-top-style:solid;
@@ -73,17 +75,18 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 #masthead > .subnav a {
 	line-height:21px;
 }
-#masthead > nav > .far-left {
-}
-#masthead > nav > .far-left, #masthead > nav > .far-left a, #masthead > nav > .far-left .svg-image {
+#masthead .far-left, #masthead .far-left a, #masthead .far-left svg {
 	height:73px;
 }
-#masthead > nav > .far-left a {
-	float:left;
-	padding-left:0;
-	padding-top:0;
-	margin:0;
-	border-style:none;
+#masthead .far-left h1 {
+	overflow: hidden;
+}
+#masthead .far-left a {
+	float: left;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border-style: none;
 }
 #masthead > nav > .far-left .svg-image {
 	width:auto;
@@ -93,11 +96,11 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 	float:right;
 	padding-right:15px;
 }
-.social-buttons .svg-image {
+.social-buttons svg {
 	width:30px;
 	height:auto;
 }
-.social-buttons .svg-image:not(.svg--facebook) {
+.social-buttons li:not(.button--facebook) svg {
 	width:20px;
 }
 #masthead .social-buttons li {
@@ -107,6 +110,11 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 	margin:0 10px;
 	line-height:40px;
 }
+#masthead .social-buttons .stroke { stroke: #c3c3c3; }
+#masthead .social-buttons .fill { fill: #c3c3c3; }
+#masthead .social-buttons a:hover .stroke { stroke: black; }
+#masthead .social-buttons a:hover .fill { fill: black; }
+
 
 .subnav > ul {
 	margin:auto;
