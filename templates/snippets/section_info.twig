@@ -1,0 +1,4 @@
+<h1 class="title">{{ section.title }}</h1>
+{% if section.subtitle %}<h3 class="subtitle">{{ section.subtitle }}</h3>{% endif %}
+{% if section.tags %}<p class="tags">{{ section.tags | pluck('value') | join('/') }}</p>{% endif %}
+{% if section.description %}<div class="description">{{ section.description | raw }}</div>{% endif %}

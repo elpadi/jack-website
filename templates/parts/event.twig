@@ -1,21 +1,16 @@
 {% extends "site.twig" %}
 {% block content %}
+{% import "macros/misc.twig" as misc %}
 {% import "macros/img.twig" as img %}
 <div class="background"></div>
-<div class="text-content">
-	<p class="tc">
-	Jack Events is featuring the upcoming premiere of issue #1 &mdash; “dare to dream“ &mdash; in 
-	the art of peep couture.  An art installation with the entire collection of Jack's
-	first issue will be featured in the form of posters and limited edition museum 
-	archival art prints. The public will have the chance to witness the birth of Jack,
-	“where it all begins“.<br><br>
-	<span class="tc">
-	<a class="plain" target="_blank" href="https://www.google.com/maps/place/446+W+14th+St,+New+York,+NY+10014/@40.741567,-74.0097757,17z/data=!3m1!4b1!4m2!3m1!1s0x89c259c08950b587:0x21f7c20b0efe0b0b">446 w 14<sup>th</sup> st, new york</a><br>
-	march 25<sup>th</sup> &ndash; april 3<sup>rd</sup>
-	</span>
-	</p>
-	{% for img in images %}
-	<p class="event-image tc"><img src="{{ img | asset_url }}" alt=""></p>
-	{% endfor %}
-</div>
+{% for event in events %}
+<article class="event">
+	<section class="description text-content">{{ event.description | raw }}</section>
+	<footer class="tc">
+		<p><a class="address plain" target="_blank" href="{{ event.map_url }}">{{ event.address | ordinal_sup | raw }}</a></p>
+		<p>{{ misc.event_date(event.start_date) }}{% if event.end_date and event.end_date != event.start_date %} &ndash; {{ misc.event_date(event.end_date) }}{% endif %}</p>
+	</footer>
+	<section class="images tc">{% for image in event.images %}<img class="event-image" src="{{ image.path | url }}" alt="">{% endfor %}</section>
+</article>
+{% endfor %}
 {% endblock %}

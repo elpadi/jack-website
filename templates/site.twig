@@ -54,8 +54,7 @@
 				{% endblock %}
 			</header>
 			<div id="content" class="content">
-				{% block content %}
-				{% endblock %}
+				{% block content %}<article class="text-content">{% if content %}{{ content | raw }}{% endif %}</article>{% endblock %}
 			</div>
 		</div>
 		{% block extra_content %}

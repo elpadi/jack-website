@@ -8,10 +8,13 @@ class Template extends \Jack\Template {
 	}
 
 	public function __construct() {
+		global $app;
 		parent::__construct();
-		$this->twig->addFilter(new \Twig_SimpleFilter('image', ['\Website\App','imageUrl']));
-		$this->twig->addFilter(new \Twig_SimpleFilter('url', ['\Website\App','url']));
-		$this->twig->addFilter(new \Twig_SimpleFilter('asset_url', ['\Website\App','asset_url']));
+		$this->twig->addFunction(new \Twig_SimpleFunction('cockpit_opening_form_tag', function($form) {
+			ob_start();
+			cockpit('forms:open', $form);
+			return ob_get_clean();
+		}));
 	}
 	
 }

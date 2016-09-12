@@ -28,6 +28,7 @@ Object.defineProperty(Editorial.prototype, 'show', {
 	value: function show(index) {
 		this.fixed.children[index].classList.add('visible');
 		this.sections[index].children[0].classList.add('hidden');
+		this.fixed.style.height = this.sections[index].children[0].offsetHeight + 'px';
 	}
 });
 

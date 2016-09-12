@@ -10,31 +10,19 @@ $routes[] = array(
 		array(
 			'name' => 'issues',
 			'path' => '',
-			'action' => function($request, $response, $args) {
-				return $response->withRedirect(App::routeLookup('issue', ['slug' => '1-dare-to-dream']));
-			},
+			'action' => 'issue',
+			'args' => ['slug' => '1-dare-to-dream'],
 		),
 		array(
 			'name' => 'issue',
 			'path' => '/{slug}',
-			'action' => function($request, $response, $args) {
-				return $response->write(App::render('issues/single', ['issue' => Model::bySlug('issue', $args['slug'])]));
-			},
 		),
 		array(
 			'name' => 'editorial',
 			'path' => '/{slug}/editorial-{part}',
-			'action' => function($request, $response, $args) {
-				$issue = Model::bySlug('issue', $args['slug']);
-				return $response->write(App::render('issues/editorial', [
-					'issue' => $issue,
-					'sections' => Issue::getSections($issue->getNumber(), $args['part']),
-					'asset_path' => AssetManager::getAssetsDir().sprintf('/issue-%d/layouts/part-%d/4', $issue->getNumber(), $args['part']),
-				]));
-			},
 		),
 		array(
-			'name' => 'editorial',
+			'name' => 'layout',
 			'path' => '/{issue}/editorial-{part}/{layout}',
 			'action' => function($request, $response, $args) {
 				$issue = Model::bySlug('issue', $args['issue']);
@@ -42,6 +30,7 @@ $routes[] = array(
 			},
 		),
 	),
+	/*
 	'middleware' => array(
 		function ($request, $response, $next) {
 			$args = $request->getAttribute('routeInfo')[2];
@@ -55,4 +44,5 @@ $routes[] = array(
 			return $next($request, $response);
 		}
 	),
+	 */
 );
