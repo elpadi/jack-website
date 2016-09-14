@@ -47,16 +47,20 @@ body {
 #content {
 	font-size:18px;
 }
-#content .text-content,
+#content .page-content,
 #content > p {
 	max-width:476px;
 	margin-left:auto;
 	margin-right:auto;
 	padding: 1em;
-	line-height:1.5;
 }
 #content .text-content p,
 #content > p {
+	line-height:1.5;
+}
+#content .text-content p a:hover,
+#content > p a:hover {
+	color: black;
 }
 #content p:nth-of-type(1) {
 	margin-top:0;
@@ -89,16 +93,6 @@ body[data-template-path^="issues"] #content {
 }
 .background > img[data-image="issue1"] { object-fit:contain; }
 .background > img[data-image="gallery"] { object-position:top right; }
-
-.columns {
-	display:flex;
-	justify-content:center;
-	align-content:center;
-	align-items:center;
-}
-.columns > .col {
-	margin:0 1em;
-}
 
 body[data-template-path="intro"] .logo > p {
 	font-size:18px;
@@ -225,7 +219,7 @@ body[data-template-path~="editorial"] #content {
 }
 
 .event footer {
-	margin: 1em;
+	margin: 1em 0 3em;
 }
 .event footer > p {
 	margin: 0;
@@ -237,15 +231,14 @@ body[data-template-path~="editorial"] #content {
 }
 
 body[data-template-path~="contact"] .main-content {
-	height:21em;
+	margin-top: 50px;
 }
 body[data-template-path~="contact"] .columns {
 	height:6em;
 }
 body[data-template-path~="contact"] form {
-	max-width:640px;
-	margin:0 auto 100px;
-	overflow: auto;
+	max-width: 640px;
+	margin: 0 auto 70px;
 }
 body[data-template-path~="contact"] #content form p:not(#form-message) {
 	margin:0;
@@ -258,18 +251,18 @@ body[data-template-path~="contact"] #content form p:not(#form-message) {
 }
 body[data-template-path~="contact"] input,
 body[data-template-path~="contact"] textarea {
-	width:100%;
-	background-color:transparent;
-	border:1px solid white;
-	color:white;
-	font-size:18px;
-	outline-style:none;
+	width: 100%;
+	background-color: transparent;
+	border: 1px solid #6e6c6c;
+	color: white;
+	font-size: 18px;
+	outline-style: none;
 }
-body[data-template-path~="contact"] input[name="email"] {
-	height:40px;
-	line-height:40px;
-	margin-bottom:1em;
-	padding:0 0.5em;
+body[data-template-path~="contact"] input[type="email"] {
+	height: 40px;
+	line-height: 40px;
+	margin-bottom: 1em;
+	padding: 0 .5em;
 }
 body[data-template-path~="contact"] textarea {
 	height:10em;
@@ -277,7 +270,16 @@ body[data-template-path~="contact"] textarea {
 	padding:0.25em 0.5em;
 }
 body[data-template-path~="contact"] input[type="submit"] {
-	background-color:white;
-	width:auto;
-	color:black;
+	background-color: transparent;
+	width: auto;
+	color: #b7b6b6;
+}
+#staff article {
+	margin-bottom: 50px;
+}
+#staff p {
+	margin: 0;
+}
+#staff a:hover {
+	color: white;
 }

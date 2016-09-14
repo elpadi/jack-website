@@ -5,8 +5,8 @@
 <div class="background"></div>
 {% for event in events %}
 <article class="event">
-	<section class="description text-content">{{ event.description | raw }}</section>
-	<footer class="tc">
+	<section class="description page-content text-content justified">{{ event.description | raw }}</section>
+	<footer class="tc lowercase">
 		<p><a class="address plain" target="_blank" href="{{ event.map_url }}">{{ event.address | ordinal_sup | raw }}</a></p>
 		<p>{{ misc.event_date(event.start_date) }}{% if event.end_date and event.end_date != event.start_date %} &ndash; {{ misc.event_date(event.end_date) }}{% endif %}</p>
 	</footer>

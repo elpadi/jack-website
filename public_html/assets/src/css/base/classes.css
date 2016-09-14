@@ -21,6 +21,7 @@ a.plain { text-decoration:none; color:inherit; }
 	display:block;
 }
 
+body[data-template-path~="contact"] form::after,
 .clearfix::after {
 	content:'';
 	display:block;
@@ -149,6 +150,16 @@ button.plain,
 }
 .horizontal-list.floats li {
 	float:left;
+}
+
+.columns {
+	display:flex;
+	justify-content:center;
+	align-content:center;
+	align-items:center;
+}
+.columns > .col {
+	margin:0 1em;
 }
 
 .svg-button svg,

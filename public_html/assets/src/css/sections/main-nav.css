@@ -17,6 +17,9 @@
 	height:65px;
 	background-color:white;
 }
+body[data-template-path="home"] #masthead::after, body[data-template-path="contact"] #masthead::after {
+	display: none;
+}
 
 #masthead a:not([data-section="home"]) {
 	border:3px none transparent;
@@ -76,7 +79,7 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 	line-height:21px;
 }
 #masthead .far-left, #masthead .far-left a, #masthead .far-left svg {
-	height:73px;
+	height: 68px;
 }
 #masthead .far-left h1 {
 	overflow: hidden;

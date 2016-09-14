@@ -20,6 +20,6 @@
 {% endblock %}
 {% block foot_scripts %}
 {% if not MINIFY_SCRIPTS %}
-<script src="{{ 'js/lib/editorial.js' | url }}" async></script>
+<script src="{{ 'src/js/lib/editorial.js' | asset_url }}" async></script>
 {% endif %}
 {% endblock %}

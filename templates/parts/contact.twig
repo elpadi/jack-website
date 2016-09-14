@@ -3,14 +3,14 @@
 {% import "macros/img.twig" as img %}
 {% import "macros/misc.twig" as misc %}
 <div class="background page-background">{{ img.resp_img('backgrounds/contact', 5000) }}</div>
-<div class="main-content absolute-center">
+<div class="main-content">
 	{{ cockpit_opening_form_tag('contact') | raw }}
 		<p class="fl"><label for="email" class="screen-reader-text">Email: </label><input type="email" name="form[email]" placeholder="Your email"></p>
 		<p class="fr"><label for="message" class="screen-reader-text">Message: </label><textarea name="form[message]" placeholder="Message"></textarea></p>
 		<p class="fl cl"><input type="submit" value="Send" class="fr"></label></p>
 		<p id="form-message" class="white tc form-message-success">Thanks for the (hopefully) kind words. We'll get back to you soon.</p>
 	</form>
-	<section id="staff" class="white columns tc">
+	<section id="staff" class="tc">
 		{% for contact in contacts %}
 		<article class="col">{{ misc.contact(contact) }}</article>
 		{% endfor %}
