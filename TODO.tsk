@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?taskcoach release="1.4.3" tskversion="37"?>
+
+<tasks>
+<task creationDateTime="2016-11-22 14:37:10.845757" id="0fb14ff2-b0eb-11e6-8111-0022fa33187c" modificationDateTime="2016-11-22 14:39:46.749296" status="1" subject="Synch between backend items and square products">
+<description>
+add option to sync using item id / variant id (select box)
+if not synched, add option to create product / variant on square.
+
+Item types: [Issue, (Issue) Poster]
+
+</description>
+</task>
+<task creationDateTime="2016-11-22 14:55:40.773908" id="a542e826-b0ed-11e6-8111-0022fa33187c" modificationDateTime="2016-11-22 15:02:04.086231" status="1" subject="Add poster image script">
+<description>
+All poster images on frontend must go through script.
+Resize images based on issue/poster and size (thumb, small, medium, big, original).
+Cache using md5(issue/poster, size).
+</description>
+</task>
+<task creationDateTime="2016-11-22 14:35:47.780180" id="de2e81c0-b0ea-11e6-8111-0022fa33187c" modificationDateTime="2016-11-22 14:36:07.774275" status="1" subject="Register square POS account" />
+<task creationDateTime="2016-11-22 14:36:23.913804" id="f3b8101a-b0ea-11e6-8111-0022fa33187c" modificationDateTime="2016-11-22 14:36:58.515708" status="1" subject="Create square POS locations">
+<description>
+Main one "home".
+One for each popup.
+</description>
+</task>
+<syncmlconfig>
+<TaskCoach-000001588d89175ce9dfd159007f000000010001>
+<spds>
+<sources>
+<TaskCoach-000001588d89175ce9dfd159007f000000010001.Tasks />
+<TaskCoach-000001588d89175ce9dfd159007f000000010001.Notes />
+</sources>
+<syncml>
+<Auth />
+<Conn />
+</syncml>
+</spds>
+</TaskCoach-000001588d89175ce9dfd159007f000000010001>
+</syncmlconfig>
+<guid>
+000001588d89175ce9dfd159007f000000010001
+</guid>
+</tasks>
