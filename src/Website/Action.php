@@ -8,6 +8,7 @@ class Action extends \Jack\Action {
 	protected function getPage($name) {
 		$page = cockpit('collections:findOne', 'blocks', ['title' => ucwords($name)]);
 		$page['META_TITLE'] = sprintf('%s | %s', $name === 'intro' ? 'Welcome' : ucwords($name), 'Jack Magazine');
+		$page['META_DESCRIPTION'] = cockpit('collections:findOne', 'pagedescriptions', compact('name'));
 		return $page;
 	}
 
