@@ -6,7 +6,9 @@ use Functional as F;
 class Action extends \Jack\Action {
 
 	protected function getPage($name) {
-		return cockpit('collections:findOne', 'blocks', ['title' => ucwords($name)]);
+		$page = cockpit('collections:findOne', 'blocks', ['title' => ucwords($name)]);
+		$page['META_TITLE'] = sprintf('%s | %s', $name === 'intro' ? 'Welcome' : ucwords($name), 'Jack Magazine');
+		return $page;
 	}
 
 	protected function getActionCallback($name) {
@@ -32,7 +34,13 @@ class Action extends \Jack\Action {
 	protected function renderIssue($response, $name, $args) {
 		global $app;
 		$issue = $this->parseIssueSlug($args['slug']);
-		return $response->write($app->render("issues/$name", array_merge(compact('issue'), $args)));
+		switch ($name) {
+		case 'single': $section_title = 'Cover'; break;
+		case 'editorial': $section_title = sprintf('Part %d Editorial', $args['part']); break;
+		}
+		return $response->write($app->render("issues/$name", array_merge(compact('issue'), $args, [
+			'META_TITLE' => sprintf('%s | Issue #%d | %s | %s', $issue['title'], $issue['number'], $section_title, 'Jack Magazine'),
+		])));
 	}
 
 	public function issue($request, $response, $args, $name) {
