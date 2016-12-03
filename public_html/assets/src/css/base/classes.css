@@ -28,6 +28,7 @@ body[data-template-path~="contact"] form::after,
 	clear:both;
 }
 
+.js .page-content > h1,
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
 	height: 1px;
