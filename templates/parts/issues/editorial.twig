@@ -9,7 +9,7 @@
 	<aside class="left">
 	<div class="images tc">{% for img in section.images %}
 		<h2>{{ img.title }}</h2>
-		<img src="{{ img.path | url | image_url('small') }}" alt="" srcset="{{ img.path | url | image_url('medium') }} 640w, {{ img.path | url | image_url('large') }} 1024w" sizes="100vw">
+		<img src="{{ img.path | url | image_url('small') }}" alt="" srcset="{{ img.path | url | srcset('large') }}" sizes="100vw">
 	{% endfor %}</div>
 	</aside>
 </section>
