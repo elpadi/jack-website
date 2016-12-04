@@ -1,7 +1,8 @@
 <?php
 namespace Website;
 
-use \Functional as F;
+use Functional as F;
+use Jack\Images;
 
 class App extends \Jack\App {
 
@@ -30,26 +31,8 @@ class App extends \Jack\App {
 		return new AssetManager();
 	}	
 
-	public function imageUrl($object) {
-		/*
-		switch (end(explode('\\', get_class($object)))) {
-			case 'Poster':
-				return static::$assets->url(sprintf('issue-%d/posters/%s-%s_%dx%d.jpg',
-					$object->getLayout()->getIssue()->getNumber(),
-					$object->getPage(),
-					strtolower($object->getFace()),
-					$object->getRow(),
-					$object->getCol()
-				));
-			case 'Layout': 
-				$pages = array_filter(F\invoke($object->getPosters(), 'getPage'));
-				return static::$assets->url(sprintf('issue-%d/layouts/%s.jpg',
-					$object->getIssue()->getNumber(),
-					(count($pages) ? implode('-', $pages).'_' : '').str_replace('-','_',$object->getSlug())
-				));
-		}
-		 */
-		return '';
+	public function imageUrl($path, $size) {
+		return Images::resizeImage($path, $size);
 	}
 
 	public static function setIntroAsSeen() {

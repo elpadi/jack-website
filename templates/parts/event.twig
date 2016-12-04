@@ -1,7 +1,6 @@
 {% extends "site.twig" %}
 {% block content %}
 {% import "macros/misc.twig" as misc %}
-{% import "macros/img.twig" as img %}
 <div class="background"></div>
 {% for event in events %}
 <article class="event">
@@ -10,7 +9,7 @@
 		<p><a class="address plain" target="_blank" href="{{ event.map_url }}">{{ event.address | ordinal_sup | raw }}</a></p>
 		<p>{{ misc.event_date(event.start_date) }}{% if event.end_date and event.end_date != event.start_date %} &ndash; {{ misc.event_date(event.end_date) }}{% endif %}</p>
 	</footer>
-	<section class="images tc">{% for image in event.images %}<img class="event-image" src="{{ image.path | url }}" alt="">{% endfor %}</section>
+	<section class="images tc">{% for img in event.images %}<img class="event-image" src="{{ img.path | url | image_url('small') }}" alt="" srcset="{{ img.path | url | image_url('medium') }} 640w" sizes="100vw">{% endfor %}</section>
 </article>
 {% endfor %}
 {% endblock %}

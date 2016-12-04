@@ -3,6 +3,6 @@
 {% include "snippets/issues_subnav.twig" %}
 {% endblock %}
 {% block content %}
-<div class="background cover front"><img src="{{ issue.covers[0].path | url }}" alt="Front cover"></div>
-<div class="background cover back"><img src="{{ issue.covers[1].path | url }}" alt="Back cover"></div>
+<div class="background cover front"><img src="{{ issue.covers[0].path | url | image_url('small') }}" alt="Front cover" srcset="{{ issue.covers[0].path | url | srcset }}" sizes="100vw"></div>
+<div class="background cover back"><img src="{{ issue.covers[1].path | url | image_url('small') }}" alt="Back cover" srcset="{{ issue.covers[0].path | url | srcset }}" sizes="100vw"></div>
 {% endblock %}
