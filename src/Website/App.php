@@ -12,7 +12,12 @@ class App extends \Jack\App {
 			'displayErrorDetails' => DEBUG,
 			'determineRouteBeforeAppMiddleware' => true,
 		]]));
-		$this->loadRoutes(WEBSITE_DIR.'/src/routes');
+	}
+
+	public function run() {
+		$this->_router->loadRoutes(WEBSITE_DIR.'/src/routes');
+		$this->_router->enableRoutes();
+		static::framework()->run();
 	}
 
 	public static function prefix($s) {
