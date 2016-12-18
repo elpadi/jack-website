@@ -29,3 +29,9 @@ Object.defineProperty(App.prototype, 'addChild', {
 });
 
 App.instance = new App();
+
+(function($) {
+	$(document).ready(function() {
+		App.instance.dispatchEvent('init');
+	});
+})(jQuery);

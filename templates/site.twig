@@ -17,15 +17,8 @@
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		{% endblock %}
 		
-		{{ [
-			'main',
-			'sections/editorial'
-		] | css | raw }}{{ [
-			'app'
-		] | js | raw }}
-
-		{% block head_scripts %}
-		{% endblock %}
+		{{ ['main'] | css | raw }}
+		{{ assets.css | css | raw }}
 	</head>
 	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
 		{% import "macros/misc.twig" as misc %}
@@ -71,10 +64,8 @@
 			'bower_components/underscore/underscore',
 			'bower_components/shuffle-array/dist/shuffle-array',
 		] | js('src') | raw }}
-		{{ [
-			'lib/app',
-			'lib/editorial',
-		] | js | raw }}
+		{{ ['app'] | js | raw }}
+		{{ assets.js | js | raw }}
 		<!--script>
 			var _paq = _paq || [];
 			_paq.push(['setCustomVariable', 1, 'User ID', '{{ USER_ID }}', 'visit']);

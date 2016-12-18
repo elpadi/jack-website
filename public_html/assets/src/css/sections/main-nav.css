@@ -34,15 +34,13 @@ body[data-url-path="event"] #masthead a[data-section="event"],
 body[data-template-path~="issues"] #masthead a[data-section="issues"],
 body[data-template-path="issues single"] #masthead a[data-section="issue-cover"],
 body[data-url-path~="editorial-1"] #masthead a[data-section="editorial-1"],
-body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
-	color: inherit;
+body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"],
+#masthead a.selected {
+	color: inherit !important;
 	border-color: rgb(195, 195, 195) !important;
 }
 #masthead > .main-nav a:not([data-section="home"]) {
 	border-top-style:solid;
-}
-#masthead > .subnav a {
-	border-bottom-style:solid;
 }
 #masthead > nav,
 #masthead > nav a,
@@ -67,17 +65,6 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 #masthead > nav > .far-right a {
 }
 
-#masthead > .subnav {
-	top:35px;
-	font-size:13px;
-}
-#masthead > .subnav,
-#masthead > .subnav a {
-	height:30px;
-}
-#masthead > .subnav a {
-	line-height:21px;
-}
 #masthead .far-left, #masthead .far-left a, #masthead .far-left svg {
 	height: 68px;
 }
@@ -117,11 +104,3 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"] {
 #masthead .social-buttons .fill { fill: #c3c3c3; }
 #masthead .social-buttons a:hover .stroke { stroke: black; }
 #masthead .social-buttons a:hover .fill { fill: black; }
-
-
-.subnav > ul {
-	margin:auto;
-}
-body[data-path="issues_single"] #masthead .subnav {
-}
-

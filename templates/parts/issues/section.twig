@@ -1,6 +1,6 @@
 {% extends "site.twig" %}
 {% block subnav %}
-{% include "snippets/issues_subnav.twig" %}
+{% include "snippets/issues_subnav.twig" with { selected: 'section' } %}
 {% endblock %}
 {% block content %}
 <article class="issue-section">

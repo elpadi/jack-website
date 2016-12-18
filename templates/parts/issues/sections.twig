@@ -1,0 +1,23 @@
+{% extends "site.twig" %}
+{% block subnav %}
+{% include "snippets/issues_subnav.twig" with { selected: 'sections' } %}
+{% endblock %}
+{% block content %}
+<section class="issue-sections synch-scroll">
+	<main class="section-texts synch-scroll--right">
+		{% for section in sections %}
+		<article class="section-text synch-scroll__item" data-url="{{ section.url }}" data-slug="{{ section.slug }}">
+			<header>
+				<noscript><h1><a href="{{ section.url }}">{{ section.title }}</a></h1></noscript>
+				<h1>{{ section.title }}</h1>
+				{% if section.subtitle %}<h2 class="lowercase">{{ section.subtitle }}</h2>{% endif %}
+				{% if section.tags %}<p class="tags">{{ section.tags | pluck('value') | join('/') }}</p>{% endif %}
+			</header>
+			<main>
+				{{ section.description | raw }}
+			</main>
+		</article>
+		{% endfor %}
+	</main>
+	<aside class="section-layouts synch-scroll--left"></aside>
+{% endblock %}

@@ -1,0 +1,45 @@
+body[data-template-path~="sections"] #content {
+	margin-top: 100px;
+}
+.issue-sections {
+	max-width: 1280px;
+}
+.section-texts {
+}
+.section-text {
+	margin: 150px auto;
+	padding: 0 1em 0 2em;
+}
+.section-text:first-child {
+	margin-top: 0;
+}
+.section-text h1 {
+	line-height: 1;
+	margin: 0;
+}
+.section-text .tags {
+	margin-bottom: 2em;
+}
+#content .section-text main {
+	color: #b3b0b0;
+	margin-top: 1em;
+}
+#content .section-text main p {
+	padding: 0;
+	max-width: 100%;
+}
+#content .section-text h2,
+#content .section-text > .right > p {
+	margin: 0;
+}
+#content .section-text h2 {
+	font-size: 1.17em;
+}
+
+.section-layouts {
+	display: none;
+}
+.section-layouts img {
+	padding: 0;
+	max-width: 100%;
+}

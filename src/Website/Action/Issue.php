@@ -6,35 +6,54 @@ use Jack\Action\Page;
 
 class Issue extends Page {
 
-	protected function metaTitle() {
-		return sprintf('%s | Issue #%d | Cover | Jack Magazine', $this->issue['title'], $this->issue['number']);
-	}
-
-	protected static function parseIssueSlug($slug) {
-		preg_match('/([0-9]+)-([a-z-]+)/', $slug, $matches);
+	protected function baseAssets() {
 		return [
-			'number' => intval($matches[1]),
-			'name' => $matches[2],
+			'css' => ['sections/sub-nav'],
+			'js' => [],
 		];
 	}
 
-	protected function fetchIssue($number) {
-		return cockpit('collections:findOne', 'issues', compact('number'));
+	protected function assets() {
+		return [
+			'css' => ['layouts/synch-scroll','issues/sections'],
+			'js' => ['layouts/synch-scroll','issues/sections'],
+		];
+	}
+
+	protected function metaTitle() {
+		return sprintf('%s | Issue #%d | Cover | Jack Magazine', $this->data['issue']['title'], $this->data['issue']['number']);
+	}
+
+	protected function fetchSections($part) {
+		global $app;
+		$sections = cockpit('collections:find', sprintf('sections%dx%d', $this->data['issue']['number'], $part));
+		foreach ($sections as &$s) $s['url'] = $app->routeLookUp('section', [
+			'slug' => $this->data['issue']['slug'],
+			'part' => $part,
+			'section' => $s['slug'],
+		]);
+		return $sections;
+	}
+
+	protected function fetchIssue($slug) {
+		return cockpit('collections:findOne', 'issues', compact('slug'));
 	}
 
 	protected function templatePath() {
-		return 'issues/single';
+		return 'issues/sections';
 	}
 
 	protected function finalize($response) {
-		if ($this->data['issue']) return parent::finalize($response);
-		return static::notFound();
+		if (!$this->data['issue']) return static::notFound();
+		$this->data['assets'] = array_merge_recursive($this->baseAssets(), $this->assets());
+		return parent::finalize($response);
 	}
 
 	protected function fetchData($args) {
-		$requested = static::parseIssueSlug($args['slug']);
-		$issue = $this->fetchIssue($requested['number']);
-		$this->data = array_merge($args, $requested, compact('issue'));
+		if ($issue = $this->fetchIssue($args['slug'])) {
+			$this->data = array_merge($args, compact('issue'));
+			$this->data['sections'] = call_user_func_array('array_merge', array_map([$this, 'fetchSections'], [1, 2]));
+		}
 	}
 
 }

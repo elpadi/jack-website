@@ -1,0 +1,21 @@
+#masthead > .subnav a {
+	border-bottom-style:solid;
+}
+#masthead > .subnav {
+	top:35px;
+	font-size:13px;
+}
+#masthead > .subnav,
+#masthead > .subnav a {
+	height:30px;
+}
+#masthead > .subnav a {
+	line-height:21px;
+}
+.subnav > ul {
+	margin:auto;
+}
+body[data-path="issues_single"] #masthead .subnav {
+}
+
+

@@ -11,7 +11,7 @@ $routes[] = array(
 			'name' => 'issues',
 			'path' => '',
 			'action' => 'issue',
-			'args' => ['slug' => '1-dare-to-dream'],
+			'args' => ['slug' => 'dare-to-dream'],
 		),
 		array(
 			'name' => 'issue',
@@ -19,12 +19,13 @@ $routes[] = array(
 		),
 		array(
 			'name' => 'editorial',
-			'path' => '/{slug}/editorial-{part}',
+			'path' => '/{slug}/{part:[0-9]+}',
 		),
 		array(
 			'name' => 'section',
-			'path' => '/{slug}/editorial-{part}/{section}',
+			'path' => '/{slug}/{section:[-a-z0-9]+}',
 		),
+		/*
 		array(
 			'name' => 'layouts',
 			'path' => '/{slug}/layouts',
@@ -33,5 +34,6 @@ $routes[] = array(
 			'name' => 'layout',
 			'path' => '/{slug}/layouts/{layout}',
 		),
+		 */
 	),
 );
