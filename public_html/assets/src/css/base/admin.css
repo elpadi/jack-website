@@ -1,0 +1,43 @@
+html {
+	background-color:#605903;
+}
+.uk-form select, .uk-form textarea, .uk-form input:not([type]), .uk-form input[type="text"], .uk-form input[type="password"], .uk-form input[type="datetime"], .uk-form input[type="datetime-local"], .uk-form input[type="date"], .uk-form input[type="month"], .uk-form input[type="time"], .uk-form input[type="week"], .uk-form input[type="number"], .uk-form input[type="email"], .uk-form input[type="url"], .uk-form input[type="search"], .uk-form input[type="tel"], .uk-form input[type="color"],
+h1, h2, h3, h4, h5, h6,
+html {
+	color: #a1b4ea !important;
+}
+.app-header {
+	background-color: #d8ea3f;
+}
+.uk-link-muted, .uk-link-muted a {
+	font-weight: normal;
+	color: black;
+}
+.uk-table-striped tbody tr:nth-of-type(odd) td {
+	background-color: #eee;
+}
+.uk-badge {
+	color: #6d6d16;
+}
+.uk-alert,
+.uk-panel-box {
+	background-color: #3e4601;
+	color: white;
+}
+.uk-grid .uk-panel-box {
+	background-color: transparent;
+}
+.uk-bg-light {
+	background-color: #1d7b20;
+}
+.uk-button {
+	background-color: #ffce5f !important;
+	color: black !important;
+}
+.uk-breadcrumb {
+	background-color: #f0ff72;
+}
+.uk-table {
+	color: black;
+	font-weight: normal;
+}

@@ -17,12 +17,12 @@
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		{% endblock %}
 		
-		{% if MINIFY_SCRIPTS %}
-		<link rel="stylesheet" href="{{ 'dist/main.min.css' | asset_url }}" media="all">
-		{% else %}
-		<link rel="stylesheet" href="{{ 'src/css/main.css' | asset_url }}" media="all">
-		<script src="{{ 'src/js/app.js' | asset_url }}"></script>
-		{% endif %}
+		{{ [
+			'main',
+			'sections/editorial'
+		] | css | raw }}{{ [
+			'app'
+		] | js | raw }}
 
 		{% block head_scripts %}
 		{% endblock %}
@@ -66,13 +66,15 @@
 				<circle class="five" cx="85" cy="50" r="5"/>
 			</svg>
 		</div>
-		{% block foot_scripts %}
-		{% endblock %}
-		{% if MINIFY_SCRIPTS %}
-		<script src="{{ 'dist/main.min.js' | asset_url }}"></script>
-		{% else %}
-		<script src="{{ 'src/js/lib/app.js' | asset_url }}" async></script>
-		{% endif %}
+		{{ [
+			'bower_components/jquery/dist/jquery.slim',
+			'bower_components/underscore/underscore',
+			'bower_components/shuffle-array/dist/shuffle-array',
+		] | js('src') | raw }}
+		{{ [
+			'lib/app',
+			'lib/editorial',
+		] | js | raw }}
 		<!--script>
 			var _paq = _paq || [];
 			_paq.push(['setCustomVariable', 1, 'User ID', '{{ USER_ID }}', 'visit']);

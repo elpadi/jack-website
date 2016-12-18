@@ -18,13 +18,7 @@ class Issue extends Page {
 		];
 	}
 
-	protected function issuePart($issue, $part) {
-		return F\map(F\pluck($issue["part_$part"], 'value'), function($item) {
-			return cockpit('collections:findOne', 'layouts', ['title' => $item['display']]);
-		});
-	}
-
-	protected function fetch($number) {
+	protected function fetchIssue($number) {
 		return cockpit('collections:findOne', 'issues', compact('number'));
 	}
 
@@ -39,7 +33,7 @@ class Issue extends Page {
 
 	protected function fetchData($args) {
 		$requested = static::parseIssueSlug($args['slug']);
-		$issue = $this->fetch($requested['number']);
+		$issue = $this->fetchIssue($requested['number']);
 		$this->data = array_merge($args, $requested, compact('issue'));
 	}
 

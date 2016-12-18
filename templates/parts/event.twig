@@ -9,7 +9,9 @@
 		<p><a class="address plain" target="_blank" href="{{ event.map_url }}">{{ event.address | ordinal_sup | raw }}</a></p>
 		<p>{{ misc.event_date(event.start_date) }}{% if event.end_date and event.end_date != event.start_date %} &ndash; {{ misc.event_date(event.end_date) }}{% endif %}</p>
 	</footer>
-	<section class="images tc">{% for img in event.images %}<img class="event-image" src="{{ img.path | url | image_url('small') }}" alt="" srcset="{{ img.path | url | srcset('medium') }}" sizes="100vw">{% endfor %}</section>
 </article>
 {% endfor %}
+<div class="event">
+	<section class="images tc">{% for img in images %}<img class="event-image" src="{{ img.image.path | url | image_url('small') }}" alt="" title="{{ img.title }}" srcset="{{ img.image.path | url | srcset('medium') }}" sizes="100vw">{% endfor %}</section>
+</div>
 {% endblock %}

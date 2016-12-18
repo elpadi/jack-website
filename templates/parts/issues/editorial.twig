@@ -3,23 +3,14 @@
 {% include "snippets/issues_subnav.twig" %}
 {% endblock %}
 {% block content %}
-{% for section in issue['part_' ~ part] %}
-<section class="issue-section">
-	<main class="right">{% include "snippets/section_info.twig" %}</main>
-	<aside class="left">
-	<div class="images tc">{% for img in section.images %}
-		<h2>{{ img.title }}</h2>
-		<img src="{{ img.path | url | image_url('small') }}" alt="" srcset="{{ img.path | url | srcset('large') }}" sizes="100vw">
-	{% endfor %}</div>
-	</aside>
-</section>
-{% endfor %}
-<section id="fixed-issue-section" class="issue-section">
-	{% for section in issue['part_' ~ part] %}<main class="right">{% include "snippets/section_info.twig" %}</main>{% endfor %}
-</section>
-{% endblock %}
-{% block foot_scripts %}
-{% if not MINIFY_SCRIPTS %}
-<script src="{{ 'src/js/lib/editorial.js' | asset_url }}" async></script>
-{% endif %}
+<div class="page-content">
+	<section class="issue-sections">
+		{% for section in sections %}
+		<article class="issue-section">
+			<header><h2><a href="{{ section.url }}">{{ section.title }}</a></h2></header>
+			<main>{{ section.description | raw }}</main>
+		</article>
+		{% endfor %}
+	</section>
+</div>
 {% endblock %}

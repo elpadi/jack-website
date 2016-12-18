@@ -1,0 +1,21 @@
+{% extends "site.twig" %}
+{% block subnav %}
+{% include "snippets/issues_subnav.twig" %}
+{% endblock %}
+{% block content %}
+<article class="issue-section">
+	<header>
+		<h1>{{ section.title }}</h1>
+		{% if section.subtitle %}<h2>{{ section.subtitle }}</h2>{% endif %}
+		{% if section.tags %}<p class="tags">{{ section.tags | pluck('value') | join('/') }}</p>{% endif %}
+	</header>
+	<main>
+		{{ section.description | raw }}
+		<h2>Layouts</h2>
+		{% for layout in section.layouts %}
+		<h3>{{ layout.title }}</h3>
+		<img src="{{ layout.image.path | url | image_url('small') }}" alt="">
+		{% endfor %}
+	</main>
+</article>
+{% endblock %}

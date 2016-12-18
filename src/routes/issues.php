@@ -22,27 +22,16 @@ $routes[] = array(
 			'path' => '/{slug}/editorial-{part}',
 		),
 		array(
+			'name' => 'section',
+			'path' => '/{slug}/editorial-{part}/{section}',
+		),
+		array(
+			'name' => 'layouts',
+			'path' => '/{slug}/layouts',
+		),
+		array(
 			'name' => 'layout',
-			'path' => '/{issue}/editorial-{part}/{layout}',
-			'action' => function($request, $response, $args) {
-				$issue = Model::bySlug('issue', $args['issue']);
-				return $response->write(App::render('issues/layout', ['issue' => $issue, 'layout' => Issue::getLayout($issue->getNumber(), $args['part'], $args['layout'])]));
-			},
+			'path' => '/{slug}/layouts/{layout}',
 		),
 	),
-	/*
-	'middleware' => array(
-		function ($request, $response, $next) {
-			$args = $request->getAttribute('routeInfo')[2];
-			try {
-				if (isset($args['part']) && !in_array($args['part'], ['1','2'])) throw new InvalidArgumentException("Issue part not found.");
-				if (isset($args['slug'])) Model::bySlug('issue', $args['slug']);
-			}
-			catch (Exception $e) {
-				return App::notFound($response, $e);
-			}
-			return $next($request, $response);
-		}
-	),
-	 */
 );
