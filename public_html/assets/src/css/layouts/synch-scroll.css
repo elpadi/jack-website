@@ -1,34 +1,17 @@
-/*
-.js .synch-scroll {
-	display:  none;
-}
-*/
 .synch-scroll {
 	position: relative;
 }
-.synch-scroll__fixed {
-	position:fixed;
-	width:100%;
-	height:calc(100vh - 200px);
-	top:190px;
-	left:50%;
-	z-index:2;
-	margin:0;
-	transform:translateX(-50%);
+@media (min-width: 980px) {
+	.js .synch-scroll__fixed .synch-scroll__item {
+		position: fixed;
+		z-index: 2;
+	}
 }
 .synch-scroll--right {
 	position: absolute;
 	top: 0;
 	right: 0;
 	width: 40%;
-}
-.synch-scroll--right.hidden,
-.synch-scroll__fixed .synch-scroll__item:not(.visible) {
-	visibility:hidden;
-}
-.synch-scroll--behind.synch-scroll--right {
-	top: auto;
-	bottom: 0;
 }
 .synch-scroll--left {
 	width: 60%;

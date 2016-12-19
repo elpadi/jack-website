@@ -3,15 +3,18 @@ body[data-template-path~="sections"] #content {
 }
 .issue-sections {
 	max-width: 1280px;
+	margin: 0 auto;
+}
+.issue-sections .synch-scroll__item {
+	margin: 150px auto;
+}
+.issue-sections .synch-scroll__item:first-child {
+	margin-top: 0;
 }
 .section-texts {
 }
 .section-text {
-	margin: 150px auto;
 	padding: 0 1em 0 2em;
-}
-.section-text:first-child {
-	margin-top: 0;
 }
 .section-text h1 {
 	line-height: 1;
@@ -37,9 +40,26 @@ body[data-template-path~="sections"] #content {
 }
 
 .section-layouts {
-	display: none;
+}
+.section-layouts h2:first-child {
+	margin-top: 0;
 }
 .section-layouts img {
 	padding: 0;
 	max-width: 100%;
+}
+
+@media (min-width: 980px) {
+	.js .synch-scroll__fixed .synch-scroll__item {
+		margin: 0;
+		top: 0;
+		right: 0;
+		transform: translateY(-100%);
+	}
+	.js .section-text:not {
+		visibility: hidden;
+	}
+	.js .section-text:nth-child(1) {
+		visibility: visible;
+	}
 }

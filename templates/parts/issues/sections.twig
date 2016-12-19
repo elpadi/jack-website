@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 <section class="issue-sections synch-scroll">
-	<main class="section-texts synch-scroll--right">
+	<main class="section-texts synch-scroll__fixed synch-scroll--right">
 		{% for section in sections %}
 		<article class="section-text synch-scroll__item" data-url="{{ section.url }}" data-slug="{{ section.slug }}">
 			<header>
@@ -19,5 +19,5 @@
 		</article>
 		{% endfor %}
 	</main>
-	<aside class="section-layouts synch-scroll--left"></aside>
+	<aside class="section-layouts synch-scroll--left tc"></aside>
 {% endblock %}

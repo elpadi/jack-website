@@ -1,7 +1,6 @@
 document.documentElement.className = 'js';
 
 function App() {
-	this.initialEvents = [];
 	this.children = {};
 }
 
@@ -24,7 +23,22 @@ Object.defineProperty(App.prototype, 'addChild', {
 	value: function addChild(name, obj) {
 		if (name in this.children) throw "Name already taken.";
 		this.children[name] = obj;
-		this.initialEvents.forEach(function(event) { if ((name in obj) && typeof(obj[name]) === 'function') obj[name].call(obj); });
+	}
+});
+
+Object.defineProperty(App.prototype, 'enableScrollEvent', {
+	value: function enableScrollEvent() {
+		$(window).on('scroll', function() {
+			App.instance.dispatchEvent('scroll', ('scrollY' in window) ? window.scrollY : document.body.scrollTop);
+		});
+	}
+});
+
+Object.defineProperty(App.prototype, 'init', {
+	value: function init() {
+		if (Object.keys(this.children).some(function(name) {
+			return ('scroll' in this.children[name]);
+		}, this)) this.enableScrollEvent();
 	}
 });
 
@@ -33,5 +47,8 @@ App.instance = new App();
 (function($) {
 	$(document).ready(function() {
 		App.instance.dispatchEvent('init');
+	});
+	$(window).on('resize', function() {
+		App.instance.dispatchEvent('resize');
 	});
 })(jQuery);
