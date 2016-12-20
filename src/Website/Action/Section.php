@@ -9,9 +9,16 @@ class Section extends Issue {
 		return 'issues/section';
 	}
 
+	protected function assets() {
+		return [
+			'css' => ['issues/section'],
+			'js' => [],
+		];
+	}
+
 	public function fetchLayout($info) {
 		$layout = cockpit('collections:findOne', sprintf('layouts%d', $this->data['issue']['number']), ['_id' => $info['value']['_id']]);
-		$layout['image']['src'] = \Jack\Images::resizeImage(\Jack\App::instance()->url($layout['image']['path']), 'small');
+		$layout['image']['src'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'small');
 		return $layout;
 	}
 
@@ -22,7 +29,7 @@ class Section extends Issue {
 	}
 
 	protected function metaTitle() {
-		return sprintf('%s | Issue #%d | Part %d Editorial | Jack Magazine', $this->data['section']['title'], $this->data['number'], $this->data['part']);
+		return sprintf('%s | Issue #%d - %s | Jack Magazine', $this->data['section']['title'], $this->data['issue']['number'], $this->data['issue']['title']);
 	}
 
 	protected function fetchData($args) {

@@ -1,0 +1,25 @@
+.section-text h1 {
+	line-height: 1;
+	margin: 2em 0 0;
+}
+.section-text .tags {
+	margin-bottom: 2em;
+}
+#content main {
+	color: #b3b0b0;
+	margin-top: 1em;
+}
+#content .section-text main p {
+	padding: 0;
+	max-width: 100%;
+}
+#content .section-text h2 {
+	margin: 0;
+}
+#content .section-text h2 {
+	font-size: 1.17em;
+}
+
+.section-layouts h2 {
+	margin-top: 2em;
+}

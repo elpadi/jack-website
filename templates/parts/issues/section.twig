@@ -3,19 +3,21 @@
 {% include "snippets/issues_subnav.twig" with { selected: 'section' } %}
 {% endblock %}
 {% block content %}
-<article class="issue-section">
-	<header>
+<article class="issue-section page-content">
+	<header class="section-text">
 		<h1>{{ section.title }}</h1>
-		{% if section.subtitle %}<h2>{{ section.subtitle }}</h2>{% endif %}
+		{% if section.subtitle %}<h2 class="lowercase">{{ section.subtitle }}</h2>{% endif %}
 		{% if section.tags %}<p class="tags">{{ section.tags | pluck('value') | join('/') }}</p>{% endif %}
 	</header>
-	<main>
+	<main class="section-text">
 		{{ section.description | raw }}
-		<h2>Layouts</h2>
-		{% for layout in section.layouts %}
-		<h3>{{ layout.title }}</h3>
-		<img src="{{ layout.image.path | url | image_url('small') }}" alt="">
-		{% endfor %}
 	</main>
+	<footer class="section-layouts">
+		<h2>Layouts</h2>
+		{% for layout in layouts %}
+		<h3>{{ layout.title }}</h3>
+		<img src="{{ layout.image.path | url | image_url('small') }}" srcset="{{ layout.image.path | url | srcset(['small','medium']) }}" sizes="100vw" alt="">
+		{% endfor %}
+	</footer>
 </article>
 {% endblock %}

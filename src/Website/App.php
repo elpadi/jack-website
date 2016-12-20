@@ -2,7 +2,6 @@
 namespace Website;
 
 use Functional as F;
-use Jack\Images;
 
 class App extends \Jack\App {
 
@@ -35,10 +34,6 @@ class App extends \Jack\App {
 	public static function createAssetManager() {
 		return new AssetManager();
 	}	
-
-	public function imageUrl($path, $size) {
-		return Images::resizeImage($path, $size);
-	}
 
 	public static function setIntroAsSeen() {
 		if (!static::hasSeenIntro()) setcookie(static::prefix('has_seen_intro'), '1', time() + 3600 * 24000, PUBLIC_ROOT);
