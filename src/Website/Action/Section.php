@@ -39,4 +39,5 @@ class Section extends Issue {
 			unset($this->data['section']['layouts']);
 		}
 	}
+
 }

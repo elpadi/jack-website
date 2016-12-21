@@ -1,0 +1,34 @@
+.image-grid {
+	float: left;
+	width: 100%;
+	overflow: hidden;
+}
+.image-grid__item {
+	float: left;
+}
+.image-grid img {
+	width: auto;
+	height: 100%;
+}
+.image-grid__row {
+	width: 100%;
+	display: flex;
+	overflow: hidden;
+}
+.image-grid__row > .image-grid__item {
+	height: 100%;
+}
+.image-grid__item {
+	display: inline-block;
+}
+
+@media (min-width: 980px) {
+	.image-grid[data-size="small"] {
+		display: none;
+	}
+}
+@media (max-width: 979px) {
+	.image-grid[data-size="medium"] {
+		display: none;
+	}
+}

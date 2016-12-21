@@ -3,14 +3,22 @@
 {% include "snippets/issues_subnav.twig" %}
 {% endblock %}
 {% block content %}
-<div class="page-content">
-	<section class="issue-sections">
-		{% for section in sections %}
-		<article class="issue-section">
-			<header><h2><a href="{{ section.url }}">{{ section.title }}</a></h2></header>
-			<main>{{ section.description | raw }}</main>
-		</article>
-		{% endfor %}
-	</section>
-</div>
+<section class="image-grid" data-col-count="4" data-size="small">
+	{% for layout in layouts %}
+	<article class="image-grid__item">
+		<header><h2>{{ layout.title }}</h2></header>
+		<main><a href="{{ urlFor('layout', { slug: issue.slug, layout: layout.slug }) }}" data-image="{{ layout.image.small }}">{{ layout.title }}</a></main>
+	</article>
+	{% endfor %}
+</section>
+<section class="image-grid" data-col-count="8" data-size="medium">
+	{% for layout in layouts %}
+	<article class="image-grid__item">
+		<header><h2>{{ layout.title }}</h2></header>
+		<main>
+			<a href="{{ urlFor('layout', { slug: issue.slug, layout: layout.slug }) }}" data-image="{{ layout.image.medium }}">{{ layout.title }}</a>
+		</main>
+	</article>
+	{% endfor %}
+</section>
 {% endblock %}

@@ -7,23 +7,33 @@ class Editorial extends Issue {
 		return 'issues/editorial';
 	}
 
-	protected function fetchSections($number, $part) {
-		global $app;
-		$sections = cockpit('collections:find', sprintf('sections%dx%d', $number, $part));
-		foreach ($sections as &$s) $s['url'] = $app->routeLookUp('section', [
-			'slug' => $this->data['slug'],
-			'part' => $this->data['part'],
-			'section' => $s['slug'],
-		]);
-		return $sections;
+	protected function assets() {
+		return [
+			'css' => ['layouts/image-grid','issues/editorial'],
+			'js' => ['layouts/image-grid','issues/editorial'],
+		];
+	}
+
+	public function fetchLayouts() {
+		$part = intval($this->data['part']);
+		$layouts = cockpit('collections:find', sprintf('layouts%d', $this->data['issue']['number']));
+		$layouts = array_slice($layouts, ($part - 1) * count($layouts) / 2, round(count($layouts) / 2) - 1);
+		foreach ($layouts as &$layout) {
+			$layout['image']['small'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'small');
+			$layout['image']['medium'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'medium');
+		}
+		return $layouts;
 	}
 
 	protected function metaTitle() {
-		return sprintf('Part %d Editorial | Issue #%d %s | Jack Magazine', $this->data['part'], $this->data['number'], $this->data['issue']['title']);
+		return sprintf('Editorial Part %d | Issue #%d - %s | Jack Magazine', $this->data['part'], $this->data['issue']['number'], $this->data['issue']['title']);
 	}
 
 	protected function fetchData($args) {
-		parent::fetchData($args);
-		$this->data['sections'] = $this->fetchSections($this->data['issue']['number'], $args['part']);
+		if (($issue = $this->fetchIssue($args['slug']))) {
+			$this->data = array_merge($args, compact('issue'));
+			$this->data['layouts'] = $this->fetchLayouts();
+		}
 	}
+
 }

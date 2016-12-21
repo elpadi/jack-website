@@ -1,0 +1,27 @@
+body[data-template-path~="editorial"] #content {
+	margin-top:100px;
+	padding: 0;
+}
+.js .image-grid__item header {
+	display: none;
+}
+
+.image-grid main,
+.image-grid a {
+	display: inline-block;
+}
+.image-grid main,
+.image-grid a,
+.image-grid img {
+	height: 100%;
+}
+.image-grid img {
+}
+.image-grid main {
+}
+.image-grid a {
+	transition: opacity 0.2s linear;
+}
+.image-grid a:hover {
+	opacity: 0.65;
+}

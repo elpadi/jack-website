@@ -25,15 +25,15 @@ $routes[] = array(
 			'name' => 'section',
 			'path' => '/{slug}/{section:[-a-z0-9]+}',
 		),
-		/*
 		array(
 			'name' => 'layouts',
 			'path' => '/{slug}/layouts',
+			'action' => 'editorial',
+			'args' => ['part' => '1'],
 		),
 		array(
 			'name' => 'layout',
 			'path' => '/{slug}/layouts/{layout}',
 		),
-		 */
 	),
 );
