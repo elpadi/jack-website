@@ -41,6 +41,24 @@ Object.defineProperty(App.prototype, 'respImageMaxWidth', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'loadingModal', {
+	value: function loadingModal() {
+		if (!('loadModal' in this)) {
+			this.loadModal = $(document.createElement('div'))
+				.append(
+					$(document.createElement('div'))
+						.addClass('loader-inner ball-pulse')
+						.loaders()
+				)
+				.addClass('modal fade loading')
+				.appendTo(document.body)
+				.modal();
+		}
+		else this.loadModal.modal('show');
+		return this.loadModal;
+	}
+});
+
 Object.defineProperty(App.prototype, 'init', {
 	value: function init() {
 		if (Object.keys(this.children).some(function(name) {

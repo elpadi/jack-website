@@ -37,6 +37,22 @@ body {
 #masthead::after { z-index:18; }
 #content { z-index:5; }
 
+.loading.modal {
+	background-color: transparent;
+	bottom: 0;
+	margin: auto;
+	height: 20px;
+	position: absolute;
+	box-shadow: none;
+}
+.loader-inner {
+	transition: opacity 0.3s linear 0.3s;
+	text-align: center;
+}
+.loading .loader-inner {
+	opacity: 1;
+}
+
 #content .text-content {
 	position:relative;
 	z-index: 3;

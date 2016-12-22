@@ -17,7 +17,13 @@
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		{% endblock %}
 		
-		{{ ['main'] | css | raw }}
+		{{ [
+			'bower_components/loaders.css/loaders',
+			'bower_components/modal/stylesheets/jquery.modal',
+		] | css('src') | raw }}
+		{{ [
+			'main',
+		] | css | raw }}
 		{{ assets.css | css | raw }}
 	</head>
 	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
@@ -63,6 +69,8 @@
 			'bower_components/jquery/dist/jquery.slim',
 			'bower_components/underscore/underscore',
 			'bower_components/shuffle-array/dist/shuffle-array',
+			'bower_components/modal/javascripts/jquery.modal',
+			'bower_components/loaders.css/loaders.css',
 		] | js('src') | raw }}
 		{{ ['app'] | js | raw }}
 		{{ assets.js | js | raw }}

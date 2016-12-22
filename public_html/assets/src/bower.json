@@ -5,7 +5,10 @@
     "Carlos Padilla <padi_05@yahoo.com>"
   ],
   "description": "Asset management for thejackmag.com",
-  "main": ["css/main.css", "js/main.js"],
+  "main": [
+    "css/main.css",
+    "js/main.js"
+  ],
   "license": "MIT",
   "private": true,
   "ignore": [
@@ -14,5 +17,12 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "loaders.css": "^0.1.2",
+    "modal": "^1.1.9",
+    "jquery": "^3.1.1",
+    "shuffle-array": "^1.0.0",
+    "underscore": "^1.8.3"
+  }
 }
