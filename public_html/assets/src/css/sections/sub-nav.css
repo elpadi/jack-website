@@ -17,5 +17,6 @@
 }
 body[data-path="issues_single"] #masthead .subnav {
 }
-
-
+#content {
+	padding-top: 100px;
+}

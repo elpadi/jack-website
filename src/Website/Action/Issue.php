@@ -44,7 +44,7 @@ class Issue extends Page {
 	}
 
 	protected function finalize($response) {
-		if (!$this->data['issue']) return static::notFound();
+		if (!isset($this->data['issue'])) return static::notFound($response);
 		$this->data['assets'] = array_merge_recursive($this->baseAssets(), $this->assets());
 		return parent::finalize($response);
 	}

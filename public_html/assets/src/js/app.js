@@ -34,11 +34,19 @@ Object.defineProperty(App.prototype, 'enableScrollEvent', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'respImageMaxWidth', {
+	value: function respImageMaxWidth(img) {
+		var maxWidth = parseInt(img.srcset.split(', ').pop().replace(/.* ([0-9]+)w/, '$1'), 10);
+		if (!isNaN(maxWidth)) img.style.maxWidth = maxWidth + 'px';
+	}
+});
+
 Object.defineProperty(App.prototype, 'init', {
 	value: function init() {
 		if (Object.keys(this.children).some(function(name) {
 			return ('scroll' in this.children[name]);
 		}, this)) this.enableScrollEvent();
+		_.filter(document.getElementsByTagName('img'), _.property('srcset')).forEach(this.respImageMaxWidth.bind(this));
 	}
 });
 
