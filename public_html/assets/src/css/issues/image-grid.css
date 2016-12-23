@@ -1,7 +1,8 @@
-body[data-template-path~="editorial"] #content {
-	margin-top:100px;
-	padding: 0;
+body[data-template-path="issues grid"] #content {
+	padding-left: 0;
+	padding-right: 0;
 }
+
 .js .image-grid__item header {
 	display: none;
 }

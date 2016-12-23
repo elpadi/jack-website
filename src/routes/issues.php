@@ -10,30 +10,30 @@ $routes[] = array(
 		array(
 			'name' => 'issues',
 			'path' => '',
-			'action' => 'issue',
+			'action' => 'editorial',
 			'args' => ['slug' => 'dare-to-dream'],
 		),
 		array(
 			'name' => 'issue',
 			'path' => '/{slug}',
+			'action' => 'editorial',
+			'args' => ['slug' => 'dare-to-dream'],
 		),
 		array(
 			'name' => 'editorial',
-			'path' => '/{slug}/{part:[0-9]+}',
-		),
-		array(
-			'name' => 'section',
-			'path' => '/{slug}/{section:[-a-z0-9]+}',
+			'path' => '/{slug}/editorial',
 		),
 		array(
 			'name' => 'layouts',
-			'path' => '/{slug}/layouts',
-			'action' => 'editorial',
-			'args' => ['part' => '1'],
+			'path' => '/{slug}/layouts/part-{part:[0-9]+}',
 		),
 		array(
 			'name' => 'layout',
 			'path' => '/{slug}/layouts/{layout}',
+		),
+		array(
+			'name' => 'section',
+			'path' => '/{slug}/editorial/{section:[-a-z0-9]+}',
 		),
 	),
 );

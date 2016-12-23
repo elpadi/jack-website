@@ -18,7 +18,7 @@ class Section extends Issue {
 
 	public function fetchLayout($info) {
 		$layout = cockpit('collections:findOne', sprintf('layouts%d', $this->data['issue']['number']), ['_id' => $info['value']['_id']]);
-		$layout['image']['src'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'small');
+		$layout['image']['src'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'medium');
 		return $layout;
 	}
 

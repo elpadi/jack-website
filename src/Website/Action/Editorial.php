@@ -1,38 +1,46 @@
 <?php
 namespace Website\Action;
 
+use Functional as F;
+
 class Editorial extends Issue {
 
 	protected function templatePath() {
-		return 'issues/editorial';
+		return 'issues/sections';
 	}
 
 	protected function assets() {
 		return [
-			'css' => ['layouts/image-grid','issues/editorial'],
-			'js' => ['layouts/image-grid','issues/editorial'],
+			'css' => ['layouts/synch-scroll','issues/sections'],
+			'js' => ['layouts/synch-scroll','issues/sections'],
 		];
 	}
 
-	public function fetchLayouts() {
-		$part = intval($this->data['part']);
-		$layouts = cockpit('collections:find', sprintf('layouts%d', $this->data['issue']['number']));
-		$layouts = array_slice($layouts, ($part - 1) * count($layouts) / 2, round(count($layouts) / 2) - 1);
-		foreach ($layouts as &$layout) {
-			$layout['image']['small'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'small');
-			$layout['image']['medium'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'medium');
-		}
-		return $layouts;
+	protected function metaTitle() {
+		return sprintf('Editorial | Issue #%d - %s | Jack Magazine', $this->data['issue']['number'], $this->data['issue']['title']);
 	}
 
-	protected function metaTitle() {
-		return sprintf('Editorial Part %d | Issue #%d - %s | Jack Magazine', $this->data['part'], $this->data['issue']['number'], $this->data['issue']['title']);
+	protected function fetchSections($issue, $part) {
+		global $app;
+		$sections = cockpit('collections:find', sprintf('sections%dx%d', $issue['number'], $part));
+		foreach ($sections as &$s) $s['url'] = $app->routeLookUp('section', [
+			'slug' => $issue['slug'],
+			'part' => $part,
+			'section' => $s['slug'],
+		]);
+		return $sections;
+	}
+
+	protected function finalize($response) {
+		if (!isset($this->data['issue'])) return static::notFound($response);
+		$this->data['assets'] = array_merge_recursive($this->baseAssets(), $this->assets());
+		return parent::finalize($response);
 	}
 
 	protected function fetchData($args) {
-		if (($issue = $this->fetchIssue($args['slug']))) {
-			$this->data = array_merge($args, compact('issue'));
-			$this->data['layouts'] = $this->fetchLayouts();
+		if ($issue = $this->fetchIssue($args['slug'])) {
+			$sections = array_merge($this->fetchSections($issue, 1), $this->fetchSections($issue, 2));
+			$this->data = array_merge($args, compact('issue','sections'));
 		}
 	}
 

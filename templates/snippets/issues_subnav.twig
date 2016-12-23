@@ -1,8 +1,8 @@
 <nav class="subnav foreground tc lowercase">
 	<ul class="horizontal-list floats">
-		<li><a class="plain {% if selected == 'sections' %}selected{% endif %}" data-section="issue-cover" href="{{ urlFor('issue', { slug: issue.slug }) }}">Sections</a></li>
-		{% for part in [1,2] %}
-		<li><a class="plain {% if selected == 'editorial-' ~ part %}selected{% endif %}" data-section="editorial-{{ part }}" href="{{ urlFor('editorial', { slug: issue.slug, part: part }) }}">Editorial part {{ part }}</a></li>
+		<li><a class="plain {% if ISSUE_SECTION == 'editorial' %}selected{% endif %}" href="{{ urlFor('editorial', { slug: issue.slug }) }}">Editorial</a></li>
+		{% for n in [1,2] %}
+		<li><a class="plain {% if ISSUE_SECTION == 'layouts-' and part == n %}selected{% endif %}" href="{{ urlFor('layouts', { slug: issue.slug, part: n }) }}">Part {{ n }} Layouts</a></li>
 		{% endfor %}
 	</ul>
 </nav>

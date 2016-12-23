@@ -4,19 +4,12 @@ namespace Website\Action;
 use Functional as F;
 use Jack\Action\Page;
 
-class Issue extends Page {
+abstract class Issue extends Page {
 
-	protected function baseAssets() {
+	final protected function baseAssets() {
 		return [
 			'css' => ['sections/sub-nav'],
 			'js' => [],
-		];
-	}
-
-	protected function assets() {
-		return [
-			'css' => ['layouts/synch-scroll','issues/sections'],
-			'js' => ['layouts/synch-scroll','issues/sections'],
 		];
 	}
 
@@ -24,28 +17,14 @@ class Issue extends Page {
 		return sprintf('%s | Issue #%d | Cover | Jack Magazine', $this->data['issue']['title'], $this->data['issue']['number']);
 	}
 
-	protected function fetchSections($part) {
-		global $app;
-		$sections = cockpit('collections:find', sprintf('sections%dx%d', $this->data['issue']['number'], $part));
-		foreach ($sections as &$s) $s['url'] = $app->routeLookUp('section', [
-			'slug' => $this->data['issue']['slug'],
-			'part' => $part,
-			'section' => $s['slug'],
-		]);
-		return $sections;
-	}
-
 	protected function fetchIssue($slug) {
 		return cockpit('collections:findOne', 'issues', compact('slug'));
-	}
-
-	protected function templatePath() {
-		return 'issues/sections';
 	}
 
 	protected function finalize($response) {
 		if (!isset($this->data['issue'])) return static::notFound($response);
 		$this->data['assets'] = array_merge_recursive($this->baseAssets(), $this->assets());
+		$this->data['ISSUE_SECTION'] = substr(strtolower(str_replace(__NAMESPACE__, '', get_class($this))), 1);
 		return parent::finalize($response);
 	}
 

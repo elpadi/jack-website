@@ -1,12 +1,12 @@
-function Editorial() {
+function LayoutGrid() {
 	ImageGrid.call(this);
 	this.HEX_COLOR_VALUES = String.fromCharCode.apply(this, _.range(65, 71)) + _.range(0, 10).join('');
 }
 
-Editorial.prototype = Object.create(ImageGrid.prototype);
-Editorial.prototype.constructor = Editorial;
+LayoutGrid.prototype = Object.create(ImageGrid.prototype);
+LayoutGrid.prototype.constructor = LayoutGrid;
 
-Object.defineProperty(Editorial.prototype, 'init', {
+Object.defineProperty(LayoutGrid.prototype, 'init', {
 	value: function init() {
 		ImageGrid.prototype.init.call(this);
 		this.resize();
@@ -14,7 +14,7 @@ Object.defineProperty(Editorial.prototype, 'init', {
 	}
 });
 
-Object.defineProperty(Editorial.prototype, 'loadImage', {
+Object.defineProperty(LayoutGrid.prototype, 'loadImage', {
 	value: function loadImage(item) {
 		var node = _.head(item.getElementsByTagName('a')), img = new Image();
 		img.addEventListener('load', _.bind(this.onImageLoad, this, item));
@@ -28,20 +28,20 @@ Object.defineProperty(Editorial.prototype, 'loadImage', {
 	}
 });
 
-Object.defineProperty(Editorial.prototype, 'randomHexColor', {
+Object.defineProperty(LayoutGrid.prototype, 'randomHexColor', {
 	value: function randomHexColor() {
 		for (var i = 0, l = this.HEX_COLOR_VALUES.length, c = ''; i < 6; i++) c += this.HEX_COLOR_VALUES[_.random(0, l - 1)];
 		return c;
 	}
 });
 
-Object.defineProperty(Editorial.prototype, 'onLoadEnd', {
+Object.defineProperty(LayoutGrid.prototype, 'onLoadEnd', {
 	value: function onLoadEnd() {
 		this.organize();
 	}
 });
 
-Object.defineProperty(Editorial.prototype, 'onImageLoad', {
+Object.defineProperty(LayoutGrid.prototype, 'onImageLoad', {
 	value: function onImageLoad(item, e) {
 		var ar = e.target.naturalWidth / e.target.naturalHeight;
 		item.dataset.width = Math.round(ar);
@@ -49,11 +49,11 @@ Object.defineProperty(Editorial.prototype, 'onImageLoad', {
 	}
 });
 
-Object.defineProperty(Editorial.prototype, 'resize', {
+Object.defineProperty(LayoutGrid.prototype, 'resize', {
 	value: function resize() {
 		var size = window.innerWidth > 980 ? 'medium' : 'small';
 		this.active = this.container.filter(function(i, node) { return node.dataset.size == size; });
 	}
 });
 
-App.instance.addChild('editorial', new Editorial());
+App.instance.addChild('layouts', new LayoutGrid());
