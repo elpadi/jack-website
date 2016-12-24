@@ -17,7 +17,10 @@ class Layout extends Issue {
 	}
 
 	public function fetchLayout($issue, $slug) {
+		global $app;
 		$layout = cockpit('collections:findOne', sprintf('layouts%d', $issue['number']), compact('slug'));
+		$layout['src'] = $app->imageManager->imageUrl($app->url($layout['image']['path']), 'medium');
+		$layout['srcset'] = $app->imageManager->responsiveImageSrcset($app->url($layout['image']['path']), ['medium','large']);
 		return $layout;
 	}
 

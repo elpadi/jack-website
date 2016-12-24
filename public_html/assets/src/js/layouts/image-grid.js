@@ -3,14 +3,14 @@ function ImageGrid() {
 
 Object.defineProperty(ImageGrid.prototype, 'init', {
 	value: function init() {
-		this.container = $('.image-grid');
+		this.container = $('.image-grid').filter(function(i, node) { return node.offsetWidth; });
 	}
 });
 
 Object.defineProperty(ImageGrid.prototype, 'organize', {
 	value: function organize() {
-		var colCount = this.active.data('colCount');
-		var items = this.active.find('.image-grid__item').get().map(function(node, i) {
+		var colCount = this.container.data('colCount');
+		var items = this.container.find('.image-grid__item').get().map(function(node, i) {
 			return {
 				node: node,
 				width: parseInt(node.dataset.width, 10),
@@ -51,7 +51,7 @@ Object.defineProperty(ImageGrid.prototype, 'organize', {
 		rows.forEach(function(row) {
 			var node = document.createElement('div'), ar = 0;
 			node.className = 'image-grid__row';
-			this.active.append(node);
+			this.container.append(node);
 			row.forEach(function(index) {
 				node.appendChild(items[index].node);
 				ar += parseFloat(items[index].node.dataset.ar);

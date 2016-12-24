@@ -2,6 +2,7 @@ document.documentElement.className = 'js';
 
 function App() {
 	this.children = {};
+	this.HEX_COLOR_VALUES = String.fromCharCode.apply(window, _.range(65, 71)) + _.range(0, 10).join('');
 }
 
 Object.defineProperty(App.prototype, 'dispatchEvent', {
@@ -41,6 +42,12 @@ Object.defineProperty(App.prototype, 'respImageMaxWidth', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'onModalHide', {
+	value: function onModalHide() {
+		this.loadModal.find('.modal-content').remove();
+	}
+});
+
 Object.defineProperty(App.prototype, 'loadingModal', {
 	value: function loadingModal() {
 		if (!('loadModal' in this)) {
@@ -52,10 +59,29 @@ Object.defineProperty(App.prototype, 'loadingModal', {
 				)
 				.addClass('modal fade loading')
 				.appendTo(document.body)
-				.modal();
+				.modal()
+				.on('click', '.modal-content', function(e) {
+					if (e.target.classList.contains('modal-content')) this.loadModal.modal('hide');
+				}.bind(this))
+				.on('hidden', this.onModalHide.bind(this));
 		}
-		else this.loadModal.modal('show');
+		else this.loadModal.addClass('loading').modal('show');
 		return this.loadModal;
+	}
+});
+
+Object.defineProperty(App.prototype, 'randomColor', {
+	value: function randomHexColor() {
+		for (var i = 0, l = this.HEX_COLOR_VALUES.length, c = '#'; i < 6; i++) c += this.HEX_COLOR_VALUES[_.random(0, l - 1)];
+		return c;
+	}
+});
+
+Object.defineProperty(App.prototype, 'fetch', {
+	value: function fetch(url) {
+		var headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		return window.fetch(url, { headers: headers });
 	}
 });
 

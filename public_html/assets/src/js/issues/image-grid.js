@@ -1,6 +1,5 @@
 function LayoutGrid() {
 	ImageGrid.call(this);
-	this.HEX_COLOR_VALUES = String.fromCharCode.apply(this, _.range(65, 71)) + _.range(0, 10).join('');
 }
 
 LayoutGrid.prototype = Object.create(ImageGrid.prototype);
@@ -10,7 +9,36 @@ Object.defineProperty(LayoutGrid.prototype, 'init', {
 	value: function init() {
 		ImageGrid.prototype.init.call(this);
 		this.resize();
-		this.loadImage(this.active.find('article').get(0));
+		this.loadImage(this.container.find('article').get(0));
+		this.container.on('click', 'a', this.onLayoutClick.bind(this));
+	}
+});
+
+Object.defineProperty(LayoutGrid.prototype, 'showLayout', {
+	value: function showLayout(data) {
+		var title = document.createElement('h1'),
+			img = new Image(),
+			container = document.createElement('div');
+		title.innerHTML = data.layout.title;
+		img.src = data.layout.src;
+		img.srcset = data.layout.srcset;
+		img.alt = '';
+		img.sizes = '100vw';
+		App.instance.respImageMaxWidth(img);
+		container.className = 'modal-content modal-layout';
+		container.appendChild(title);
+		container.appendChild(img);
+		App.instance.loadModal.removeClass('loading').append(container);
+	}
+});
+
+Object.defineProperty(LayoutGrid.prototype, 'onLayoutClick', {
+	value: function onLayoutClick(e) {
+		e.preventDefault();
+		App.instance.loadingModal();
+		App.instance.fetch(e.currentTarget.href)
+			.then(function(response) { return response.json(); })
+			.then(this.showLayout.bind(this));
 	}
 });
 
@@ -24,14 +52,7 @@ Object.defineProperty(LayoutGrid.prototype, 'loadImage', {
 		img.alt = '';
 		node.childNodes[0].remove();
 		node.appendChild(img);
-		item.style.backgroundColor = '#' + this.randomHexColor();
-	}
-});
-
-Object.defineProperty(LayoutGrid.prototype, 'randomHexColor', {
-	value: function randomHexColor() {
-		for (var i = 0, l = this.HEX_COLOR_VALUES.length, c = ''; i < 6; i++) c += this.HEX_COLOR_VALUES[_.random(0, l - 1)];
-		return c;
+		item.style.backgroundColor = App.instance.randomColor();
 	}
 });
 
@@ -46,13 +67,6 @@ Object.defineProperty(LayoutGrid.prototype, 'onImageLoad', {
 		var ar = e.target.naturalWidth / e.target.naturalHeight;
 		item.dataset.width = Math.round(ar);
 		item.dataset.ar = ar.toFixed(2);
-	}
-});
-
-Object.defineProperty(LayoutGrid.prototype, 'resize', {
-	value: function resize() {
-		var size = window.innerWidth > 980 ? 'medium' : 'small';
-		this.active = this.container.filter(function(i, node) { return node.dataset.size == size; });
 	}
 });
 

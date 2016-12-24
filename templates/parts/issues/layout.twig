@@ -4,5 +4,5 @@
 {% endblock %}
 {% block content %}
 <h1>{{ layout.title }}</h1>
-<img src="{{ layout.image.path | url | image_url('small') }}" srcset="{{ layout.image.path | url | srcset }}" alt="" sizes="100vw">
+<img src="{{ layout.src }}" srcset="{{ layout.srcset }}" alt="" sizes="100vw">
 {% endblock %}

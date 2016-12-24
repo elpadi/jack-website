@@ -37,6 +37,11 @@ body {
 #masthead::after { z-index:18; }
 #content { z-index:5; }
 
+.modal {
+	background-color: transparent;
+	box-shadow: none;
+	width: auto;
+}
 .loading.modal {
 	background-color: transparent;
 	bottom: 0;
@@ -46,11 +51,18 @@ body {
 	box-shadow: none;
 }
 .loader-inner {
+	opacity: 0;
 	transition: opacity 0.3s linear 0.3s;
 	text-align: center;
 }
 .loading .loader-inner {
 	opacity: 1;
+}
+.modal .loader-inner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 3;
 }
 
 #content .text-content {
