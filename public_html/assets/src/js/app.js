@@ -77,6 +77,33 @@ Object.defineProperty(App.prototype, 'randomColor', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'loadPromise', {
+	value: function loadPromise(data) {
+		var img = new Image();
+		return new Promise(function(resolve, reject) {
+			if (!('src' in data)) reject('No src specified');
+			img.addEventListener('load', function(e) { resolve(img); });
+			if ('srcset' in data) {
+				img.srcset = data.srcset;
+				App.instance.respImageMaxWidth(img);
+			}
+			img.src = data.src;
+			img.alt = '';
+		});
+	}
+});
+
+Object.defineProperty(App.prototype, 'delayPromise', {
+	value: function delayPromise(delay) {
+		var id;
+		var p = new Promise(function(resolve, reject) {
+			id = setTimeout(resolve, delay);
+		});
+		p.timeoutId = id;
+		return p;
+	}
+});
+
 Object.defineProperty(App.prototype, 'fetch', {
 	value: function fetch(url) {
 		var headers = new Headers();

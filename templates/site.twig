@@ -26,10 +26,10 @@
 		] | css | raw }}
 		{{ assets.css | css | raw }}
 	</head>
-	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}">
+	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}" data-assets-url="{{ 'assets' | url }}">
 		{% import "macros/misc.twig" as misc %}
 		<div id="container">
-			<header id="masthead" class="post-intro-fade intro-fade">
+			<header id="masthead" class="post-intro-fade">
 				<nav class="foreground tc lowercase main-nav">
 					<span class="far-left tl">
 						<h1><a class="plain svg-button" data-section="home" href="{{ urlFor('home') }}">{{ svg('logo', 'Jack') | raw }}</a></h1>
@@ -43,37 +43,25 @@
 						</ul>
 					</span>
 				</nav>
-				{% block subnav %}
-				{% endblock %}
-				{% block header_content %}
-				{% endblock %}
+				{% block subnav %}{% endblock %}
+				{% block header_content %}{% endblock %}
 			</header>
 			<div id="content" class="content">
-				{% block content %}<article class="page-content text-content justified">{% if content %}{{ content | raw }}{% endif %}</article>{% endblock %}
+				{% block content %}<article class="page-content text-content justified post-intro-fade">{% if content %}{{ content | raw }}{% endif %}</article>{% endblock %}
 			</div>
 		</div>
-		{% block extra_content %}
-		{% endblock %}
-		{% block footer %}
-		{% endblock %}
-		<div id="main-loader" class="loader">
-			<svg viewBox="0 0 90 100" preserveAspectRatio="xMidYMid meet">
-				<circle class="one" cx="5" cy="50" r="5"/>
-				<circle class="two" cx="25" cy="50" r="5"/>
-				<circle class="three" cx="45" cy="50" r="5"/>
-				<circle class="four" cx="65" cy="50" r="5"/>
-				<circle class="five" cx="85" cy="50" r="5"/>
-			</svg>
-		</div>
+		{% block extra_content %}{% endblock %}
+		{% block footer %}{% endblock %}
 		{{ [
 			'bower_components/jquery/dist/jquery.slim',
 			'bower_components/underscore/underscore',
 			'bower_components/shuffle-array/dist/shuffle-array',
 			'bower_components/modal/javascripts/jquery.modal',
 			'bower_components/loaders.css/loaders.css',
+			'bower_components/cookie/cookie',
 		] | js('src') | raw }}
 		{{ ['app'] | js | raw }}
-		{{ assets.js | js | raw }}
+		{% if not assets.js is empty %}{{ assets.js | js | raw }}{% endif %}
 		<!--script>
 			var _paq = _paq || [];
 			_paq.push(['setCustomVariable', 1, 'User ID', '{{ USER_ID }}', 'visit']);

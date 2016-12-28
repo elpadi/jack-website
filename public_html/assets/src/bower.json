@@ -23,6 +23,8 @@
     "modal": "^1.1.9",
     "jquery": "^3.1.1",
     "shuffle-array": "^1.0.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "normalize-css": "^5.0.0",
+    "cookie": "^1.2.2"
   }
 }

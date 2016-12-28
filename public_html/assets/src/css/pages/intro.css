@@ -1,0 +1,41 @@
+.js .post-intro-fade {
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 1s;
+}
+.js .post-intro-fade.page-content {
+	transition-delay: 0.5s;
+}
+.intro-container {
+	transition: opacity 1s;
+}
+
+.intro-finished .post-intro-fade {
+	opacity: 1;
+	visibility: visible;
+}
+.intro-finished .intro-container {
+	opacity: 0;
+}
+
+.intro-fade {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	max-height: 100vh;
+	transform: translate(-50%, -50%);
+}
+.intro-fade {
+	opacity: 0;
+	transition: opacity 3s;
+}
+.intro-fade.visible {
+	opacity: 1;
+}
+
+svg.intro-fade {
+	width: 330px;
+	position: absolute;
+	top: 191px;
+	transform: translate(-50%, 0);
+}

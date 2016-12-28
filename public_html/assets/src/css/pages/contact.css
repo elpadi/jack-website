@@ -1,0 +1,54 @@
+body[data-template-path~="contact"] .main-content {
+	margin-top: 50px;
+}
+body[data-template-path~="contact"] .columns {
+	height:6em;
+}
+body[data-template-path~="contact"] form {
+	max-width: 640px;
+	margin: 0 auto 70px;
+}
+body[data-template-path~="contact"] #content form p:not(#form-message) {
+	margin:0;
+	padding:0;
+	width:49%;
+	max-width:50%;
+}
+#content #form-message {
+	margin:-75px auto 50px;
+}
+body[data-template-path~="contact"] input,
+body[data-template-path~="contact"] textarea {
+	width: 100%;
+	background-color: transparent;
+	border: 1px solid #6e6c6c;
+	color: white;
+	font-size: 18px;
+	outline-style: none;
+}
+body[data-template-path~="contact"] input[type="email"] {
+	height: 40px;
+	line-height: 40px;
+	margin-bottom: 1em;
+	padding: 0 .5em;
+}
+body[data-template-path~="contact"] textarea {
+	height:10em;
+	line-height:30px;
+	padding:0.25em 0.5em;
+}
+body[data-template-path~="contact"] input[type="submit"] {
+	background-color: transparent;
+	width: auto;
+	color: #b7b6b6;
+}
+#staff article {
+	margin-bottom: 50px;
+}
+#staff p {
+	margin: 0;
+}
+#staff a:hover {
+	color: white;
+}
+
