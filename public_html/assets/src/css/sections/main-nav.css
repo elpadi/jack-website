@@ -1,66 +1,26 @@
 #masthead h1 {
-	margin:0;
+	margin: 0;
 }
 #masthead > nav {
-	position:fixed;
-	display:flex;
-	font-size:16px;
-	letter-spacing:2px;
-	color:rgb(195,195,195);
-}
-#masthead::after {
-	content:'';
-	position:fixed;
-	left:0;
-	width:100%;
-	top:0;
-	height:65px;
-	background-color:white;
-}
-body[data-template-path="home"] #masthead::after, body[data-template-path="contact"] #masthead::after {
-	display: none;
+	font-size: 16px;
+	letter-spacing: 2px;
+	color: rgb(195,195,195);
 }
 
-#masthead a:not([data-section="home"]) {
-	border:3px none transparent;
-}
-#masthead a:not([data-section="home"]):hover {
-	color: black;
-	border-color: black;
-}
-body[data-url-path="about"] #masthead a[data-section="about"],
-body[data-url-path="contact"] #masthead a[data-section="contact"],
-body[data-url-path="event"] #masthead a[data-section="event"],
-body[data-template-path~="issues"] #masthead a[data-section="issues"],
-body[data-template-path="issues single"] #masthead a[data-section="issue-cover"],
-body[data-url-path~="editorial-1"] #masthead a[data-section="editorial-1"],
-body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"],
-#masthead a.selected {
-	color: inherit !important;
-	border-color: rgb(195, 195, 195) !important;
-}
-#masthead > .main-nav a:not([data-section="home"]) {
-	border-top-style:solid;
-}
-#masthead > nav,
-#masthead > nav a,
-#masthead > .main-nav > ul,
-#masthead > .main-nav > .far-right {
-	height:35px;
-}
 #masthead > nav a {
-	display:block;
-	line-height:21px;
-	padding:5px 0;
-	margin:0 15px;
-	outline-style:none !important;
-	transition:border-color 0.2s;
+	display: block;
+	line-height: 21px;
+	padding: 5px 0;
+	margin: 0 15px;
+	outline-style: none !important;
+	transition: border-color 0.2s;
+}
+#masthead a.selected {
+	color: black;
 }
 #masthead > nav > .far-left,
 #masthead > nav > .far-right {
-	position:relative;
-	flex-basis:150px;
-	flex-grow:2;
+	position: relative;
 }
 #masthead > nav > .far-right a {
 }
@@ -72,35 +32,104 @@ body[data-url-path~="editorial-2"] #masthead a[data-section="editorial-2"],
 	overflow: hidden;
 }
 #masthead .far-left a {
-	float: left;
-	width: 100%;
+	text-align: center;
 	padding: 0;
 	margin: 0;
 	border-style: none;
 }
 #masthead > nav > .far-left .svg-image {
-	width:auto;
+	width: auto;
 }
 
-.social-buttons {
-	float:right;
-	padding-right:15px;
-}
 .social-buttons svg {
-	width:30px;
-	height:auto;
+	width: 30px;
+	height: auto;
 }
 .social-buttons li:not(.button--facebook) svg {
-	width:20px;
+	width: 20px;
 }
 #masthead .social-buttons li {
-	width:50px;
+	width: 50px;
 }
 #masthead .social-buttons a {
-	margin:0 10px;
-	line-height:40px;
+	margin: 0 10px;
+	line-height: 40px;
 }
 #masthead .social-buttons .stroke { stroke: #c3c3c3; }
 #masthead .social-buttons .fill { fill: #c3c3c3; }
 #masthead .social-buttons a:hover .stroke { stroke: black; }
 #masthead .social-buttons a:hover .fill { fill: black; }
+
+@media (min-width: 670px) {
+	#masthead > nav {
+		position: fixed;
+		display: flex;
+	}
+	#masthead::after {
+		content: '';
+		position: fixed;
+		left: 0;
+		width: 100%;
+		top: 0;
+		height: 65px;
+		background-color: white;
+	}
+	#masthead h1 a {
+		border-style: none !important;
+	}
+	.main-nav a {
+		border: 3px none transparent;
+	}
+	.main-nav a:hover {
+		color: black;
+		border-color: black;
+	}
+	.main-nav a.selected {
+		color: inherit !important;
+		border-color: rgb(195, 195, 195) !important;
+	}
+	.main-nav a {
+		border-top-style: solid;
+	}
+	#masthead > nav > .far-left,
+	#masthead > nav > .far-right {
+		flex-basis: 150px;
+		flex-grow: 2;
+	}
+	#masthead .far-left a {
+		float: left;
+		width: 100%;
+		text-align: left;
+	}
+	.social-buttons {
+		float: right;
+	}
+}
+
+@media (max-width: 669px) {
+	#masthead .horizontal-list.floats li {
+		float: none;
+	}
+	#masthead > nav > .far-left,
+	#masthead > nav > .far-right {
+		display: block;
+	}
+	#masthead > .main-nav {
+		position: static;
+		height: auto;
+	}
+}
+
+@media (min-width: 380px) {
+	#masthead > nav,
+	#masthead > nav a,
+	#masthead > .main-nav > ul,
+	#masthead > .main-nav > .far-right {
+		height: 35px;
+	}
+}
+@media (max-width: 379px) {
+	#masthead nav > .horizontal-list.floats li {
+		display: block;
+	}
+}

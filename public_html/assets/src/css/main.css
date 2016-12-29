@@ -24,8 +24,8 @@ body {
 	transition:opacity 0.3s linear 0.1s;
 }
 #content {
-	position:relative;
-	padding:50px 10px 100px;
+	position: relative;
+	padding: 20px 10px;
 	min-height:100vh;
 }
 .white {
@@ -69,13 +69,10 @@ body {
 	position:relative;
 	z-index: 3;
 }
-#content .text-content:not(.center) {
-	margin-top:50px;
-}
 #content {
 	font-size:18px;
 }
-#content .page-content,
+#content .page-content:not(.main-content),
 #content .text-content:not(.page-content) p,
 #content > p {
 	max-width:476px;
@@ -109,3 +106,13 @@ body {
 	max-width:100%;
 }
 
+@media (min-width: 670px) {
+	#content {
+		padding-top: 50px;
+		padding-bottom: 100px;
+	}
+	.main-content.page-content,
+	#content .text-content:not(.center) {
+		margin-top:50px;
+	}
+}

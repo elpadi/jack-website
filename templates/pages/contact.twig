@@ -1,8 +1,7 @@
 {% extends "site.twig" %}
 {% block content %}
 {% import "macros/misc.twig" as misc %}
-<div class="background page-background"><img src="{{ 'backgrounds/contact.jpg' | asset_url | image_url('small') }}" alt="Back cover" srcset="{{ 'backgrounds/contact.jpg' | asset_url | srcset }}" sizes="100vw"></div>
-<div class="main-content">
+<div class="main-content page-content">
 	{{ cockpit_opening_form_tag('contact') | raw }}
 		<p class="fl"><label for="email" class="screen-reader-text">Email: </label><input type="email" name="form[email]" placeholder="Your email"></p>
 		<p class="fr"><label for="message" class="screen-reader-text">Message: </label><textarea name="form[message]" placeholder="Message"></textarea></p>

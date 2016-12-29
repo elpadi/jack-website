@@ -1,5 +1,5 @@
 {% macro menu_item(link) %}
-<a class="plain" data-section="{{ link.title | slug }}" href="{{ (link.url | has('//')) ? link.url : urlFor(link.url) }}">{{ link.title }}</a>
+<a class="plain {% if URL_PATH | has(link.url) %}selected{% endif %}" data-section="{{ link.title | slug }}" href="{{ (link.url | has('//')) ? link.url : urlFor(link.url) }}">{{ link.title }}</a>
 {% endmacro %}
 
 {% macro contact(contact) %}
