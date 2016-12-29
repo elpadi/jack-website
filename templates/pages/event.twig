@@ -1,7 +1,6 @@
 {% extends "site.twig" %}
 {% block content %}
 {% import "macros/misc.twig" as misc %}
-<div class="background"></div>
 {% for event in events %}
 <article class="event">
 	<section class="description page-content text-content justified">{{ event.description | raw }}</section>
@@ -12,6 +11,6 @@
 </article>
 {% endfor %}
 <div class="event">
-	<section class="images tc">{% for img in images %}<img class="event-image" src="{{ img.image.path | url | image_url('small') }}" alt="" title="{{ img.title }}" srcset="{{ img.image.path | url | srcset('medium') }}" sizes="100vw">{% endfor %}</section>
+	<section class="images tc">{% for img in images %}<img class="event-image" src="{{ img.image.path | url | image_url('medium') }}" alt="" title="{{ img.title }}">{% endfor %}</section>
 </div>
 {% endblock %}
