@@ -26,7 +26,7 @@ Object.defineProperty(SynchScroll.prototype, 'scroll', {
 			}
 			if (valid) {
 				h = this.fixedItems[index].offsetHeight;
-				if (rect.top > 150) {
+				if (rect.top > this.OFFSET_TOP) {
 					console.log('down below, keep titles in same line');
 					y = rect.top;
 				}

@@ -42,10 +42,12 @@ body[data-template-path~="sections"] #content {
 .section-layouts {
 }
 .section-layouts h2 {
-	display: none;
+	visibility: hidden;
+	line-height: 1;
+	margin: 0;
 }
 .section-layouts h2:first-child {
-	margin-top: 0;
+	height: 0;
 }
 .section-layouts img {
 	padding: 0;
