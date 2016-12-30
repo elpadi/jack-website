@@ -3,6 +3,7 @@ document.documentElement.className = 'js';
 function App() {
 	this.children = {};
 	this.HEX_COLOR_VALUES = String.fromCharCode.apply(window, _.range(65, 71)) + _.range(0, 10).join('');
+	this.isHandheld = ('screen' in window) && ('orientation' in screen) && (screen.orientation.angle > 0 || screen.availWidth < 1025);
 }
 
 Object.defineProperty(App.prototype, 'dispatchEvent', {

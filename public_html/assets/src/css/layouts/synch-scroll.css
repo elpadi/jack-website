@@ -2,18 +2,18 @@
 	position: relative;
 }
 @media (min-width: 980px) {
-	.js .synch-scroll__fixed .synch-scroll__item {
+	.js .synch-scroll > .synch-scroll__fixed .synch-scroll__item {
 		position: fixed;
 		z-index: 2;
 	}
 }
-.synch-scroll--right {
+.synch-scroll > .synch-scroll--right {
 	position: absolute;
 	top: 0;
 	right: 0;
 	width: 40%;
 }
-.synch-scroll--left {
+.synch-scroll > .synch-scroll--left {
 	width: 60%;
 }
 

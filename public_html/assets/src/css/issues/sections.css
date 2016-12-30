@@ -6,6 +6,9 @@ body[data-template-path~="sections"] #content {
 	margin: 0 auto;
 }
 .issue-sections .synch-scroll__item {
+	margin-bottom:  50px;
+}
+.issue-sections.synch-scroll .synch-scroll__item {
 	margin: 150px auto;
 }
 .issue-sections .synch-scroll__item:first-child {
@@ -46,7 +49,7 @@ body[data-template-path~="sections"] #content {
 	line-height: 1;
 	margin: 0;
 }
-.section-layouts h2:first-child {
+.synch-scroll .section-layouts h2:first-child {
 	height: 0;
 }
 .section-layouts img {
@@ -55,7 +58,7 @@ body[data-template-path~="sections"] #content {
 }
 
 @media (min-width: 980px) {
-	.js .synch-scroll__fixed .synch-scroll__item {
+	.js .synch-scroll > .synch-scroll__fixed .synch-scroll__item {
 		margin: 0;
 		top: 0;
 		right: 0;
