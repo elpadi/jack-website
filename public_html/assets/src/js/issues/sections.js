@@ -1,6 +1,5 @@
 function IssuesSections() {
   SynchScroll.call(this);
-	this.OFFSET_TOP = 150;
 }
 
 IssuesSections.prototype = Object.create(SynchScroll.prototype);

@@ -41,6 +41,9 @@ body[data-template-path~="sections"] #content {
 
 .section-layouts {
 }
+.section-layouts h2 {
+	display: none;
+}
 .section-layouts h2:first-child {
 	margin-top: 0;
 }

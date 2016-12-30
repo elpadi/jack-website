@@ -1,19 +1,23 @@
 #masthead > .subnav a {
-	border-bottom-style:solid;
+	border-bottom-style: solid;
+	border-bottom-color: white;
+}
+#masthead > .subnav a:hover {
+	border-color: rgb(195,195,195);
 }
 #masthead > .subnav {
-	top:35px;
-	font-size:13px;
+	top: 35px;
+	font-size: 13px;
 }
 #masthead > .subnav,
 #masthead > .subnav a {
-	height:30px;
+	height: 30px;
 }
 #masthead > .subnav a {
-	line-height:21px;
+	line-height: 21px;
 }
 .subnav > ul {
-	margin:auto;
+	margin: auto;
 }
 body[data-path="issues_single"] #masthead .subnav {
 }

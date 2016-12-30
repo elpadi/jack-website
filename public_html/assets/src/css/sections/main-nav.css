@@ -17,6 +17,7 @@
 }
 #masthead a.selected {
 	color: black;
+	border-color: black !important;
 }
 #masthead > nav > .far-left,
 #masthead > nav > .far-right {
@@ -81,12 +82,7 @@
 		border: 3px none transparent;
 	}
 	.main-nav a:hover {
-		color: black;
-		border-color: black;
-	}
-	.main-nav a.selected {
-		color: inherit !important;
-		border-color: rgb(195, 195, 195) !important;
+		border-color: rgb(195,195,195);
 	}
 	.main-nav a {
 		border-top-style: solid;

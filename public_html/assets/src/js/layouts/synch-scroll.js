@@ -4,6 +4,7 @@ function SynchScroll() {
 Object.defineProperty(SynchScroll.prototype, 'init', {
 	value: function init() {
 		['left','right'].forEach(function(side) { this[side] = $('.synch-scroll--' + side); }.bind(this));
+		this.OFFSET_TOP = this.left.parent().get(0).getBoundingClientRect().top;
 	}
 });
 
