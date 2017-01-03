@@ -61,8 +61,8 @@ Object.defineProperty(App.prototype, 'loadingModal', {
 				.addClass('modal fade loading')
 				.appendTo(document.body)
 				.modal()
-				.on('click', '.modal-content', function(e) {
-					if (e.target.classList.contains('modal-content')) this.loadModal.modal('hide');
+				.on('click', function(e) {
+					if (e.target.classList.contains('modal-content') || !this.loadModal.find('.modal-content').get(0).contains(e.target)) this.loadModal.modal('hide');
 				}.bind(this))
 				.on('hidden', this.onModalHide.bind(this));
 		}
