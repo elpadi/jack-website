@@ -16,17 +16,14 @@ Object.defineProperty(LayoutGrid.prototype, 'init', {
 
 Object.defineProperty(LayoutGrid.prototype, 'showLayout', {
 	value: function showLayout(data) {
-		var title = document.createElement('h1'),
-			img = new Image(),
+		var img = new Image(),
 			container = document.createElement('div');
-		title.innerHTML = data.layout.title;
 		img.src = data.layout.src;
 		img.srcset = data.layout.srcset;
 		img.alt = '';
 		img.sizes = '100vw';
 		App.instance.respImageMaxWidth(img);
 		container.className = 'modal-content modal-layout';
-		container.appendChild(title);
 		container.appendChild(img);
 		App.instance.loadModal.removeClass('loading').append(container);
 	}
