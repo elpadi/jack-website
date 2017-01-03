@@ -59,6 +59,7 @@ Object.defineProperty(LayoutGrid.prototype, 'loadImage', {
 Object.defineProperty(LayoutGrid.prototype, 'onLoadEnd', {
 	value: function onLoadEnd() {
 		this.organize();
+		this.container.css('opacity', '1');
 	}
 });
 

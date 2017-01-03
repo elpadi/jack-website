@@ -71,3 +71,9 @@ body[data-template-path~="sections"] #content {
 		visibility: visible;
 	}
 }
+
+.js .section-texts,
+.js .section-layouts img {
+	opacity: 0;
+	transition: opacity 1s linear;
+}

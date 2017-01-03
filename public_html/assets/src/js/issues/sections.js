@@ -52,26 +52,38 @@ Object.defineProperty(IssueSections.prototype, 'onLayoutsFetchEnd', {
 	}
 });
 
-Object.defineProperty(IssueSections.prototype, 'insertLayouts', {
-	value: function insertLayouts($node, slug, data) {
+Object.defineProperty(IssueSections.prototype, 'fetchLayout', {
+	value: function fetchLayout(section, layout) {
+		return App.instance.loadPromise(layout.image).then(function(img) {
+			var title = document.createElement('h2');
+			title.innerHTML = layout.title;
+			img.alt = '';
+			section.appendChild(title);
+			section.appendChild(img);
+			setTimeout(function() { img.style.opacity = '1'; }, 100);
+			return img;
+		});
+	}
+});
+
+Object.defineProperty(IssueSections.prototype, 'fetchLayoutImages', {
+	value: function fetchLayoutImages(slug, data) {
 		var section = document.createElement('article');
-		section.className = 'section-layouts synch-scroll__item';
+		section.className = 'section__layouts synch-scroll__item';
 		section.dataset.slug = slug;
 		if (!data) {
-			console.log('insertLayouts', 'no data', slug);
+			console.warn('insertLayouts', 'no data', slug);
+			return Promise.resolve(section);
 		}
-		else {
-			data.layouts.forEach(function(layout) {
-				var image = new Image(), title = document.createElement('h2');
-				title.innerHTML = layout.title;
-				image.src = layout.image.src;
-				image.alt = '';
-				section.appendChild(title);
-				section.appendChild(image);
-			});
-		}
-		(this.container ? this.container : $node).append(section);
-		return section;
+		return new Promise(function(resolve, reject) {
+			var layouts = Array.from(data.layouts);
+			var next = function next() {
+				var layout = layouts.shift();
+				if (layout) this.fetchLayout(section, layout).then(next.bind(this));
+				else resolve(section);
+			}.bind(this);
+			next();
+		}.bind(this));
 	}
 });
 
@@ -83,7 +95,8 @@ Object.defineProperty(IssueSections.prototype, 'fetchNextLayouts', {
 		}
 		return App.instance.fetch($node.data('url'))
 			.then(function(response) { return response.json(); })
-			.then(_.bind(this.insertLayouts, this, $node, $node.data('slug')))
+			.then(_.bind(this.fetchLayoutImages, this, $node.data('slug')))
+			.then(function(section) { (this.container ? this.container : $node).append(section); }.bind(this))
 			.then(_.bind(this.fetchNextLayouts, this, $node.next()));
 	}
 });
@@ -91,6 +104,7 @@ Object.defineProperty(IssueSections.prototype, 'fetchNextLayouts', {
 Object.defineProperty(IssueSections.prototype, 'fetchLayouts', {
 	value: function fetchLayouts(items) {
 		this.fetchNextLayouts($('.issue-sections').find('article').first());
+		setTimeout(function() { $('.section-texts').css('opacity', '1'); }, 100);
 		return new Promise(function(resolve, reject) {
 			this.resolve = resolve;
 		}.bind(this));
