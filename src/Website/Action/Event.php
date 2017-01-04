@@ -8,7 +8,9 @@ class Event extends Page {
 
 	protected function fetchData($args) {
 		$this->data['events'] = cockpit('collections:find', 'events');
-		$this->data['images'] = cockpit('collections:find', 'deck2016images');
+		$images = cockpit('collections:find', 'deck2016images');
+		foreach ($images as &$img) $img['src'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($img['image']['path']), 'large');
+		$this->data['images'] = $images;
 	}
 
 }

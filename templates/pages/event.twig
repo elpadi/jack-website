@@ -11,6 +11,6 @@
 </article>
 {% endfor %}
 <div class="event">
-	<section class="images tc">{% for img in images %}<img class="event-image" src="{{ img.image.path | url | image_url('medium') }}" alt="" title="{{ img.title }}">{% endfor %}</section>
+	<section class="images tc">{% for img in images %}<img class="event-image" src="{{ img.src }}" alt="" title="{{ img.title }}">{% endfor %}</section>
 </div>
 {% endblock %}
