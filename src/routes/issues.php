@@ -1,9 +1,4 @@
 <?php
-use Website\App;
-use Website\AssetManager;
-use Website\Model;
-use Website\Issue;
-
 $routes[] = array(
 	'path' => '/issues',
 	'routes' => array(
