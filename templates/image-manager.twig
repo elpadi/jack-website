@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{{ META_TITLE }}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		{{ [
+			'bower_components/loaders.css/loaders',
+			'bower_components/modal/stylesheets/jquery.modal',
+		] | css('src') | raw }}
+<style>
+#content { font-size: 1.3em; }
+table { border-collapse: collapse; }
+td { border: 1px solid black; padding: 1em; }
+</style>
+	</head>
+	<body>
+		<div id="container">
+			<header id="masthead">
+				<nav>
+					<ul class="horizontal-list">
+						<li><button href="list">List</button></li>
+					</ul>
+				</nav>
+			</header>
+			<main id="content">
+				<section id="image-info">
+					<h1>Image Info</h1>
+					<form id="image-info-form">
+						<p><label>Path: <input name="path" id="path"></label> <label>Size: <select name="size" id="size"><option>small</option><option>medium</option><option>large</option><option>double</option><option>original</option></select></label> <input name="submit" type="submit"></p>
+					</form>
+				</section>
+				<section id="listing">
+					<h1>Listing</h1>
+				</section>
+			</main>
+		</div>
+		{{ [
+			'bower_components/jquery/dist/jquery.slim',
+			'bower_components/underscore/underscore',
+			'bower_components/shuffle-array/dist/shuffle-array',
+			'bower_components/modal/javascripts/jquery.modal',
+			'bower_components/loaders.css/loaders.css',
+			'bower_components/table.js/src/table',
+			'bower_components/cookie/cookie',
+		] | js('src') | raw }}
+		{{ ['app','image-manager'] | js | raw }}
+		{% if not assets.js is empty %}{{ assets.js | js | raw }}{% endif %}
+	</body>
+</html>
