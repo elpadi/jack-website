@@ -25,6 +25,9 @@
 	max-height: 100vh;
 	transform: translate(-50%, -50%);
 }
+.intro-container > .intro-fade:first-child {
+	max-height: 95vh;
+}
 .intro-fade {
 	opacity: 0;
 	transition: opacity 3s;

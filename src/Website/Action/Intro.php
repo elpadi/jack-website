@@ -14,7 +14,7 @@ class Intro extends Page {
 			$url = str_replace(PUBLIC_ROOT_DIR, '', $filepath);
 			return [
 				'src' => $app->imageManager->imageUrl($url, 'medium'),
-				'srcset' => $app->imageManager->responsiveImageSrcset($url, ['medium','large']),
+				'srcset' => $app->imageManager->responsiveImageSrcset($url, ['medium','large','double']),
 			];
 		}, $files));
 	}

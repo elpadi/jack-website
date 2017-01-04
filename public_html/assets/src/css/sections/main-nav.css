@@ -65,14 +65,6 @@
 	#masthead > nav {
 		position: fixed;
 		display: flex;
-	}
-	#masthead::after {
-		content: '';
-		position: fixed;
-		left: 0;
-		width: 100%;
-		top: 0;
-		height: 65px;
 		background-color: white;
 	}
 	#masthead h1 a {
@@ -121,7 +113,7 @@
 	#masthead > nav a,
 	#masthead > .main-nav > ul,
 	#masthead > .main-nav > .far-right {
-		height: 35px;
+		height: 45px;
 	}
 }
 @media (max-width: 379px) {

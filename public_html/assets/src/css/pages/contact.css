@@ -1,9 +1,15 @@
+#content {
+	color: white;
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 0.9em;
+}
 .columns {
 	height:6em;
 }
 form {
 	max-width: 640px;
-	margin: 0 auto 70px;
+	margin: 0 auto 50px;
 }
 #content #form-message {
 	margin:-75px auto 50px;
@@ -11,10 +17,11 @@ form {
 input,
 textarea {
 	width: 100%;
-	background-color: transparent;
-	border: 1px solid #6e6c6c;
-	color: black;
-	font-size: 18px;
+	background-color: white;
+	border-style: none;
+	color: rgb(195,195,195);
+	font-size: 1.1em;
+	font-weight: bold;
 	outline-style: none;
 }
 input[type="email"] {
@@ -31,10 +38,10 @@ textarea {
 input[type="submit"] {
 	background-color: transparent;
 	width: auto;
-	color: #b7b6b6;
+	color: #a9a9a9;
 }
 #staff article {
-	margin-bottom: 50px;
+	margin-bottom: 40px;
 }
 #staff p {
 	margin: 0;
