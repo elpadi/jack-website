@@ -23,7 +23,7 @@ Object.defineProperty(ImageManager.prototype, 'imageInfo', {
 					data: ['meta','size'].map(function(key) { return [data[key].hash, data[key].width, data[key].height]; })
 				});
 				document.getElementById('image-info').appendChild(this.info.dom.table);
-			});
+			}.bind(this));
 	}
 });
 
