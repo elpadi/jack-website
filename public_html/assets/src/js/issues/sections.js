@@ -11,11 +11,11 @@ Object.defineProperty(SectionsScroll.prototype, 'init', {
 		$('.issue-sections').addClass('synch-scroll');
 		this.matchFixed();
 		this.issueSections = new IssueSections(this.left);
-		this.issueSections.fetchLayouts().then(function() {
+		Promise.all([App.instance.delayPromise(100), this.issueSections.fetchLayouts()]).then(function() {
 			this.scrollItems = this.left.children();
+			this.initPosMatch();
 		}.bind(this));
 		this.fixedItems = this.right.children();
-		$(this.fixedItems[0]).css('transform', 'translateY(' + this.OFFSET_TOP + 'px)');
 	}
 });
 
@@ -71,6 +71,7 @@ Object.defineProperty(IssueSections.prototype, 'fetchLayoutImages', {
 		var section = document.createElement('article');
 		section.className = 'section__layouts synch-scroll__item';
 		section.dataset.slug = slug;
+		section.id = slug;
 		if (!data) {
 			console.warn('insertLayouts', 'no data', slug);
 			return Promise.resolve(section);

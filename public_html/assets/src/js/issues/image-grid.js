@@ -25,6 +25,12 @@ Object.defineProperty(LayoutGrid.prototype, 'showLayout', {
 		App.instance.respImageMaxWidth(img);
 		container.className = 'modal-content modal-layout';
 		container.appendChild(img);
+		$(document.createElement('a'))
+			.attr('href', data.layout.editorial_url)
+			.addClass($('#info-icon').attr('class'))
+			.append($('#info-icon').children().clone())
+			.appendTo(container);
+		console.log(data.section);
 		App.instance.loadModal.removeClass('loading').append(container);
 	}
 });

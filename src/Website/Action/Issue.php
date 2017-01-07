@@ -31,7 +31,6 @@ abstract class Issue extends Page {
 	protected function fetchData($args) {
 		if ($issue = $this->fetchIssue($args['slug'])) {
 			$this->data = array_merge($args, compact('issue'));
-			$this->data['sections'] = call_user_func_array('array_merge', array_map([$this, 'fetchSections'], [1, 2]));
 		}
 	}
 

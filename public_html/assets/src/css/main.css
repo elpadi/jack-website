@@ -126,3 +126,23 @@ body {
 	height: 100%;
 	object-fit: cover;
 }
+
+.svg-icon {
+	display: inline-block;
+}
+.svg-icon svg {
+	pointer-events: none;
+}
+.icon--info {
+	width: 40px;
+	height: 40px;
+}
+.icon--info path {
+	fill: none;
+	stroke: black;
+	stroke-width: 10px;
+	transition: stroke-width 0.2s;
+}
+.icon--info:hover path {
+	stroke-width: 20px;
+}

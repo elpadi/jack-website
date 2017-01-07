@@ -46,6 +46,11 @@ body[data-template-path="issues grid"] #content {
 .modal-layout img {
 	max-height: calc(100vh - 130px);
 }
+.modal-layout .svg-icon {
+	position: absolute;
+	right: 1em;
+	bottom: 1em;
+}
 
 .image-grid {
 	opacity: 0;
