@@ -46,10 +46,18 @@ body[data-template-path="issues grid"] #content {
 .modal-layout img {
 	max-height: calc(100vh - 130px);
 }
-.modal-layout .svg-icon {
+.modal-layout .icon--info {
 	position: absolute;
 	right: 1em;
 	bottom: 1em;
+}
+.modal-layout .icon--arrow {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin-top: auto;
+	margin-bottom: auto;
+	height: 60px;
 }
 
 .image-grid {

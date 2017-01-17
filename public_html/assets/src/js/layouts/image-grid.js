@@ -4,13 +4,14 @@ function ImageGrid() {
 Object.defineProperty(ImageGrid.prototype, 'init', {
 	value: function init() {
 		this.container = $('.image-grid').filter(function(i, node) { return node.offsetWidth; });
+		this.items = this.container.find('.image-grid__item');
 	}
 });
 
 Object.defineProperty(ImageGrid.prototype, 'organize', {
 	value: function organize() {
 		var colCount = this.container.data('colCount');
-		var items = this.container.find('.image-grid__item').get().map(function(node, i) {
+		var items = this.items.get().map(function(node, i) {
 			return {
 				node: node,
 				width: parseInt(node.dataset.width, 10),

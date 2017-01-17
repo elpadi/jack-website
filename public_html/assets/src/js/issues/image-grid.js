@@ -14,8 +14,25 @@ Object.defineProperty(LayoutGrid.prototype, 'init', {
 	}
 });
 
+Object.defineProperty(LayoutGrid.prototype, 'createArrowButton', {
+	value: function createArrowButton(name) {
+		return $('#arrow-icon').clone().attr('id', '').addClass('icon--' + name)
+			.on('click',  _.bind(this.selectLayout, this, $(this.items[(this.currentIndex + this.items.length + (name === 'next' ? 1 : -1)) % this.items.length])));
+	}
+});
+
+Object.defineProperty(LayoutGrid.prototype, 'createInfoButton', {
+	value: function createInfoButton(url) {
+		return $(document.createElement('a'))
+			.attr('href', url)
+			.addClass($('#info-icon').attr('class'))
+			.append($('#info-icon').children().clone());
+	}
+});
+
 Object.defineProperty(LayoutGrid.prototype, 'showLayout', {
 	value: function showLayout(data) {
+		console.log('showLayout', data.layout.slug, App.instance.time());
 		var img = new Image(),
 			container = document.createElement('div');
 		img.src = data.layout.src;
@@ -25,23 +42,53 @@ Object.defineProperty(LayoutGrid.prototype, 'showLayout', {
 		App.instance.respImageMaxWidth(img);
 		container.className = 'modal-content modal-layout';
 		container.appendChild(img);
-		$(document.createElement('a'))
-			.attr('href', data.layout.editorial_url)
-			.addClass($('#info-icon').attr('class'))
-			.append($('#info-icon').children().clone())
-			.appendTo(container);
-		console.log(data.section);
+		this.createInfoButton(data.layout.editorial_url).appendTo(container);
+		this.createArrowButton('prev').prependTo(container);
+		this.createArrowButton('next').appendTo(container);
 		App.instance.loadModal.removeClass('loading').append(container);
+	}
+});
+
+Object.defineProperty(LayoutGrid.prototype, 'hide', {
+	value: function hide(switching) {
+		console.log('hide', switching, App.instance.time());
+		if (switching) {
+			if (this.currentIndex >= 0) {
+				App.instance.loadModal.css('opacity', '0');
+				setTimeout(function() { App.instance.loadModal.find('.modal-content').remove(); }, App.MODAL_FADE_DURATION);
+				return App.instance.delayPromise(App.MODAL_FADE_DURATION + 100);
+			}
+			else {
+				return Promise.resolve(-1);
+			}
+		}
+		else {
+			console.error('Not implemented');
+		}
+	}
+});
+
+Object.defineProperty(LayoutGrid.prototype, 'selectLayout', {
+	value: function selectLayout(item, url) {
+		console.log('selectLayout', this.currentIndex, item);
+		if (!item) {
+			return this.hide();
+		}
+		if (typeof url !== 'string') url = item.find('a').attr('href');
+		Promise.all([App.instance.fetch(url), this.hide(true)])
+			.then(function(values) {
+				if (this.currentIndex >= 0) setTimeout(function() { App.instance.loadModal.css('opacity', ''); }, 100);
+				this.currentIndex = item.index();
+				this.showLayout(values[0]);
+			}.bind(this));
 	}
 });
 
 Object.defineProperty(LayoutGrid.prototype, 'onLayoutClick', {
 	value: function onLayoutClick(e) {
 		e.preventDefault();
-		App.instance.loadingModal();
-		App.instance.fetch(e.currentTarget.href)
-			.then(function(response) { return response.json(); })
-			.then(this.showLayout.bind(this));
+		App.instance.loadingModal().one('hidden', function() { this.currentIndex = -1; }.bind(this));
+		this.selectLayout($(e.currentTarget).closest('article'), e.currentTarget.href);
 	}
 });
 
@@ -62,6 +109,7 @@ Object.defineProperty(LayoutGrid.prototype, 'loadImage', {
 Object.defineProperty(LayoutGrid.prototype, 'onLoadEnd', {
 	value: function onLoadEnd() {
 		this.organize();
+		this.items = this.container.find('.image-grid__item'); // refresh to update order
 		this.container.css('opacity', '1');
 	}
 });

@@ -2,9 +2,12 @@ document.documentElement.className = 'js';
 
 function App() {
 	this.children = {};
-	this.HEX_COLOR_VALUES = String.fromCharCode.apply(window, _.range(65, 71)) + _.range(0, 10).join('');
-	this.isHandheld = ('screen' in window) && ('orientation' in screen) && (screen.orientation.angle > 0 || screen.availWidth < 1025);
+	this.START_TIME = Date.now();
 }
+
+Object.defineProperty(App, 'HEX_COLOR_VALUES', { value: String.fromCharCode.apply(window, _.range(65, 71)) + _.range(0, 10).join('') });
+Object.defineProperty(App, 'IS_HANDHELD', { value: ('screen' in window) && ('orientation' in screen) && (screen.orientation.angle > 0 || screen.availWidth < 1025) });
+Object.defineProperty(App, 'MODAL_FADE_DURATION', { value: 200 });
 
 Object.defineProperty(App.prototype, 'dispatchEvent', {
 	value: function dispatchEvent(name) {
@@ -18,6 +21,12 @@ Object.defineProperty(App.prototype, 'dispatchEvent', {
 				listener[name].apply(listener, params || []);
 			});
 		}
+	}
+});
+
+Object.defineProperty(App.prototype, 'time', {
+	value: function appTime() {
+		return ((Date.now() - this.START_TIME) / 1000).toFixed(1);
 	}
 });
 
@@ -73,7 +82,7 @@ Object.defineProperty(App.prototype, 'loadingModal', {
 
 Object.defineProperty(App.prototype, 'randomColor', {
 	value: function randomHexColor() {
-		for (var i = 0, l = this.HEX_COLOR_VALUES.length, c = '#'; i < 6; i++) c += this.HEX_COLOR_VALUES[_.random(0, l - 1)];
+		for (var i = 0, l = App.HEX_COLOR_VALUES.length, c = '#'; i < 6; i++) c += App.HEX_COLOR_VALUES[_.random(0, l - 1)];
 		return c;
 	}
 });
@@ -109,7 +118,10 @@ Object.defineProperty(App.prototype, 'fetch', {
 	value: function fetch(url) {
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return window.fetch(url, { headers: headers });
+		return window.fetch(url, { headers: headers }).then(function(response) {
+			if (response.ok) return response.json();
+			console.error("Fetching of resource failed.", response);
+		});
 	}
 });
 
