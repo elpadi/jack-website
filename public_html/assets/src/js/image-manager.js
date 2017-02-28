@@ -15,7 +15,6 @@ Object.defineProperty(ImageManager.prototype, 'imageInfo', {
 		e.preventDefault();
 		if ('info' in this) this.info.dom.table.remove();
 		App.instance.fetch(location.href + '/' + document.getElementById('size').value + '/' + document.getElementById('path').value.replace(/\//g, '_'))
-			.then(function(response) { return response.json(); })
 			.then(function(data) {
 				this.info = new Table({
 					id: 'info',
@@ -31,7 +30,6 @@ Object.defineProperty(ImageManager.prototype, 'list', {
 	value: function list() {
 		if ('listing' in this) this.listing.dom.table.remove();
 		App.instance.fetch(location.href + '/listing')
-			.then(function(response) { return response.json(); })
 			.then(function(data) {
 				this.listing = new Table({
 					id: 'listing',

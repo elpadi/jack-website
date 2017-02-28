@@ -9,7 +9,6 @@ Object.defineProperty(Intro.prototype, 'init', {
 	value: function init() {
 		$(document).one('click', this.end.bind(this));
 		App.instance.fetch(location.href)
-			.then(function(response) { return response.json(); })
 			.then(this.startIntro.bind(this));
 	}
 });

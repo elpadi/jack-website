@@ -95,7 +95,6 @@ Object.defineProperty(IssueSections.prototype, 'fetchNextLayouts', {
 			return false;
 		}
 		return App.instance.fetch($node.data('url'))
-			.then(function(response) { return response.json(); })
 			.then(_.bind(this.fetchLayoutImages, this, $node.data('slug')))
 			.then(function(section) { (this.container ? this.container : $node).append(section); }.bind(this))
 			.then(_.bind(this.fetchNextLayouts, this, $node.next()));
