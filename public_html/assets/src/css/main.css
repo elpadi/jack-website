@@ -163,12 +163,12 @@ body {
 }
 .icon--arrow path {
 	fill: none;
-	stroke: #6c6868;
+	stroke: rgb(195,195,195);
 	stroke-width: 7px;
 	stroke-linejoin: round;
 	stroke-linecap: round;
 	transition: stroke 0.2s;
 }
 .icon--arrow:hover path {
-	stroke: black;
+	stroke: #6c6868;
 }
