@@ -1,0 +1,15 @@
+{% extends "site.twig" %}
+{% block content %}
+<style>
+video::-webkit-media-controls-fullscreen-button { display: none !important; }
+video::-moz-media-controls-fullscreen-button { display: none !important; }
+video::-ms-media-controls-fullscreen-button { display: none !important; }
+video::media-controls-fullscreen-button { display: none !important; }
+video { margin: 140px auto; }
+.video--cj-campaign { width: 90%; max-width: 710px; }
+</style>
+<main class="tc">
+	<br><br>
+	{% for v in ['bedroom-bed','cj-campaign'] %}<p><video class="video--{{ v }}" src="{{ ('videos/' ~ v ~ '.m4v') | asset_url }}" controls></video></p><br>{% endfor %}
+</main>
+{% endblock %}
