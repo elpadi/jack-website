@@ -6,7 +6,9 @@ function App() {
 }
 
 Object.defineProperty(App, 'HEX_COLOR_VALUES', { value: String.fromCharCode.apply(window, _.range(65, 71)) + _.range(0, 10).join('') });
-Object.defineProperty(App, 'IS_HANDHELD', { value: ('screen' in window) && ('orientation' in screen) && (screen.orientation.angle > 0 || screen.availWidth < 1025) });
+Object.defineProperty(App, 'IS_HANDHELD', { value: (('screen' in window) && ('orientation' in screen) && screen.orientation.angle > 0) || ('ontouchstart' in window) });
+Object.defineProperty(App, 'IS_PHONE', { value: (App.IS_HANDHELD && screen.availWidth < 768) });
+Object.defineProperty(App, 'IS_TABLET', { value: (App.IS_HANDHELD && !App.IS_PHONE) });
 Object.defineProperty(App, 'MODAL_FADE_DURATION', { value: 200 });
 
 Object.defineProperty(App.prototype, 'dispatchEvent', {

@@ -10,7 +10,7 @@ Object.defineProperty(LayoutGrid.prototype, 'init', {
 		ImageGrid.prototype.init.call(this);
 		this.resize();
 		this.loadImage(this.container.find('article').get(0));
-		this.container.on('click', 'a', this.onLayoutClick.bind(this));
+		if (!App.IS_PHONE) this.container.on('click', 'a', this.onLayoutClick.bind(this));
 	}
 });
 
