@@ -1,5 +1,4 @@
 #masthead > .subnav a {
-	border-bottom-style: solid;
 	border-bottom-color: white;
 }
 #masthead > .subnav a:hover {
@@ -21,6 +20,8 @@
 }
 body[data-path="issues_single"] #masthead .subnav {
 }
-#content {
-	padding-top: 100px;
+@media (min-width: 670px) {
+	#content {
+		padding-top: 100px;
+	}
 }

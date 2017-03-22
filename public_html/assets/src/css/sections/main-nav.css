@@ -42,19 +42,19 @@
 	width: auto;
 }
 
-.social-buttons svg {
-	width: 30px;
-	height: auto;
-}
-.social-buttons li:not(.button--facebook) svg {
-	width: 20px;
-}
 #masthead .social-buttons li {
 	width: 50px;
 }
 #masthead .social-buttons a {
 	margin: 0 10px;
 	line-height: 40px;
+}
+.social-buttons svg {
+	width: 80%;
+	height: auto;
+}
+.social-buttons li.button--facebook svg {
+	width: 100%;
 }
 #masthead .social-buttons .stroke { stroke: #c3c3c3; }
 #masthead .social-buttons .fill { fill: #c3c3c3; }
@@ -79,6 +79,9 @@
 	.main-nav a {
 		border-top-style: solid;
 	}
+	#masthead > .subnav a {
+		border-bottom-style: solid;
+	}
 	#masthead > nav > .far-left,
 	#masthead > nav > .far-right {
 		flex-basis: 150px;
@@ -102,9 +105,27 @@
 	#masthead > nav > .far-right {
 		display: block;
 	}
-	#masthead > .main-nav {
+	#masthead > nav > .far-right {
+		position: absolute;
+		top: 18px;
+		right: 15px;
+	}
+	#masthead > .main-nav,
+	#masthead > .subnav {
 		position: static;
-		height: auto;
+		height: auto !important;
+	}
+	#masthead .social-buttons li {
+		width: 30px;
+	}
+	#masthead .social-buttons a {
+		margin: 0;
+	}
+	.social-buttons svg {
+		width: 60%;
+	}
+	.social-buttons li.button--facebook svg {
+		width: 80%;
 	}
 }
 
@@ -118,6 +139,5 @@
 }
 @media (max-width: 379px) {
 	#masthead nav > .horizontal-list.floats li {
-		display: block;
 	}
 }
