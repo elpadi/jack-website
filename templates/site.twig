@@ -24,7 +24,7 @@
 		{{ [
 			'main',
 		] | css | raw }}
-		{{ assets.css | css | raw }}
+		{% if assets is defined %}{{ assets.css | css | raw }}{% endif %}
 	</head>
 	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}" data-assets-url="{{ 'assets' | url }}">
 		{% import "macros/misc.twig" as misc %}
@@ -62,7 +62,7 @@
 			'bower_components/cookie/cookie',
 		] | js('src') | raw }}
 		{{ ['app'] | js | raw }}
-		{% if not assets.js is empty %}{{ assets.js | js | raw }}{% endif %}
+		{% if assets is defined %}{{ assets.js | js | raw }}{% endif %}
 		<!--script>
 			var _paq = _paq || [];
 			_paq.push(['setCustomVariable', 1, 'User ID', '{{ USER_ID }}', 'visit']);

@@ -7,10 +7,25 @@ class App extends \Jack\App {
 
 	public function __construct() {
 		parent::__construct();
-		$this->_framework = new \Slim\App(new \Slim\Container(['settings' => [
+		$c = new \Slim\Container(['settings' => [
 			'displayErrorDetails' => DEBUG,
 			'determineRouteBeforeAppMiddleware' => true,
-		]]));
+		]]);
+		if (!DEBUG) {
+			$c['errorHandler'] = function ($c) {
+				return function ($request, $response, $exception) use ($c) {
+					global $app;
+					return $app->errorResponse($c['response'], new \Exception('Unspecified error. Please contact us if the problem persists.', 500));
+				};
+			};
+		}
+		$c['notFoundHandler'] = function ($c) {
+			return function ($request, $response) use ($c) {
+				global $app;
+				return $app->errorResponse($c['response'], new \Exception('Page not found.', 404));
+			};
+		};
+		$this->_framework = new \Slim\App($c);
 	}
 
 	public function run() {

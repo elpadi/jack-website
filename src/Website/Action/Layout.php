@@ -28,6 +28,7 @@ class Layout extends Issue {
 	public function fetchLayout($issue, $slug) {
 		global $app;
 		$layout = cockpit('collections:findOne', sprintf('layouts%d', $issue['number']), compact('slug'));
+		if (!$layout) throw new \InvalidArgumentException("Layout '$slug' not found under issue '$issue[title]'.", 404);
 		$section = $this->fetchSection($issue, $layout);
 		$layout['editorial_url'] = $app->routeLookUp('editorial', ['slug' => $issue['slug']])."#$section[slug]";
 		$layout['src'] = $app->imageManager->imageUrl($app->url($layout['image']['path']), 'medium');
@@ -40,9 +41,9 @@ class Layout extends Issue {
 	}
 
 	protected function fetchData($args) {
-		if (($issue = $this->fetchIssue($args['slug'])) && ($layout = $this->fetchLayout($issue, $args['layout']))) {
-			$this->data = array_merge($args, compact('issue','layout'));
-		}
+		$issue = $this->fetchIssue($args['slug']);
+		$layout = $this->fetchLayout($issue, $args['layout']);
+		$this->data = array_merge($args, compact('issue','layout'));
 	}
 
 }

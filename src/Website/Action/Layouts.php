@@ -14,10 +14,11 @@ class Layouts extends Issue {
 		];
 	}
 
-	public function fetchLayouts() {
-		$part = intval($this->data['part']);
-		$layouts = cockpit('collections:find', sprintf('layouts%d', $this->data['issue']['number']));
+	public function fetchLayouts($issue, $part) {
+		$layouts = cockpit('collections:find', sprintf('layouts%d', $issue['number']));
+		if (empty($layouts)) throw new \InvalidArgumentException("No layouts found for issue $issue[number] - $issue[title].", 404);
 		$layouts = array_slice($layouts, ($part - 1) * count($layouts) / 2, round(count($layouts) / 2) - 1);
+		if (empty($layouts)) throw new \InvalidArgumentException("Part $part of issue '$issue[title]' not found.", 404);
 		foreach ($layouts as &$layout) {
 			$layout['image']['small'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'small');
 			$layout['image']['medium'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'medium');
@@ -30,10 +31,9 @@ class Layouts extends Issue {
 	}
 
 	protected function fetchData($args) {
-		if (($issue = $this->fetchIssue($args['slug']))) {
-			$this->data = array_merge($args, compact('issue'));
-			$this->data['layouts'] = $this->fetchLayouts();
-		}
+		$issue = $this->fetchIssue($args['slug']);
+		$layouts = $this->fetchLayouts($issue, intval($args['part']));
+		$this->data = array_merge($args, compact('issue','layouts'));
 	}
 
 }

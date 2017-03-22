@@ -18,20 +18,19 @@ abstract class Issue extends Page {
 	}
 
 	protected function fetchIssue($slug) {
-		return cockpit('collections:findOne', 'issues', compact('slug'));
+		$issue = cockpit('collections:findOne', 'issues', compact('slug'));
+		if (!$issue) throw new \InvalidArgumentException("Issue '$slug' not found.", 404);
+		return $issue;
 	}
 
 	protected function finalize($response) {
-		if (!isset($this->data['issue'])) return static::notFound($response);
 		$this->data['assets'] = array_merge_recursive($this->baseAssets(), $this->assets());
 		$this->data['ISSUE_SECTION'] = substr(strtolower(str_replace(__NAMESPACE__, '', get_class($this))), 1);
 		return parent::finalize($response);
 	}
 
 	protected function fetchData($args) {
-		if ($issue = $this->fetchIssue($args['slug'])) {
-			$this->data = array_merge($args, compact('issue'));
-		}
+		$this->data = array_merge($args, ['issue' => $this->fetchIssue($args['slug'])]);
 	}
 
 }

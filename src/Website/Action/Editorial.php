@@ -23,6 +23,7 @@ class Editorial extends Issue {
 	protected function fetchSections($issue, $part) {
 		global $app;
 		$sections = cockpit('collections:find', sprintf('sections%dx%d', $issue['number'], $part));
+		if (empty($sections)) throw new \InvalidArgumentException("No sections found for part $part of issue $issue[number] - $issue[title].", 404);
 		foreach ($sections as &$s) $s['url'] = $app->routeLookUp('section', [
 			'slug' => $issue['slug'],
 			'part' => $part,
@@ -32,16 +33,14 @@ class Editorial extends Issue {
 	}
 
 	protected function finalize($response) {
-		if (!isset($this->data['issue'])) return static::notFound($response);
 		$this->data['assets'] = array_merge_recursive($this->baseAssets(), $this->assets());
 		return parent::finalize($response);
 	}
 
 	protected function fetchData($args) {
-		if ($issue = $this->fetchIssue($args['slug'])) {
-			$sections = array_merge($this->fetchSections($issue, 1), $this->fetchSections($issue, 2));
-			$this->data = array_merge($args, compact('issue','sections'));
-		}
+		$issue = $this->fetchIssue($args['slug']);
+		$sections = array_merge($this->fetchSections($issue, 1), $this->fetchSections($issue, 2));
+		$this->data = array_merge($args, compact('issue','sections'));
 	}
 
 }

@@ -23,9 +23,11 @@ class Section extends Issue {
 	}
 
 	protected function fetchSection($number, $slug) {
-		return F\head(F\select(F\map([1,2], function($part) use ($number, $slug) {
+		$section = F\head(F\select(F\map([1,2], function($part) use ($number, $slug) {
 			return cockpit('collections:findOne', sprintf('sections%dx%d', $number, $part), compact('slug'));
 		}), 'Functional\id'));
+		if (!$section) throw new \InvalidArgumentException("Section '$slug' not found under issue number $number.", 404);
+		return $section;
 	}
 
 	protected function metaTitle() {
@@ -33,11 +35,11 @@ class Section extends Issue {
 	}
 
 	protected function fetchData($args) {
-		if (($issue = $this->fetchIssue($args['slug'])) && ($section = $this->fetchSection($issue['number'], $args['section']))) {
-			$this->data = array_merge($args, compact('issue','section'));
-			$this->data['layouts'] = F\map($this->data['section']['layouts'], [$this, 'fetchLayout']);
-			unset($this->data['section']['layouts']);
-		}
+		$issue = $this->fetchIssue($args['slug']);
+		$section = $this->fetchSection($issue['number'], $args['section']);
+		$this->data = array_merge($args, compact('issue','section'));
+		$this->data['layouts'] = F\map($this->data['section']['layouts'], [$this, 'fetchLayout']);
+		unset($this->data['section']['layouts']);
 	}
 
 }
