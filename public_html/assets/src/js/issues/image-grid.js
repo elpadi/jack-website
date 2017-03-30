@@ -10,10 +10,11 @@ Object.defineProperty(LayoutGrid.prototype, 'init', {
 		ImageGrid.prototype.init.call(this);
 		this.resize();
 		this.loadImage(this.container.find('article').get(0));
-		if (!App.IS_PHONE) this.container.on('click', 'a', this.onLayoutClick.bind(this));
+		//if (!App.IS_PHONE) this.container.on('click', 'a', this.onLayoutClick.bind(this));
 	}
 });
 
+/*
 Object.defineProperty(LayoutGrid.prototype, 'createArrowButton', {
 	value: function createArrowButton(name) {
 		return $('#arrow-icon').clone().attr('id', '').addClass('icon--' + name)
@@ -29,7 +30,9 @@ Object.defineProperty(LayoutGrid.prototype, 'createInfoButton', {
 			.append($('#info-icon').children().clone());
 	}
 });
+*/
 
+/*
 Object.defineProperty(LayoutGrid.prototype, 'showLayout', {
 	value: function showLayout(data) {
 		console.log('showLayout', data.layout.slug, App.instance.time());
@@ -48,7 +51,9 @@ Object.defineProperty(LayoutGrid.prototype, 'showLayout', {
 		App.instance.loadModal.removeClass('loading').append(container);
 	}
 });
+*/
 
+/*
 Object.defineProperty(LayoutGrid.prototype, 'hide', {
 	value: function hide(switching) {
 		console.log('hide', switching, App.instance.time());
@@ -67,7 +72,9 @@ Object.defineProperty(LayoutGrid.prototype, 'hide', {
 		}
 	}
 });
+*/
 
+/*
 Object.defineProperty(LayoutGrid.prototype, 'selectLayout', {
 	value: function selectLayout(item, url) {
 		console.log('selectLayout', this.currentIndex, item);
@@ -91,6 +98,7 @@ Object.defineProperty(LayoutGrid.prototype, 'onLayoutClick', {
 		this.selectLayout($(e.currentTarget).closest('article'), e.currentTarget.href);
 	}
 });
+*/
 
 Object.defineProperty(LayoutGrid.prototype, 'loadImage', {
 	value: function loadImage(item) {

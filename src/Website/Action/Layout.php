@@ -12,7 +12,7 @@ class Layout extends Issue {
 	protected function assets() {
 		return [
 			'css' => ['issues/layout'],
-			'js' => [],
+			'js' => ['issues/layout'],
 		];
 	}
 

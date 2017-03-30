@@ -20,7 +20,7 @@ $routes[] = array(
 		),
 		array(
 			'name' => 'layouts',
-			'path' => '/{slug}/layouts/part-{part:[0-9]+}',
+			'path' => '/{slug}/layouts[/part-{part:[0-9]+}]',
 		),
 		array(
 			'name' => 'layout',

@@ -20,6 +20,8 @@
 		{{ [
 			'bower_components/loaders.css/loaders',
 			'bower_components/modal/stylesheets/jquery.modal',
+			'bower_components/slick-carousel/slick/slick',
+			'bower_components/slick-carousel/slick/slick-theme',
 		] | css('src') | raw }}
 		{{ [
 			'main',
@@ -54,15 +56,18 @@
 		{% block extra_content %}{% endblock %}
 		{% block footer %}{% endblock %}
 		{{ [
-			'bower_components/jquery/dist/jquery.slim',
+			'bower_components/jquery/dist/jquery',
 			'bower_components/underscore/underscore',
 			'bower_components/fetch/fetch',
 			'bower_components/shuffle-array/dist/shuffle-array',
 			'bower_components/modal/javascripts/jquery.modal',
 			'bower_components/loaders.css/loaders.css',
 			'bower_components/cookie/cookie',
+			'bower_components/slick-carousel/slick/slick',
 		] | js('src') | raw }}
 		{{ ['app'] | js | raw }}
+		<script>Object.defineProperty(App, 'BASE_URL', { value: "{{ '' | url }}" });</script>
+		<script>Object.defineProperty(App, 'ASSETS_URL', { value: "{{ '' | asset_url }}" });</script>
 		{% if assets is defined %}{{ assets.js | js | raw }}{% endif %}
 		<!--script>
 			var _paq = _paq || [];

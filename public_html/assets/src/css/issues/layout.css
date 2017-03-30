@@ -10,3 +10,50 @@
 #content img {
 	display: block;
 }
+.js #content > img {
+	display: none;
+}
+#slideshow {
+	background-color: white;
+	overflow: hidden;
+	transition: height 500ms;
+}
+@media (min-width: 670px) {
+	#content {
+		padding-top: 67px;
+	}
+	#slideshow img {
+		width: 100vw;
+		height: calc(100vh - 67px);
+		object-fit: contain;
+	}
+}
+.slick-slide {
+	opacity: 0;
+	transition: opacity 500ms linear 1s;
+}
+.slick-current {
+	opacity: 1;
+}
+.slick-arrow {
+	width: 5vw;
+	height: 8vw;
+	z-index: 3;
+	opacity: 0;
+	transition: opacity 500ms linear;
+	top: calc(50% - 4vw);
+}
+#slideshow:hover .slick-arrow {
+	opacity: 1;
+}
+.slick-arrow::before {
+	display: none;
+}
+.slick-prev {
+	left: 2vw;
+	margin-left: 0 !important;
+}
+.slick-next {
+	right: 2vw;
+	transform: none;
+}
