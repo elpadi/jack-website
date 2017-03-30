@@ -53,7 +53,7 @@ Object.defineProperty(Intro.prototype, 'next', {
 Object.defineProperty(Intro.prototype, 'startIntro', {
 	value: function startIntro(data) {
 		this.container = document.createElement('div');
-		this.container.className = 'intro-container';
+		this.container.className = 'intro-container foreground';
 		document.getElementById('content').appendChild(this.container);
 		this.images = data.images;
 		this.images.logo = document.getElementById('masthead').getElementsByTagName('svg')[0].cloneNode(true);

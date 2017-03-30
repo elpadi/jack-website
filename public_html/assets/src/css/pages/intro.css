@@ -1,3 +1,11 @@
+.js body:not(.intro-finished) #content {
+	padding: 0 !important;
+}
+.js body:not(.intro-finished) .post-intro-fade {
+	margin-top: 0 !important;
+	position: absolute;
+}
+
 .js .post-intro-fade {
 	visibility: hidden;
 	opacity: 0;

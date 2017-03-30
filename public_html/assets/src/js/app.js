@@ -118,9 +118,7 @@ Object.defineProperty(App.prototype, 'delayPromise', {
 
 Object.defineProperty(App.prototype, 'fetch', {
 	value: function fetch(url) {
-		var headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-		return window.fetch(url, { headers: headers }).then(function(response) {
+		return window.fetch(url, { headers: { 'Content-Type': 'application/json' } }).then(function(response) {
 			if (response.ok) return response.json();
 			console.error("Fetching of resource failed.", response);
 		});

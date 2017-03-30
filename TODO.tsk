@@ -12,9 +12,14 @@ Item types: [Issue, (Issue) Poster]
 </description>
 </task>
 <task actualstartdate="2017-03-22 11:14:14.276029" completiondate="2017-03-22 12:27:20.212252" creationDateTime="2016-12-26 10:07:57.252000" id="1571f840-cb7d-11e6-a5e2-fc15b4fd41b4" modificationDateTime="2017-03-22 12:27:20.211833" percentageComplete="100" status="1" subject="editorial image grid responsive" />
-<task actualstartdate="2017-03-22 11:14:00.313873" creationDateTime="2016-12-26 10:08:17.924000" id="21c44440-cb7d-11e6-a452-fc15b4fd41b4" modificationDateTime="2017-03-22 11:14:00.313566" status="1" subject="general responsive layouts" />
+<task actualstartdate="2017-03-22 11:14:00.313873" completiondate="2017-03-23 15:48:25.781961" creationDateTime="2016-12-26 10:08:17.924000" id="21c44440-cb7d-11e6-a452-fc15b4fd41b4" modificationDateTime="2017-03-23 15:48:25.781546" percentageComplete="100" status="1" subject="general responsive layouts" />
 <task actualstartdate="2017-03-22 11:14:05.578607" completiondate="2017-03-22 14:53:30.985588" creationDateTime="2016-12-26 10:08:29.304000" id="288cb780-cb7d-11e6-b738-fc15b4fd41b4" modificationDateTime="2017-03-22 14:53:30.985177" percentageComplete="100" status="1" subject="error pages" />
-<task actualstartdate="2017-03-22 11:14:09.773651" creationDateTime="2016-12-26 10:08:39.803000" id="2ecebcb0-cb7d-11e6-8858-fc15b4fd41b4" modificationDateTime="2017-03-22 11:14:09.773369" status="1" subject="FOUC on js layouts" />
+<task actualstartdate="2017-03-22 11:14:09.773651" creationDateTime="2016-12-26 10:08:39.803000" id="2ecebcb0-cb7d-11e6-8858-fc15b4fd41b4" modificationDateTime="2017-03-23 15:49:21.890739" status="1" subject="FOUC on js layouts">
+<description>
+Slow startup on scrolling editorial
+Loading spinners on image grid
+</description>
+</task>
 <task completiondate="2016-12-26 10:07:18.962000" creationDateTime="2016-11-22 14:55:40.773908" id="a542e826-b0ed-11e6-8111-0022fa33187c" modificationDateTime="2016-12-26 10:07:18.962000" percentageComplete="100" status="1" subject="Add poster image script">
 <description>
 All poster images on frontend must go through script.
