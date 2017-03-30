@@ -28,7 +28,11 @@
 		object-fit: contain;
 	}
 }
+.slick-loading {
+	visibility: hidden;
+}
 .slick-slide {
+	background: white url(../../bower_components/slick-carousel/slick/ajax-loader.gif) center center no-repeat;
 	opacity: 0;
 	transition: opacity 500ms linear 1s;
 }
@@ -36,12 +40,12 @@
 	opacity: 1;
 }
 .slick-arrow {
-	width: 5vw;
-	height: 8vw;
+	width: 25px;
+	height: 40px;
 	z-index: 3;
 	opacity: 0;
 	transition: opacity 500ms linear;
-	top: calc(50% - 4vw);
+	top: calc(50% - 20px);
 }
 #slideshow:hover .slick-arrow {
 	opacity: 1;
@@ -50,10 +54,10 @@
 	display: none;
 }
 .slick-prev {
-	left: 2vw;
+	left: 10px;
 	margin-left: 0 !important;
 }
 .slick-next {
-	right: 2vw;
+	right: 10px;
 	transform: none;
 }

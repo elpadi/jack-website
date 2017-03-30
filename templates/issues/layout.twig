@@ -4,8 +4,8 @@
 {% endblock %}
 {% block content %}
 <h1 class="screen-reader-text">{{ layout.title }}</h1>
-<img src="{{ layout.src }}" srcset="{{ layout.srcset }}" alt="" sizes="100vw">
-<div class="js-content">
+<noscript><img src="{{ layout.src }}" srcset="{{ layout.srcset }}" alt="" sizes="100vw"></noscript>
+<div style="display: none;">
 	<span id="info-icon" class="svg-icon icon--info">{{ 'svg/info.svg' | asset_url | source | raw }}</span>
 	<button id="arrow-icon" class="svg-icon icon--arrow plain">{{ 'svg/arrow.svg' | asset_url | source | raw }}</button>
 </div>
