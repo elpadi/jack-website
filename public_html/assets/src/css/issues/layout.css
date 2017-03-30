@@ -32,6 +32,7 @@
 	visibility: hidden;
 }
 .slick-slide {
+	outline-style: none;
 	background: white url(../../bower_components/slick-carousel/slick/ajax-loader.gif) center center no-repeat;
 	opacity: 0;
 	transition: opacity 500ms linear 1s;
