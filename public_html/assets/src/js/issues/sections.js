@@ -1,117 +1,56 @@
-function SectionsScroll() {
-  SynchScroll.call(this);
-}
-
-SectionsScroll.prototype = Object.create(SynchScroll.prototype);
-SectionsScroll.prototype.constructor = SectionsScroll;
-
-Object.defineProperty(SectionsScroll.prototype, 'init', {
-	value: function init() {
-		SynchScroll.prototype.init.call(this);
-		$('.issue-sections').addClass('synch-scroll');
-		this.matchFixed();
-		this.issueSections = new IssueSections(this.left);
-		Promise.all([App.instance.delayPromise(100), this.issueSections.fetchLayouts()]).then(function() {
-			this.scrollItems = this.left.children();
-			this.initPosMatch();
-		}.bind(this));
-		this.fixedItems = this.right.children();
-	}
-});
-
-Object.defineProperty(SectionsScroll.prototype, 'resize', {
-	value: function resize() {
-		this.matchFixed();
-	}
-});
-
-Object.defineProperty(SectionsScroll.prototype, 'matchFixed', {
-	value: function matchFixed() {
-		var rect = this.right.get(0).getBoundingClientRect();
-		this.right.children().css({
-			width: Math.round(rect.width) + 'px',
-			left: Math.round(rect.left) + 'px'
-		});
-	}
-});
-
-function IssueSections(container) {
-	this.container = container;
+function IssueSections() {
+	this.scrollValues = [];
+	this.active = [];
 }
 
 Object.defineProperty(IssueSections.prototype, 'init', {
 	value: function init() {
-		this.fetchLayouts();
+		this.top = document.getElementById('issue-sections').offsetTop;
+		this.sections = Array.from(document.getElementsByClassName('issue-section'));
+		this.texts = Array.from(document.getElementsByClassName('section-text'));
+		this.loadLayouts(this.sections[0], 0);
 	}
 });
 
-Object.defineProperty(IssueSections.prototype, 'onLayoutsFetchEnd', {
-	value: function onLayoutsFetchEnd() {
-		console.log('onLayoutsFetchEnd');
-		this.resolve();
-	}
-});
-
-Object.defineProperty(IssueSections.prototype, 'fetchLayout', {
-	value: function fetchLayout(section, layout) {
-		return App.instance.loadPromise(layout.image).then(function(img) {
-			var title = document.createElement('h2');
-			title.innerHTML = layout.title;
-			img.alt = '';
-			section.appendChild(title);
-			section.appendChild(img);
-			setTimeout(function() { img.style.opacity = '1'; }, 100);
-			return img;
+Object.defineProperty(IssueSections.prototype, 'loadLayouts', {
+	value: function loadLayouts(section, index) {
+		var promises = Array.from(section.getElementsByClassName('section-layout')).map(function(p) {
+			var promise = App.instance.loadPromise(p.dataset);
+			promise.then(function(img) { p.appendChild(img); });
+			return promise;
 		});
+		Promise.all(promises).then(function() { this.onLayoutsLoaded(section, index); }.bind(this));
 	}
 });
 
-Object.defineProperty(IssueSections.prototype, 'fetchLayoutImages', {
-	value: function fetchLayoutImages(slug, data) {
-		var section = document.createElement('article');
-		section.className = 'section__layouts synch-scroll__item';
-		section.dataset.slug = slug;
-		section.id = slug;
-		if (!data) {
-			console.warn('insertLayouts', 'no data', slug);
-			return Promise.resolve(section);
+Object.defineProperty(IssueSections.prototype, 'onLayoutsLoaded', {
+	value: function onLayoutsLoaded(section, index) {
+		setTimeout(function() {
+			this.scrollValues.push({
+				top: section.offsetTop - this.top,
+				max: section.offsetHeight - this.texts[index].offsetHeight
+			});
+			section.style.height = section.offsetHeight + 'px';
+			section.classList.add('loaded');
+		}.bind(this), 100);
+		if (section.nextElementSibling) this.loadLayouts(section.nextElementSibling, index + 1);
+		else setTimeout(this.onAllLayoutsLoaded.bind(this), 200);
+	}
+});
+
+Object.defineProperty(IssueSections.prototype, 'onAllLayoutsLoaded', {
+	value: function onAllLayoutsLoaded() {
+		console.log(this.scrollValues);
+	}
+});
+
+if (window.innerWidth >= 768) {
+	Object.defineProperty(IssueSections.prototype, 'scroll', {
+		value: function scroll(scrollY) {
+			for (var i = 0, l = this.scrollValues.length; i < l; i++)
+				$(this.texts[i]).css('transform', 'translateY(' + Math.max(0, Math.min(this.scrollValues[i].max, scrollY - this.scrollValues[i].top)) + 'px)');
 		}
-		return new Promise(function(resolve, reject) {
-			var layouts = Array.from(data.layouts);
-			var next = function next() {
-				var layout = layouts.shift();
-				if (layout) this.fetchLayout(section, layout).then(next.bind(this));
-				else resolve(section);
-			}.bind(this);
-			next();
-		}.bind(this));
-	}
-});
+	});
+}
 
-Object.defineProperty(IssueSections.prototype, 'fetchNextLayouts', {
-	value: function fetchNextLayouts($node) {
-		if ($node.length === 0) {
-			this.onLayoutsFetchEnd();
-			return false;
-		}
-		return App.instance.fetch($node.data('url'))
-			.then(_.bind(this.fetchLayoutImages, this, $node.data('slug')))
-			.then(function(section) { (this.container ? this.container : $node).append(section); }.bind(this))
-			.then(_.bind(this.fetchNextLayouts, this, $node.next()));
-	}
-});
-
-Object.defineProperty(IssueSections.prototype, 'fetchLayouts', {
-	value: function fetchLayouts(items) {
-		this.fetchNextLayouts($('.issue-sections').find('article').first());
-		setTimeout(function() { $('.section-texts').css('opacity', '1'); }, 100);
-		return new Promise(function(resolve, reject) {
-			this.resolve = resolve;
-		}.bind(this));
-	}
-});
-
-
-// Do not run on mobile devices, since position fixed can be tricky
-if (!App.instance.isHandheld) App.instance.addChild('sections-scroll', new SectionsScroll());
-else App.instance.addChild('issue-sections', new IssueSections());
+App.instance.addChild('issue-sections', new IssueSections());

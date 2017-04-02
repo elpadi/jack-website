@@ -3,21 +3,28 @@
 {% include "snippets/issues_subnav.twig" %}
 {% endblock %}
 {% block content %}
-<section class="issue-sections">
-	<main class="section-texts synch-scroll__fixed synch-scroll--right">
-		{% for section in sections %}
-		<article class="section-text synch-scroll__item" data-url="{{ section.url }}" data-slug="{{ section.slug }}">
+<section id="issue-sections" class="issue-sections">
+	{% for section in sections %}
+	<article class="issue-section" data-url="{{ section.url }}" data-slug="{{ section.slug }}">
+		<aside class="section-layouts tc">
+			{% for layout in section.layouts %}
+			<p class="section-layout" data-src="{{ layout.src }}" data-srcset="{{ layout.srcset }}" data-sizes="50vw">
+				<noscript>
+					<h2 class="screen-reader-text">{{ layout.title }}</h2>
+					<img src="{{ layout.src }}" alt="">
+				</noscript>
+			</p>
+			{% endfor %}
+		</aside>
+		<main class="section-text">
 			<header>
-				<noscript><h1><a href="{{ section.url }}">{{ section.title }}</a></h1></noscript>
 				<h1>{{ section.title }}</h1>
 				{% if section.subtitle %}<h2 class="lowercase">{{ section.subtitle }}</h2>{% endif %}
 				{% if section.tags %}<p class="tags">{{ section.tags | pluck('value') | join('/') }}</p>{% endif %}
 			</header>
-			<main>
-				{{ section.description | raw }}
-			</main>
-		</article>
-		{% endfor %}
-	</main>
-	<aside class="section-layouts synch-scroll--left tc"></aside>
+			<div>{{ section.description | raw }}</div>
+		</main>
+	</article>
+	{% endfor %}
+</section>
 {% endblock %}

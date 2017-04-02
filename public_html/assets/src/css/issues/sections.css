@@ -1,79 +1,76 @@
-body[data-template-path~="sections"] #content {
-	margin-top: 100px;
+@media (min-width: 670px) {
+	#content {
+		padding-top: 90px;
+	}
 }
 .issue-sections {
 	max-width: 1280px;
 	margin: 0 auto;
+	overflow: auto;
 }
-.issue-sections .synch-scroll__item {
-	margin-bottom:  50px;
+.issue-section {
+	position: relative;
+	overflow: auto;
+	margin-top: 114px;
 }
-.issue-sections.synch-scroll .synch-scroll__item {
-	margin: 150px auto;
-}
-.issue-sections .synch-scroll__item:first-child {
+.issue-section:nth-of-type(1) {
 	margin-top: 0;
 }
-.section-texts {
+
+@media (min-width: 768px) {
+	.issue-section > aside {
+		float: left;
+		width: 60%;
+	}
+	.issue-section > main {
+		float: right;
+		width: 40%;
+	}
+	.issue-section.loaded > main {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.section-layouts p {
+		margin-bottom: 36px;
+	}
+	.issue-sections h1 {
+		margin-top: 0;
+		line-height: 1;
+	}
+	.section-text {
+		padding: 0 1em 0 2em;
+	}
 }
-.section-text {
-	padding: 0 1em 0 2em;
+
+
+.section-layouts p {
+	margin-top: 0;
+	margin-bottom: 1em;
 }
-.section-text h1 {
-	line-height: 1;
-	margin: 0;
-}
+
 .section-text .tags {
 	margin-bottom: 2em;
 }
-#content .section-text main {
+#content .section-text div {
 	color: #b3b0b0;
 	margin-top: 1em;
 }
-#content .section-text main p {
+#content .section-text div p {
 	padding: 0;
 	max-width: 100%;
 }
-#content .section-text h2,
+.issue-sections h2,
 #content .section-text > .right > p {
 	margin: 0;
 }
-#content .section-text h2 {
+.issue-sections h2 {
 	font-size: 1.17em;
 }
 
-.section-layouts {
-}
-.section-layouts h2 {
-	visibility: hidden;
-	line-height: 1;
-	margin: 0;
-}
-.synch-scroll .section-layouts h2:first-child {
-	height: 0;
-}
 .section-layouts img {
 	padding: 0;
-	max-width: 100%;
+	display: block;
+	max-width: 100% !important;
 }
 
-@media (min-width: 980px) {
-	.js .synch-scroll > .synch-scroll__fixed .synch-scroll__item {
-		margin: 0;
-		top: 0;
-		right: 0;
-		transform: translateY(-100%);
-	}
-	.js .section-text:not {
-		visibility: hidden;
-	}
-	.js .section-text:nth-child(1) {
-		visibility: visible;
-	}
-}
-
-.js .section-texts,
-.js .section-layouts img {
-	opacity: 0;
-	transition: opacity 1s linear;
-}

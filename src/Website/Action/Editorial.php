@@ -11,8 +11,8 @@ class Editorial extends Issue {
 
 	protected function assets() {
 		return [
-			'css' => ['layouts/synch-scroll','issues/sections'],
-			'js' => ['layouts/synch-scroll','issues/sections'],
+			'css' => ['issues/sections'],
+			'js' => ['issues/sections'],
 		];
 	}
 
@@ -24,11 +24,20 @@ class Editorial extends Issue {
 		global $app;
 		$sections = cockpit('collections:find', sprintf('sections%dx%d', $issue['number'], $part));
 		if (empty($sections)) throw new \InvalidArgumentException("No sections found for part $part of issue $issue[number] - $issue[title].", 404);
-		foreach ($sections as &$s) $s['url'] = $app->routeLookUp('section', [
-			'slug' => $issue['slug'],
-			'part' => $part,
-			'section' => $s['slug'],
-		]);
+		foreach ($sections as &$s) {
+			$s['url'] = $app->routeLookUp('section', [
+				'slug' => $issue['slug'],
+				'part' => $part,
+				'section' => $s['slug'],
+			]);
+			$s['layouts'] = array_map(function($field) {
+				global $app;
+				$layout = cockpit('collections:findOne', $field['field']['options']['link'], ['_id' => $field['value']['_id']]);
+				$layout['src'] = $app->imageManager->imageUrl($app->url($layout['image']['path']), 'medium');
+				$layout['srcset'] = $app->imageManager->responsiveImageSrcset($app->url($layout['image']['path']), ['medium','large']);
+				return $layout;
+			}, $s['layouts']);
+		}
 		return $sections;
 	}
 
