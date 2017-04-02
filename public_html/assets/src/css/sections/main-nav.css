@@ -43,10 +43,10 @@
 }
 
 #masthead .social-buttons li {
-	width: 50px;
+	width: 40px;
 }
 #masthead .social-buttons a {
-	margin: 0 10px;
+	margin: 0 5px;
 	line-height: 40px;
 }
 .social-buttons svg {
