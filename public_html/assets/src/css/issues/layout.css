@@ -20,11 +20,11 @@
 }
 @media (min-width: 670px) {
 	#content {
-		padding-top: 67px;
+		padding-top: 65px;
 	}
 	#slideshow img {
 		width: 100vw;
-		height: calc(100vh - 67px);
+		height: calc(100vh - 65px);
 		object-fit: contain;
 	}
 }

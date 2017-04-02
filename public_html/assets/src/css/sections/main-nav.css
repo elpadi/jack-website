@@ -58,9 +58,6 @@
 }
 #masthead .social-buttons .stroke { stroke: #c3c3c3; }
 #masthead .social-buttons .fill { fill: #c3c3c3; }
-#masthead .social-buttons a:hover .stroke { stroke: black; }
-#masthead .social-buttons a:hover .fill { fill: black; }
-
 @media (min-width: 670px) {
 	#masthead > nav {
 		position: fixed;
@@ -139,5 +136,10 @@
 }
 @media (max-width: 379px) {
 	#masthead nav > .horizontal-list.floats li {
+	}
+}
+@media (min-width: 670px) {
+	#masthead > .main-nav > .far-right {
+		padding-top: 10px;
 	}
 }

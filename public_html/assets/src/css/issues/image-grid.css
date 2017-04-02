@@ -1,6 +1,10 @@
-body[data-template-path="issues grid"] #content {
-	padding-left: 0;
-	padding-right: 0;
+@media (min-width: 670px) {
+	#content {
+		padding: 65px 0 0;
+		background: white url(../../bower_components/slick-carousel/slick/ajax-loader.gif) center 200px no-repeat;
+		min-height: calc(100vh - 65px);
+		overflow: auto;
+	}
 }
 
 .js .image-grid__item header {
