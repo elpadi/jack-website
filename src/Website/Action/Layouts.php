@@ -22,8 +22,7 @@ class Layouts extends Issue {
 		}
 		if (empty($layouts)) throw new \InvalidArgumentException("Part $part of issue '$issue[title]' not found.", 404);
 		foreach ($layouts as &$layout) {
-			$layout['image']['small'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'small');
-			$layout['image']['medium'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'medium');
+			$layout['image']['src'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($layout['image']['path']), 'large');
 		}
 		return $layouts;
 	}

@@ -7,17 +7,7 @@
 	{% for layout in layouts %}
 	<article class="image-grid__item">
 		<header><h2>{{ layout.title }}</h2></header>
-		<main><a href="{{ urlFor('layout', { slug: issue.slug, layout: layout.slug }) }}" data-image="{{ layout.image.small }}">{{ layout.title }}</a></main>
-	</article>
-	{% endfor %}
-</section>
-<section class="image-grid" data-col-count="8" data-size="medium">
-	{% for layout in layouts %}
-	<article class="image-grid__item">
-		<header><h2>{{ layout.title }}</h2></header>
-		<main>
-			<a href="{{ urlFor('layout', { slug: issue.slug, layout: layout.slug }) }}" data-image="{{ layout.image.medium }}">{{ layout.title }}</a>
-		</main>
+		<main><a href="{{ urlFor('layout', { slug: issue.slug, layout: layout.slug }) }}" data-image="{{ layout.image.src }}">{{ layout.title }}</a></main>
 	</article>
 	{% endfor %}
 </section>

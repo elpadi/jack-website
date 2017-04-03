@@ -21,14 +21,3 @@
 .image-grid__item {
 	display: inline-block;
 }
-
-@media (min-width: 980px) {
-	.image-grid[data-size="small"] {
-		display: none;
-	}
-}
-@media (max-width: 979px) {
-	.image-grid[data-size="medium"] {
-		display: none;
-	}
-}

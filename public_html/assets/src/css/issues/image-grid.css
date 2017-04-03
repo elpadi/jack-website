@@ -12,13 +12,10 @@
 }
 
 .image-grid main,
-.image-grid a {
-	display: inline-block;
-}
-.image-grid main,
 .image-grid a,
 .image-grid img {
 	height: 100%;
+	display: block;
 }
 .image-grid img {
 }
@@ -72,4 +69,11 @@
 .vignette {
 	background-color: white;
 	opacity: 1;
+}
+
+.image-grid__item:first-child:last-child,
+.image-grid__item:first-child:last-child main,
+.image-grid__item:first-child:last-child a,
+.image-grid__item:first-child:last-child img {
+	height: auto;
 }

@@ -57,7 +57,7 @@ Object.defineProperty(ImageGrid.prototype, 'organize', {
 				node.appendChild(items[index].node);
 				ar += parseFloat(items[index].node.dataset.ar);
 			});
-			node.style.height = (100 / ar).toFixed(2) + 'vw';
+			if (row.length > 1) node.style.height = (100 / ar).toFixed(2) + 'vw';
 		}.bind(this));
 	}
 });
