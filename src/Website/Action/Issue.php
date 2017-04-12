@@ -14,7 +14,7 @@ abstract class Issue extends Page {
 	}
 
 	protected function metaTitle() {
-		return sprintf('%s | Issue #%d | Cover | Jack Magazine', $this->data['issue']['title'], $this->data['issue']['number']);
+		return sprintf('%s | Issue #%d | Jack Magazine', $this->data['issue']['title'], $this->data['issue']['number']);
 	}
 
 	protected function fetchIssue($slug) {

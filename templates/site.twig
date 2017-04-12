@@ -9,10 +9,15 @@
 		{% block head %}
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="canonical" href="{{ CANONICAL_URL }}">
 		<title>{{ META_TITLE }}</title>
 		{% if META_DESCRIPTION is defined %}<meta name="description" content="{{ META_DESCRIPTION.content }}">{% endif %}
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		{% for key, val in OG_TAGS %}
+		<meta property="og:{{ key }}" content="{{ val }}">
+		{% endfor %}
+		
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		{% endblock %}
@@ -68,6 +73,7 @@
 		{{ ['app'] | js | raw }}
 		<script>Object.defineProperty(App, 'BASE_URL', { value: "{{ '' | url }}" });</script>
 		<script>Object.defineProperty(App, 'ASSETS_URL', { value: "{{ '' | asset_url }}" });</script>
+		<script>Object.defineProperty(App, 'HTTP_REFERER', { value: "{{ SERVER.HTTP_REFERER }}" });</script>
 		{% if assets is defined %}{{ assets.js | js | raw }}{% endif %}
 		<!--script>
 			var _paq = _paq || [];

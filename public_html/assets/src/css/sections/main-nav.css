@@ -45,9 +45,13 @@
 #masthead .social-buttons li {
 	width: 40px;
 }
+#masthead .social-buttons li.button-facebook {
+	width: 35px;
+}
 #masthead .social-buttons a {
 	margin: 0 5px;
 	line-height: 40px;
+	width: 35px;
 }
 .social-buttons svg {
 	width: 80%;
@@ -91,6 +95,7 @@
 	}
 	.social-buttons {
 		float: right;
+		margin-right: 5px;
 	}
 }
 

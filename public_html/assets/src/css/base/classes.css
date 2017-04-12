@@ -12,7 +12,7 @@
 .invisible { position:absolute; visibility:hidden; }
 .invisible.visible { visibility:visible; }
 .no-underline a, a.no-underline { text-decoration:none; }
-a.plain { text-decoration:none; color:inherit; }
+a.plain { text-decoration:none; color:inherit; outline-style: none; }
 .no-js .js-content,
 .js .js-content:not(.invisible) {
 	display:none;
@@ -41,6 +41,7 @@ body[data-template-path~="contact"] form::after,
 .slider-controls button,
 button.bg-icon-button,
 button.icon-button,
+button.svg-button,
 button.plain,
 .clean-button,
 .article-tiles nav a {
@@ -165,9 +166,9 @@ button.plain,
 
 .svg-button svg,
 .svg-image {
-	max-height:100%;
-	max-width:100%;
-	pointer-events:none;
+	max-height: 100%;
+	max-width: 100%;
+	pointer-events: none;
 }
 svg .stroke { transition: stroke 0.2s linear; }
 svg .fill { transition: fill 0.2s linear; }

@@ -8,5 +8,33 @@
 <div style="display: none;">
 	<span id="info-icon" class="svg-icon icon--info">{{ 'svg/info.svg' | asset_url | source | raw }}</span>
 	<button id="arrow-icon" class="svg-icon icon--arrow plain">{{ 'svg/arrow.svg' | asset_url | source | raw }}</button>
+	<nav id="slideshow-controls">
+		<button id="prev" class="svg-button svg-icon icon--arrow icon--prev">{{ 'svg/arrow.svg' | asset_url | source | raw }}</button>
+		<button id="next" class="svg-button svg-icon icon--arrow icon--next">{{ 'svg/arrow.svg' | asset_url | source | raw }}</button>
+		<button id="thumbs" class="svg-button svg-icon icon--thumbs" data-url="{{ layout.layouts_url }}">{{ 'svg/thumbs.svg' | asset_url | source | raw }}</button>
+		<button id="fullscreen" class="svg-button svg-icon icon--fullscreen">{{ 'svg/fullscreen.svg' | asset_url | source | raw }}</button>
+		<a id="facebook" class="svg-button svg-icon icon--facebook plain" href="https://www.facebook.com/sharer.php" target="_blank">{{ 'svg/facebook.svg' | asset_url | source | raw }}</a>
+		<a id="twitter" class="svg-button svg-icon icon--twitter plain" href="https://twitter.com/intent/tweet" target="_blank">{{ 'svg/twitter.svg' | asset_url | source | raw }}</a>
+	</nav>
 </div>
+<script>
+/*
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId      : '771093439713963',
+			xfbml      : true,
+			version    : 'v2.8'
+		});
+		FB.AppEvents.logPageView();
+	};
+
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	*/
+</script>
 {% endblock %}

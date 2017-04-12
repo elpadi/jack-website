@@ -125,6 +125,38 @@ Object.defineProperty(App.prototype, 'fetch', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'isFullscreen', {
+	value: function isFullscreen() {
+		return ['fullscreenElement','webkitFullscreenElement','mozFullScreenElement','msFullscreenElement','webkitFullscreenElement','webkitFullscreenElement'].some(function(prop) {
+			return (prop in document) && document[prop];
+		});
+	}
+});
+
+Object.defineProperty(App.prototype, 'goFullscreen', {
+	value: function goFullscreen(node) {
+		var fn = ['requestFullscreen','webkitRequestFullscreen','mozRequestFullScreen','msRequestFullscreen','webkitRequestFullscreen','webkitRequestFullscreen'].filter(function(fn) {
+			return (fn in node);
+		});
+		if (fn.length) {
+			node[fn[0]].call(node);
+			document.body.classList.add('fullscreen');
+		}
+	}
+});
+
+Object.defineProperty(App.prototype, 'exitFullscreen', {
+	value: function exitFullscreen() {
+		var fn = ['exitFullscreen','webkitExitFullscreen','mozCancelFullScreen','msExitFullscreen','webkitExitFullscreen','webkitExitFullscreen'].filter(function(fn) {
+			return (fn in document);
+		});
+		if (fn.length) {
+			document[fn[0]].call(document);
+			document.body.classList.remove('fullscreen');
+		}
+	}
+});
+
 Object.defineProperty(App.prototype, 'init', {
 	value: function init() {
 		if (Object.keys(this.children).some(function(name) {
@@ -143,4 +175,10 @@ App.instance = new App();
 	$(window).on('resize', function() {
 		App.instance.dispatchEvent('resize');
 	});
+	var mousemoveTimeoutId = 0, clearMousemove = function() { document.body.classList.remove('mousemove'); };
+	window.addEventListener('mousemove', _.throttle(function() {
+		clearTimeout(mousemoveTimeoutId);
+		document.body.classList.add('mousemove');
+		mousemoveTimeoutId = setTimeout(clearMousemove, 300);
+	}, 200, true));
 })(jQuery);

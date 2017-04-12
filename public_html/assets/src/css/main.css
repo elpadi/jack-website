@@ -70,11 +70,11 @@ body {
 }
 
 #content .text-content {
-	position:relative;
+	position: relative;
 	z-index: 3;
 }
 #content {
-	font-size:18px;
+	font-size: 18px;
 }
 #content .page-content:not(.main-content),
 #content .text-content:not(.page-content) p,
@@ -86,28 +86,29 @@ body {
 }
 #content .text-content p,
 #content > p {
-	line-height:1.5;
+	line-height: 1.5;
 }
 #content .text-content p a:hover,
 #content > p a:hover {
 	color: black;
 }
 #content p:nth-of-type(1) {
-	margin-top:0;
+	margin-top: 0;
 }
 #content p:nth-last-of-type(1) {
-	margin-bottom:0;
+	margin-bottom: 0;
 }
 #content p.left {
-	max-width:500px;
-	margin-left:-10px;
+	max-width: 500px;
+	margin-left: -10px;
 }
 #content p > span {
 	display:block;
 }
 
 #content img {
-	max-width:100%;
+	max-width: 100%;
+	outline-style: none;
 }
 
 @media (min-width: 670px) {
@@ -140,36 +141,12 @@ body {
 	height: 90%;
 	pointer-events: none;
 }
-.icon--arrow,
-.icon--info {
-	width: 40px;
-	height: 40px;
-}
-.icon--arrow {
-	width: 32px;
-}
-.icon--info path {
-	fill: none;
-	stroke: black;
-	stroke-width: 10px;
-	transition: stroke-width 0.2s;
-}
-.icon--info:hover path {
-	stroke-width: 20px;
-}
-.icon--arrow.icon--prev {
-	margin-left: -50px;
+.stroke { stroke: rgb(195,195,195); }
+.fill { fill: rgb(195,195,195); }
+.stroke:not(.fill) { fill: none; }
+.fill:not(.stroke) { stroke: none; }
+.icon--prev .next, .icon--next .prev { display: none; }
+.fullscreen .icon--fullscreen .arrow {
 	transform: rotate(180deg);
-}
-.icon--arrow.icon--next {
-	margin-left: 10px;
-}
-.icon--arrow path {
-	fill: none;
-	stroke: rgb(195,195,195);
-	stroke-width: 7px;
-	transition: stroke 0.2s;
-}
-.icon--arrow:hover path {
-	stroke: #6c6868;
+	transform-origin: 55% 45%;
 }
