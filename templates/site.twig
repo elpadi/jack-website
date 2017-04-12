@@ -14,7 +14,10 @@
 		{% if META_DESCRIPTION is defined %}<meta name="description" content="{{ META_DESCRIPTION.content }}">{% endif %}
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		{% for key, val in OG_TAGS %}
+		{% for key, val in GRAPH_TAGS.TWITTER_CARD %}
+		<meta property="twitter:{{ key }}" content="{{ val }}">
+		{% endfor %}
+		{% for key, val in GRAPH_TAGS.OPEN_GRAPH %}
 		<meta property="og:{{ key }}" content="{{ val }}">
 		{% endfor %}
 		

@@ -72,6 +72,5 @@ Object.defineProperty(LayoutSlideshow.prototype, 'fullscreen', {
 Object.defineProperty(LayoutSlideshow.prototype, 'setupShareButtons', {
 	value: function setupShareButtons() {
 		document.getElementById('facebook').href += '?u=' + encodeURIComponent(location.href);
-		document.getElementById('twitter').href += '?text=' + encodeURIComponent(document.title.replace(' | Jack Magazine', '')) + '&via=jackmagazine';
 	}
 });

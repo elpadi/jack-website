@@ -16,8 +16,11 @@ class Layout extends Issue {
 		];
 	}
 
-	protected function ogTags() {
-		return array_merge(parent::ogTags(), ['image' => $this->canonicalUrl($this->data['layout']['src'])]);
+	protected function graphTags() {
+		$tags = parent::graphTags();
+		$tags['OPEN_GRAPH']['image'] = $this->canonicalUrl($this->data['layout']['src']);
+		$tags['TWITTER_CARD']['card'] = 'summary_large_image';
+		return $tags;
 	}
 
 	protected function metaTitle() {
