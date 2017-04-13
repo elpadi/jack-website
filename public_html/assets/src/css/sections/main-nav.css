@@ -11,7 +11,7 @@
 	display: block;
 	line-height: 21px;
 	padding: 5px 0;
-	margin: 0 15px;
+	margin: 0 5px;
 	outline-style: none !important;
 	transition: border-color 0.2s;
 }
@@ -27,7 +27,8 @@
 }
 
 #masthead .far-left, #masthead .far-left a, #masthead .far-left svg {
-	height: 68px;
+	width: auto;
+	height: 38px;
 }
 #masthead .far-left h1 {
 	overflow: hidden;
@@ -50,7 +51,7 @@
 }
 #masthead .social-buttons a {
 	margin: 0 5px;
-	line-height: 40px;
+	line-height: 30px;
 	width: 35px;
 }
 .social-buttons svg {
@@ -67,6 +68,9 @@
 		position: fixed;
 		display: flex;
 		background-color: white;
+	}
+	#masthead > nav a {
+		margin: 0 15px;
 	}
 	#masthead h1 a {
 		border-style: none !important;
@@ -93,9 +97,15 @@
 		width: 100%;
 		text-align: left;
 	}
+	#masthead .far-left svg {
+		height: 68px;
+	}
 	.social-buttons {
 		float: right;
 		margin-right: 5px;
+	}
+	#masthead .social-buttons a {
+		line-height: 40px;
 	}
 }
 
@@ -109,8 +119,8 @@
 	}
 	#masthead > nav > .far-right {
 		position: absolute;
-		top: 18px;
-		right: 15px;
+		top: 1px;
+		right: 5px;
 	}
 	#masthead > .main-nav,
 	#masthead > .subnav {

@@ -186,6 +186,18 @@ Object.defineProperty(App.prototype, 'init', {
 App.instance = new App();
 
 (function($) {
+	$.fn.enableTapEvent = function() {
+		var moved = false, obj = this;
+		return this.on('touchstart', function(e) {
+			if (e.originalEvent.touches.length === 1) setTimeout(function() {
+				if (!moved) obj.trigger('tap', e);
+			}, 100);
+		}).on('touchmove', function(e) {
+			if (e.originalEvent.touches.length === 1) moved = true;
+		}).on('touchend', function(e) {
+			moved = false;
+		});
+	};
 	$(document).ready(function() {
 		App.instance.dispatchEvent('init');
 	});

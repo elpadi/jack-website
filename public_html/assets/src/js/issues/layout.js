@@ -54,13 +54,25 @@ Object.defineProperty(LayoutSlideshow.prototype, 'initSlick', {
 			initialSlide: this.INITIAL_INDEX
 		})
 		.on('click', this.onSlideshowClick.bind(this))
+		.enableTapEvent().on('tap', this.onSlideshowTap.bind(this))
 		.slick('getSlick');
 		$('#slideshow-controls').appendTo('#content').on('click', 'button', this.onControlButtonClick.bind(this));
 	}
 });
 
+Object.defineProperty(LayoutSlideshow.prototype, 'onSlideshowTap', {
+	value: function onSlideshowTap(e) {
+		console.log('tap');
+		$('#slideshow-controls').toggleClass('visible');
+		this.hasTapped = true;
+		setTimeout(function() { this.hasTapped = false; }, 300);
+	}
+});
+
 Object.defineProperty(LayoutSlideshow.prototype, 'onSlideshowClick', {
 	value: function onSlideshowClick(e) {
+		console.log('click');
+		if (('hasTapped' in this) && this.hasTapped) return;
 		if (e.screenX > window.innerWidth / 2) {
 			this.next();
 		}

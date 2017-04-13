@@ -10,10 +10,10 @@
 }
 #masthead > .subnav,
 #masthead > .subnav a {
-	height: 30px;
+	height: 25px;
 }
 #masthead > .subnav a {
-	line-height: 21px;
+	line-height: 15px;
 }
 .subnav > ul {
 	margin: auto;
@@ -23,5 +23,12 @@ body[data-path="issues_single"] #masthead .subnav {
 @media (min-width: 670px) {
 	#content {
 		padding-top: 100px;
+	}
+	#masthead > .subnav,
+	#masthead > .subnav a {
+		height: 30px;
+	}
+	#masthead > .subnav a {
+		line-height: 21px;
 	}
 }
