@@ -5,6 +5,7 @@ logs
 public_html/assets/*
 !public_html/assets/src
 !public_html/assets/svg
+!public_html/assets/cursors
 !public_html/assets/Makefile
 
 public_html/assets/src/bower_components

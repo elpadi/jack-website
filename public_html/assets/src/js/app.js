@@ -14,12 +14,12 @@ Object.defineProperty(App, 'MODAL_FADE_DURATION', { value: 200 });
 Object.defineProperty(App.prototype, 'dispatchEvent', {
 	value: function dispatchEvent(name) {
 		var params = Array.from(arguments).slice(1), listeners;
-		console.log('App.dispatchEvent', name, params);
+		//console.log('App.dispatchEvent', name, params);
 		if (name in this) this[name].apply(this, params);
 		for (var key in this.children) {
 			listeners = Array.isArray(this.children[key]) ? this.children[key] : [this.children[key]];
 			listeners.filter(function(listener) { return (name in listener) && typeof(listener[name]) === 'function'; }).forEach(function(listener) {
-				console.log('App.dispatchEvent', key, name, params);
+				//console.log('App.dispatchEvent', key, name, params);
 				listener[name].apply(listener, params || []);
 			});
 		}
@@ -39,8 +39,24 @@ Object.defineProperty(App.prototype, 'addChild', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'enableMousemoveEvent', {
+	value: function enableMousemoveEvent() {
+		var mousemoveTimeoutId = 0, clearMousemove = function() { document.body.classList.remove('mousemove'); };
+		if ('MOUSEMOVE_ENABLED' in this) return;
+		this.MOUSEMOVE_ENABLED = true;
+		window.addEventListener('mousemove', _.throttle(function(e) {
+			clearTimeout(mousemoveTimeoutId);
+			document.body.classList.add('mousemove');
+			mousemoveTimeoutId = setTimeout(clearMousemove, 300);
+			this.dispatchEvent('mousemove', e)
+		}.bind(this), 200, true));
+	}
+});
+
 Object.defineProperty(App.prototype, 'enableScrollEvent', {
 	value: function enableScrollEvent() {
+		if ('SCROLL_ENABLED' in this) return;
+		this.SCROLL_ENABLED = true;
 		$(window).on('scroll', function() {
 			App.instance.dispatchEvent('scroll', ('scrollY' in window) ? window.scrollY : document.body.scrollTop);
 		});
@@ -159,9 +175,10 @@ Object.defineProperty(App.prototype, 'exitFullscreen', {
 
 Object.defineProperty(App.prototype, 'init', {
 	value: function init() {
-		if (Object.keys(this.children).some(function(name) {
-			return ('scroll' in this.children[name]);
-		}, this)) this.enableScrollEvent();
+		Object.keys(this.children).forEach(function(name) {
+			if ('scroll' in this.children[name]) this.enableScrollEvent();
+			if ('mousemove' in this.children[name]) this.enableMousemoveEvent();
+		}.bind(this));
 		_.filter(document.getElementsByTagName('img'), _.property('srcset')).forEach(this.respImageMaxWidth.bind(this));
 	}
 });
@@ -175,10 +192,4 @@ App.instance = new App();
 	$(window).on('resize', function() {
 		App.instance.dispatchEvent('resize');
 	});
-	var mousemoveTimeoutId = 0, clearMousemove = function() { document.body.classList.remove('mousemove'); };
-	window.addEventListener('mousemove', _.throttle(function() {
-		clearTimeout(mousemoveTimeoutId);
-		document.body.classList.add('mousemove');
-		mousemoveTimeoutId = setTimeout(clearMousemove, 300);
-	}, 200, true));
 })(jQuery);

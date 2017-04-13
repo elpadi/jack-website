@@ -34,13 +34,39 @@ Object.defineProperty(LayoutSlideshow.prototype, 'createElements', {
 	}
 });
 
+Object.defineProperty(LayoutSlideshow.prototype, 'mousemove', {
+	value: function mousemove(e) {
+		if (e.screenX > window.innerWidth / 2) {
+			document.body.classList.add('mouse--right');
+			document.body.classList.remove('mouse--left');
+		}
+		else {
+			document.body.classList.add('mouse--left');
+			document.body.classList.remove('mouse--right');
+		}
+	}
+});
+
 Object.defineProperty(LayoutSlideshow.prototype, 'initSlick', {
 	value: function initSlick() {
 		this.slick = $('#slideshow').slick({
 			lazyLoad: 'ondemand',
 			initialSlide: this.INITIAL_INDEX
-		}).slick('getSlick');
+		})
+		.on('click', this.onSlideshowClick.bind(this))
+		.slick('getSlick');
 		$('#slideshow-controls').appendTo('#content').on('click', 'button', this.onControlButtonClick.bind(this));
+	}
+});
+
+Object.defineProperty(LayoutSlideshow.prototype, 'onSlideshowClick', {
+	value: function onSlideshowClick(e) {
+		if (e.screenX > window.innerWidth / 2) {
+			this.next();
+		}
+		else {
+			this.prev();
+		}
 	}
 });
 

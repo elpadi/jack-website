@@ -77,6 +77,10 @@
 #slideshow-controls .svg-button:hover .stroke { stroke: black; }
 #slideshow-controls .svg-button:hover .fill { fill: black; }
 #slideshow-controls .icon--arrow { width: 35px; }
+
+.mouse--left #slideshow { cursor: url(../../../cursors/left.png), w-resize; }
+.mouse--right #slideshow { cursor: url(../../../cursors/right.png), e-resize; }
+body:not(.mousemove) #slideshow { cursor: none !important; }
 /*
 .slick-arrow {
 	width: 25px;
