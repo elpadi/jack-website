@@ -1,7 +1,0 @@
-#!/bin/sh
-
-base=`echo $1 | sed 's/\.jpg//'`
-convert "$1" -resize 50% "$base-2.jpg"
-convert "$1" -resize 33% "$base-3.jpg"
-convert "$1" -resize 25% "$base-4.jpg"
-convert "$1" -resize 20% "$base-5.jpg"
