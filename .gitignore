@@ -8,5 +8,7 @@ public_html/assets/*
 !public_html/assets/cursors
 !public_html/assets/Makefile
 
+public_html/admin
+
 public_html/assets/src/bower_components
 TODO.tsk.delta
