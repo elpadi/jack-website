@@ -45,18 +45,19 @@
 
 #masthead .social-buttons li {
 	width: 40px;
+	margin: 0 2px;
 }
-#masthead .social-buttons li.button-facebook {
+#masthead .social-buttons li.button--facebook {
 	width: 35px;
 }
 #masthead .social-buttons a {
-	margin: 0 5px;
+	margin: 0 auto;
 	line-height: 30px;
 	width: 35px;
 }
 .social-buttons svg {
 	width: 80%;
-	height: auto;
+	height: 22px;
 }
 .social-buttons li.button--facebook svg {
 	width: 100%;
@@ -92,19 +93,21 @@
 		flex-basis: 150px;
 		flex-grow: 2;
 	}
+	#masthead .far-left a,
+	#masthead .far-left svg {
+		height: 68px;
+	}
 	#masthead .far-left a {
 		float: left;
 		width: 100%;
 		text-align: left;
-	}
-	#masthead .far-left svg {
-		height: 68px;
 	}
 	.social-buttons {
 		float: right;
 		margin-right: 5px;
 	}
 	#masthead .social-buttons a {
+		height: 40px;
 		line-height: 40px;
 	}
 }
@@ -155,6 +158,5 @@
 }
 @media (min-width: 670px) {
 	#masthead > .main-nav > .far-right {
-		padding-top: 10px;
 	}
 }
