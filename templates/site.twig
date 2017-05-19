@@ -35,6 +35,7 @@
 			'main',
 		] | css | raw }}
 		{% if assets is defined %}{{ assets.css | css | raw }}{% endif %}
+		<script>document.documentElement.className = 'js';</script>
 	</head>
 	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}" data-assets-url="{{ 'assets' | url }}">
 		{% import "macros/misc.twig" as misc %}

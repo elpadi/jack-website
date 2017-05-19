@@ -124,11 +124,12 @@ button.plain,
 }
 .background { z-index:-1; }
 .foreground { z-index:2; }
+img.background,
 .background > img {
-	width:100%;
-	height:100%;
-	display:block;
-	object-fit:cover;
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
 }
 .background.page-background {
 	position:fixed;

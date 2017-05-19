@@ -7,7 +7,6 @@ $routes[] = array(
 		array(
 			'name' => 'home',
 			'path' => '',
-			'action' => 'intro',
 		),
 		array('name' => 'intro'),
 		array('name' => 'about'),

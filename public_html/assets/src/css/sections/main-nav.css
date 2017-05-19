@@ -44,16 +44,16 @@
 }
 
 #masthead .social-buttons li {
-	width: 40px;
+	width: 30px;
 	margin: 0 2px;
 }
 #masthead .social-buttons li.button--facebook {
-	width: 35px;
+	width: 25px;
 }
 #masthead .social-buttons a {
 	margin: 0 auto;
 	line-height: 30px;
-	width: 35px;
+	width: 25px;
 }
 .social-buttons svg {
 	width: 80%;
@@ -103,8 +103,11 @@
 		text-align: left;
 	}
 	.social-buttons {
-		float: right;
+		text-align: right;
 		margin-right: 5px;
+	}
+	.social-buttons li {
+		float: none !important;
 	}
 	#masthead .social-buttons a {
 		height: 40px;
@@ -156,7 +159,16 @@
 	#masthead nav > .horizontal-list.floats li {
 	}
 }
-@media (min-width: 670px) {
+@media (min-width: 980px) {
 	#masthead > .main-nav > .far-right {
+	}
+	#masthead .social-buttons li {
+		width: 40px;
+	}
+	#masthead .social-buttons li.button--facebook {
+		width: 35px;
+	}
+	#masthead .social-buttons a {
+		width: 35px;
 	}
 }

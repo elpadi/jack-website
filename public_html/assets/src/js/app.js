@@ -1,5 +1,3 @@
-document.documentElement.className = 'js';
-
 function App() {
 	this.children = {};
 	this.START_TIME = Date.now();
@@ -65,8 +63,10 @@ Object.defineProperty(App.prototype, 'enableScrollEvent', {
 
 Object.defineProperty(App.prototype, 'respImageMaxWidth', {
 	value: function respImageMaxWidth(img) {
+		/*
 		var maxWidth = parseInt(img.srcset.split(', ').pop().replace(/.* ([0-9]+)w/, '$1'), 10);
 		if (!isNaN(maxWidth)) img.style.maxWidth = maxWidth + 'px';
+		*/
 	}
 });
 
