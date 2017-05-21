@@ -26,6 +26,23 @@ Object.defineProperty(ImageManager.prototype, 'imageInfo', {
 	}
 });
 
+Object.defineProperty(ImageManager.prototype, 'addInfo', {
+	value: function addInfo(table) {
+		var th = document.createElement('td'),
+			td = document.createElement('td'),
+			button = document.createElement('a');
+		th.innerHTML = 'info';
+		button.innerHTML = 'info';
+		table.thead.children[0].appendChild(th);
+		td.appendChild(button);
+		table.rows.forEach(function(tr) {
+			var cell = td.cloneNode(true);
+			cell.children[0].href = location.href + '/info?path=' + encodeURIComponent(tr.children[0].innerHTML);
+			tr.appendChild(cell);
+		});
+	}
+});
+
 Object.defineProperty(ImageManager.prototype, 'list', {
 	value: function list() {
 		if ('listing' in this) this.listing.dom.table.remove();
@@ -33,10 +50,11 @@ Object.defineProperty(ImageManager.prototype, 'list', {
 			.then(function(data) {
 				this.listing = new Table({
 					id: 'listing',
-					columns: ['hash','width','height'],
-					data: Object.keys(data.meta).map(function(hash) { return [hash, data.meta[hash].width, data.meta[hash].height]; })
+					columns: ['path'],
+					data: data.images.map(function(path) { return [path]; })
 				});
 				document.getElementById('listing').appendChild(this.listing.dom.table);
+				this.addInfo(this.listing.dom);
 			}.bind(this));
 	}
 });

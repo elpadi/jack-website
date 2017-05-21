@@ -12,11 +12,6 @@ $routes[] = array(
 		),
 		array(
 			'name' => 'info',
-			'path' => '/{size}/{path}',
-		),
-		array(
-			'name' => 'delete',
-			'path' => '/delete/{hash}',
 		),
 	),
 );

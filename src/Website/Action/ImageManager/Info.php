@@ -1,6 +1,9 @@
 <?php
 namespace Website\Action\ImageManager;
 
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use Jack\Images\Manager;
 use Jack\Images\Image;
 
 class Info extends Index {
@@ -10,24 +13,19 @@ class Info extends Index {
 	}
 
 	protected function fetchData($args) {
-		global $app;
-		$path = str_replace('_', '/', $args['path']);
-		$cacheKey = md5($path);
-		$cacheItem = $app->imageManager->metaCache->getItem($cacheKey);
-		if ($cacheItem->isHit()) {
-			$image = new Image($path);
-			$image->setMeta($cacheItem->get());
-			$dims = $image->resizedDims($args['size']);
-			$sizeHash = md5(serialize([$image->path, $dims->getWidth(), $dims->getHeight()]));
+		$img = new Image('/'.$_GET['path']);
+		$image = (new Imagine())->open(PUBLIC_ROOT_DIR.$img->path);
+		$dims = $image->getSize();
+		$img->setMeta(['width' => $dims->getWidth(), 'height' => $dims->getHeight()]);
+		$meta = json_decode(file_get_contents(JACK_DIR.'/cache/image-meta.json'));
+		$hash = Manager::generateHash($img->path, $dims->getWidth(), $dims->getHeight());
+		var_dump($img, $hash, isset($meta->$hash));
+		foreach (Image::$_sizes as $size => $length) {
+			$resized = $img->resizedDims($size);
+			$hash = Manager::generateHash($img->path, $resized->getWidth(), $resized->getHeight());
+			if (file_exists(Manager::hashToPath($hash, 'jpg'))) var_dump($size, $resized, $hash);
 		}
-		$this->data = [
-			'meta' => array_merge(['hash' => $cacheKey], $cacheItem->get()),
-			'size' => $cacheItem->isHit() ? [
-				'hash' => $sizeHash,
-				'width' => $dims->getWidth(),
-				'height' => $dims->getHeight(),
-			] : NULL,
-		];
+		exit(0);
 	}
 
 }
