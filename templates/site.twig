@@ -39,7 +39,7 @@
 	</head>
 	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}" data-assets-url="{{ 'assets' | url }}">
 		{% import "macros/misc.twig" as misc %}
-		{% if background %}<img class="page-background" src="{{ background.src }}" srcset="{{ background.srcset }}" alt="">{% endif %}
+		{% if background %}<img class="page-background background" src="{{ background.src }}" srcset="{{ background.srcset }}" alt="">{% endif %}
 		<div id="container">
 			<header id="masthead" class="post-intro-fade">
 				<nav class="foreground tc lowercase main-nav">

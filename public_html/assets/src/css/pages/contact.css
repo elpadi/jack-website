@@ -1,5 +1,7 @@
+body {
+	background-position: right bottom;
+}
 #content {
-	color: white;
 	font-family: Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: 0.9em;
@@ -18,11 +20,14 @@ input,
 textarea {
 	width: 100%;
 	background-color: white;
-	border-style: none;
 	color: rgb(195,195,195);
 	font-size: 1.1em;
 	font-weight: bold;
 	outline-style: none;
+}
+input:focus,
+textarea:focus {
+	background-color: #eee;
 }
 input[type="email"] {
 	height: 40px;
@@ -50,6 +55,11 @@ input[type="submit"] {
 	color: black;
 }
 
+@media (max-width: 539px) {
+	#content form p:not(#form-message) {
+		float: none;
+	}
+}
 @media (min-width: 540px) {
 	#content form p:not(#form-message) {
 		margin:0;
@@ -58,8 +68,12 @@ input[type="submit"] {
 		max-width:50%;
 	}
 }
-@media (max-width: 539px) {
-	#content form p:not(#form-message) {
-		float: none;
+@media (min-width: 768px) {
+	#content {
+		color: white;
+	}
+	input,
+	textarea {
+		border-style: none;
 	}
 }

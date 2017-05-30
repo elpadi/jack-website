@@ -173,8 +173,16 @@ Object.defineProperty(App.prototype, 'exitFullscreen', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'pageBackground', {
+	value: function init() {
+		var bg = document.getElementsByClassName('page-background');
+		if (bg.length && bg[0].nodeName === 'IMG') document.body.style.backgroundImage = 'url(' + (bg[0].currentSrc || bg[0].src) + ')';
+	}
+});
+
 Object.defineProperty(App.prototype, 'init', {
 	value: function init() {
+		if (!App.IS_PHONE) this.pageBackground();
 		Object.keys(this.children).forEach(function(name) {
 			if ('scroll' in this.children[name]) this.enableScrollEvent();
 			if ('mousemove' in this.children[name]) this.enableMousemoveEvent();
