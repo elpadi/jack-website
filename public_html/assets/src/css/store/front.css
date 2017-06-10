@@ -1,0 +1,40 @@
+input.count {
+	width: 2em;
+	padding: 0.25em;
+}
+#content .store-item {
+	position: relative;
+	height: calc(100vh - 45px);
+}
+#content .store-item > img {
+	max-width: 100%;
+	max-height: calc(100vh - 245px);
+}
+.store-item .actions {
+	margin: 1em 0;
+}
+.store-item .actions a,
+.store-item .actions form {
+	margin-right: 1em;
+}
+.store-item .actions a,
+.store-item .actions form,
+.store-item h2,
+.store-item h3 {
+	display: inline-block;
+}
+.store-item h2,
+.store-item h3 {
+	margin: 0;
+}
+header > h3::before {
+	content: ' | ';
+	margin: 0 5px;
+}
+.store-item[data-cart-count="0"] .has-items,
+.store-item .no-items {
+	display: none !important;
+}
+.store-item[data-cart-count="0"] .no-items {
+	display: block !important;
+}

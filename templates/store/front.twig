@@ -1,0 +1,33 @@
+{% extends "site.twig" %}
+{% block content %}
+<h1 class="screen-reader-text">Jack Store</h1>
+<section class="issues">
+	{% for issue in issues %}
+	<article class="store-item" data-cart-count="{{ issue.cartCount }}">
+		<img src="{{ issue.responsiveLayouts.cover_front.src }}" srcset="{{ issue.responsiveLayouts.cover_front.srcset }}" alt="">
+		<header>
+			<h2>{{ issue.title }}</h2>
+			<h3 class="info">Issue #{{ issue.number }} - Part {{ issue.part }}</h3>
+			<h3 class="price">${{ issue.shopData.formatted.price }}</h3>
+		</header>
+		<section class="actions">
+			<form class="no-items" action="{{ urlFor('add-item') }}" method="POST">
+				<input type="hidden" name="id" value="{{ issue.shopData.formatted.id }}">
+				<input type="hidden" name="variant_id" value="{{ issue.shopData.formatted.variant_id }}">
+				<input type="submit" value="Add to cart">
+			</form>
+			<form class="has-items" action="{{ urlFor('update-item') }}" method="POST">
+				<input type="hidden" name="id" value="{{ issue.shopData.formatted.id }}">
+				<input type="hidden" name="variant_id" value="{{ issue.shopData.formatted.variant_id }}">
+				<input type="number" class="count" size="2" name="count" value="{{ issue.cartCount }}">
+				<input type="submit" value="Update count">
+			</form>
+			<a class="has-items btn" href="{{ urlFor('checkout') }}">Checkout</a>
+		</section>
+		<main>
+			<p>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est.</p>
+		</main>
+	</article>
+	{% endfor %}
+</section>
+{% endblock %}

@@ -122,7 +122,8 @@ body {
 	}
 }
 
-body {
+body,
+.background-canvas {
 	background: white none center center no-repeat;
 	background-size: cover;
 }
@@ -130,6 +131,7 @@ body > .page-background {
 	display: none;
 }
 @media (min-width: 768px) {
+	.background-canvas > .background,
 	.js .page-background {
 		display: inline;
 		visibility: hidden;
@@ -154,4 +156,19 @@ body > .page-background {
 .fullscreen .icon--fullscreen .arrow {
 	transform: rotate(180deg);
 	transform-origin: 55% 45%;
+}
+
+a.btn,
+button,
+input[type="submit"] {
+	background-color: #ddd;
+	font-weight: bold;
+	border-style: none;
+	text-decoration: none;
+	color: inherit;
+	text-transform: uppercase;
+	padding: 0.5em 1em 0.4em;
+	letter-spacing: 1px;
+	-webkit-appearance: none;
+	appearance: none;
 }

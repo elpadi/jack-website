@@ -173,16 +173,18 @@ Object.defineProperty(App.prototype, 'exitFullscreen', {
 	}
 });
 
-Object.defineProperty(App.prototype, 'pageBackground', {
-	value: function init() {
-		var bg = document.getElementsByClassName('page-background');
-		if (bg.length && bg[0].nodeName === 'IMG') document.body.style.backgroundImage = 'url(' + (bg[0].currentSrc || bg[0].src) + ')';
+Object.defineProperty(App.prototype, 'updateBackgrounds', {
+	value: function updateBackgrounds() {
+		Array.from(document.getElementsByClassName('background')).forEach(function(bg) {
+			var container = bg.classList.contains('page-background') ? document.body : (bg.parentNode.classList.contains('background-canvas') ? bg.parentNode : null);
+			if (container) container.style.backgroundImage = 'url(' + (bg.currentSrc || bg.src) + ')';
+		});
 	}
 });
 
 Object.defineProperty(App.prototype, 'init', {
 	value: function init() {
-		if (!App.IS_PHONE) this.pageBackground();
+		if (!App.IS_PHONE) this.updateBackgrounds();
 		Object.keys(this.children).forEach(function(name) {
 			if ('scroll' in this.children[name]) this.enableScrollEvent();
 			if ('mousemove' in this.children[name]) this.enableMousemoveEvent();
