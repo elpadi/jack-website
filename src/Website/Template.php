@@ -7,8 +7,8 @@ class Template extends \Jack\Template {
 		return WEBSITE_DIR.'/templates';
 	}
 
-	public function initTwig() {
-		parent::initTwig();
+	protected function configTwig() {
+		parent::configTwig();
 		$this->twig->addFunction(new \Twig_SimpleFunction('cockpit_opening_form_tag', function($form) {
 			ob_start();
 			cockpit('forms:open', $form);

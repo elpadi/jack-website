@@ -1,0 +1,25 @@
+<section class="models">
+	{% for m in models %}
+	<article class="model">
+		<header>
+			<p>{{ m.images[0].path }}</p>
+			<p>{{ m.name }}</p>
+			<p>{{ m.origin }}</p>
+		</header>
+		<main>
+			<h4>First Impression</h4>
+			<p>{{ m.impression }}</p>
+			<h4>Beginning</h4>
+			<p>{{ m.beginning }}</p>
+			<h4>Our Experience</h4>
+			<p>{{ m.story }}</p>
+			<h4>Who Loves Her</h4>
+			<p>{{ m.awards }}</p>
+			<h4>Triumphs</h4>
+			<p>{{ m.work }}</p>
+			<h4>Instagram</h4>
+			<p>@instagram handle</p>
+		</main>
+	</article>
+	{% endfor %}
+</section>
