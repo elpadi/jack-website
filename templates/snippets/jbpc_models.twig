@@ -1,10 +1,13 @@
-<section class="models">
+<section class="models lowercase">
 	{% for m in models %}
 	<article class="model">
 		<header>
-			<p>{{ m.images[0].path }}</p>
-			<p>{{ m.name }}</p>
-			<p>{{ m.origin }}</p>
+			<figure class="{{ m.images | length == 1 ? 'single' : 'double' }}">
+				{% for img in m.images %}
+				<img src="{{ img.path }}" alt="">
+				{% endfor %}
+				<figcaption><span class="name">{{ m.name }}</span><br><span class="origin">{{ m.origin }}</span></figcaption>
+			</figure>
 		</header>
 		<main>
 			<h4>First Impression</h4>

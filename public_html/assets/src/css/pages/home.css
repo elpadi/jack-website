@@ -18,6 +18,42 @@
 #content .page-content p:first-child img {
 	margin-top: 38px;
 }
+
+#content .models {
+	font-family: "Arial", sans-serif;
+	font-weight: bold;
+}
+#content .page-content .models img {
+	display: inline;
+	max-width: 48%;
+	margin: 0 1%;
+	float: left;
+}
+#content .models figure {
+	position: relative;
+}
+#content .models figure::after {
+	content: 'vitamin A';
+	position: absolute;
+	right: -4px;
+	bottom: 9.4em;
+	font-size: 0.4em;
+	transform: rotate(-90deg);
+	transform-origin: right bottom;
+}
+#content .models figcaption {
+	clear: both;
+	text-align: right;
+	margin-right: 1%;
+	font-size: 0.8em;
+	line-height: 1;
+	text-transform: lowercase;
+}
+#content .models .name {
+	font-size: 1.5em;
+	font-style: italic;
+}
+
 @media (min-width: 700px) {
 	#content .page-content img {
 		max-width: 680px;
