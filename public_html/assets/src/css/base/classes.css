@@ -1,31 +1,32 @@
-.fl { float:left; }
-.fr { float:right; }
-.cl { clear:left; }
-.cr { clear:right; }
-.cb { clear:both; }
-.tc { text-align:center; }
-.tl { text-align:left; }
-.tr { text-align:right; }
-.justified { text-align:justify; }
-.lowercase { text-transform:lowercase; }
-.uppercase { text-transform:uppercase; }
-.invisible { position:absolute; visibility:hidden; }
-.invisible.visible { visibility:visible; }
-.no-underline a, a.no-underline { text-decoration:none; }
-a.plain { text-decoration:none; color:inherit; outline-style: none; }
+.fl { float: left; }
+.fr { float: right; }
+.cl { clear: left; }
+.cr { clear: right; }
+.cb { clear: both; }
+.tc { text-align: center; }
+.tl { text-align: left; }
+.tr { text-align: right; }
+.justified { text-align: justify; }
+.lowercase { text-transform: lowercase; }
+.uppercase { text-transform: uppercase; }
+.nocase { text-transform: none; }
+.invisible { position: absolute; visibility: hidden; }
+.invisible.visible { visibility: visible; }
+.no-underline a, a.no-underline { text-decoration: none; }
+a.plain { text-decoration: none; color: inherit; outline-style: none; }
 .no-js .js-content,
-.js .js-content:not(.invisible) {
-	display:none;
+.js .js-content: not(.invisible) {
+	display: none;
 }
-.modal > .js-content:not(.invisible) {
-	display:block;
+.modal > .js-content: not(.invisible) {
+	display: block;
 }
 
 body[data-template-path~="contact"] form::after,
 .clearfix::after {
-	content:'';
-	display:block;
-	clear:both;
+	content: '';
+	display: block;
+	clear: both;
 }
 
 .js .page-content > h1,
