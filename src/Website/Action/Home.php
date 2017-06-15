@@ -3,21 +3,21 @@ namespace Website\Action;
 
 use Functional as F;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use Jack\Action\Page;
+use Website\Models;
 
 class Home extends Intro {
 
 	protected function assets() {
-		return array_merge_recursive(parent::assets(), [
-			'css' => ['pages/intro'],
-			'js' => ['pages/intro'],
-		]);
+		return [
+			'css' => ['layouts/full-width','pages/intro','pages/home','pages/models'],
+			'js' => ['pages/intro','pages/models'],
+		];
 	}
 
 	public function modelsShortcode(ShortcodeInterface $s) {
 		global $app;
-		$models = cockpit('collections:find', 'models');
-		return $app->templateManager->snippet('jbpc_models', compact('models'));
+		$models = new Models();
+		return $app->templateManager->snippet('models/list', ['models' => $models->fetchAll()]);
 	}
 
 	protected function fetchPageData() {
