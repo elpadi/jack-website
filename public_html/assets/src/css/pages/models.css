@@ -58,6 +58,9 @@
 	font-size: 0.9em;
 	line-height: 1.2;
 }
+p > a {
+	color: inherit;
+}
 #content .models main a {
 	color: #d4d0d0;
 }

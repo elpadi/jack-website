@@ -9,6 +9,7 @@ $routes[] = array(
 			'path' => '',
 		),
 		array('name' => 'intro'),
+		array('name' => 'jbpc'),
 		array('name' => 'about'),
 		array('name' => 'contact'),
 		array('name' => 'event'),

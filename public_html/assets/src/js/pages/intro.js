@@ -17,6 +17,7 @@ Object.defineProperty(Intro.prototype, 'end', {
 	value: function end() {
 		document.body.classList.add('intro-finished');
 		this.hasEnded = true;
+		if ('pushState' in history) history.pushState({ }, this.homepage.title, this.homepage.path);
 	}
 });
 
@@ -58,6 +59,7 @@ Object.defineProperty(Intro.prototype, 'startIntro', {
 		this.images = data.images;
 		this.images.logo = document.getElementById('masthead').getElementsByTagName('svg')[0].cloneNode(true);
 		this.images.logo.id = 'intro-logo';
+		this.homepage = data.homepage;
 		this.next();
 	}
 });

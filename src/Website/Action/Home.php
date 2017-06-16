@@ -21,8 +21,12 @@ class Home extends Intro {
 	}
 
 	protected function fetchPageData() {
+		global $app;
+		$this->data['homepage'] = cockpit('collections:findOne', 'pages', ['path' => $app->routeLookup(getenv('HOME_CONTENT_PAGE'))]);
 		$this->shortcodes->addHandler('jbpc_models', [$this, 'modelsShortcode']);
 		parent::fetchPageData();
+		$this->data['content'] = $this->data['homepage']['content'];
+		unset($this->data['homepage']['content']);
 	}
 
 }
