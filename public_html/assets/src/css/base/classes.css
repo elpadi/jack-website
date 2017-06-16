@@ -13,7 +13,7 @@
 .invisible { position: absolute; visibility: hidden; }
 .invisible.visible { visibility: visible; }
 .no-underline a, a.no-underline { text-decoration: none; }
-a.plain { text-decoration: none; color: inherit; outline-style: none; }
+.plain a, a.plain { text-decoration: none; color: inherit; outline-style: none; }
 .no-js .js-content,
 .js .js-content: not(.invisible) {
 	display: none;
