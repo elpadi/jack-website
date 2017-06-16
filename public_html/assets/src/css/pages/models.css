@@ -30,9 +30,9 @@
 	left: 100%;
 	bottom: 0;
 	white-space: nowrap;
-	font-size: 0.4em;
+	font-size: 0.6em;
 	letter-spacing: 1px;
-	transform: rotate(-90deg) translate(60px, 2px);
+	transform: rotate(-90deg) translate(46px, 2px);
 	transform-origin: left bottom;
 }
 #content .page-content .models img {
@@ -68,7 +68,7 @@
 	font-size: 0.9em;
 	line-height: 1.2;
 }
-#content .models a {
+#content .models main a {
 	color: #d4d0d0;
 }
 #content .page-content .models a:hover {
