@@ -1,0 +1,6 @@
+<figure class="{{ m.images | length == 1 ? 'single' : 'double' }}">{% if not is_single %}<a class="plain" href="{{ urlFor('model', { 'slug': m.name | slug }) }}">{% endif %}
+	{% for img in m.images %}
+	<img src="{{ img.path | url }}" alt="">
+	{% endfor %}
+	{% if not is_single %}</a>{% endif %}<figcaption><aside class="plain">{{ m.fashion | mdp | raw }}</aside>{% if not is_single %}<a class="plain" href="{{ urlFor('model', { 'slug': m.name | slug }) }}">{% endif %}<span class="name">{{ m.name }}</span><br><span class="origin">{{ m.origin }}</span>{% if not is_single %}</a>{% endif %}</figcaption>
+</figure>

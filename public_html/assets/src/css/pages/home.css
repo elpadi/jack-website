@@ -1,6 +1,3 @@
-.page-content {
-	max-width: 1080px !important;
-}
 #content .page-content {
 	padding: 1em 0 !important;
 	font-size: 20px;
@@ -18,7 +15,13 @@
 #content .page-content p:first-child img {
 	margin-top: 38px;
 }
+
+#content .models {
+	margin: 7% 0;
+}
+
 @media (min-width: 700px) {
+	.page-content > p > figure,
 	#content .page-content img {
 		max-width: 680px;
 	}

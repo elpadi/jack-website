@@ -16,7 +16,8 @@
 	"require": {
 		"ext-sqlite3": "*",
 		"ext-mbstring": "*",
-		"square/connect": "dev-master"
+		"square/connect": "dev-master",
+		"cebe/markdown": "~1.1.1"
 	},
 	"autoload": {
 		"psr-4": {

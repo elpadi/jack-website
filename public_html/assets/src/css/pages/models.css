@@ -1,0 +1,93 @@
+#content .models {
+	font-family: "Arial", sans-serif;
+	font-weight: bold;
+	font-size: 24px;
+	text-align: left;
+	color: #989393;
+}
+#content .model {
+}
+#content .models hr {
+	visibility: hidden;
+	margin: 1% 14%;
+	border-color: #fefefe;
+	opacity: 0.25;
+}
+#content .models hr:last-child {
+	display: none;
+}
+#content .models header {
+	margin-bottom: 5%;
+}
+#content .models figure {
+	line-height: 1;
+}
+#content .models figure aside {
+	transform: rotate(-90deg) translate(46px, 12px);
+}
+#content .page-content .models img {
+	display: inline;
+	float: left;
+}
+#content .models figure.single {
+	width: 75%;
+}
+#content .models figure.double figcaption {
+}
+#content .models figure.double img {
+	max-width: 49%;
+	margin: 0;
+}
+#content .models figure.double img:first-child { margin-right: 1%; }
+#content .models figure.double img:last-child { margin-left: 1%; }
+#content .models figure.single img {
+	max-width: none;
+	width: 100%;
+	margin: 0;
+}
+#content .models figcaption {
+	clear: both;
+	text-align: right;
+	font-size: 0.7em;
+}
+#content .models .name {
+	font-size: 1.7em;
+	font-style: italic;
+}
+#content .models main {
+	font-size: 0.9em;
+	line-height: 1.2;
+}
+#content .models main a {
+	color: #d4d0d0;
+}
+#content .page-content .models a:hover {
+	color: #c2dad9;
+}
+#content .models h4 {
+	margin: 1.2em 0 0;
+	color: #555;
+}
+#content .page-content .models p {
+	margin: 0;
+	font-style: italic;
+	line-height: inherit;
+}
+#content .page-content .models p + p {
+	margin-top: 1em;
+}
+#content .models h4::after {
+	content: ':';
+}
+
+@media (min-width: 640px) {
+	#content .models main {
+		font-size: 0.8em;
+		line-height: 1.1;
+	}
+	#content .models hr {
+	}
+	#content .models figure.single {
+		width: 50%;
+	}
+}
