@@ -21,6 +21,7 @@
 }
 
 @media (min-width: 700px) {
+	.page-content > p > figure,
 	#content .page-content img {
 		max-width: 680px;
 	}
