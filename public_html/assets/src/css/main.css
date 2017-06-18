@@ -11,17 +11,20 @@
   box-sizing: border-box;
 }
 html {
-	height:100%;
+	height: 100%;
   margin: 0;
   padding: 0;
 }
 body {
 	background-color:white;
-	color:#6c6868;
+	color: #6c6868;
+}
+.loader-inner > div {
+	background-color: #6c6868;
 }
 .js #content {
-	opacity:1;
-	transition:opacity 0.3s linear 0.1s;
+	opacity: 1;
+	transition: opacity 0.3s linear 0.1s;
 }
 #content {
 	position: relative;
@@ -62,11 +65,19 @@ body {
 .loading .loader-inner {
 	opacity: 1;
 }
+.loader-outer {
+	position: relative;
+}
+.loader-outer > .loader-inner,
 .modal .loader-inner {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	z-index: 3;
+}
+.infinite-scroll__target {
+	height: 200px;
+	max-height: 20vw;
 }
 
 #content .text-content {

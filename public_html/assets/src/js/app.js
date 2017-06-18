@@ -76,15 +76,20 @@ Object.defineProperty(App.prototype, 'onModalHide', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'createLoader', {
+	value: function createLoader(loaderType) {
+		var loader = document.createElement('div');
+		if (arguments.length < 1) loaderType = 'ball-pulse';
+		$(loader).addClass('loader-inner ball-pulse').loaders()
+		return loader;
+	}
+});
+
 Object.defineProperty(App.prototype, 'loadingModal', {
 	value: function loadingModal() {
 		if (!('loadModal' in this)) {
 			this.loadModal = $(document.createElement('div'))
-				.append(
-					$(document.createElement('div'))
-						.addClass('loader-inner ball-pulse')
-						.loaders()
-				)
+				.append(this.createLoader())
 				.addClass('modal fade loading')
 				.appendTo(document.body)
 				.modal()
