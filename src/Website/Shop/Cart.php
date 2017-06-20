@@ -21,30 +21,46 @@ class Cart {
 		]);
 	}
 
-	public function itemCount($id='', $variant_id='') {
-		$items = $this->data->get('items');
+	protected function getItems(string $id='', string $variant_id='') {
+		$items = ($sessionItems = $this->data->get('items')) ? $sessionItems : [];
 		if ($variant_id) return isset($items[$id]) && isset($items[$id][$variant_id]) ? $items[$id][$variant_id] : 0;
-		if ($id) return isset($items[$id]) ? array_sum($items[$id]) : 0;
-		return $items ? array_sum(array_map(function($variants) {
-			return array_sum($variants);
-		}, $items)) : 0;
+		if ($id) return isset($items[$id]) ? $items[$id] : [];
+		return $items;
+	}
+
+	protected function setItem(string $id, string $variant_id, int $count) {
+		$items = $this->getItems();
+		Square::instance()->validateIds($id, $variant_id);
+		if (!isset($items[$id])) $items[$id] = [$variant_id => $count];
+		else $items[$id][$variant_id] = $count;
+		$this->data->set('items', $items);
+	}
+
+	public function itemCount(string $id='', string $variant_id='') {
+		$items = $this->getItems($id, $variant_id);
+		return is_array($items) ? array_sum(F\flatten($items)) : $items;
 	}
 
 	public function totalAmount() {
-		$items = $this->data->get('items');
-		return $items ? array_sum(F\map($items, function($variants, $id) {
+		$items = $this->getItems();
+		return array_sum(F\map($items, function($variants, $id) {
 			return array_sum(F\map($variants, function($count, $variant_id) use ($id) {
 				return $count * Square::instance()->itemPrice($id, $variant_id);
 			}));
-		})) : 0;
+		}));
 	}
 
-	public function addItem($id, $variant_id) {
-		$items = $this->data->get('items');
-		if ($items && isset($items[$id]) && isset($items[$id][$variant_id])) $items[$id][$variant_id]++;
-		else $items[$id] = [$variant_id => 1];
-		$this->data->set('items', $items);
-		return $items[$id][$variant_id];
+	public function addItem(string $id, string $variant_id) {
+		$count = $this->getItems($id, $variant_id);
+		if ($count !== 0) throw new \BadMethodCallException("Cannot add existing item.");
+		$this->setItem($id, $variant_id, 1);
+	}
+
+	public function updateItem(string $id, string $variant_id, int $newCount) {
+		if ($newCount < 0) throw new \RangeException("Negative counts do not make sense.");
+		$count = $this->getItems($id, $variant_id);
+		if ($count === 0) throw new \BadMethodCallException("Cannot update non-existing item.");
+		$this->setItem($id, $variant_id, $newCount);
 	}
 
 	public static function instance() {

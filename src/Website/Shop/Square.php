@@ -16,6 +16,11 @@ class Square {
 		$this->catalog = $this->fetchCatalog();
 	}
 
+	public function validateIds(string $id, string $variant_id) {
+		if (($key = array_search($id, F\pluck($this->catalog, 'id'))) === FALSE) throw new \InvalidArgumentException("Item ID '$id' is not valid.");
+		if (array_search($variant_id, F\pluck($this->catalog[$key]->item_data->variations, 'id')) === FALSE) throw new \InvalidArgumentException("Variant ID '$variant_id' is not valid.");
+	}
+
 	public function getIssueItem($number, $part) {
 		$issue = F\first($this->catalog, function($item) use ($number, $part) {
 			$title = $item->item_data->name;

@@ -3,7 +3,7 @@ namespace Website\Action\Cart;
 
 use Website\Shop\Cart;
 
-class AddItem {
+class UpdateItem {
 
 	protected function send($response) {
 		return $response->withHeader('Content-type', 'application/json')->write(json_encode($this->data));
@@ -11,7 +11,7 @@ class AddItem {
 
 	public function run($request, $response, $args) {
 		global $app;
-		$count = Cart::instance()->addItem($_POST['id'], $_POST['variant_id']);
+		$count = Cart::instance()->updateItem($_POST['id'], $_POST['variant_id'], $_POST['count']);
 		$this->data = ['success' => true];
 		$this->send($response);
 	}
