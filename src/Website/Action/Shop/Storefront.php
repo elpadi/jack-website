@@ -14,7 +14,7 @@ class Storefront extends Page {
 	protected function assets() {
 		return [
 			'css' => ['store/front'],
-			'js' => ['store/front'],
+			'js' => ['store/store'],
 		];
 	}
 

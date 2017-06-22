@@ -11,8 +11,13 @@ class AddItem {
 
 	public function run($request, $response, $args) {
 		global $app;
-		$count = Cart::instance()->addItem($_POST['id'], $_POST['variant_id']);
-		$this->data = ['success' => true];
+		extract($_POST, \EXTR_SKIP);
+		Cart::instance()->addItem($id, $variant_id);
+		$this->data = array_merge(compact('id', 'variant_id'), [
+			'success' => true,
+			'item_count' => 1,
+			'cart_count' => Cart::instance()->itemCount()
+		]);
 		$this->send($response);
 	}
 

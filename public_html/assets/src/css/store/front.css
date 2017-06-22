@@ -1,5 +1,8 @@
+body[data-cart-count="0"] .button--cart {
+	display: none;
+}
 input.count {
-	width: 2em;
+	width: 2.5em;
 	padding: 0.25em;
 }
 #content .store-item {

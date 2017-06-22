@@ -11,8 +11,13 @@ class UpdateItem {
 
 	public function run($request, $response, $args) {
 		global $app;
-		$count = Cart::instance()->updateItem($_POST['id'], $_POST['variant_id'], $_POST['count']);
-		$this->data = ['success' => true];
+		extract($_POST, \EXTR_SKIP);
+		Cart::instance()->updateItem($id, $variant_id, $count);
+		$this->data = array_merge(compact('id', 'variant_id'), [
+			'success' => true,
+			'item_count' => $count,
+			'cart_count' => Cart::instance()->itemCount()
+		]);
 		$this->send($response);
 	}
 
