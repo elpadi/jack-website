@@ -137,9 +137,29 @@ Object.defineProperty(App.prototype, 'delayPromise', {
 	}
 });
 
+Object.defineProperty(App.prototype, 'submitForm', {
+	value: function submitForm(form) {
+		var data = new FormData(form);
+		return this.fetch(form.action, {
+			method: form.method,
+			body: $(form).serialize()
+		}, {
+			"Content-Type": 'application/x-www-form-urlencoded'
+		});
+	}
+});
+
 Object.defineProperty(App.prototype, 'fetch', {
-	value: function fetch(url) {
-		return window.fetch(url, { headers: { 'Content-Type': 'application/json' } }).then(function(response) {
+	value: function fetch(url, extraOptions, extraHeaders) {
+		var headers = { "Accept": 'application/json' };
+		var options = { headers: headers, credentials: 'include' };
+		if (arguments.length > 2) Object.keys(extraHeaders).forEach(function(key) {
+			headers[key] = extraHeaders[key];
+		});
+		if (arguments.length > 1) Object.keys(extraOptions).forEach(function(key) {
+			options[key] = extraOptions[key];
+		});
+		return window.fetch(url, options).then(function(response) {
 			if (response.ok) return response.json();
 			console.error("Fetching of resource failed.", response);
 		});
