@@ -10,26 +10,13 @@ class Square {
 
 	protected $location;
 
-	protected function __construct() {
-		$this->configure();
-		$this->location = $this->fetchLocation();
-		$this->catalog = $this->fetchCatalog();
+	public static function getCatalog() {
+		$catalog = new SquareCatalog();
+		$catalog->hydrateFromApi(static::fetchCatalog());
+		return $catalog;
 	}
-
-	public function validateIds(string $id, string $variant_id) {
-		if (($key = array_search($id, F\pluck($this->catalog, 'id'))) === FALSE) throw new \InvalidArgumentException("Item ID '$id' is not valid.");
-		if (array_search($variant_id, F\pluck($this->catalog[$key]->item_data->variations, 'id')) === FALSE) throw new \InvalidArgumentException("Variant ID '$variant_id' is not valid.");
-	}
-
-	public function getIssueItem($number, $part) {
-		$issue = F\first($this->catalog, function($item) use ($number, $part) {
-			$title = $item->item_data->name;
-			return strpos($title, "Issue #$number") !== FALSE && strpos($title, "Part $part") !== FALSE;
-		});
-		return $issue;
-	}
-
-	protected function fetchCatalog() {
+	
+	protected static function fetchCatalog() {
 		$cursor = NULL;
 		$cache = JACK_DIR.'/cache/square/catalog.json';
 		if (is_readable($cache) && ($catalog = json_decode(file_get_contents($cache)))) {
@@ -42,7 +29,7 @@ class Square {
 		return $catalog;
 	}
 
-	protected function fetchLocation() {
+	protected static function fetchLocation() {
 		$cache = JACK_DIR.'/cache/square/location.json';
 		if (is_readable($cache) && ($location = json_decode(file_get_contents($cache)))) {
 			return $location;
@@ -53,13 +40,21 @@ class Square {
 		return $locations[0];
 	}
 
-	protected function configure() {
+	protected static function configure() {
 		$access_token = getenv('SQUARE_ACCESS_TOKEN');
 		$app_id = getenv('SQUARE_APP_ID');
 		if (!$access_token || !$app_id) {
 			throw new \Exception("Missing square configuration options.");
 		}
 		Configuration::getDefaultConfiguration()->setAccessToken($access_token);
+	}
+
+	public static function key($itemId, $variantId) {
+		return "$itemId $variantId";
+	}
+
+	protected function __construct() {
+		static::configure();
 	}
 
 	public static function instance() {

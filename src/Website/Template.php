@@ -28,5 +28,8 @@ class Template extends \Jack\Template {
 		$twig->addFilter(new \Twig_SimpleFilter('mdp', function($text) {
 			return (new Markdown())->parseParagraph($text);
 		}));
+		$twig->addFilter(new \Twig_SimpleFilter('money', function($n) {
+			return '$'.number_format($n, 0);
+		}));
 	}
 }

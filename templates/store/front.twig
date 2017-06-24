@@ -2,26 +2,21 @@
 {% block content %}
 <h1 class="screen-reader-text">Jack Store</h1>
 <section class="issues">
-	{% for issue in issues %}
-	<article class="store-item" data-cart-count="{{ issue.cartCount }}">
-		<img src="{{ issue.responsiveLayouts.cover_front.src }}" srcset="{{ issue.responsiveLayouts.cover_front.srcset }}" alt="">
+	{% for variant in catalog %}{% set cartCount = cart.getItems().getVariantCount(variant) %}
+	<article class="store-item" data-cart-count="{{ cartCount }}">
+		{% with { img: variant.fetchIssue().getResponsiveLayout('cover_front') } %}
+		<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
+		{% endwith %}
 		<header>
+			{% with { issue: variant.fetchIssue() } %}
 			<h2>{{ issue.title }}</h2>
-			<h3 class="info">Issue #{{ issue.number }} - Part {{ issue.part }}</h3>
-			<h3 class="price">${{ issue.shopData.formatted.price }}</h3>
+			<h3 class="info">Issue {{ '#' ~ issue.number }} - Part {{ issue.part }}</h3>
+			{% endwith %}
+			<h3 class="price">{{ variant.getPrice() | money }}</h3>
 		</header>
 		<section class="actions">
-			<form class="no-items" action="{{ urlFor('add-item') }}" method="POST">
-				<input type="hidden" name="id" value="{{ issue.shopData.formatted.id }}">
-				<input type="hidden" name="variant_id" value="{{ issue.shopData.formatted.variant_id }}">
-				<input type="submit" value="Add to cart">
-			</form>
-			<form class="has-items" action="{{ urlFor('update-item') }}" method="POST">
-				<input type="hidden" name="id" value="{{ issue.shopData.formatted.id }}">
-				<input type="hidden" name="variant_id" value="{{ issue.shopData.formatted.variant_id }}">
-				<input type="number" class="count" size="2" name="count" value="{{ issue.cartCount }}">
-				<input type="submit" value="Update count">
-			</form>
+			{% include 'snippets/cart/add-form.twig' %}
+			{% include 'snippets/cart/quantity-form.twig' %}
 			<a class="has-items btn" href="{{ urlFor('checkout') }}">Checkout</a>
 		</section>
 		<main>

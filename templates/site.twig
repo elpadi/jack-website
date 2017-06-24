@@ -37,7 +37,7 @@
 		{% if assets is defined %}{{ assets.css | css | raw }}{% endif %}
 		<script>document.documentElement.className = 'js';</script>
 	</head>
-	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}" data-assets-url="{{ 'assets' | url }}" data-cart-count="{{ cartItemCount ? cartItemCount : 0 }}">
+	<body class="{{ bodyClass | join(' ') }}" data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}" data-assets-url="{{ 'assets' | url }}" data-cart-count="{{ cart ? cart.getItems().getItemCount() : 0 }}">
 		{% import "macros/misc.twig" as misc %}
 		{% if background %}<img class="page-background background" src="{{ background.src }}" srcset="{{ background.srcset }}" alt="">{% endif %}
 		<div id="container">
