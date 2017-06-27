@@ -1,5 +1,5 @@
 <?php
-namespace Website\Action;
+namespace Website\Action\Issues;
 
 class Layouts extends Issue {
 

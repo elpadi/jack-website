@@ -1,5 +1,5 @@
 <?php
-namespace Website\Action;
+namespace Website\Action\Pages;
 
 use Functional as F;
 use Jack\Action\Page;

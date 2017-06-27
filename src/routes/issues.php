@@ -1,12 +1,11 @@
 <?php
 $routes[] = array(
 	'path' => '/issues',
+	'name' => 'issues',
 	'routes' => array(
 		array(
 			'name' => 'issues',
 			'path' => '',
-			'action' => 'editorial',
-			'args' => ['slug' => 'dare-to-dream'],
 		),
 		array(
 			'name' => 'issue',

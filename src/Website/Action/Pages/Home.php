@@ -1,16 +1,16 @@
 <?php
-namespace Website\Action;
+namespace Website\Action\Pages;
 
+use Functional as F;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use Jack\Action\Page;
 use Website\Models;
 
-class Jbpc extends Page {
+class Home extends Intro {
 
 	protected function assets() {
 		return [
-			'css' => ['layouts/full-width','pages/home','pages/models'],
-			'js' => ['pages/models'],
+			'css' => ['layouts/full-width','pages/intro','pages/home','pages/models'],
+			'js' => ['pages/intro','pages/models'],
 		];
 	}
 
@@ -21,8 +21,12 @@ class Jbpc extends Page {
 	}
 
 	protected function fetchPageData() {
+		global $app;
+		$this->data['homepage'] = cockpit('collections:findOne', 'pages', ['path' => $app->routeLookup(getenv('HOME_CONTENT_PAGE'))]);
 		$this->shortcodes->addHandler('jbpc_models', [$this, 'modelsShortcode']);
 		parent::fetchPageData();
+		$this->data['content'] = $this->data['homepage']['content'];
+		unset($this->data['homepage']['content']);
 	}
 
 }

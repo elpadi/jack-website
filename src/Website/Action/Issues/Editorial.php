@@ -1,5 +1,5 @@
 <?php
-namespace Website\Action;
+namespace Website\Action\Issues;
 
 use Functional as F;
 
