@@ -1,0 +1,10 @@
+.image-row {
+	display: block;
+	overflow: hidden;
+	height: 200px;
+}
+.image-row > img {
+	float: left;
+	width: auto;
+	height: 100%;
+}

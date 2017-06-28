@@ -1,0 +1,25 @@
+{% extends "site.twig" %}
+{% block content %}
+<section class="issues-listing">
+	{% for issue in issues %}
+	<article class="issue" data-issue="{{ issue.slug }}">
+		<h1 class="">{{ issue.title }}</h1>
+		<p><a class="image-row" href="{{ urlFor('issue', { slug: issue.slug }) }}">
+			{% with { img: issue.getResponsiveLayout('cover_front', 1) } %}
+			<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
+			{% endwith %}
+			{% with { img: issue.getResponsiveLayout('cover_front', 2) } %}
+			<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
+			{% endwith %}
+		</a></p>
+		<p><a class="image-row" href="{{ urlFor('issue', { slug: issue.slug }) }}">
+			{% with { img: issue.getResponsiveLayout('cover_back', 1) } %}
+			<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
+			{% endwith %}
+			{% with { img: issue.getResponsiveLayout('cover_back', 2) } %}
+			<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
+			{% endwith %}
+		</a></p>
+	</article>
+	{% endfor %}
+{% endblock %}

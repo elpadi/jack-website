@@ -11,7 +11,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link rel="canonical" href="{{ CANONICAL_URL }}">
 		<title>{{ META_TITLE }}</title>
-		{% if META_DESCRIPTION is defined %}<meta name="description" content="{{ META_DESCRIPTION.content }}">{% endif %}
+		{% if META_DESCRIPTION is defined %}<meta name="description" content="{{ META_DESCRIPTION }}">{% endif %}
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		{% for key, val in GRAPH_TAGS.TWITTER_CARD %}

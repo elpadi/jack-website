@@ -236,6 +236,9 @@ App.instance = new App();
 	$(document).ready(function() {
 		App.instance.dispatchEvent('init');
 	});
+	$(window).on('load', function() {
+		App.instance.dispatchEvent('load');
+	});
 	$(window).on('resize', function() {
 		App.instance.dispatchEvent('resize');
 	});
