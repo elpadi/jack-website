@@ -1,5 +1,6 @@
 <?php
 $routes[] = array(
+	'name' => 'issues',
 	'path' => '/issues',
 	'name' => 'issues',
 	'routes' => array(

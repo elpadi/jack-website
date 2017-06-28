@@ -1,0 +1,6 @@
+<form class="has-items" action="{{ urlFor('update-item') }}" method="POST">
+	<input type="hidden" name="id" value="{{ variant.getItemId() }}">
+	<input type="hidden" name="variant_id" value="{{ variant.getVariantId() }}">
+	<input type="number" class="count" size="2" name="count" value="{{ cartCount }}">
+	<input type="submit" value="Update count">
+</form>

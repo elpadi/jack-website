@@ -26,6 +26,10 @@ class App extends \Jack\App {
 			};
 		};
 		$this->_framework = new \Slim\App($c);
+		static::$container['cart'] = function() {
+			$session = static::$container['session'];
+			return new Shop\Cart($session->getSegment('ShoppingCart'));
+		};
 	}
 
 	public function run() {

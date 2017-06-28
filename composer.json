@@ -14,6 +14,9 @@
 	],
 	"minimum-stability": "dev",
 	"require": {
+		"ext-sqlite3": "*",
+		"ext-mbstring": "*",
+		"square/connect": "dev-master",
 		"cebe/markdown": "~1.1.1"
 	},
 	"autoload": {

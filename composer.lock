@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a9190064c056f7023754dee7c7d7be2",
+    "content-hash": "6c2ee8cc823297f3d2dba3a287b51ca7",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -126,6 +126,9 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-sqlite3": "*",
+        "ext-mbstring": "*"
+    },
     "platform-dev": []
 }

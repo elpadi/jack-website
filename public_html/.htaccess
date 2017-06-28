@@ -22,6 +22,8 @@ Header set Cache-Control "max-age=7200, must-revalidate"
 SetEnv HOME_CONTENT_PAGE jbpc
 SetEnv JS_VERSION 1
 SetEnv CSS_VERSION 1
+#SetEnv SQUARE_ACCESS_TOKEN 
+#SetEnv SQUARE_APP_ID 
 
 RewriteEngine On
 

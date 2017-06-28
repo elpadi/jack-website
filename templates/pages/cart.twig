@@ -1,0 +1,41 @@
+{% extends "site.twig" %}
+{% block content %}
+<main>
+	<header class="page-header">
+		<h1 class="page-title">Shopping Cart</h1>
+	</header>
+	<table>
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Price</th>
+				<th>Quantity</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for variant in cart.getVariants() %}{% set cartCount = cart.getItems().getVariantCount(variant) %}
+			<tr>
+				<td>
+					<aside><img src="{{ variant.fetchIssue().getResponsiveLayout('cover_front').src }}" alt=""></aside>
+					<h2>{{ variant.getItemTitle() }}</h2>
+				</td>
+				<td><p>{{ variant.getPrice() | money }}</p></td>
+				<td>{% include 'snippets/cart/quantity-form.twig' %}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<th colspan="3">Subtotal ({{ cart.getItems().getItemCount() }}): <em>{{ cart.getItems().getSubtotal() | money }}</em></th>
+			</tr>
+		</tfoot>
+	</table>
+</main>
+<aside class="fr">
+	<p><a class="shop-back btn" href="{{ urlFor('storefront') }}">Continue Shopping</a></p>
+	<p><strong class="fl">Subtotal</strong> <em>{{ cart.getItems().getSubtotal() | money }}</em></p> 
+	<p><strong class="fl">Shipping</strong> <em>{{ cart.getItems().getShipping() | money }}</em></p> 
+	<p><strong class="fl">Order Total</strong> <em>{{ (cart.getItems().getSubtotal() + cart.getItems().getShipping()) | money }}</em></p> 
+	<p><a class="btn" href="{{ urlFor('checkout') }}">Checkout</a></p>
+</aside>
+{% endblock %}
