@@ -10,4 +10,7 @@
 .issues-listing a {
 }
 .issues-listing img {
+	width: auto;
+	height: auto;
+	max-height: 500px;
 }

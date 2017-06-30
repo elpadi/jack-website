@@ -9,12 +9,20 @@ class Issues extends \ArrayIterator {
 		parent::__construct([]);
 	}
 
+	protected static function createIssue($data) {
+		$issue = new Issue();
+		$issue->hydrate($data);
+		return $issue;
+	}
+
+	protected function sortEntries(&$entries) {
+		array_multisort(F\pluck($entries, 'id'), \SORT_DESC, $entries);
+	}
+
 	public function fetchAll() {
-		foreach (cockpit('collections:find', 'issues') as $data) {
-			$issue = new Issue();
-			$issue->hydrate($data);
-			$this->append($issue);
-		}
+		$entries = cockpit('collections:find', 'issues');
+		$this->sortEntries($entries);
+		foreach ($entries as $data) $this->append(static::createIssue($data));
 	}
 
 }
