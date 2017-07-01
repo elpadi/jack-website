@@ -56,6 +56,11 @@
 						</ul>
 					</span>
 				</nav>
+				<nav class="tc lowercase submenu" data-parent="issues">
+					<ul class="horizontal-list">
+						{% for issue in issues %}<li><a href="{{ issue.getUrl() }}">{{ issue.title }}</a></li>{% endfor %}
+					</ul>
+				</nav>
 				{% block subnav %}{% endblock %}
 				{% block header_content %}{% endblock %}
 			</header>
@@ -75,7 +80,7 @@
 			'bower_components/cookie/cookie',
 			'bower_components/slick-carousel/slick/slick',
 		] | js('src') | raw }}
-		{{ ['app'] | js | raw }}
+		{{ ['app','layouts/submenus'] | js | raw }}
 		<script>Object.defineProperty(App, 'BASE_URL', { value: "{{ '' | url }}" });</script>
 		<script>Object.defineProperty(App, 'ASSETS_URL', { value: "{{ '' | asset_url }}" });</script>
 		<script>Object.defineProperty(App, 'HTTP_REFERER', { value: "{{ SERVER.HTTP_REFERER }}" });</script>

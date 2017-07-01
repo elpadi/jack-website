@@ -2,6 +2,7 @@
 namespace Website;
 
 use cebe\markdown\Markdown;
+use Website\Issues\Issues;
 
 class Template extends \Jack\Template {
 
@@ -32,4 +33,14 @@ class Template extends \Jack\Template {
 			return '$'.number_format($n, 0);
 		}));
 	}
+
+	protected function addCommonVariables(&$vars, $path) {
+		parent::addCommonVariables($vars, $path);
+		if (!isset($vars['issues'])) {
+			$issues = new Issues();
+			$issues->fetchAll();
+			$vars['issues'] = $issues;
+		}
+	}
+
 }

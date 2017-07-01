@@ -64,11 +64,35 @@
 }
 #masthead .social-buttons .stroke { stroke: #c3c3c3; }
 #masthead .social-buttons .fill { fill: #c3c3c3; }
+
+.submenu {
+	position: absolute;
+	top: 45px;
+	left: 50%;
+	white-space: nowrap;
+	transform: translateX(-50%);
+	transition: transform 0.2s linear;
+}
+#masthead .submenu a:hover {
+	color: black;
+}
+
 @media (min-width: 670px) {
+	#masthead {
+		position: relative;
+		height: 45px;
+	}
 	#masthead > nav {
 		position: fixed;
 		display: flex;
 		background-color: white;
+	}
+	#masthead > .submenu {
+		display: block;
+		transform: translateX(-50%) translateY(-100%);
+	}
+	#masthead > .submenu.visible {
+		transform: translateX(-50%) translateY(0);
 	}
 	#masthead > nav a {
 		margin: 0 15px;
