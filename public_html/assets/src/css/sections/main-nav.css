@@ -177,6 +177,10 @@
 	#masthead > .main-nav > .far-right {
 		height: 45px;
 	}
+	#masthead > .submenu,
+	#masthead > .submenu a {
+		height: auto;
+	}
 }
 @media (max-width: 379px) {
 	#masthead nav > .horizontal-list.floats li {

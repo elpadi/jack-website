@@ -13,6 +13,7 @@ $routes[] = array(
 		array('name' => 'about'),
 		array('name' => 'contact'),
 		array('name' => 'event'),
+		array('name' => 'issues'),
 		array('name' => 'special-project'),
 	),
 );

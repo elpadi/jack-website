@@ -4,14 +4,15 @@
 {% endblock %}
 {% block content %}
 <section id="issue-sections" class="issue-sections">
-	{% for section in sections %}
-	<article class="issue-section" data-url="{{ section.url }}" data-slug="{{ section.slug }}">
+	{% for section in issue.getSections() %}
+	<article class="issue-section" data-url="{{ section.getUrl(issue) }}" data-slug="{{ section.slug }}">
 		<aside class="section-layouts tc">
-			{% for layout in section.layouts %}
-			<p class="section-layout" data-src="{{ layout.src }}" data-srcset="{{ layout.srcset }}" data-sizes="50vw">
+			{% for layout in section.getLayouts() %}
+			{% set img = layout.getResponsiveImage() %}
+			<p class="section-layout" data-src="{{ img.src }}" data-srcset="{{ img.srcset }}" data-sizes="50vw">
 				<noscript>
 					<h2 class="screen-reader-text">{{ layout.title }}</h2>
-					<img src="{{ layout.src }}" alt="">
+					<img src="{{ img.src }}" alt="">
 				</noscript>
 			</p>
 			{% endfor %}

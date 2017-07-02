@@ -21,8 +21,8 @@
 body[data-path="issues_single"] #masthead .subnav {
 }
 @media (min-width: 670px) {
-	#content {
-		padding-top: 100px;
+	#masthead {
+		height: 65px;
 	}
 	#masthead > .subnav,
 	#masthead > .subnav a {

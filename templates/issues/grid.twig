@@ -4,11 +4,11 @@
 {% endblock %}
 {% block content %}
 <section class="image-grid" data-col-count="4" data-size="small">
-	{% for layout in layouts %}
+	{% for section in issue.getSections() %}{% for layout in section.getLayouts() %}
 	<article class="image-grid__item">
 		<header><h2>{{ layout.title }}</h2></header>
-		<main><a href="{{ urlFor('layout', { slug: issue.slug, layout: layout.slug }) }}" data-image="{{ layout.image.src }}">{{ layout.title }}</a></main>
+		<main><a href="{{ layout.getUrl(issue) }}" data-image="{{ layout.getImageSrc() }}">{{ layout.title }}</a></main>
 	</article>
-	{% endfor %}
+	{% endfor %}{% endfor %}
 </section>
 {% endblock %}

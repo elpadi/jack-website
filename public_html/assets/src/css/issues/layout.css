@@ -1,7 +1,6 @@
 #content {
+	padding-top: 0;
 	text-align: center;
-	padding-left: 0;
-	padding-right: 0;
 	padding-bottom: 0;
 	overflow: hidden;
 	background-color: white;
@@ -36,9 +35,6 @@
 	object-fit: contain;
 }
 @media (min-width: 670px) {
-	#content {
-		padding-top: 65px;
-	}
 	#slideshow img {
 		height: calc(100vh - 65px);
 	}

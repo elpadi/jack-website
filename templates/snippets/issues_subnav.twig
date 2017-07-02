@@ -1,8 +1,6 @@
 <nav class="subnav foreground tc lowercase">
 	<ul class="horizontal-list floats">
-		<li><a class="plain {% if ISSUE_SECTION == 'editorial' %}selected{% endif %}" href="{{ urlFor('editorial', { slug: issue.slug }) }}">Editorial</a></li>
-		{% for n in [1,2] %}
-		<li><a class="plain {% if ISSUE_SECTION == 'layouts' and part == n %}selected{% endif %}" href="{{ urlFor('layouts', { slug: issue.slug, part: n }) }}">Part {{ n }} Layouts</a></li>
-		{% endfor %}
+		<li><a class="plain {% if 'sections' in TEMPLATE_PATH %}selected{% endif %}" href="{{ issue.getUrl() }}">Editorial</a></li>
+		<li><a class="plain {% if 'grid' in TEMPLATE_PATH %}selected{% endif %}" href="{{ issue.getLayoutsUrl() }}">Layouts</a></li>
 	</ul>
 </nav>

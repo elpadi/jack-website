@@ -95,8 +95,9 @@ Object.defineProperty(LayoutSlideshow.prototype, 'next', { value: function next(
 
 Object.defineProperty(LayoutSlideshow.prototype, 'thumbs', {
 	value: function thumbs() {
-		if (App.HTTP_REFERER.indexOf('thejackmag.com/issues/dare-to-dream/layouts/part-') > 0) history.back();
-		else location = document.getElementById('thumbs').dataset.url;
+		var url = document.getElementById('thumbs').dataset.url;
+		if (App.HTTP_REFERER === location.origin + url) history.back();
+		else location = url;
 	}
 });
 

@@ -1,15 +1,5 @@
 <?php
 $routes[] = array(
-	'name' => 'issues',
-	'path' => '/issues',
-	'routes' => array(
-		array(
-			'name' => 'issues',
-			'path' => '',
-		),
-	),
-);
-$routes[] = array(
 	'name' => 'issue',
 	'path' => '/issues/{id:[0-9]+}-{slug}',
 	'routes' => array(

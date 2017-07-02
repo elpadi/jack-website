@@ -2,27 +2,35 @@
 namespace Website\Issues;
 
 use Functional as F;
+use Website\DataCollection;
 
-class Issues extends \ArrayIterator {
+class Issues extends DataCollection {
 
-	public function __construct() {
-		parent::__construct([]);
+	protected static function newItem() {
+		return new Issue();
 	}
 
-	protected static function createIssue($data) {
-		$issue = new Issue();
-		$issue->hydrate($data);
-		return $issue;
+	protected function collectionName() {
+		return 'issues';
 	}
 
 	protected function sortEntries(&$entries) {
 		array_multisort(F\pluck($entries, 'id'), \SORT_DESC, $entries);
 	}
 
+	protected function sort() {
+		$this->uasort(function($a, $b) {
+			return $b->id - $a->id;
+		});
+	}
+
 	public function fetchAll() {
-		$entries = cockpit('collections:find', 'issues');
-		$this->sortEntries($entries);
-		foreach ($entries as $data) $this->append(static::createIssue($data));
+		parent::fetchAll();
+		$this->sort();
+	}
+
+	public function fetchById(int $id) {
+		parent::fetchOne(compact('id'));
 	}
 
 }
