@@ -9,40 +9,14 @@ class Issue extends Page {
 
 	protected function assets() {
 		$base = [
-			'css' => ['sections/sub-nav'],
+			'css' => ['sections/sub-nav','issues/'.$this->data['issue']->slug],
 			'js' => [],
 		];
 		return array_merge_recursive($base, $this->issueAssets());
 	}
 
-	protected function issueAssets() {
-		switch ($this->data['issue']->id) {
-		case 1:
-		case 2:
-			return [
-				'css' => ['issues/sections'],
-				'js' => ['issues/sections'],
-			];
-		case 3:
-			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, 'overview');
-			exit(0);
-		}
-	}
-
 	protected function metaTitle() {
 		return sprintf('%s | Jack Magazine', $this->data['issue']->title);
-	}
-
-	protected function templatePath() {
-		switch ($this->data['issue']->id) {
-		case 1:
-		case 2:
-			return 'issues/sections';
-		case 3:
-			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, 'overview');
-			exit(0);
-			return 'issues/overview';
-		}
 	}
 
 	protected function fetchData($args) {

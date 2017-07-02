@@ -1,0 +1,10 @@
+.subnav,
+.subnav .layouts,
+.subnav .editorial {
+	display: none !important;
+}
+@media (min-width: 670px) {
+	#content {
+		padding-top: 0;
+	}
+}

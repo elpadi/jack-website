@@ -35,6 +35,14 @@ class App extends \Jack\App {
 	public function run() {
 		$this->_router->loadRoutes(WEBSITE_DIR.'/src/routes');
 		$this->_router->enableRoutes();
+		static::$container['events']->addListener('action.edit_possibilities', function($e) {
+			$possibilities = $e->getArgument('possibilities');
+			if ($e->getArgument('route')['name'] === 'issue') {
+				$class = str_replace(' ', '', ucwords(str_replace('-', ' ', $e->getArgument('routeArgs')['slug'])));
+				array_unshift($possibilities, ['class','Issue',$class]);
+				$e->setArgument('possibilities', $possibilities);
+			}
+		});
 		static::framework()->run();
 	}
 
@@ -42,10 +50,6 @@ class App extends \Jack\App {
 		return "jack_website__$s";
 	}
 
-	public function createAction($request, $response, $args=[]) {
-		return new Action($request, $response, $args);
-	}	
-	
 	public static function createTemplate() {
 		return new Template();
 	}	

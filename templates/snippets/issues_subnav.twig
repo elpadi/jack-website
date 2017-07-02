@@ -1,6 +1,7 @@
 <nav class="subnav foreground tc lowercase">
 	<ul class="horizontal-list floats">
-		<li><a class="plain {% if 'sections' in TEMPLATE_PATH %}selected{% endif %}" href="{{ issue.getUrl() }}">Editorial</a></li>
-		<li><a class="plain {% if 'grid' in TEMPLATE_PATH %}selected{% endif %}" href="{{ issue.getLayoutsUrl() }}">Layouts</a></li>
+		<li class="overview"><a class="plain {% if 'overview' in TEMPLATE_PATH %}selected{% endif %}" href="{{ issue.getUrl() }}">Overview</a></li>
+		<li class="editorial"><a class="plain {% if 'sections' in TEMPLATE_PATH %}selected{% endif %}" href="{{ issue.getUrl() }}">Editorial</a></li>
+		<li class="layouts"><a class="plain {% if 'grid' in TEMPLATE_PATH %}selected{% endif %}" href="{{ issue.getLayoutsUrl() }}">Layouts</a></li>
 	</ul>
 </nav>

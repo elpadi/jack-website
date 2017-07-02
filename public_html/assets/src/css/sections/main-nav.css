@@ -68,7 +68,8 @@
 .submenu {
 	position: absolute;
 	top: 45px;
-	left: 50%;
+	left: 0;
+	width: 100%;
 	white-space: nowrap;
 	transform: translateX(-50%);
 	transition: transform 0.2s linear;
@@ -89,10 +90,13 @@
 	}
 	#masthead > .submenu {
 		display: block;
-		transform: translateX(-50%) translateY(-100%);
+		transform: translateY(-100%);
+	}
+	#masthead > .submenu > ul {
+		margin: 0 auto;
 	}
 	#masthead > .submenu.visible {
-		transform: translateX(-50%) translateY(0);
+		transform: translateY(0);
 	}
 	#masthead > nav a {
 		margin: 0 15px;
