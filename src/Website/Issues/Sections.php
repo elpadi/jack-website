@@ -2,7 +2,7 @@
 namespace Website\Issues;
 
 use Functional as F;
-use Website\DataCollection;
+use Website\Data\Collection as DataCollection;
 
 class Sections extends DataCollection {
 

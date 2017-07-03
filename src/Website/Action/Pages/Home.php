@@ -3,6 +3,7 @@ namespace Website\Action\Pages;
 
 use Functional as F;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use Website\Pages;
 use Website\Models;
 
 class Home extends Intro {
@@ -14,19 +15,17 @@ class Home extends Intro {
 		];
 	}
 
-	public function modelsShortcode(ShortcodeInterface $s) {
-		global $app;
-		$models = new Models();
-		return $app->templateManager->snippet('models/list', ['models' => $models->fetchAll()]);
+	protected function api($response) {
+		unset($this->data['content']);
+		unset($this->data['homepage']->content);
+		return parent::api($response);
 	}
 
 	protected function fetchPageData() {
-		global $app;
-		$this->data['homepage'] = cockpit('collections:findOne', 'pages', ['path' => $app->routeLookup(getenv('HOME_CONTENT_PAGE'))]);
-		$this->shortcodes->addHandler('jbpc_models', [$this, 'modelsShortcode']);
 		parent::fetchPageData();
-		$this->data['content'] = $this->data['homepage']['content'];
-		unset($this->data['homepage']['content']);
+		$this->shortcodes->addHandler('jbpc_models', ['\\Website\\Pages', 'modelsShortcode']);
+		$this->data['homepage'] = Pages::getHomePage();
+		$this->data['content'] = $this->data['homepage']->content;
 	}
 
 }

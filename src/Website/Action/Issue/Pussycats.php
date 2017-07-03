@@ -1,24 +1,27 @@
 <?php
-namespace Website\Action\Models;
+namespace Website\Action\Issue;
 
-use function Stringy\create as s;
+use Functional as F;
 use Website\App;
+use Website\Pages;
 use Website\Models\Models;
 
-class Model extends Base {
-	
-	protected function assets() {
-		return array_merge_recursive(parent::assets(), [
-			'js' => ['layouts/infinite-scroll','pages/model'],
-		]);
+class Pussycats extends JackBlackPussyCat {
+
+	protected function issueAssets() {
+		return [
+			'css' => ['layouts/full-width','pages/home','pages/models'],
+			'js' => ['layouts/infinite-scroll','pages/model','pages/models'],
+		];
 	}
 
 	protected function metaTitle() {
-		return sprintf('%s | Jack Magazine', $this->data['model']->name);
+		return 'Pussycats | '.Issue::metaTitle();
 	}
 
 	protected function fetchData($args) {
-		if ($args['slug'] === 'infinite-scroll') {
+		Issue::fetchData($args);
+		if (isset($_GET['action']) && $_GET['action'] === 'more') {
 			if (!isset($_GET['exclude']) || empty($_GET['exclude'])) throw new \InvalidArgumentException("An exclude list must be provided.", 400);
 			$model = Models::getOneRandomWithout($_GET['exclude']);
 			if (!$model) {
@@ -28,7 +31,6 @@ class Model extends Base {
 		}
 		else {
 			$model = Models::getOneRandom();
-			$this->data['model'] = $model;
 		}
 		$this->data['content'] = App::$container['templates']->snippet('models/list', ['models' => [$model]]);
 	}

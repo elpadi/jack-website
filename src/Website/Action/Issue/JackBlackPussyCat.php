@@ -14,7 +14,11 @@ class JackBlackPussyCat extends Issue {
 	}
 
 	protected function templatePath() {
-		return 'issues/overview';
+		return 'issues/page';
+	}
+
+	protected function metaTitle() {
+		return 'Overview | '.parent::metaTitle();
 	}
 
 	protected function fetchData($args) {

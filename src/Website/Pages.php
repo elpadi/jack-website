@@ -3,6 +3,8 @@ namespace Website;
 
 use Functional as F;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use Website\Data\Collection as DataCollection;
+use Website\Models\Models;
 
 class Pages extends DataCollection {
 
@@ -11,9 +13,11 @@ class Pages extends DataCollection {
 	}
 
 	public static function modelsShortcode(ShortcodeInterface $s) {
-		global $app;
-		$models = new Models();
-		return $app->templateManager->snippet('models/list', ['models' => $models->fetchAll()]);
+		return App::$container['templates']->snippet('models/list', ['models' => Models::getAll()]);
+	}
+
+	public static function getHomePage() {
+		return static::getOne(['path' => App::routeUrl(getenv('HOME_CONTENT_PAGE'))]);
 	}
 
 }

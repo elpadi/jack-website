@@ -7,7 +7,6 @@ $routes[] = array(
 			'name' => 'issue',
 			'path' => '',
 		),
-		array('name' => 'editorial'),
 		array(
 			'name' => 'section',
 			'path' => '/editorial/{section:[-a-z0-9]+}',
@@ -17,5 +16,6 @@ $routes[] = array(
 			'name' => 'layout',
 			'path' => '/layouts/{layout}',
 		),
+		array('name' => 'pussycats'),
 	),
 );

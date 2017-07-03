@@ -1,7 +1,6 @@
 <?php
 namespace Website\Action\Models;
 
-use Functional as F;
 use Jack\Action\Page;
 
 abstract class Base extends Page {

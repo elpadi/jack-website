@@ -2,7 +2,7 @@
 namespace Website\Issues;
 
 use Functional as F;
-use Website\DataCollection;
+use Website\Data\Collection as DataCollection;
 
 class Issues extends DataCollection {
 
@@ -14,19 +14,8 @@ class Issues extends DataCollection {
 		return 'issues';
 	}
 
-	protected function sortEntries(&$entries) {
+	protected function sort(&$entries) {
 		array_multisort(F\pluck($entries, 'id'), \SORT_DESC, $entries);
-	}
-
-	protected function sort() {
-		$this->uasort(function($a, $b) {
-			return $b->id - $a->id;
-		});
-	}
-
-	public function fetchAll() {
-		parent::fetchAll();
-		$this->sort();
 	}
 
 	public function fetchById(int $id) {

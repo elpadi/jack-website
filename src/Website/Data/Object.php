@@ -1,11 +1,11 @@
 <?php
-namespace Website;
+namespace Website\Data;
 
 use Functional as F;
 use Website\App;
 use Website\Shop;
 
-class DataObject {
+class Object {
 
 	final public function __construct() {
 	}

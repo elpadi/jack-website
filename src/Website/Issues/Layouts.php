@@ -2,8 +2,7 @@
 namespace Website\Issues;
 
 use Functional as F;
-use Website\DataCollection;
-use Website\DataObject;
+use Website\Data\Collection as DataCollection;
 
 class Layouts extends DataCollection {
 

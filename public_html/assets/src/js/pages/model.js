@@ -1,6 +1,7 @@
 function ModelScroll() {
 	InfiniteScroll.call(this);
 	this.onDisplay = [];
+	if (location.pathname.includes('jack-black-pussy-cat')) this.URL = location.pathname;
 }
 
 ModelScroll.prototype = Object.create(InfiniteScroll.prototype);
@@ -17,7 +18,7 @@ Object.defineProperty(ModelScroll.prototype, 'fetch', {
 		this.onDisplay = Array.from(document.getElementsByClassName('model')).map(function(model) {
 			return model.dataset.slug;
 		});
-		return App.instance.fetch(this.URL + '?exclude=' + encodeURIComponent(this.onDisplay.join(',')));
+		return App.instance.fetch(this.URL + '?action=more&exclude=' + encodeURIComponent(this.onDisplay.join(',')));
 	}
 });
 
@@ -37,11 +38,11 @@ Object.defineProperty(ModelScroll.prototype, 'appendModel', {
 Object.defineProperty(ModelScroll.prototype, 'addContent', {
 	value: function addContent(data) {
 		var container = document.createElement('div');
+		if (data.content == '') this.destroy();
 		container.innerHTML = data.content;
 		setTimeout(function() {
 			Array.from(container.getElementsByClassName('model')).forEach(this.appendModel.bind(this));
 		}.bind(this), 64);
-		if (data.count == 1) this.destroy();
 	}
 });
 

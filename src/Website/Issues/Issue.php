@@ -3,7 +3,7 @@ namespace Website\Issues;
 
 use Functional as F;
 use Website\App;
-use Website\DataObject;
+use Website\Data\Object as DataObject;
 use Website\Shop;
 
 class Issue extends DataObject {
@@ -12,12 +12,20 @@ class Issue extends DataObject {
 		return Sections::getByIssueId($this->id);
 	}
 
+	protected function getRouteUrl($name, $args=[]) {
+		return App::routeUrl($name, array_merge(['id' => $this->id, 'slug' => $this->slug], $args));
+	}
+
 	public function getUrl() {
-		return App::routeUrl('issue', ['id' => $this->id, 'slug' => $this->slug]);
+		return $this->getRouteUrl('issue');
 	}
 
 	public function getLayoutsUrl() {
-		return App::routeUrl('layouts', ['id' => $this->id, 'slug' => $this->slug]);
+		return $this->getRouteUrl('layouts');
+	}
+
+	public function getModelsUrl() {
+		return $this->getRouteUrl('pussycats');
 	}
 
 	public function getResponsiveCovers() {

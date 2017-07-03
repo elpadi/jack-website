@@ -14,6 +14,7 @@
 .invisible.visible { visibility: visible; }
 .no-underline a, a.no-underline { text-decoration: none; }
 .plain a, a.plain { text-decoration: none; color: inherit; outline-style: none; }
+ul.plain, ol.plain { list-style-type: none; padding-left: 0; }
 .no-js .js-content,
 .js .js-content: not(.invisible) {
 	display: none;

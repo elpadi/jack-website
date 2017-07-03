@@ -96,6 +96,7 @@ Object.defineProperty(Submenu.prototype, 'init', {
 		$(this.node).on('mouseleave', function(e) {
 			this.resettHideTimeout();
 		}.bind(this));
+		this.node.children[0].style.left = this.trigger.getBoundingClientRect().left + 'px';
 	}
 });
 

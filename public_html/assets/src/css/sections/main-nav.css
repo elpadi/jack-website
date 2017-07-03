@@ -70,12 +70,18 @@
 	top: 45px;
 	left: 0;
 	width: 100%;
+	overflow: hidden;
 	white-space: nowrap;
-	transform: translateX(-50%);
 	transition: transform 0.2s linear;
+}
+.submenu ul {
+	position: relative;
 }
 #masthead .submenu a:hover {
 	color: black;
+}
+#masthead .submenu a {
+	margin: 0;
 }
 
 @media (min-width: 670px) {
