@@ -2,22 +2,20 @@
 namespace Website\Issues;
 
 use Functional as F;
-use Website\Data\Collection as DataCollection;
+use Website\Data\DynamicNameCollection;
 
-class Layouts extends DataCollection {
+class Layouts extends DynamicNameCollection {
 
-	use IssueObjectTrait;
-
-	public static function getBySlug(int $issueId, string $slug) {
-		return static::getOneIssueObject($issueId, compact('slug'));
+	protected static function getNameSetter(int $issueId) {
+		return function(&$collection) use ($issueId) { $collection->NAME = "issue{$issueId}layouts"; };
 	}
 
 	protected static function newItem() {
 		return new Layout();
 	}
 
-	protected function collectionName() {
-		return "issue{$this->issueId}layouts";
+	public static function getBySlug(int $issueId, string $slug) {
+		return static::getOne(compact('slug'), static::getNameSetter($issueId));
 	}
 
 }

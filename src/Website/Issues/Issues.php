@@ -2,16 +2,14 @@
 namespace Website\Issues;
 
 use Functional as F;
-use Website\Data\Collection as DataCollection;
+use Website\Data\StaticNameCollection;
 
-class Issues extends DataCollection {
+class Issues extends StaticNameCollection {
+
+	protected static $NAME = 'issues';
 
 	protected static function newItem() {
 		return new Issue();
-	}
-
-	protected function collectionName() {
-		return 'issues';
 	}
 
 	protected function sort(&$entries) {

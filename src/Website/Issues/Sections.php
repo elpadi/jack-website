@@ -2,22 +2,20 @@
 namespace Website\Issues;
 
 use Functional as F;
-use Website\Data\Collection as DataCollection;
+use Website\Data\DynamicNameCollection;
 
-class Sections extends DataCollection {
+class Sections extends DynamicNameCollection {
 
-	use IssueObjectTrait;
-
-	public static function getByIssueId(int $issueId) {
-		return static::getAllIssueObjects($issueId);
+	protected static function getNameSetter(int $issueId) {
+		return function(&$collection) use ($issueId) { $collection->NAME = "issue{$issueId}sections"; };
 	}
 
 	protected static function newItem() {
 		return new Section();
 	}
 
-	protected function collectionName() {
-		return "issue{$this->issueId}sections";
+	public static function getByIssueId(int $issueId) {
+		return static::getAll(static::getNameSetter($issueId));
 	}
 
 }

@@ -9,8 +9,8 @@ abstract class Collection extends \ArrayIterator {
 	protected $sortingFunction;
 	protected $filters = array();
 
-	public function __construct() {
-		parent::__construct([]);
+	public function __construct(array $values=[]) {
+		parent::__construct($values);
 	}
 
 	protected static function newItem() {
@@ -19,43 +19,19 @@ abstract class Collection extends \ArrayIterator {
 
 	abstract protected function collectionName();
 
-	public static function getAll() {
-		$collection = new static();
-		$collection->fetchAll();
-		return $collection;
-	}
-
-	public static function getOne($where) {
-		$collection = new static();
-		$collection->fetchOne($where);
-		return $collection->current();
-	}
-
-	protected function randomize() {
-		$this->enableSort(function(&$entries) { shuffle($entries); });
-	}
-
-	public static function getOneRandom() {
-		$collection = new static();
-		$collection->randomize();
-		$collection->fetchAll();
-		return $collection->current();
-	}
-
-	public static function createFromChildren(array $children) {
-		$collection = new static();
-		foreach ($children as $child) {
-			$data = cockpit('collections:findOne', $child['field']['options']['link'], ['_id' => $child['value']['_id']]);
-			$collection->append(static::createItem($data));
-		}
-		return $collection;
-	}
-
 	protected static function createItem(array $data) {
 		$item = static::newItem();
 		if (!($item instanceof DataObject)) throw new \RuntimeException("Item created must be an instance of Website\\Data\\Object.");
 		$item->hydrate($data);
 		return $item;
+	}
+
+	protected static function getChildData($child) {
+		return cockpit('collections:findOne', $child['field']['options']['link'], ['_id' => $child['value']['_id']]);
+	}
+
+	protected function randomize() {
+		$this->enableSort(function(&$entries) { shuffle($entries); });
 	}
 
 	protected function select($entries) {
