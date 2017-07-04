@@ -7,6 +7,8 @@ use Website\Shop\SquareCatalog;
 
 class CartItemList extends \ArrayObject {
 
+	const STANDARD_SHIPPING_COST = 35;
+
 	public function __construct() {
 		parent::__construct([]);
 		$this->catalog = Square::getCatalog();
@@ -34,6 +36,11 @@ class CartItemList extends \ArrayObject {
 		return array_sum(F\map($this, function($count, $key) {
 			return Square::getCatalog()->offsetGet($key)->getPrice() * $count;
 		}));
+	}
+
+	public function getShipping() {
+		$count = $this->getItemCount();
+		return ceil($count / 3) * self::STANDARD_SHIPPING_COST;
 	}
 
 	public function getVariantCount($variant) {

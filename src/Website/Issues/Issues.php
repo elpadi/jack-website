@@ -16,6 +16,10 @@ class Issues extends StaticNameCollection {
 		array_multisort(F\pluck($entries, 'id'), \SORT_DESC, $entries);
 	}
 
+	public static function getOneByTitle($title) {
+		return static::getOne(compact('title'));
+	}
+
 	public function fetchById(int $id) {
 		parent::fetchOne(compact('id'));
 	}

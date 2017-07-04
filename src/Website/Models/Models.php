@@ -2,22 +2,20 @@
 namespace Website\Models;
 
 use function Stringy\create as s;
-use Website\Data\Collection as DataCollection;
+use Website\Data\StaticNameCollection;
 
-class Models extends DataCollection {
+class Models extends StaticNameCollection {
 
-	protected function collectionName() {
-		return 'models';
-	}
+	protected static $NAME = 'models';
 
 	public static function getOneRandomWithout($excludes) {
-		$collection = new static();
-		$collection->filter(function($data) use ($excludes) {
-			return strpos($excludes, (string)s($data['name'])->slugify()) === FALSE;
+		return static::one(function(&$collection) use ($excludes) {
+			$collection->filter(function($data) use ($excludes) {
+				return strpos($excludes, (string)s($data['name'])->slugify()) === FALSE;
+			});
+			$collection->randomize();
+			$collection->fetchAll();
 		});
-		$collection->randomize();
-		$collection->fetchAll();
-		return $collection->current();
 	}
 
 }

@@ -2,6 +2,12 @@ function Store() {
 	this.isBusy = false;
 }
 
+Object.defineProperty(Store, 'moneyFormat', {
+	value: function moneyFormat(value) {
+		return '$' + value.toFixed(2);
+	}
+});
+
 Object.defineProperty(Store.prototype, 'init', {
 	value: function init() {
 		$('form').on('submit', this.onFormSubmit.bind(this));
@@ -23,7 +29,8 @@ Object.defineProperty(Store.prototype, 'onFormSubmit', {
 Object.defineProperty(Store.prototype, 'formDataHandler', {
 	value: function formDataHandler(form, data) {
 		// item node data attribute
-		$(form).closest('.store-item').get(0).dataset.cartCount = data.item_count;
+		var item = $(form).closest('.store-item').get(0);
+		if (item) item.dataset.cartCount = data.item_count;
 		// update item count form
 		console.log(data);
 		_(document.forms).filter(function(f) {
@@ -36,6 +43,11 @@ Object.defineProperty(Store.prototype, 'formDataHandler', {
 		$('input[value="' + data.variant_id + '"]').closest('form').find('.count').prop('value', data.item_count);
 		// total count body data attribute
 		document.body.dataset.cartCount = data.cart_count;
+		$('.cart__count').html(data.cart_count);
+		$('.cart__subtotal').html(Store.moneyFormat(data.subtotal));
+		$('.cart__shipping').html(Store.moneyFormat(data.shipping));
+		$('.cart__total').html(Store.moneyFormat(data.subtotal + data.shipping));
+		$('.cart__count').html(data.cart_count);
 	}
 });
 

@@ -2,16 +2,15 @@
 {% block content %}
 <h1 class="screen-reader-text">Jack Store</h1>
 <section class="issues">
-	{% for variant in catalog %}{% set cartCount = cart.getItems().getVariantCount(variant) %}
+	{% for variant in catalog %}
+	{% set issue = variant.getIssue() %}
+	{% set cartCount = cart.getItems().getVariantCount(variant) %}
 	<article class="store-item" data-cart-count="{{ cartCount }}">
-		{% with { img: variant.fetchIssue().getResponsiveLayout('cover_front') } %}
+		{% with { img: (issue.getResponsiveCovers() | first) } %}
 		<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
 		{% endwith %}
 		<header>
-			{% with { issue: variant.fetchIssue() } %}
 			<h2>{{ issue.title }}</h2>
-			<h3 class="info">Issue {{ '#' ~ issue.number }} - Part {{ issue.part }}</h3>
-			{% endwith %}
 			<h3 class="price">{{ variant.getPrice() | money }}</h3>
 		</header>
 		<section class="actions">

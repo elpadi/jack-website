@@ -2,7 +2,7 @@
 namespace Website\Shop;
 
 use Functional as F;
-use Website\Issues\Issue;
+use Website\Issues\Issues;
 
 class SquareVariant {
 
@@ -29,11 +29,8 @@ class SquareVariant {
 		return $this->raw['variant']->item_variation_data->price_money->amount / 100;
 	}
 
-	public function fetchIssue() {
-		if ($this->issue) return $this->issue;
-		if (!preg_match('/^Issue #([0-9]+) - (.*) - Part ([0-9]+)$/', $this->getItemTitle(), $matches)) return NULL;
-		$this->issue = Issue::createByNumber($matches[1], $matches[3]);
-		return $this->issue;
+	public function getIssue() {
+		return Issues::getOneByTitle($this->getItemTitle());
 	}
 
 }

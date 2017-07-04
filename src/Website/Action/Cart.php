@@ -8,12 +8,26 @@ use Website\App;
 
 class Cart extends Page {
 
+	protected function assets() {
+		return [
+			'css' => ['store/cart'],
+			'js' => ['store/store'],
+		];
+	}
+
+	protected function templatePath() {
+		return 'store/cart';
+	}
+
 	protected function setupApiData($count) {
 		extract($_POST, \EXTR_SKIP);
+		$cartItems = App::$container['cart']->getItems();
 		$this->data = array_merge(compact('id', 'variant_id'), [
 			'success' => true,
 			'item_count' => $count,
-			'cart_count' => App::$container['cart']->getItems()->getItemCount(),
+			'subtotal' => $cartItems->getSubtotal(),
+			'shipping' => $cartItems->getShipping(),
+			'cart_count' => $cartItems->getItemCount(),
 		]);
 	}
 
@@ -33,15 +47,14 @@ class Cart extends Page {
 
 	protected function fetchPageData() {
 		parent::fetchPageData();
-		$this->data['cart'] = \Website\App::$container['cart'];
+		$this->data['cart'] = App::$container['cart'];
 		$this->data['catalog'] = Square::getCatalog();
 	}
 
 	protected function finalize($response) {
-		global $app;
 		return $this->data['cart']->getItems()->getItemCount()
 			? parent::finalize($response)
-			: $response->withRedirect($app->routeLookup('storefront'));
+			: App::redirect(App::routeUrl('storefront'));
 	}
 
 	public function cart($request, $response, $args) {

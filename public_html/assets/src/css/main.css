@@ -204,6 +204,7 @@ figcaption > aside {
 a.btn,
 button,
 input[type="submit"] {
+	display: inline-block;
 	outline-style: none;
 	background-color: #ddd;
 	font-weight: bold;

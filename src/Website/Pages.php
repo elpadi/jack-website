@@ -3,14 +3,12 @@ namespace Website;
 
 use Functional as F;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use Website\Data\Collection as DataCollection;
+use Website\Data\StaticNameCollection;
 use Website\Models\Models;
 
-class Pages extends DataCollection {
+class Pages extends StaticNameCollection {
 
-	protected function collectionName() {
-		return "pages";
-	}
+	protected static $NAME = 'pages';
 
 	public static function modelsShortcode(ShortcodeInterface $s) {
 		return App::$container['templates']->snippet('models/list', ['models' => Models::getAll()]);
