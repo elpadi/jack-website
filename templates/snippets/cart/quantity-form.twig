@@ -1,6 +1,12 @@
-<form class="has-items" action="{{ urlFor('update-item') }}" method="POST">
+<form class="store-form update-count-form has-items" action="{{ urlFor('update-item') }}" method="POST">
 	<input type="hidden" name="id" value="{{ variant.getItemId() }}">
 	<input type="hidden" name="variant_id" value="{{ variant.getVariantId() }}">
-	<input type="number" class="count" size="2" name="count" value="{{ cartCount }}">
+	<label><strong class="label-text">Update quantity:</strong>
+		<select name="count" class="count">
+			{% for n in 1..10 %}
+			<option value="{{ n }}" {% if n == cartCount %}selected{% endif %}>{{ n }}</option>
+			{% endfor %}
+		</select>
+	</label>
 	<input type="submit" value="Update count">
 </form>

@@ -5,7 +5,7 @@
 	{% for variant in catalog %}
 	{% set issue = variant.getIssue() %}
 	{% set cartCount = cart.getItems().getVariantCount(variant) %}
-	<article class="store-item" data-cart-count="{{ cartCount }}">
+	<article class="store-item" data-cart-count="{{ cartCount }}" data-variant-id="{{ variant.getVariantId() }}">
 		{% with { img: (issue.getResponsiveCovers() | first) } %}
 		<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
 		{% endwith %}

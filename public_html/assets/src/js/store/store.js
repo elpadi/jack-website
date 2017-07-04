@@ -10,7 +10,10 @@ Object.defineProperty(Store, 'moneyFormat', {
 
 Object.defineProperty(Store.prototype, 'init', {
 	value: function init() {
-		$('form').on('submit', this.onFormSubmit.bind(this));
+		$('.store-form').on('submit', this.onFormSubmit.bind(this));
+		$('.update-count-form').find('.count').on('change', function(e) {
+			$(this.form).trigger('submit');
+		});
 	}
 });
 
@@ -28,13 +31,7 @@ Object.defineProperty(Store.prototype, 'onFormSubmit', {
 
 Object.defineProperty(Store.prototype, 'formDataHandler', {
 	value: function formDataHandler(form, data) {
-		// item node data attribute
-		var item = $(form).closest('.store-item').get(0);
-		if (item) item.dataset.cartCount = data.item_count;
-		// update item count form
-		console.log(data);
 		_(document.forms).filter(function(f) {
-			console.log(f.variant_id);
 			return ('count' in f) && ('variant_id' in f) && (f.variant_id.value === data.variant_id);
 		}).forEach(function(f) {
 			console.log(f.count);
@@ -48,6 +45,9 @@ Object.defineProperty(Store.prototype, 'formDataHandler', {
 		$('.cart__shipping').html(Store.moneyFormat(data.shipping));
 		$('.cart__total').html(Store.moneyFormat(data.subtotal + data.shipping));
 		$('.cart__count').html(data.cart_count);
+		$('.store-item')
+			.filter(function(i, node) { return node.dataset.variantId === data.variant_id; })
+			.each(function(i, node) { node.dataset.cartCount = data.item_count; });
 	}
 });
 

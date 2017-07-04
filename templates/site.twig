@@ -51,7 +51,7 @@
 					</ul>
 					<span class="far-right tl">
 						<ul class="social-buttons horizontal-list floats tc">
-							<li class="button--cart"><a class="plain svg-button" href="{{ urlFor('cart') }}">{{ svg('cart', 'Shopping Cart') | raw }}</a></li>
+							<li class="button--cart needs-cart-items"><a class="plain svg-button" href="{{ urlFor('cart') }}">{{ svg('cart', 'Shopping Cart') | raw }}</a></li>
 							{% for link in cockpit_collection('socialmenu') %}<li class="button--{{ link.name }}">{{ misc.social_button(link.name, link.url) }}</li>{% endfor %}
 						</ul>
 					</span>

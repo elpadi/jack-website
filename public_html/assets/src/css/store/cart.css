@@ -19,7 +19,10 @@ table h2 {
 	font-size: 1.2em;
 }
 td {
-	padding: 20px 20px 20px 0;
+	padding: 20px 20px 20px 10px;
+}
+th {
+	padding-left: 10px;
 }
 thead {
 	border-bottom: 1px solid #ddd;
@@ -36,4 +39,18 @@ aside .btn {
 }
 aside strong::after {
 	content:':';
+}
+table .label-text {
+	display: none;
+}
+table tr:nth-child(2n + 2) {
+	background-color: #f4f4f4;
+}
+#content > main .needs-empty-cart {
+	font-size: 1.2em;
+	margin-top: 3em;
+	margin-top: 20vh;
+}
+table .store-item[data-cart-count="0"] {
+	display: none;
 }

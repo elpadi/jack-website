@@ -1,0 +1,7 @@
+<form class="store-form remove-item-form has-items" action="{{ urlFor('update-item') }}" method="POST">
+	<input type="hidden" name="id" value="{{ variant.getItemId() }}">
+	<input type="hidden" name="variant_id" value="{{ variant.getVariantId() }}">
+	<input type="hidden" name="count" value="0">
+	<input type="submit" value="Remove item">
+	<button class="x icon plain">&#x2718;</button>
+</form>

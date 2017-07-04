@@ -1,0 +1,21 @@
+.js .remove-item-form input[type="submit"],
+.js .update-count-form input[type="submit"] {
+	display: none;
+}
+.store-item[data-cart-count="0"] .has-items,
+.store-item .no-items {
+	display: none !important;
+}
+.store-item[data-cart-count="0"] .no-items {
+	display: block !important;
+}
+.needs-empty-cart,
+body[data-cart-count="0"] .needs-cart-items {
+	display: none;
+}
+body[data-cart-count="0"] .needs-empty-cart {
+	display: block;
+}
+.label-text {
+	margin-right: 0.5em;
+}

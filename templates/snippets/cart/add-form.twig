@@ -1,4 +1,4 @@
-<form class="no-items" action="{{ urlFor('add-item') }}" method="POST">
+<form class="store-form add-item-form no-items" action="{{ urlFor('add-item') }}" method="POST">
 	<input type="hidden" name="id" value="{{ variant.getItemId() }}">
 	<input type="hidden" name="variant_id" value="{{ variant.getVariantId() }}">
 	<input type="submit" value="Add to cart">

@@ -25,7 +25,8 @@ class CartItemList extends \ArrayObject {
 	}
 
 	public function has($itemId, $variantId) {
-		return $this->offsetExists(Square::key($itemId, $variantId));
+		$key = Square::key($itemId, $variantId);
+		return $this->offsetExists($key) && $this->offsetGet($key) > 0;
 	}
 
 	public function getItemCount() {

@@ -10,7 +10,7 @@ class Cart extends Page {
 
 	protected function assets() {
 		return [
-			'css' => ['store/cart'],
+			'css' => ['store/base','store/cart'],
 			'js' => ['store/store'],
 		];
 	}
@@ -49,12 +49,6 @@ class Cart extends Page {
 		parent::fetchPageData();
 		$this->data['cart'] = App::$container['cart'];
 		$this->data['catalog'] = Square::getCatalog();
-	}
-
-	protected function finalize($response) {
-		return $this->data['cart']->getItems()->getItemCount()
-			? parent::finalize($response)
-			: App::redirect(App::routeUrl('storefront'));
 	}
 
 	public function cart($request, $response, $args) {
