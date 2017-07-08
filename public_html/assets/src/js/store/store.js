@@ -22,9 +22,11 @@ Object.defineProperty(Store.prototype, 'onFormSubmit', {
 		var form = e.currentTarget;
 		e.preventDefault();
 		if (!this.isBusy) {
-			this.beforeFetch(form)
-				.then(App.instance.submitForm(form).then(_.bind(this.formDataHandler, this, form)))
-				.then(_.bind(this.reset, this, form));
+			this.beforeFetch(form).then(function() {
+				App.instance.submitForm(form)
+					.then(_.bind(this.formDataHandler, this, form))
+					.then(_.bind(this.reset, this, form));
+			}.bind(this));
 		}
 	}
 });
@@ -62,9 +64,9 @@ Object.defineProperty(Store.prototype, 'reset', {
 Object.defineProperty(Store.prototype, 'beforeFetch', {
 	value: function beforeFetch(form) {
 		this.isBusy = true;
-		setTimeout(function() { form.classList.add('loading'); }, 200);
+		form.classList.add('loading');
 		$(form).find('input[type="submit"]').attr('disabled','disabled');
-		return App.instance.delayPromise(1000);
+		return App.instance.delayPromise(500);
 	}
 });
 

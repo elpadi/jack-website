@@ -10,6 +10,20 @@ abstract class StaticNameCollection extends Collection {
 		return static::$NAME;
 	}
 
+	public static function add(array $data) {
+		$collection = new static();
+		return cockpit('collections:save', $collection->collectionName(), $data);
+	}
+
+	public static function update(array $where, array $changes) {
+		$collection = new static();
+		$collection->fetchOne($where);
+		if ($entry = $collection->current()) {
+			return cockpit('collections:save', $collection->collectionName(), array_merge($entry->getArrayCopy(), $changes));
+		}
+		else throw new \InvalidArgumentException("Cannot update non-existing entry.");
+	}
+
 	protected static function one(callable $fn) {
 		$collection = new static();
 		call_user_func_array($fn, [&$collection]);

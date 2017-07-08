@@ -2,10 +2,9 @@
 {% block content %}
 <h1 class="screen-reader-text">Jack Store</h1>
 <section class="issues">
-	{% for variant in catalog %}
-	{% set issue = variant.getIssue() %}
-	{% set cartCount = cart.getItems().getVariantCount(variant) %}
-	<article class="store-item" data-cart-count="{{ cartCount }}" data-variant-id="{{ variant.getVariantId() }}">
+	{% for issue in issues %}
+	{% set variant = issue.getStoreVariant() %}
+	<article class="store-item" data-cart-count="{{ variant.getCartCount() }}" data-variant-id="{{ variant.getVariantId() }}">
 		{% with { img: (issue.getResponsiveCovers() | first) } %}
 		<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
 		{% endwith %}
@@ -17,10 +16,8 @@
 			{% include 'snippets/cart/add-form.twig' %}
 			{% include 'snippets/cart/quantity-form.twig' %}
 			<a class="has-items btn" href="{{ urlFor('checkout') }}">Checkout</a>
+			<a class="btn" href="{{ issue.getUrl() }}">More info</a>
 		</section>
-		<main>
-			<p>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est.</p>
-		</main>
 	</article>
 	{% endfor %}
 </section>

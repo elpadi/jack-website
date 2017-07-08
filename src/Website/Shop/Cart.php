@@ -2,43 +2,88 @@
 namespace Website\Shop;
 
 use Functional as F;
+use Website\Shop\Square as Store;
 
-class Cart {
+class Cart extends \ArrayObject {
+
+	const STANDARD_SHIPPING_COST = 30;
 
 	protected $items;
 	
-	public function __construct($storage) {
+	public function __construct($storage, $catalog) {
+		parent::__construct([]);
 		$this->storage = $storage;
-		$this->items = new CartItemList();
-		if ($sessionItems = $this->storage->get('items')) {
-			$this->items->hydrateFromSession($sessionItems);
+		$this->catalog = $catalog;
+		$this->hydrateFromStorage();
+	}
+
+	protected function hydrateFromStorage() {
+		if ($items = $this->storage->get('items')) {
+			foreach ($items as $key => $count) $this->offsetSet($key, $count);
 		}
 	}
 
-	protected function updateSession() {
-		$this->storage->set('items', $this->items->getArrayCopy());
+	public function whenLastUpdated() {
+		return ($time = $this->storage->get('lastUpdateTimestamp')) ? $time : 0;
+	}
+
+	protected function updateStorage() {
+		$this->storage->set('items', $this->getArrayCopy());
+		$this->storage->set('lastUpdateTimestamp', time());
 	}
 
 	public function getItems() {
-		return $this->items;
+		$items = [];
+		foreach ($this as $key => $count) {
+			$item = $this->catalog[$key];
+			$item->setCartCount($count);
+			$items[] = $item;
+		}
+		return $items;
 	}
 
-	public function getVariants() {
-		return F\map($this->items, function($count, $key) {
-			return Square::getCatalog()->offsetGet($key);
-		});
+	protected function has(string $key) {
+		return $this->offsetExists($key) && $this->offsetGet($key) > 0;
 	}
 
 	public function addItem(string $itemId, string $variantId) {
-		if ($this->items->has($itemId, $variantId)) throw new \BadMethodCallException("Cannot add existing item.");
-		$this->items->add($itemId, $variantId);
-		$this->updateSession();
+		$key = Store::key($itemId, $variantId);
+		if (!$this->catalog->offsetExists($key)) throw new \InvalidArgumentException("ID tuple ($itemId | $variantId) is not valid.");
+		if ($this->has($key)) throw new \BadMethodCallException("Cannot add existing item.");
+		$this->offsetSet($key, 1);
+		$this->updateStorage();
 	}
 
 	public function updateItem(string $itemId, string $variantId, int $newCount) {
+		$key = Store::key($itemId, $variantId);
 		if ($newCount < 0) throw new \RangeException("Negative counts do not make sense.");
-		$this->items->update($itemId, $variantId, $newCount);
-		$this->updateSession();
+		if (!$this->has($key)) throw new \BadMethodCallException("Cannot update non-existing item.");
+		$this->offsetSet($key, $newCount);
+		$this->updateStorage();
+	}
+
+	public function getVariantCount(string $itemId, string $variantId) {
+		$key = Store::key($itemId, $variantId);
+		return $this->offsetExists($key) ? $this->offsetGet($key) : 0;
+	}
+
+	public function getItemCount() {
+		return array_sum($this->getArrayCopy());
+	}
+
+	public function getSubtotal() {
+		return array_sum(F\invoke($this->getItems(), 'getCartSubtotal'));
+	}
+
+	public function getShipping() {
+		if (DEBUG) return 1;
+		$count = $this->getItemCount();
+		return ceil($count / 3) * self::STANDARD_SHIPPING_COST;
+	}
+
+	public function clear() {
+		$this->storage->clear();
+		$this->exchangeArray([]);
 	}
 
 }

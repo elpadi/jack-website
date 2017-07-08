@@ -13,7 +13,7 @@ $routes[] = array(
 );
 $routes[] = array(
 	'name' => 'Cart',
-	'path' => '/cart',
+	'path' => '/shop/cart',
 	'routes' => array(
 		array(
 			'name' => 'cart',

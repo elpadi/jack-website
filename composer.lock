@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cebe/markdown.git",
-                "reference": "641bd1a98efe932c65225ca9fb23b4846e20221e"
+                "reference": "7e6fce6b656603c1289a45a41bca065ee8cf3058"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cebe/markdown/zipball/641bd1a98efe932c65225ca9fb23b4846e20221e",
-                "reference": "641bd1a98efe932c65225ca9fb23b4846e20221e",
+                "url": "https://api.github.com/repos/cebe/markdown/zipball/7e6fce6b656603c1289a45a41bca065ee8cf3058",
+                "reference": "7e6fce6b656603c1289a45a41bca065ee8cf3058",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2017-04-04 09:40:58"
+            "time": "2017-07-03 13:08:28"
         },
         {
             "name": "square/connect",
@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/square/connect-php-sdk.git",
-                "reference": "81d535afbb07d7f2b0269208102d1d91ae5b80e5"
+                "reference": "c98400c059c7185e095bcebdfc9c929e72955ed8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/square/connect-php-sdk/zipball/81d535afbb07d7f2b0269208102d1d91ae5b80e5",
-                "reference": "81d535afbb07d7f2b0269208102d1d91ae5b80e5",
+                "url": "https://api.github.com/repos/square/connect-php-sdk/zipball/c98400c059c7185e095bcebdfc9c929e72955ed8",
+                "reference": "c98400c059c7185e095bcebdfc9c929e72955ed8",
                 "shasum": ""
             },
             "require": {
@@ -115,7 +115,7 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2017-05-30 18:03:17"
+            "time": "2017-06-28 16:58:27"
         }
     ],
     "packages-dev": [],

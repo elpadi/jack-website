@@ -4,10 +4,13 @@
 }
 .store-item[data-cart-count="0"] .has-items,
 .store-item .no-items {
-	display: none !important;
+	display: none;
 }
 .store-item[data-cart-count="0"] .no-items {
-	display: block !important;
+	display: block;
+}
+.store-item[data-cart-count="0"] .actions form.no-items {
+	display: inline-block;
 }
 .needs-empty-cart,
 body[data-cart-count="0"] .needs-cart-items {

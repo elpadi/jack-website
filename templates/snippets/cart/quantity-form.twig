@@ -4,7 +4,7 @@
 	<label><strong class="label-text">Update quantity:</strong>
 		<select name="count" class="count">
 			{% for n in 1..10 %}
-			<option value="{{ n }}" {% if n == cartCount %}selected{% endif %}>{{ n }}</option>
+			<option value="{{ n }}" {% if n == variant.getCartCount() %}selected{% endif %}>{{ n }}</option>
 			{% endfor %}
 		</select>
 	</label>

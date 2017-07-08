@@ -21,13 +21,13 @@ class Cart extends Page {
 
 	protected function setupApiData($count) {
 		extract($_POST, \EXTR_SKIP);
-		$cartItems = App::$container['cart']->getItems();
+		$cart = App::$container['cart'];
 		$this->data = array_merge(compact('id', 'variant_id'), [
 			'success' => true,
 			'item_count' => $count,
-			'subtotal' => $cartItems->getSubtotal(),
-			'shipping' => $cartItems->getShipping(),
-			'cart_count' => $cartItems->getItemCount(),
+			'subtotal' => $cart->getSubtotal(),
+			'shipping' => $cart->getShipping(),
+			'cart_count' => $cart->getItemCount(),
 		]);
 	}
 
@@ -43,12 +43,6 @@ class Cart extends Page {
 		App::$container['cart']->updateItem($id, $variant_id, $count);
 		$this->setupApiData($count);
 		return $this->api($response);
-	}
-
-	protected function fetchPageData() {
-		parent::fetchPageData();
-		$this->data['cart'] = App::$container['cart'];
-		$this->data['catalog'] = Square::getCatalog();
 	}
 
 	public function cart($request, $response, $args) {

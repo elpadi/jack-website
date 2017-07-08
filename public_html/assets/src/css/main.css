@@ -224,12 +224,14 @@ input[type="submit"] {
 input[type="submit"] {
 	transition: color 0.1s linear, background-color 0.1s linear;
 }
+.btn.loading,
 input[type="submit"][disabled],
 form.loading input[type="submit"] {
 	background: white none center center no-repeat;
 	color: #ddd;
 	color: rgba(221,221,221,0.5);
 }
+.btn.loading,
 form.loading input[type="submit"] {
 	background-image: url(../bower_components/slick-carousel/slick/ajax-loader.gif);
 }

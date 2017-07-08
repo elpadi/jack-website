@@ -15,10 +15,20 @@ h1 {
 table {
 	width: 100%;
 }
+table aside {
+	float: left;
+	height: 3.25em;
+	margin-right: 20px;
+}
+table aside > img {
+	height: 100%;
+}
 table h2 {
 	font-size: 1.2em;
 }
 td {
+	white-space: nowrap;
+	overflow: hidden;
 	padding: 20px 20px 20px 10px;
 }
 th {

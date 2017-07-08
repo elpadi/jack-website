@@ -8,6 +8,14 @@ use Website\Shop;
 
 class Issue extends DataObject {
 
+	public function getStoreVariant() {
+		$variant = App::$container['catalog']->getByTitle($this->title);
+		if ($variant) {
+			$variant->setCartCount(App::$container['cart']->getVariantCount($variant->getItemId(), $variant->getVariantId()));
+		}
+		return $variant;
+	}
+
 	public function getSections() {
 		return Sections::getByIssueId($this->id);
 	}

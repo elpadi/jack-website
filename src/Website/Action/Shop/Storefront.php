@@ -27,10 +27,5 @@ class Storefront extends Page {
 		return sprintf('%s | Jack Magazine Shop', $this->sectionTitle());
 	}
 
-	protected function fetchData($args) {
-		$this->data['cart'] = \Website\App::$container['cart'];
-		$this->data['catalog'] = Square::getCatalog();
-	}
-
 }
 

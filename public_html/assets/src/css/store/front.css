@@ -17,8 +17,7 @@ input.count {
 .store-item .actions form {
 	margin-right: 1em;
 }
-.store-item .actions a,
-.store-item .actions form,
+.actions form,
 .store-item h2,
 .store-item h3 {
 	display: inline-block;

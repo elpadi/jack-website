@@ -1,13 +1,9 @@
 <?php
-namespace Website\Shop;
+namespace Website\Shop\Square;
 
-use Functional as F;
-use Website\Issues\Issues;
-
-class SquareVariant {
+abstract class Variant {
 
 	protected $raw;
-	protected $issue;
 
 	public function __construct($variant, $item) {
 		$this->raw = compact('variant','item');
@@ -26,11 +22,11 @@ class SquareVariant {
 	}
 
 	public function getPrice() {
-		return $this->raw['variant']->item_variation_data->price_money->amount / 100;
+		return DEBUG ? 1 : $this->raw['variant']->item_variation_data->price_money->amount / 100;
 	}
 
-	public function getIssue() {
-		return Issues::getOneByTitle($this->getItemTitle());
+	public function getImageSrc() {
+		return $this->raw['item']->item_data->image_url;
 	}
 
 }

@@ -1,0 +1,15 @@
+{% extends "site.twig" %}
+{% block content %}
+<h1 class="screen-reader-text">Order Confirmation</h1>
+<article class="page-content text-content">
+	{% if success %}
+	<p>Your order has been successfully confirmed. The eye candy will be arriving soon.</p>
+	<p>Thank you for your love and support.</p>
+	{% else %}
+	<p>Your order could not be successfully confirmed. The following error was issued:</p>
+	<p>{{ message }}</p>
+	<p>We would love to help you get this issue resolved and send you the posters, so please <a href="mailto: thejackmag@gmail.com">contact us</a> if you need any help.</p>
+	<p>Thank you for your love and support.</p>
+	{% endif %}
+</article>
+{% endblock %}

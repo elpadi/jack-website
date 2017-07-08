@@ -2,6 +2,9 @@
 namespace Website;
 
 use Functional as F;
+use Website\Shop\Cart;
+use Website\Shop\Catalog;
+use Website\Shop\Square\Checkout;
 
 class App extends \Jack\App {
 
@@ -26,9 +29,16 @@ class App extends \Jack\App {
 			};
 		};
 		$this->_framework = new \Slim\App($c);
+		static::$container['catalog'] = function() {
+			return new Catalog();
+		};
+		static::$container['checkout'] = function() {
+			$session = static::$container['session'];
+			return new Checkout($session->getSegment('Checkout'), static::$container['cart']);
+		};
 		static::$container['cart'] = function() {
 			$session = static::$container['session'];
-			return new Shop\Cart($session->getSegment('ShoppingCart'));
+			return new Cart($session->getSegment('ShoppingCart'), static::$container['catalog']);
 		};
 	}
 

@@ -20,6 +20,9 @@ class Template extends \Jack\Template {
 		$twig->addFunction(new \Twig_SimpleFunction('cockpit_collection', function($name) {
 			return cockpit('collections:find', $name);
 		}));
+		$twig->addFunction(new \Twig_SimpleFunction('region', function($name, $field) {
+			return cockpit('regions:getRegionFieldValue', $name, $field);
+		}));
 		$twig->addFunction(new \Twig_SimpleFunction('svg', function($name, $text) {
 			return file_get_contents(sprintf('%s/assets/svg/%s.svg', PUBLIC_ROOT_DIR, $name));
 		}));
@@ -41,6 +44,7 @@ class Template extends \Jack\Template {
 			$issues->fetchAll();
 			$vars['issues'] = $issues;
 		}
+		if (!isset($vars['cart'])) $vars['cart'] = App::$container['cart'];
 	}
 
 }

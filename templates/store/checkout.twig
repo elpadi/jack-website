@@ -1,0 +1,11 @@
+{% extends "site.twig" %}
+{% block content %}
+<h1 class="screen-reader-text">Order Checkout</h1>
+<article class="page-content text-content justified">
+	<section class="needs-cart-items">
+		{{ region('checkout', 'has_items') | md | raw }}
+		<p id="button-container" data-amount="{{ cart.getSubtotal() + cart.getShipping() }}"></p>
+	</section>
+	<section class="needs-empty-cart">{{ region('checkout', 'no_items') | md | raw }}</section>
+</article>
+{% endblock %}

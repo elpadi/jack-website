@@ -14,6 +14,12 @@ class Object {
 		foreach ($data as $key => $val) $this->$key = $val;
 	}
 
+	public function getArrayCopy() {
+		$data = [];
+		foreach ($this as $key => $val) $data[$key] = $val;
+		return $data;
+	}
+
 	public function getResponsiveLayout($relativePath) {
 		$realPath = App::url($relativePath);
 		return [
