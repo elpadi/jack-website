@@ -76,16 +76,18 @@ Object.defineProperty(Submenu.prototype, 'hide', {
 
 Object.defineProperty(Submenu.prototype, 'init', {
 	value: function init() {
+		// debounce the function to prevent tap / click conflicts
+		var toggle = _.debounce(this.toggle.bind(this), 200, true);
 		this.trigger.addEventListener('click', function(e) {
 			e.preventDefault();
 			if ($(e.target).data('wasTapFired')) return;
 			console.log('Submenu click');
-			this.toggle();
+			toggle();
 		}.bind(this));
 		$(this.trigger).enableTapEvent().on('tap', function(e) {
 			console.log('Submenu tap');
 			e.preventDefault();
-			this.toggle();
+			toggle();
 		}.bind(this));
 		this.trigger.addEventListener('mouseover', function(e) {
 			this.showTemporarily();
