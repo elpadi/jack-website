@@ -7,6 +7,9 @@
 	margin-top: 0 !important;
 	position: absolute;
 }
+.js body:not(.intro-finished) #masthead {
+	height: 0 !important;
+}
 
 .js .post-intro-fade {
 	visibility: hidden;
