@@ -225,7 +225,11 @@ App.instance = new App();
 		var moved = false, obj = this;
 		return this.on('touchstart', function(e) {
 			if (e.originalEvent.touches.length === 1) setTimeout(function() {
-				if (!moved) obj.trigger('tap', e);
+				if (!moved) {
+					clearTimeout(obj.data('tapClickTimeoutId'));
+					obj.data('wasTapFired', true).trigger('tap', e);
+					obj.data('tapClickTimeoutId', setTimeout(function() { obj.data('wasTapFired', false); }, 300));
+				}
 			}, 100);
 		}).on('touchmove', function(e) {
 			if (e.originalEvent.touches.length === 1) moved = true;

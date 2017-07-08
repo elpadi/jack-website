@@ -78,9 +78,12 @@ Object.defineProperty(Submenu.prototype, 'init', {
 	value: function init() {
 		this.trigger.addEventListener('click', function(e) {
 			e.preventDefault();
+			if ($(e.target).data('wasTapFired')) return;
+			console.log('Submenu click');
 			this.toggle();
 		}.bind(this));
 		$(this.trigger).enableTapEvent().on('tap', function(e) {
+			console.log('Submenu tap');
 			e.preventDefault();
 			this.toggle();
 		}.bind(this));
@@ -96,7 +99,9 @@ Object.defineProperty(Submenu.prototype, 'init', {
 		$(this.node).on('mouseleave', function(e) {
 			this.resettHideTimeout();
 		}.bind(this));
-		this.node.children[0].style.left = this.trigger.getBoundingClientRect().left + 'px';
+		if (window.innerWidth >= 670) { 
+			this.node.children[0].style.left = this.trigger.getBoundingClientRect().left + 'px';
+		}
 	}
 });
 

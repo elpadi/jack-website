@@ -5,6 +5,7 @@
 	font-size: 16px;
 	letter-spacing: 2px;
 	color: rgb(195,195,195);
+	background-color: white;
 }
 
 #masthead > nav a {
@@ -67,12 +68,24 @@
 
 .submenu {
 	position: absolute;
-	top: 45px;
+	font-size: 14px;
+	top: 70px;
 	left: 0;
 	width: 100%;
 	overflow: hidden;
 	white-space: nowrap;
 	transition: transform 0.2s linear;
+}
+#masthead > .submenu {
+	display: block;
+	transform: translateY(-100%);
+}
+#masthead > .submenu.visible {
+	transform: translateY(0);
+}
+#masthead > .submenu > ul {
+	left: 10px;
+	margin: 0 auto;
 }
 .submenu ul {
 	position: relative;
@@ -92,17 +105,10 @@
 	#masthead > nav {
 		position: fixed;
 		display: flex;
-		background-color: white;
 	}
 	#masthead > .submenu {
-		display: block;
-		transform: translateY(-100%);
-	}
-	#masthead > .submenu > ul {
-		margin: 0 auto;
-	}
-	#masthead > .submenu.visible {
-		transform: translateY(0);
+		top: 45px;
+		font-size: 16px;
 	}
 	#masthead > nav a {
 		margin: 0 15px;
@@ -163,7 +169,7 @@
 	}
 	#masthead > .main-nav,
 	#masthead > .subnav {
-		position: static;
+		position: relative;
 		height: auto !important;
 	}
 	#masthead .social-buttons li {

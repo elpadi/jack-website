@@ -11,13 +11,13 @@
   box-sizing: border-box;
 }
 html {
-	height: 100%;
   margin: 0;
   padding: 0;
 }
 body {
 	background-color:white;
 	color: #6c6868;
+	min-height: 100vh;
 }
 #container {
 	max-width: 1400px;
@@ -234,4 +234,11 @@ form.loading input[type="submit"] {
 .btn.loading,
 form.loading input[type="submit"] {
 	background-image: url(../bower_components/slick-carousel/slick/ajax-loader.gif);
+}
+.needs-empty-cart,
+body[data-cart-count="0"] .needs-cart-items {
+	display: none;
+}
+body[data-cart-count="0"] .needs-empty-cart {
+	display: block;
 }

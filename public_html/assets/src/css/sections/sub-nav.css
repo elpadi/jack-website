@@ -5,7 +5,6 @@
 	border-color: rgb(195,195,195);
 }
 #masthead > .subnav {
-	top: 35px;
 	font-size: 13px;
 }
 #masthead > .subnav,
@@ -30,5 +29,8 @@ body[data-path="issues_single"] #masthead .subnav {
 	}
 	#masthead > .subnav a {
 		line-height: 21px;
+	}
+	#masthead > .subnav {
+		top: 35px;
 	}
 }
