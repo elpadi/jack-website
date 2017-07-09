@@ -3,6 +3,7 @@
 <main>
 	<header class="page-header">
 		<h1 class="page-title">Shopping Cart</h1>
+		{% include 'snippets/cart/bar.twig' %}
 	</header>
 	<table class="needs-cart-items tl">
 		<thead>
@@ -25,6 +26,13 @@
 				<td>{% include 'snippets/cart/remove-form.twig' %}</td>
 			</tr>
 			{% endfor %}
+			<tr class="">
+				<td>
+					<aside>{{ svg('shipping', 'Shipping') | raw }}</aside>
+					<h2>Shipping</h2>
+				</td>
+				<td colspan="3"><p>{{ cart.getShipping() | money }}</p></td>
+			</tr>
 		</tbody>
 		<tfoot class="tr">
 			<tr>
@@ -33,12 +41,8 @@
 		</tfoot>
 	</table>
 	<p class="needs-empty-cart tc">Your shopping cart is empty.</p>
+	<footer>{% include 'snippets/cart/bar.twig' %}</footer>
+		
 </main>
-<aside class="fr tr">
-	<p><a class="shop-back btn" href="{{ urlFor('storefront') }}">Continue Shopping</a></p>
-	<p><strong class="fl">Subtotal</strong> <em class="cart__subtotal">{{ cart.getSubtotal() | money }}</em></p> 
-	<p><strong class="fl">Shipping</strong> <em class="cart__shipping">{{ cart.getShipping() | money }}</em></p> 
-	<p><strong class="fl">Order Total</strong> <em class="cart__total">{{ (cart.getSubtotal() + cart.getShipping()) | money }}</em></p> 
-	<p><a class="btn" href="{{ urlFor('checkout') }}">Checkout</a></p>
-</aside>
+<aside class="fr tr">{% include 'snippets/cart/sidebar.twig' %}</aside>
 {% endblock %}

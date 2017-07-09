@@ -1,0 +1,5 @@
+<p><a class="shop-back btn" href="{{ urlFor('storefront') }}">Continue Shopping</a></p>
+<p><strong class="fl">Subtotal</strong> <em class="cart__subtotal">{{ cart.getSubtotal() | money }}</em></p> 
+<p><strong class="fl">Shipping</strong> <em class="cart__shipping">{{ cart.getShipping() | money }}</em></p> 
+<p><strong class="fl">Order Total</strong> <em class="cart__total">{{ (cart.getSubtotal() + cart.getShipping()) | money }}</em></p> 
+<p><a class="btn" href="{{ urlFor('checkout') }}">Checkout</a></p>

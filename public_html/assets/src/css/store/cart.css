@@ -1,38 +1,53 @@
 #content {
-	display: flex;
-	min-height: calc(100vh - 45px);
+	padding-left: 0;
+	padding-right: 0;
 }
-#content > main {
-	flex-grow: 1;
-	padding-right: 20px;
+#content h1 {
+	display: none;
+	margin-top: 0;
 }
 #content > aside {
-	align-self: flex-start;
-}
-h1 {
-	margin-top: 0;
+	display: none;
 }
 table {
 	width: 100%;
 }
 table aside {
-	float: left;
 	height: 3.25em;
-	margin-right: 20px;
 }
+table aside > svg,
 table aside > img {
 	height: 100%;
 }
 table h2 {
-	font-size: 1.2em;
+	font-size: 1em;
+	margin-bottom: 0;
+}
+tr {
+	display: block;
+	overflow: auto;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 td {
-	white-space: nowrap;
-	overflow: hidden;
-	padding: 20px 20px 20px 10px;
+	display: block;
+	text-align: right;
+	float: right;
+	clear: right;
+	width: 50px;
+	padding: 0 0 10px 0;
+}
+td:first-child {
+	float: left;
+	text-align: left;
+	width: calc(100% - 60px);
+}
+td:first-child,
+td:nth-child(2) {
+	padding-top: 10px;
 }
 th {
-	padding-left: 10px;
+	display: none;
 }
 thead {
 	border-bottom: 1px solid #ddd;
@@ -63,4 +78,55 @@ table tr:nth-child(2n + 2) {
 }
 table .store-item[data-cart-count="0"] {
 	display: none;
+}
+.cart-bar .btn {
+	font-size: 0.8em;
+}
+@media (min-width: 768px) {
+	#content {
+		display: flex;
+		min-height: calc(100vh - 45px);
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	#content > main {
+		flex-grow: 1;
+		padding-right: 20px;
+	}
+	#content > aside {
+		display: block;
+		align-self: flex-start;
+		margin-top: 3.9em;
+	}
+	#content h1 {
+		display: block;
+	}
+	tr {
+		display: table-row;
+	}
+	td, th {
+		display: table-cell;
+		text-align: left !important;
+	}
+	td {
+		float: none;
+		width: auto;
+		white-space: nowrap;
+		padding: 20px 20px 20px 10px;
+		overflow: hidden;
+	}
+	th {
+		padding-left: 10px;
+	}
+	table aside {
+		float: left;
+		margin-right: 20px;
+	}
+	table h2 {
+		max-width: none;
+		font-size: 1.2em;
+	}
+	.cart-bar {
+		display: none;
+	}
 }
