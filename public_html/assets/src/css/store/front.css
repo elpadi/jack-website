@@ -4,29 +4,49 @@ input.count {
 }
 #content .store-item {
 	position: relative;
-	height: calc(100vh - 45px);
-}
-#content .store-item > img {
-	max-width: 100%;
-	max-height: calc(100vh - 245px);
+	margin-bottom: 20%;
 }
 .store-item .actions {
-	margin: 1em 0;
+	margin: 0.3em 0;
 }
 .store-item .actions a,
 .store-item .actions form {
-	margin-right: 1em;
+	margin-right: 0.1em;
 }
-.actions form,
-.store-item h2,
-.store-item h3 {
+.actions form {
 	display: inline-block;
 }
 .store-item h2,
 .store-item h3 {
 	margin: 0;
 }
-header > h3::before {
-	content: ' | ';
-	margin: 0 5px;
+@media (max-width: 476px) {
+	.store-item h2 {
+		font-size: 1.2em;
+	}
+	.store-item h3 {
+		font-size: 1em;
+	}
+	.store-item a.btn,
+	.store-item button,
+	.store-item input[type="submit"] {
+		font-size: 0.7em;
+	}
+}
+@media (min-width: 477px) {
+	.store-item h2,
+	.store-item h3 {
+		display: inline-block;
+	}
+	.store-item h3::before {
+		content: ' | ';
+		margin: 0 5px;
+	}
+	#content .store-item {
+		position: relative;
+		margin-bottom: 15%;
+	}
+	.issues {
+		text-align: left;
+	}
 }

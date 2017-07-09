@@ -1,7 +1,7 @@
 {% extends "site.twig" %}
 {% block content %}
 <h1 class="screen-reader-text">Jack Store</h1>
-<section class="issues">
+<section class="issues tc">
 	{% for issue in issues %}
 	{% set variant = issue.getStoreVariant() %}
 	<article class="store-item" data-cart-count="{{ variant.getCartCount() }}" data-variant-id="{{ variant.getVariantId() }}">
@@ -13,10 +13,10 @@
 			<h3 class="price">{{ variant.getPrice() | money }}</h3>
 		</header>
 		<section class="actions">
-			{% include 'snippets/cart/add-form.twig' %}
-			{% include 'snippets/cart/quantity-form.twig' %}
-			<a class="has-items btn" href="{{ urlFor('checkout') }}">Checkout</a>
 			<a class="btn" href="{{ issue.getUrl() }}">More info</a>
+			{% include 'snippets/cart/add-form.twig' %}
+			<a class="has-items btn" href="{{ urlFor('cart') }}">View cart</a>
+			<a class="has-items btn" href="{{ urlFor('checkout') }}">Checkout</a>
 		</section>
 	</article>
 	{% endfor %}
