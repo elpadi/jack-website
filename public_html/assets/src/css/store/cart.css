@@ -79,8 +79,13 @@ table tr:nth-child(2n + 2) {
 table .store-item[data-cart-count="0"] {
 	display: none;
 }
+.cart-bar {
+	line-height: 1.9;
+	overflow: auto;
+}
 .cart-bar .btn {
 	font-size: 0.8em;
+	line-height: 1.4;
 }
 @media (min-width: 768px) {
 	#content {
