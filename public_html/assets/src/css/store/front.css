@@ -49,4 +49,12 @@ input.count {
 	.issues {
 		text-align: left;
 	}
+	#content img {
+		max-height: 50vh;
+	}
+}
+@media (min-width: 980px) {
+	#content img {
+		max-width: 980px;
+	}
 }
