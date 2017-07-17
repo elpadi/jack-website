@@ -42,11 +42,10 @@ Object.defineProperty(Store.prototype, 'formDataHandler', {
 		$('input[value="' + data.variant_id + '"]').closest('form').find('.count').prop('value', data.item_count);
 		// total count body data attribute
 		document.body.dataset.cartCount = data.cart_count;
-		$('.cart__count').html(data.cart_count);
+		$('.cart__count').html(data.cart_count).attr('data-count', data.cart_count);
 		$('.cart__subtotal').html(Store.moneyFormat(data.subtotal));
 		$('.cart__shipping').html(Store.moneyFormat(data.shipping));
 		$('.cart__total').html(Store.moneyFormat(data.subtotal + data.shipping));
-		$('.cart__count').html(data.cart_count);
 		$('.store-item')
 			.filter(function(i, node) { return node.dataset.variantId === data.variant_id; })
 			.each(function(i, node) { node.dataset.cartCount = data.item_count; });

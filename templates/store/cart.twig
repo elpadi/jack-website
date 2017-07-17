@@ -36,7 +36,7 @@
 		</tbody>
 		<tfoot class="tr">
 			<tr>
-				<th colspan="4">Subtotal (<span class="cart__count">{{ cart.getItemCount() }}</span> items): <em class="cart__subtotal">{{ cart.getSubtotal() | money }}</em></th>
+				<th colspan="4">Subtotal (<span class="cart__count plural" data-count="{{ cart.getItemCount() }}">{{ cart.getItemCount() }}</span> item<span class="plural__suffix">s</span>): <em class="cart__subtotal">{{ cart.getSubtotal() | money }}</em></th>
 			</tr>
 		</tfoot>
 	</table>
@@ -44,5 +44,5 @@
 	<footer>{% include 'snippets/cart/bar.twig' %}</footer>
 		
 </main>
-<aside class="fr tr">{% include 'snippets/cart/sidebar.twig' %}</aside>
+<aside class="cart-sidebar fr tr">{% include 'snippets/cart/sidebar.twig' %}</aside>
 {% endblock %}

@@ -58,6 +58,11 @@ input.count {
 		max-height: 45vh;
 	}
 }
+@media (min-width: 670px) {
+	#content {
+		padding-top: 100px;
+	}
+}
 @media (min-width: 1080px) {
 	#content img {
 		max-width: 1080px;

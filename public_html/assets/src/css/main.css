@@ -205,6 +205,10 @@ figcaption > aside {
 		display: block;
 	}
 }
+select {
+	color: inherit;
+	background-color: #ddd;
+}
 a.btn,
 button,
 input[type="submit"] {
@@ -261,4 +265,8 @@ body[data-cart-count="0"] .needs-cart-items {
 }
 body[data-cart-count="0"] .needs-empty-cart {
 	display: block;
+}
+.plural[data-count="1"] .plural__suffix,
+.plural[data-count="1"] + .plural__suffix {
+	display: none;
 }

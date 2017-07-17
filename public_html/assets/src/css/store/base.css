@@ -1,3 +1,15 @@
+#content {
+	font-family: Helvetica, Arial, sans-serif;
+	color: #C6CACB;
+}
+body[data-url-path~="checkout"] #content,
+body[data-url-path~="order"] #content {
+	color: #b6b6b6;
+}
+body[data-url-path~="checkout"] #content a,
+body[data-url-path~="order"] #content a {
+	color: #a1a1a1;
+}
 .js .remove-item-form input[type="submit"],
 .js .update-count-form input[type="submit"] {
 	display: none;
@@ -15,10 +27,6 @@
 .label-text {
 	margin-right: 0.5em;
 }
-#content {
-	font-family: Helvetica, Arial, sans-serif;
-	color: #C6CACB;
-}
 .item-title > span {
 	margin: 0 0.5em;
 }
@@ -31,14 +39,25 @@
 		overflow: hidden;
 	}
 }
-.store-item a.btn,
-.store-item button,
-.store-item input[type="submit"] {
+#content a.btn,
+#content button,
+#content input[type="submit"] {
 	text-transform: lowercase;
 	font-weight: 100;
 	letter-spacing: 0;
 	padding: 0.3em 0.5em 0.2em;
 }
+#content em,
+.store-item select,
+.cart-sidebar .btn,
 .actions {
 	color: #8D8F8E;
+}
+body[data-template-path~="checkout"] #content .btn,
+.btn[href$="shop/cart"],
+.btn[href$="shop/checkout"] {
+	color: #0eb8bf;
+}
+.add-item-form input[type="submit"] {
+	color: #f2f802;
 }
