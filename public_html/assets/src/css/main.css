@@ -221,13 +221,33 @@ input[type="submit"] {
 	-webkit-appearance: none;
 	appearance: none;
 }
+a.btn.dark,
+button.dark,
+input[type="submit"].dark {
+	background-color: #A9AAAC;
+	border-color: #A9AAAC;
+	color: white;
+}
+a.btn:hover,
+button:hover,
+input[type="submit"]:hover {
+	border-color: #444;
+}
+/*
+a.btn.dark:hover,
+button.dark:hover,
+input[type="submit"].dark:hover {
+	border-color: #444;
+}
+*/
 input[type="submit"] {
-	transition: color 0.1s linear, background-color 0.1s linear;
+	transition: color 0.1s linear, border-color 0.1s linear, background-color 0.1s linear;
 }
 .btn.loading,
 input[type="submit"][disabled],
 form.loading input[type="submit"] {
 	background: white none center center no-repeat;
+	border-color: transparent;
 	color: #ddd;
 	color: rgba(221,221,221,0.5);
 }

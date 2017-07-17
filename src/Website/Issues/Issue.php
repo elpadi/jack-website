@@ -24,6 +24,10 @@ class Issue extends DataObject {
 		return App::routeUrl($name, array_merge(['id' => $this->id, 'slug' => $this->slug], $args));
 	}
 
+	public function getExtendedTitle() {
+		return str_replace(['Vol','#'], ['Volume','no. '], $this->title);
+	}
+
 	public function getUrl() {
 		return $this->getRouteUrl('issue');
 	}

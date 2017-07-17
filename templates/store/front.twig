@@ -9,8 +9,7 @@
 		<img src="{{ img.src }}" srcset="{{ img.srcset }}" alt="">
 		{% endwith %}
 		<header>
-			<h2>{{ issue.title }}</h2>
-			<h3 class="price">{{ variant.getPrice() | money }}</h3>
+			<h2 class="item-title">{{ issue.getExtendedTitle() | replace({ '-': '<span>-</span>', 'no.': '&nbsp;no.' }) | raw }} <span>-</span> {{ variant.getPrice() | money }}</h2>
 		</header>
 		<section class="actions">
 			<a class="btn" href="{{ issue.getUrl() }}">More info</a>

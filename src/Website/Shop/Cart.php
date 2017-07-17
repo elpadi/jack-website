@@ -2,7 +2,7 @@
 namespace Website\Shop;
 
 use Functional as F;
-use Website\Shop\Square as Store;
+use Website\Shop\Square\Store;
 
 class Cart extends \ArrayObject {
 

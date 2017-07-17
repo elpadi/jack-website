@@ -15,3 +15,30 @@
 .label-text {
 	margin-right: 0.5em;
 }
+#content {
+	font-family: Helvetica, Arial, sans-serif;
+	color: #C6CACB;
+}
+.item-title > span {
+	margin: 0 0.5em;
+}
+@media (max-width: 400px) {
+	.item-title > span {
+		display: block;
+		margin: 0;
+		height: 0;
+		color: transparent;
+		overflow: hidden;
+	}
+}
+.store-item a.btn,
+.store-item button,
+.store-item input[type="submit"] {
+	text-transform: lowercase;
+	font-weight: 100;
+	letter-spacing: 0;
+	padding: 0.3em 0.5em 0.2em;
+}
+.actions {
+	color: #8D8F8E;
+}

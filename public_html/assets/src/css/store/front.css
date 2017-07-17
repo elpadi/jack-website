@@ -4,7 +4,7 @@ input.count {
 }
 #content .store-item {
 	position: relative;
-	margin-bottom: 20%;
+	margin-bottom: 15%;
 }
 .store-item .actions {
 	margin: 0.3em 0;
@@ -16,9 +16,14 @@ input.count {
 .actions form {
 	display: inline-block;
 }
+.store-item header {
+	margin: 1em auto;
+	font-size: 0.8em;
+}
 .store-item h2,
 .store-item h3 {
 	margin: 0;
+	text-transform: lowercase;
 }
 @media (max-width: 476px) {
 	.store-item h2 {
@@ -39,22 +44,22 @@ input.count {
 		display: inline-block;
 	}
 	.store-item h3::before {
-		content: ' | ';
-		margin: 0 5px;
+		content: ' - ';
+		margin: 0 1em;
 	}
 	#content .store-item {
 		position: relative;
-		margin-bottom: 15%;
+		margin-bottom: 10%;
 	}
 	.issues {
 		text-align: left;
 	}
 	#content img {
-		max-height: 50vh;
+		max-height: 45vh;
 	}
 }
-@media (min-width: 980px) {
+@media (min-width: 1080px) {
 	#content img {
-		max-width: 980px;
+		max-width: 1080px;
 	}
 }

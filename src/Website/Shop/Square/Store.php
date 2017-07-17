@@ -28,8 +28,9 @@ class Store {
 		$api = new CatalogApi();
 		$response = $api->listCatalog($cursor, implode(',', ['ITEM']));
 		$catalog = $response->getObjects();
-		file_put_contents($cache, sprintf('[%s]', implode(',', $catalog)));
-		return $catalog;
+		$json = sprintf('[%s]', implode(',', $catalog));
+		file_put_contents($cache, $json);
+		return json_decode($json);
 	}
 
 	public static function verifyTransaction(string $transactionId, string $referenceId) {
