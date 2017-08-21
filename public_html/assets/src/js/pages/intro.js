@@ -1,6 +1,7 @@
 function Intro() {
 	this.DURATION = 4000;
 	this.DELAY = 2000;
+	this.END_DELAY = 1000;
 	this.FADES = ['posters','flags','logo'];
 	this.hasEnded = false;
 }
@@ -40,7 +41,7 @@ Object.defineProperty(Intro.prototype, 'show', {
 Object.defineProperty(Intro.prototype, 'next', {
 	value: function next() {
 		var name = this.FADES.shift();
-		if (!name || this.hasEnded) return setTimeout(this.end.bind(this), this.DURATION + this.DELAY);
+		if (!name || this.hasEnded) return setTimeout(this.end.bind(this), this.DURATION + this.DELAY + this.END_DELAY);
 		Promise.all([
 			('nodeType' in this.images[name]) ? Promise.resolve(this.images[name]) : App.instance.loadPromise(this.images[name]),
 			App.instance.delayPromise(name === 'posters' ? 500 : this.DURATION + this.DELAY)
