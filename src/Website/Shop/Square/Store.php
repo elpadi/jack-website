@@ -18,16 +18,20 @@ class Store {
 		Configuration::getDefaultConfiguration()->setAccessToken($access_token);
 	}
 
-	public static function fetchCatalogData() {
+	public static function fetchCatalogDataFromApi() {
 		$cursor = NULL;
+		static::configure();
+		$api = new CatalogApi();
+		$response = $api->listCatalog($cursor, implode(',', ['ITEM']));
+		return $response->getObjects();
+	}
+
+	public static function fetchCatalogData() {
 		$cache = JACK_DIR.'/cache/square/catalog.json';
 		if (is_readable($cache) && ($catalog = json_decode(file_get_contents($cache)))) {
 			return $catalog;
 		}
-		static::configure();
-		$api = new CatalogApi();
-		$response = $api->listCatalog($cursor, implode(',', ['ITEM']));
-		$catalog = $response->getObjects();
+		$catalog = static::fetchCatalogDataFromApi();
 		$json = sprintf('[%s]', implode(',', $catalog));
 		file_put_contents($cache, $json);
 		return json_decode($json);

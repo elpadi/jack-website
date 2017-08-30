@@ -6,7 +6,7 @@ use Website\Shop\Square\Store;
 
 class Cart extends \ArrayObject {
 
-	const STANDARD_SHIPPING_COST = 30;
+	protected static $STANDARD_SHIPPING_COST;
 
 	protected $items;
 	
@@ -14,6 +14,9 @@ class Cart extends \ArrayObject {
 		parent::__construct([]);
 		$this->storage = $storage;
 		$this->catalog = $catalog;
+		if (!static::$STANDARD_SHIPPING_COST) {
+			static::$STANDARD_SHIPPING_COST = intval(getenv('SQUARE_SHIPPING_COST'));
+		}
 		$this->hydrateFromStorage();
 	}
 
@@ -77,8 +80,12 @@ class Cart extends \ArrayObject {
 
 	public function getShipping() {
 		if (DEBUG) return 1;
+		/*
+		// Calculate shipping cost based on item count.
 		$count = $this->getItemCount();
-		return ceil($count / 3) * self::STANDARD_SHIPPING_COST;
+		return ceil($count / 3) * self::$STANDARD_SHIPPING_COST;
+		 */
+		return static::$STANDARD_SHIPPING_COST;
 	}
 
 	public function clear() {
