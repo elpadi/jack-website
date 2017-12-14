@@ -53,6 +53,7 @@ abstract class Collection extends \ArrayIterator {
 
 	public function fetchAll() {
 		$entries = cockpit('collections:find', $this->collectionName());
+		if ($entries === FALSE) throw new \RuntimeException(sprintf('Collection "%s" does not exist.', $this->collectionName()));
 		$entries = $this->select($entries);
 		$this->sort($entries);
 		foreach ($entries as $data) $this->append(static::createItem($data));
