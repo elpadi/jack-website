@@ -5,7 +5,9 @@
 {% macro contact(contact) %}
 <p>{{ contact.name }}</p>
 <p>{{ contact.position }}</p>
+{% if contact.location %}<p>{{ contact.location }}</p>{% endif %}
 <p><a class="plain" href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+{% if contact.description %}{{ contact.description | md | raw }}{% endif %}
 {% endmacro %}
 
 {% macro social_button(name, url) %}
