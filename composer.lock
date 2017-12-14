@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c2ee8cc823297f3d2dba3a287b51ca7",
+    "content-hash": "c40577520da11fd55c9fdb5a7505d402",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cebe/markdown.git",
-                "reference": "7e6fce6b656603c1289a45a41bca065ee8cf3058"
+                "reference": "fcc325311c4c5e11c4453a405344d02adfa64aa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cebe/markdown/zipball/7e6fce6b656603c1289a45a41bca065ee8cf3058",
-                "reference": "7e6fce6b656603c1289a45a41bca065ee8cf3058",
+                "url": "https://api.github.com/repos/cebe/markdown/zipball/fcc325311c4c5e11c4453a405344d02adfa64aa1",
+                "reference": "fcc325311c4c5e11c4453a405344d02adfa64aa1",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2017-07-03 13:08:28"
+            "time": "2017-08-22T10:13:04+00:00"
         },
         {
             "name": "square/connect",
@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/square/connect-php-sdk.git",
-                "reference": "c98400c059c7185e095bcebdfc9c929e72955ed8"
+                "reference": "f4b1934bff596673919950e21493181479d9ed46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/square/connect-php-sdk/zipball/c98400c059c7185e095bcebdfc9c929e72955ed8",
-                "reference": "c98400c059c7185e095bcebdfc9c929e72955ed8",
+                "url": "https://api.github.com/repos/square/connect-php-sdk/zipball/f4b1934bff596673919950e21493181479d9ed46",
+                "reference": "f4b1934bff596673919950e21493181479d9ed46",
                 "shasum": ""
             },
             "require": {
@@ -115,14 +115,65 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2017-06-28 16:58:27"
+            "time": "2017-11-13T22:27:57+00:00"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "ec37c495d56b68f103acafa95fec5ed39b14d7db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/ec37c495d56b68f103acafa95fec5ed39b14d7db",
+                "reference": "ec37c495d56b68f103acafa95fec5ed39b14d7db",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dotenv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause-Attribution"
+            ],
+            "authors": [
+                {
+                    "name": "Vance Lucas",
+                    "email": "vance@vancelucas.com",
+                    "homepage": "http://www.vancelucas.com"
+                }
+            ],
+            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "time": "2017-11-24T14:28:50+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "square/connect": 20
+        "square/connect": 20,
+        "vlucas/phpdotenv": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

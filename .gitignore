@@ -12,3 +12,4 @@ public_html/admin
 
 public_html/assets/src/bower_components
 TODO.tsk.delta
+.env

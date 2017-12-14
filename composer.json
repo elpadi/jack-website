@@ -17,7 +17,8 @@
 		"ext-sqlite3": "*",
 		"ext-mbstring": "*",
 		"square/connect": "dev-master",
-		"cebe/markdown": "~1.1.1"
+		"cebe/markdown": "~1.1.1",
+		"vlucas/phpdotenv": "^2.5@dev"
 	},
 	"autoload": {
 		"psr-4": {
