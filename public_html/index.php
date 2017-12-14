@@ -1,6 +1,4 @@
 <?php
-use Website\App;
-
 global $app;
 
 $jack_dir = isset($_ENV['JACK_DIR']) ? $_ENV['JACK_DIR'] : dirname(dirname(__DIR__)).'/common';
