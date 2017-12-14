@@ -18,4 +18,8 @@ class Layouts extends DynamicNameCollection {
 		return static::getOne(compact('slug'), static::getNameSetter($issueId));
 	}
 
+	public static function getByIssueId(int $issueId) {
+		return static::getAll(static::getNameSetter($issueId));
+	}
+
 }

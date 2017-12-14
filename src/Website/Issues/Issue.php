@@ -20,6 +20,10 @@ class Issue extends DataObject {
 		return Sections::getByIssueId($this->id);
 	}
 
+	public function getLayouts() {
+		return Layouts::getByIssueId($this->id);
+	}
+
 	protected function getRouteUrl($name, $args=[]) {
 		return App::routeUrl($name, array_merge(['id' => $this->id, 'slug' => $this->slug], $args));
 	}
