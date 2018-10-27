@@ -26,6 +26,12 @@ class Model extends Base {
 				return FALSE;
 			}
 		}
+		elseif (!empty($args['slug'])) {
+			$name = ucwords(str_replace('-', ' ', $args['slug']));
+			$model = Models::getOne(compact('name'));
+			if (!$model) throw new \InvalidArgumentException("Model '$args[slug]' not found.", 404);
+			$this->data['model'] = $model;
+		}
 		else {
 			$model = Models::getOneRandom();
 			$this->data['model'] = $model;
