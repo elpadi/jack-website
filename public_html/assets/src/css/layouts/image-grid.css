@@ -1,3 +1,6 @@
+body[data-template-path="issues grid"] #container {
+	max-width: none;
+}
 .image-grid {
 	float: left;
 	width: 100%;

@@ -58,7 +58,7 @@
 				</nav>
 				<nav class="tl lowercase submenu" data-parent="issues">
 					<ul class="plain">
-						{% for issue in issues %}<li><a class="{% if issue.slug in URL_PATH %}selected{% endif %}" href="{{ issue.getUrl() }}">{{ issue.title }}</a></li>{% endfor %}
+						{% for issue in issues %}<li><a class="{% if (issue.id ~ '-' ~ issue.slug) in URL_PATH %}selected{% endif %}" href="{{ issue.getUrl() }}">{{ issue.title }}</a></li>{% endfor %}
 					</ul>
 				</nav>
 				{% block subnav %}{% endblock %}
