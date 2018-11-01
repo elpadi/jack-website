@@ -1,56 +1,62 @@
-function IssueSections() {
-	this.scrollValues = [];
-	this.active = [];
+class IssueSection {
+
+	constructor(section) {
+		this.section = section;
+		this.images = section.getElementsByTagName('img');
+		this.main = section.querySelector('main');
+		this.text = this.main.children[0];
+		this.maxScroll = 0;
+		this.landscapeCount = 0;
+	}
+
+	init() {
+		this.classifyImages();
+		const row = this.landscapeCount	+ 1,
+			span = this.images.length - this.landscapeCount;
+		this.main.style.gridRow = `${row} / span ${span}`;
+		setTimeout(this.computeMaxScroll.bind(this), 100);
+		setTimeout(() => this.section.classList.add('visible'), 100);
+		this.section.parentElement.classList.add('loaded');
+	}
+
+	classifyImages() {
+		for (let i = 0, l = this.images.length; i < l; i++) {
+			const img = this.images[i];
+			if (img.naturalWidth / img.naturalHeight > 2) {
+				img.classList.add('landscape');
+				this.landscapeCount++;
+			}
+			else img.classList.add('portrait');
+		}
+	}
+
+	computeMaxScroll() {
+		const outer = this.section.getBoundingClientRect();
+		const inner = this.text.getBoundingClientRect();
+		this.maxScroll = Math.max(0, outer.bottom - inner.bottom);
+		this.offsetTop = this.main.offsetTop;
+		setTimeout(this.repositionText.bind(this), 100);
+	}
+
+	repositionText() {
+		const y = Math.min(Math.max(0, window.scrollY - this.offsetTop), this.maxScroll);
+		console.log('IssueSection.repositionText', window.scrollY, this.offsetTop, this.maxScroll, y, this.section.dataset.slug);
+		this.text.style.transform = `translateY(${y}px)`;
+	}
+
 }
 
-Object.defineProperty(IssueSections.prototype, 'init', {
-	value: function init() {
-		this.top = document.getElementById('issue-sections').offsetTop;
-		this.sections = Array.from(document.getElementsByClassName('issue-section'));
-		this.texts = Array.from(document.getElementsByClassName('section-text'));
-		this.loadLayouts(this.sections[0], 0);
-	}
-});
-
-Object.defineProperty(IssueSections.prototype, 'loadLayouts', {
-	value: function loadLayouts(section, index) {
-		var promises = Array.from(section.getElementsByClassName('section-layout')).map(function(p) {
-			var promise = App.instance.loadPromise(p.dataset);
-			promise.then(function(img) { p.appendChild(img); });
-			return promise;
-		});
-		Promise.all(promises).then(function() { this.onLayoutsLoaded(section, index); }.bind(this));
-	}
-});
-
-Object.defineProperty(IssueSections.prototype, 'onLayoutsLoaded', {
-	value: function onLayoutsLoaded(section, index) {
-		setTimeout(function() {
-			this.scrollValues.push({
-				top: section.offsetTop - this.top,
-				max: section.offsetHeight - this.texts[index].offsetHeight
-			});
-			section.style.height = section.offsetHeight + 'px';
-			section.classList.add('loaded');
-		}.bind(this), 100);
-		if (section.nextElementSibling) this.loadLayouts(section.nextElementSibling, index + 1);
-		else setTimeout(this.onAllLayoutsLoaded.bind(this), 200);
-	}
-});
-
-Object.defineProperty(IssueSections.prototype, 'onAllLayoutsLoaded', {
-	value: function onAllLayoutsLoaded() {
-		console.log(this.scrollValues);
-	}
-});
-
 if (window.innerWidth >= 768) {
-	Object.defineProperty(IssueSections.prototype, 'scroll', {
-		value: function scroll(scrollY) {
-			for (var i = 0, l = this.scrollValues.length; i < l; i++)
-				$(this.texts[i]).css('transform', 'translateY(' + Math.max(0, Math.min(this.scrollValues[i].max, scrollY - this.scrollValues[i].top)) + 'px)');
+	App.instance.addChild('issue-sections', {
+		load: function() {
+			this.sections = Array.from(document.querySelectorAll('.issue-section')).map(s => new IssueSection(s));
+			this.sections.forEach(s => s.init());
+		},
+		scroll: function() {
+			this.sections.forEach(s => s.repositionText());
+		},
+		resize: function() {
+			this.sections.forEach(s => s.computeMaxScroll());
 		}
 	});
 }
-
-App.instance.addChild('issue-sections', new IssueSections());

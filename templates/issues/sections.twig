@@ -6,24 +6,19 @@
 <section id="issue-sections" class="issue-sections">
 	{% for section in issue.getSections() %}
 	<article class="issue-section" data-url="{{ section.getUrl(issue) }}" data-slug="{{ section.slug }}">
-		<aside class="section-layouts tc">
-			{% for layout in section.getLayouts() %}
-			{% set img = layout.getResponsiveImage() %}
-			<p class="section-layout" data-src="{{ img.src }}" data-srcset="{{ img.srcset }}" data-sizes="50vw">
-				<noscript>
-					<h2 class="screen-reader-text">{{ layout.title }}</h2>
-					<img src="{{ img.src }}" alt="">
-				</noscript>
-			</p>
-			{% endfor %}
-		</aside>
-		<main class="section-text">
-			<header>
-				<h1>{{ section.title }}</h1>
-				{% if section.subtitle %}<h2 class="lowercase">{{ section.subtitle }}</h2>{% endif %}
-				{% if section.tags %}<p class="tags">{{ section.tags | pluck('value') | join('/') }}</p>{% endif %}
-			</header>
-			<div>{{ section.description | raw }}</div>
+		{% for layout in section.getLayouts() %}
+		{% set img = layout.getResponsiveImage() %}
+		<img src="{{ img.src }}" srcset="{{ img.srcset }}" sizes="40vw">
+		{% endfor %}
+		<main>
+			<div class="section-text">
+				<header>
+					<h1>{{ section.title }}</h1>
+					{% if section.subtitle %}<h2 class="lowercase">{{ section.subtitle }}</h2>{% endif %}
+					{% if section.tags %}<p class="tags">{{ section.tags | pluck('value') | join('/') }}</p>{% endif %}
+				</header>
+				<div>{{ section.description | raw }}</div>
+			</div>
 		</main>
 	</article>
 	{% endfor %}

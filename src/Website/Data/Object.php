@@ -24,7 +24,7 @@ class Object {
 		$realPath = App::url($relativePath);
 		return [
 			'src' => App::$container['images']->imageUrl($realPath, 'medium'),
-			'srcset' => App::$container['images']->responsiveImageSrcset($realPath, ['medium','large']),
+			'srcset' => App::$container['images']->responsiveImageSrcset($realPath, ['large','xl']),
 		];
 	}
 
