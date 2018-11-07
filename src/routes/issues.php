@@ -7,10 +7,6 @@ $routes[] = array(
 			'name' => 'issue',
 			'path' => '',
 		),
-		array(
-			'name' => 'section',
-			'path' => '/editorial/{section:[-a-z0-9]+}',
-		),
 		array('name' => 'layouts'),
 		array(
 			'name' => 'layout',
