@@ -14,14 +14,16 @@ class App extends \Jack\App {
 			'displayErrorDetails' => DEBUG,
 			'determineRouteBeforeAppMiddleware' => true,
 		]]);
-		if (!DEBUG) {
-			$c['errorHandler'] = function ($c) {
-				return function ($request, $response, $exception) use ($c) {
-					global $app;
-					return $app->errorResponse($c['response'], new \Exception('Unspecified error. Please contact us if the problem persists.', 500));
-				};
+		$c['errorHandler'] = function ($c) {
+			return function ($request, $response, $exception) use ($c) {
+				global $app;
+				if (DEBUG) {
+					var_dump($exception);
+					exit();
+				}
+				else return $app->errorResponse($c['response'], new \Exception('Unspecified error. Please contact us if the problem persists.', 500));
 			};
-		}
+		};
 		$c['notFoundHandler'] = function ($c) {
 			return function ($request, $response) use ($c) {
 				global $app;
