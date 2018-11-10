@@ -1,26 +1,22 @@
 body[data-template-path="issues grid"] #container {
 	max-width: none;
 }
-.image-grid {
-	float: left;
-	width: 100%;
-	overflow: hidden;
+.grid-row {
+	display: grid;
 }
-.image-grid__item {
-	float: left;
+.image-grid a,
+.image-grid img {
+	width: 100%;
+	height: auto;
+	display: block;
 }
 .image-grid img {
-	width: auto;
-	height: 100%;
+	min-height: 100%;
 }
-.image-grid__row {
-	width: 100%;
-	display: flex;
-	overflow: hidden;
+.image-grid a {
+	opacity: 0;
+	transition: opacity 0.3s linear;
 }
-.image-grid__row > .image-grid__item {
-	height: 100%;
-}
-.image-grid__item {
-	display: inline-block;
+.image-grid.grid--ready a {
+	opacity: 1;
 }

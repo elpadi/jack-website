@@ -1,46 +1,106 @@
-function LayoutGrid() {
-	ImageGrid.call(this);
+class GridRow {
+
+	constructor() {
+		this.node = document.createElement('div');
+		this.node.className = 'grid-row';
+		this.total = 0;
+		this.items = [];
+	}
+
+	addItem(item) {
+		this.items.push(item);
+		this.total += item.ratio;
+		this.node.appendChild(item.node);
+		this.node.style.gridTemplateColumns += ` ${item.ratio.toFixed(3)}fr `;
+		item.node.innerHTML = '';
+		item.createImage();
+	}
+
+	setFixedHeight(h) {
+		let widths = this.items.map(item => Math.round(item.ratio * h));
+		this.node.style.gridTemplateColumns = widths.map(w => w + 'px').join(' ');
+	}
+
 }
 
-LayoutGrid.prototype = Object.create(ImageGrid.prototype);
-LayoutGrid.prototype.constructor = LayoutGrid;
+class GridItem {
 
-Object.defineProperty(LayoutGrid.prototype, 'init', {
-	value: function init() {
-		ImageGrid.prototype.init.call(this);
-		this.resize();
-		this.loadImage(this.container.find('article').get(0));
+	constructor(node) {
+		this.node = node;
+		let size = node.dataset.size.split('x').map(n => Number(n));
+		this.ratio = size[0] / size[1];
+		node.style.transitionDelay = (500 + Math.floor(Math.random() * 3000)) + 'ms';
 	}
-});
 
-Object.defineProperty(LayoutGrid.prototype, 'loadImage', {
-	value: function loadImage(item) {
-		var node = _.head(item.getElementsByTagName('a')), img = new Image();
-		img.addEventListener('load', _.bind(this.onImageLoad, this, item));
-		img.addEventListener('load', _.bind(item.nextElementSibling ? this.loadImage : this.onLoadEnd, this, item.nextElementSibling));
-		img.src = node.dataset.image;
-		img.title = node.innerHTML;
-		img.alt = '';
-		node.childNodes[0].remove();
-		node.appendChild(img);
-		item.style.backgroundColor = App.instance.randomColor();
+	createImage() {
+		this.img = new Image();
+		this.node.appendChild(this.img);
 	}
-});
 
-Object.defineProperty(LayoutGrid.prototype, 'onLoadEnd', {
-	value: function onLoadEnd() {
-		this.organize();
-		this.items = this.container.find('.image-grid__item'); // refresh to update order
-		this.container.css('opacity', '1');
+	setSource() {
+		let d = this.node.dataset;
+		this.img.srcset = `${d.src} 1x, ${d.srcset}`;
 	}
-});
 
-Object.defineProperty(LayoutGrid.prototype, 'onImageLoad', {
-	value: function onImageLoad(item, e) {
-		var ar = e.target.naturalWidth / e.target.naturalHeight;
-		item.dataset.width = Math.round(ar);
-		item.dataset.ar = ar.toFixed(2);
+}
+
+class ImageGrid {
+
+	constructor(node) {
+		this.node = node;
+		this.rows = [];
+		this.items = Array.from(node.querySelectorAll('a')).map(a => new GridItem(a));
+		this.colCount = this.getColumnCount();
+		this.loadedCount = 0;
 	}
-});
 
-App.instance.addChild('layouts', new LayoutGrid());
+	init() {
+		this.addItems();
+		setTimeout(this.showItems.bind(this), 100);
+	}
+
+	getColumnCount() {
+		let sizes = [1280, 980, 640, 480], w = window.innerWidth, min = 2;
+		let i = sizes.findIndex(s => w >= s);
+		return i == -1 ? min : sizes.length + min - i;
+	}
+
+	getNextRow(ratio) {
+		let i = this.rows.findIndex(r => r.total + ratio < this.colCount);
+		return i == -1 ? this.newRow() : this.rows[i];
+	}
+
+	newRow() {
+		let r = new GridRow();
+		this.rows.push(r);
+		this.node.appendChild(r.node);
+		return r;
+	}
+
+	getAvgRowHeight() {
+		let c = this.rows.length;
+		return (this.node.offsetHeight - c * ImageGrid.GRID_GAP) / c;
+	}
+
+	onImageLoad() {
+		this.loadedCount++;
+		if (this.loadedCount >= this.items.length) this.node.classList.add('grid--ready');
+	}
+
+	showItems() {
+		this.rows[this.rows.length - 1].setFixedHeight(this.getAvgRowHeight());
+		for (const item of this.items) {
+			item.img.addEventListener('load', this.onImageLoad.bind(this));
+			item.setSource();
+		}
+	}
+
+	addItems() {
+		for (const item of this.items) this.getNextRow(item.ratio).addItem(item);
+	}
+
+}
+
+ImageGrid.GRID_GAP = 0;
+
+App.instance.addChild('imageGrid', new ImageGrid(document.querySelector('.image-grid')));

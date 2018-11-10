@@ -3,12 +3,14 @@
 {% include "snippets/issues_subnav.twig" %}
 {% endblock %}
 {% block content %}
-<section class="image-grid" data-col-count="4" data-size="small">
+<section id="issue-layouts" class="image-grid">
 	{% for layout in issue.getLayouts() %}
-	<article class="image-grid__item">
-		<header><h2>{{ layout.title }}</h2></header>
-		<main><a href="{{ layout.getUrl(issue) }}" data-image="{{ layout.getImageSrc() }}">{{ layout.title }}</a></main>
-	</article>
+	<a
+		href="{{ layout.getUrl(issue) }}"
+		data-src="{{ layout.image.path | url | image_url }}"
+		data-srcset="{{ layout.image.path | url | srcset }}"
+		data-size="{{ layout.image.path | url | imgsize }}"
+	>{{ layout.title }}</a>
 	{% endfor %}
 </section>
 {% endblock %}
