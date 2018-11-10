@@ -23,8 +23,8 @@ class Object {
 	public function getResponsiveLayout($relativePath) {
 		$realPath = App::url($relativePath);
 		return [
-			'src' => App::$container['images']->imageUrl($realPath, 'medium'),
-			'srcset' => App::$container['images']->responsiveImageSrcset($realPath, ['large','xl']),
+			'src' => App::$container['images']->imageUrl($realPath),
+			'srcset' => App::$container['images']->responsiveImageSrcset($realPath),
 		];
 	}
 

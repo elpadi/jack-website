@@ -44,6 +44,14 @@ abstract class StaticNameCollection extends Collection {
 		return static::one(function(&$collection) use ($where) { $collection->fetchOne($where); });
 	}
 
+	public static function getOneByKey($key, $val) {
+		return static::getOne([$key => $val]);
+	}
+
+	public static function getOneById($id) {
+		return static::getOneByKey('_id', $id);
+	}
+
 	public static function getOneRandom() {
 		return static::one(function(&$collection) {
 			$collection->randomize();

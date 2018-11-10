@@ -14,6 +14,10 @@ class Layouts extends DynamicNameCollection {
 		return new Layout();
 	}
 
+	public static function getById(int $issueId, string $id) {
+		return static::getOne(['_id' => $id], static::getNameSetter($issueId));
+	}
+
 	public static function getBySlug(int $issueId, string $slug) {
 		return static::getOne(compact('slug'), static::getNameSetter($issueId));
 	}

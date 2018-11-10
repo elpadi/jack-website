@@ -12,14 +12,14 @@ class Intro extends Page {
 			global $app;
 			$url = str_replace(PUBLIC_ROOT_DIR, '', $filepath);
 			return [
-				'src' => $app->imageManager->imageUrl($url, 'medium'),
-				'srcset' => $app->imageManager->responsiveImageSrcset($url, ['medium','large','double']),
+				'src' => $app->imageManager->imageUrl($url),
+				'srcset' => $app->imageManager->responsiveImageSrcset($url),
 			];
 		}, $files));
 	}
 
-	protected function fetchData($args) {
-		parent::fetchData($args);
+	protected function fetchPageData() {
+		parent::fetchPageData();
 		$this->fetchIntroImages();
 	}
 
