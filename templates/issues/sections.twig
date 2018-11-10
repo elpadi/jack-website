@@ -5,10 +5,9 @@
 {% block content %}
 <section id="issue-sections" class="issue-sections">
 	{% for section in issue.getSections() %}
-	<article class="issue-section" data-url="{{ section.getUrl(issue) }}" data-slug="{{ section.slug }}">
+	<article class="issue-section" id="{{ section.slug }}">
 		{% for layout in section.getLayouts() %}
-		{% set img = layout.getResponsiveImage() %}
-		<img src="{{ img.src }}" srcset="{{ img.srcset }}" sizes="40vw">
+		<img src="{{ layout.image.path | url | image_url }}" srcset="{{ layout.image.path | url | srcset }}" alt="">
 		{% endfor %}
 		<main>
 			<div class="section-text">
