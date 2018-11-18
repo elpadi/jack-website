@@ -21,6 +21,11 @@ class Cart extends \ArrayObject {
 	}
 
 	protected function hydrateFromStorage() {
+		if (IS_LOCAL && $this->count() == 0) {
+			foreach ($this->catalog as $id => $variant) $this->offsetSet($id, 1);
+			$this->updateStorage();
+			return NULL;
+		}
 		if ($items = $this->storage->get('items')) {
 			foreach ($items as $key => $count) $this->offsetSet($key, $count);
 		}

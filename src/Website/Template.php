@@ -12,17 +12,30 @@ class Template extends \Jack\Template {
 
 	protected function extendTwig(\Twig_Environment $twig) {
 		parent::extendTwig($twig);
-		$twig->addFunction(new \Twig_SimpleFunction('cockpit_opening_form_tag', function($form) {
-			ob_start();
-			cockpit('forms:open', $form);
-			return ob_get_clean();
-		}));
-		$twig->addFunction(new \Twig_SimpleFunction('cockpit_collection', function($name) {
-			return cockpit('collections:find', $name);
-		}));
-		$twig->addFunction(new \Twig_SimpleFunction('region', function($name, $field) {
-			return cockpit('regions:getRegionFieldValue', $name, $field);
-		}));
+		if (HAS_BACKEND) {
+			$twig->addFunction(new \Twig_SimpleFunction('cockpit_opening_form_tag', function($form) {
+				ob_start();
+				cockpit('forms:open', $form);
+				return ob_get_clean();
+			}));
+			$twig->addFunction(new \Twig_SimpleFunction('cockpit_collection', function($name) {
+				return cockpit('collections:find', $name);
+			}));
+			$twig->addFunction(new \Twig_SimpleFunction('region', function($name, $field) {
+				return cockpit('regions:getRegionFieldValue', $name, $field);
+			}));
+		}
+		else {
+			$twig->addFunction(new \Twig_SimpleFunction('cockpit_opening_form_tag', function($form) {
+				return '<form>';
+			}));
+			$twig->addFunction(new \Twig_SimpleFunction('cockpit_collection', function($name) {
+				return [];
+			}));
+			$twig->addFunction(new \Twig_SimpleFunction('region', function($name, $field) {
+				return '';
+			}));
+		}
 		$twig->addFunction(new \Twig_SimpleFunction('svg', function($name, $text) {
 			return file_get_contents(sprintf('%s/assets/svg/%s.svg', PUBLIC_ROOT_DIR, $name));
 		}));
@@ -39,7 +52,7 @@ class Template extends \Jack\Template {
 
 	protected function addCommonVariables(&$vars, $path) {
 		parent::addCommonVariables($vars, $path);
-		if (!isset($vars['issues'])) {
+		if (!isset($vars['issues']) && HAS_BACKEND) {
 			$issues = new Issues();
 			$issues->fetchAll();
 			$vars['issues'] = $issues;

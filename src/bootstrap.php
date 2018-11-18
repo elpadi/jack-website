@@ -17,5 +17,6 @@ $env = new Dotenv\Dotenv(WEBSITE_DIR);
 $env->load();
 
 // load cockpit
-require(PUBLIC_ROOT_DIR.'/admin/bootstrap.php');
+define('HAS_BACKEND', is_dir(PUBLIC_ROOT_DIR.'/admin'));
+if (HAS_BACKEND) require(PUBLIC_ROOT_DIR.'/admin/bootstrap.php');
 

@@ -2,6 +2,7 @@
 namespace Website;
 
 use Functional as F;
+use Jack\Logging\Logger;
 use Website\Shop\Cart;
 use Website\Shop\Catalog;
 use Website\Shop\Square\Checkout;
@@ -10,6 +11,30 @@ class App extends \Jack\App {
 
 	public function __construct() {
 		parent::__construct();
+		$this->initSlim();
+		$this->initShop();
+		$this->initLogger();
+	}
+
+	protected function initLogger() {
+		Logger::$logsDir = WEBSITE_DIR.'/logs';
+	}
+
+	protected function initShop() {
+		static::$container['catalog'] = function() {
+			return new Catalog();
+		};
+		static::$container['checkout'] = function() {
+			$session = static::$container['session'];
+			return new Checkout($session->getSegment('Checkout'), static::$container['cart']);
+		};
+		static::$container['cart'] = function() {
+			$session = static::$container['session'];
+			return new Cart($session->getSegment('ShoppingCart'), static::$container['catalog']);
+		};
+	}
+
+	protected function initSlim() {
 		$c = new \Slim\Container(['settings' => [
 			'displayErrorDetails' => DEBUG,
 			'determineRouteBeforeAppMiddleware' => true,
@@ -18,7 +43,7 @@ class App extends \Jack\App {
 			return function ($request, $response, $exception) use ($c) {
 				global $app;
 				if (DEBUG) {
-					var_dump($exception);
+					dump($exception);
 					exit();
 				}
 				else return $app->errorResponse($c['response'], new \Exception('Unspecified error. Please contact us if the problem persists.', 500));
@@ -31,17 +56,6 @@ class App extends \Jack\App {
 			};
 		};
 		$this->_framework = new \Slim\App($c);
-		static::$container['catalog'] = function() {
-			return new Catalog();
-		};
-		static::$container['checkout'] = function() {
-			$session = static::$container['session'];
-			return new Checkout($session->getSegment('Checkout'), static::$container['cart']);
-		};
-		static::$container['cart'] = function() {
-			$session = static::$container['session'];
-			return new Cart($session->getSegment('ShoppingCart'), static::$container['catalog']);
-		};
 	}
 
 	public function run() {

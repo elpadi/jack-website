@@ -2,12 +2,10 @@
 	font-family: Helvetica, Arial, sans-serif;
 	color: #C6CACB;
 }
-body[data-url-path~="checkout"] #content,
-body[data-url-path~="order"] #content {
+#content {
 	color: #b6b6b6;
 }
-body[data-url-path~="checkout"] #content a,
-body[data-url-path~="order"] #content a {
+#content a:not(.btn) {
 	color: #a1a1a1;
 }
 .js .remove-item-form input[type="submit"],
@@ -53,7 +51,6 @@ body[data-url-path~="order"] #content a {
 .actions {
 	color: #8D8F8E;
 }
-body[data-template-path~="checkout"] #content .btn,
 .btn[href$="shop/cart"],
 .btn[href$="shop/checkout"] {
 	color: #0eb8bf;

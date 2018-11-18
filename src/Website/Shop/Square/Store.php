@@ -31,6 +31,7 @@ class Store {
 		if (is_readable($cache) && ($catalog = json_decode(file_get_contents($cache)))) {
 			return $catalog;
 		}
+		if (IS_LOCAL) throw new \BadMethodCallException("Could not fetch a functioning catalog.");
 		$catalog = static::fetchCatalogDataFromApi();
 		$json = sprintf('[%s]', implode(',', $catalog));
 		file_put_contents($cache, $json);
@@ -38,6 +39,7 @@ class Store {
 	}
 
 	public static function verifyTransaction(string $transactionId, string $referenceId) {
+		if (IS_LOCAL) return [FALSE, 'Cannot verify an order from localhost.'];
 		try {
 			$response = static::retrieveTransaction($transactionId);
 		}

@@ -1,0 +1,9 @@
+#content .btn {
+	color: hsla(182, 86%, 25%, 1);
+	background-color: hsla(46, 86%, 81%, 1);
+	padding: 0.3em 0.8em 0.4em;
+}
+#button-container {
+	display: flex;
+	justify-content: space-evenly;
+}

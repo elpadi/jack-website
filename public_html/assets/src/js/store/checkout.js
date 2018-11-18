@@ -10,12 +10,13 @@ Object.defineProperty(Checkout.prototype, 'init', {
 
 Object.defineProperty(Checkout.prototype, 'addButton', {
 	value: function addButton() {
-		var container = document.getElementById('button-container');
-		this.button = document.createElement('button');
-		this.button.innerHTML = 'Pay $' + container.dataset.amount + ' with Square';
-		this.button.className = 'btn';
+		var c = document.getElementById('button-container');
+		c.insertAdjacentHTML('afterbegin',
+			`<button class="btn">Pay $ ${c.dataset.amount} with Square</button>` + 
+			`<a class="btn" href="${App.BASE_URL}shop/cart">Shopping Cart</a>`
+		);
+		this.button = c.children[0];
 		this.button.addEventListener('click', this.beginCheckout.bind(this));
-		container.appendChild(this.button);
 	}
 });
 

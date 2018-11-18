@@ -26,7 +26,7 @@ abstract class Variant {
 	}
 
 	public function getImageSrc() {
-		return $this->raw['item']->item_data->image_url;
+		return IS_LOCAL ? sprintf('%sassets/cache/square/img/%s.jpg', PUBLIC_ROOT, $this->getVariantId()) : $this->raw['item']->item_data->image_url;
 	}
 
 }

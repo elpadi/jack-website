@@ -7,6 +7,7 @@ $routes[] = array(
 			'name' => 'storefront',
 			'path' => '',
 		),
+		array('name' => 'api-location'),
 		array('name' => 'checkout'),
 		array('name' => 'order'),
 	),
