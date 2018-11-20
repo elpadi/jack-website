@@ -28,6 +28,7 @@ class Cart extends Page {
 			'subtotal' => $cart->getSubtotal(),
 			'shipping' => $cart->getShipping(),
 			'cart_count' => $cart->getItemCount(),
+			'discount' => $cart->getItems()['discount'],
 		];
 		$this->data = isset($variant_id) ? array_merge(compact('id', 'variant_id'), $data) : $data;
 	}

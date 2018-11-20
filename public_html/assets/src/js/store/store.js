@@ -1,10 +1,15 @@
+/**
+ * Store Class
+ *
+ * TODO: Create Cart class for shopping cart code
+ */
 function Store() {
 	this.isBusy = false;
 }
 
 Object.defineProperty(Store, 'moneyFormat', {
 	value: function moneyFormat(value) {
-		return '$' + value.toFixed(2);
+		return '$' + (value == Math.round(value) ? value : value.toFixed(2));
 	}
 });
 
@@ -33,23 +38,59 @@ Object.defineProperty(Store.prototype, 'onFormSubmit', {
 
 Object.defineProperty(Store.prototype, 'formDataHandler', {
 	value: function formDataHandler(form, data) {
-		console.log('Store.formDataHandler', data);
-		_(document.forms).filter(function(f) {
-			return ('count' in f) && ('variant_id' in f) && (f.variant_id.value === data.variant_id);
-		}).forEach(function(f) {
-			console.log(f.count);
-			f.count.value = data.item_count;
-		});
-		$('input[value="' + data.variant_id + '"]').closest('form').find('.count').prop('value', data.item_count);
+		console.log('Store.formDataHandler', 'data:', data);
+
+		let item = $('.store-item[data-variant-id="' + data.variant_id + '"]');
+
+		if (item.length && data.item_count != -1) {
+			if (data.item_count) {
+				item[0].dataset.count = data.item_count;
+				item.find('.count').prop('value', data.item_count);
+			}
+			else item.remove();
+		}
+
 		// total count body data attribute
 		document.body.dataset.cartCount = data.cart_count;
+
+		// update cart table values
 		$('.cart__count').html(data.cart_count).attr('data-count', data.cart_count);
 		$('.cart__subtotal').html(Store.moneyFormat(data.subtotal.net));
 		$('.cart__shipping').html(Store.moneyFormat(data.shipping));
 		$('.cart__total').html(Store.moneyFormat(data.subtotal.net + data.shipping));
-		$('.store-item')
-			.filter(function(i, node) { return node.dataset.variantId === data.variant_id; })
-			.each(function(i, node) { node.dataset.cartCount = data.item_count; });
+
+		// update discount status
+		if (data.subtotal.gross == data.subtotal.net) {
+			$('.store-item[data-variant-id="discount"]').remove();
+			document.body.dataset.discount = 0;
+		}
+		else {
+			document.body.dataset.discount = data.subtotal.gross - data.subtotal.net;
+			if ($('.store-item[data-variant-id="discount"]').length == 0) {
+				Store.createCartDiscountItem(data);
+			}
+		}
+	}
+});
+
+Object.defineProperty(Store, 'createCartDiscountItem', {
+	value: function createCartDiscountItem(data) {
+		let last = $('.store-item').last();
+		if (last.length == 0) return;
+		let d = last.clone().get(0);
+
+		d.dataset.variantId = 'discount';
+		d.dataset.cartCount = '1';
+		d.querySelector('aside').innerHTML = '';
+		d.querySelector('h2').innerHTML = data.discount + '% Discount';
+		d.querySelector('p').innerHTML = '-' + Store.moneyFormat(data.subtotal.gross - data.subtotal.net);
+		d.querySelectorAll('td')[2].innerHTML = '&nbsp;';
+
+		let f = d.querySelector('form');
+		f.action = f.action.replace('update', 'remove-discount');
+		$('input[type="hidden"]', f).remove();
+
+		last.after(d);
 	}
 });
 

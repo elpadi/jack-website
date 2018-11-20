@@ -45,6 +45,7 @@ class Cart extends \ArrayObject {
 	public function getItems() {
 		$items = ['products' => [], 'discount' => 0];
 		foreach ($this as $key => $count) {
+			if ($count == 0) continue;
 			$item = $this->catalog[$key];
 			if ($item instanceof Variant) {
 				$item->setCartCount($count);
