@@ -3,9 +3,9 @@
 <h1 class="screen-reader-text">Order Checkout</h1>
 <article class="page-content text-content justified">
 	<section class="needs-cart-items">
-		{{ region('checkout', 'has_items') | md | raw }}
+		{{ region('checkout/main') | raw }}
 		<p id="button-container" data-amount="{{ cart.getSubtotal().net + cart.getShipping() }}"></p>
 	</section>
-	<section class="needs-empty-cart">{{ region('checkout', 'no_items') | md | raw }}</section>
+	<section class="needs-empty-cart">{{ region('checkout/no-items') | raw }}</section>
 </article>
 {% endblock %}

@@ -21,9 +21,6 @@ class Template extends \Jack\Template {
 			$twig->addFunction(new \Twig_SimpleFunction('cockpit_collection', function($name) {
 				return cockpit('collections:find', $name);
 			}));
-			$twig->addFunction(new \Twig_SimpleFunction('region', function($name, $field) {
-				return cockpit('regions:getRegionFieldValue', $name, $field);
-			}));
 		}
 		else {
 			$twig->addFunction(new \Twig_SimpleFunction('cockpit_opening_form_tag', function($form) {
@@ -32,10 +29,10 @@ class Template extends \Jack\Template {
 			$twig->addFunction(new \Twig_SimpleFunction('cockpit_collection', function($name) {
 				return [];
 			}));
-			$twig->addFunction(new \Twig_SimpleFunction('region', function($name, $field) {
-				return '';
-			}));
 		}
+		$twig->addFunction(new \Twig_SimpleFunction('region', function($name) {
+			return (new Markdown())->parse(file_get_contents(static::getTemplateDir()."/regions/$name.md"));
+		}));
 		$twig->addFunction(new \Twig_SimpleFunction('svg', function($name, $text) {
 			return file_get_contents(sprintf('%s/assets/svg/%s.svg', PUBLIC_ROOT_DIR, $name));
 		}));
