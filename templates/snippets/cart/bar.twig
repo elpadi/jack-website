@@ -1,5 +1,5 @@
 <p class="cart-bar tc">
 	<a class="shop-back btn fl" href="{{ urlFor('storefront') }}">Shop</a>
-	<strong>total: </strong><em class="cart__total">{{ (cart.getSubtotal() + cart.getShipping()) | money }}</em>
+	<strong>total: </strong><em class="cart__total">{{ (cart.getSubtotal().net + cart.getShipping()) | money }}</em>
 	<a class="btn fr" href="{{ urlFor('checkout') }}">Checkout</a>
 </p>

@@ -8,8 +8,7 @@
 #content a:not(.btn) {
 	color: #a1a1a1;
 }
-.js .remove-item-form input[type="submit"],
-.js .update-count-form input[type="submit"] {
+.js form.no-submit input[type="submit"] {
 	display: none;
 }
 .store-item[data-cart-count="0"] .has-items,
@@ -43,7 +42,7 @@
 	text-transform: lowercase;
 	font-weight: 100;
 	letter-spacing: 0;
-	padding: 0.3em 0.5em 0.2em;
+	padding: 0.3em 0.5em 0.4em;
 }
 #content em,
 .store-item select,
@@ -57,4 +56,8 @@
 }
 .add-item-form input[type="submit"] {
 	color: #f2f802;
+}
+body[data-discount="0"] .if-discount,
+body:not([data-discount="0"]) .if-no-discount {
+	display: none;
 }

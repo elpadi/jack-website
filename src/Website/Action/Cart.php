@@ -19,16 +19,33 @@ class Cart extends Page {
 		return 'store/cart';
 	}
 
-	protected function setupApiData($count) {
+	protected function setupApiData($count=-1) {
 		extract($_POST, \EXTR_SKIP);
 		$cart = App::$container['cart'];
-		$this->data = array_merge(compact('id', 'variant_id'), [
+		$data = [
 			'success' => true,
 			'item_count' => $count,
 			'subtotal' => $cart->getSubtotal(),
 			'shipping' => $cart->getShipping(),
 			'cart_count' => $cart->getItemCount(),
-		]);
+		];
+		$this->data = isset($variant_id) ? array_merge(compact('id', 'variant_id'), $data) : $data;
+	}
+
+	public function removeDiscount($request, $response, $args) {
+		App::$container['cart']->removeDiscount();
+		$this->setupApiData();
+		return $this->api($response);
+	}
+
+	public function discount($request, $response, $args) {
+		if (!isset($_POST['discount_code']) || empty($_POST['discount_code'])) {
+			throw new \InvalidArgumentException("Discount code not found.", 404);
+		}
+		extract($_POST, \EXTR_SKIP);
+		App::$container['cart']->discount(strtoupper($discount_code));
+		$this->setupApiData();
+		return $this->api($response);
 	}
 
 	public function addItem($request, $response, $args) {

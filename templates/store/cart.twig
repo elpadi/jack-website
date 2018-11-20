@@ -15,7 +15,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for variant in cart.getItems() %}
+			{% for variant in cart.getItems().products %}
 			<tr class="store-item" data-cart-count="{{ variant.getCartCount() }}" data-variant-id="{{ variant.getVariantId() }}">
 				<td>
 					<aside><img src="{{ variant.getImageSrc() }}" alt=""></aside>
@@ -26,17 +26,31 @@
 				<td>{% include 'snippets/cart/remove-form.twig' %}</td>
 			</tr>
 			{% endfor %}
+			{% with { d: cart.getItems().discount } %}{% if d > 0 %}
+			<tr class="store-item" data-cart-count="1" data-variant-id="discount">
+				<td>
+					<aside>{#{ svg('discount', 'Discount') | raw }#}</aside>
+					<h2>{{ d }}% Discount</h2>
+				</td>
+				<td><p>-{{ (cart.getSubtotal().gross - cart.getSubtotal().net) | money }}</p></td>
+				<td>&nbsp;</td>
+				<td>{% include 'snippets/cart/remove-discount-form.twig' %}</td>
+			</tr>
+			{% endif %}{% endwith %}
 			<tr class="">
 				<td>
 					<aside>{{ svg('shipping', 'Shipping') | raw }}</aside>
 					<h2>Shipping</h2>
 				</td>
-				<td colspan="3"><p>{{ cart.getShipping() | money }}</p></td>
+				<td><p>{{ cart.getShipping() | money }}</p></td>
+				<td colspan="2">&nbsp;</td>
 			</tr>
 		</tbody>
 		<tfoot class="tr">
 			<tr>
-				<th colspan="4">Subtotal (<span class="cart__count plural" data-count="{{ cart.getItemCount() }}">{{ cart.getItemCount() }}</span> item<span class="plural__suffix">s</span>): <em class="cart__subtotal">{{ cart.getSubtotal() | money }}</em></th>
+				<th>Subtotal (<span class="cart__count plural" data-count="{{ cart.getItemCount() }}">{{ cart.getItemCount() }}</span> item<span class="plural__suffix">s</span>):</th>
+				<th><em class="cart__subtotal">{{ cart.getSubtotal().net | money }}</em></th>
+				<td colspan="2">&nbsp;</td>
 			</tr>
 		</tfoot>
 	</table>
@@ -44,5 +58,5 @@
 	<footer>{% include 'snippets/cart/bar.twig' %}</footer>
 		
 </main>
-<aside class="cart-sidebar fr tr">{% include 'snippets/cart/sidebar.twig' %}</aside>
+<aside class="cart-sidebar fr">{% include 'snippets/cart/sidebar.twig' %}</aside>
 {% endblock %}

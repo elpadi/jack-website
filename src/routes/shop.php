@@ -26,6 +26,14 @@ $routes[] = array(
 			'method' => 'post',
 		),
 		array(
+			'name' => 'discount',
+			'method' => 'post',
+		),
+		array(
+			'name' => 'remove-discount',
+			'method' => 'post',
+		),
+		array(
 			'name' => 'update-item',
 			'path' => '/update',
 			'method' => 'post',

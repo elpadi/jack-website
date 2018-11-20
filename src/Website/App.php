@@ -39,20 +39,22 @@ class App extends \Jack\App {
 			'displayErrorDetails' => DEBUG,
 			'determineRouteBeforeAppMiddleware' => true,
 		]]);
+		$c['phpErrorHandler'] = function ($c) {
+			return function ($request, $response, $error) use ($c) {
+				global $app;
+				return $app->errorResponse($response, $error);
+			};
+		};
 		$c['errorHandler'] = function ($c) {
 			return function ($request, $response, $exception) use ($c) {
 				global $app;
-				if (DEBUG) {
-					dump($exception);
-					exit();
-				}
-				else return $app->errorResponse($c['response'], new \Exception('Unspecified error. Please contact us if the problem persists.', 500));
+				return $app->errorResponse($response, $exception);
 			};
 		};
 		$c['notFoundHandler'] = function ($c) {
 			return function ($request, $response) use ($c) {
 				global $app;
-				return $app->errorResponse($c['response'], new \Exception('Page not found.', 404));
+				return $app->errorResponse($response, new \Exception('Page not found.', 404));
 			};
 		};
 		$this->_framework = new \Slim\App($c);

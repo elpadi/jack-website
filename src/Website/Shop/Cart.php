@@ -21,13 +21,15 @@ class Cart extends \ArrayObject {
 	}
 
 	protected function hydrateFromStorage() {
-		if (IS_LOCAL && $this->count() == 0) {
-			foreach ($this->catalog as $id => $variant) $this->offsetSet($id, 1);
-			$this->updateStorage();
-			return NULL;
-		}
 		if ($items = $this->storage->get('items')) {
 			foreach ($items as $key => $count) $this->offsetSet($key, $count);
+		}
+		else {
+			if (IS_LOCAL) {
+				foreach ($this->catalog as $id => $variant) if (is_object($variant)) $this->offsetSet($id, 1);
+				$this->updateStorage();
+				return NULL;
+			}
 		}
 	}
 
@@ -41,17 +43,36 @@ class Cart extends \ArrayObject {
 	}
 
 	public function getItems() {
-		$items = [];
+		$items = ['products' => [], 'discount' => 0];
 		foreach ($this as $key => $count) {
 			$item = $this->catalog[$key];
-			$item->setCartCount($count);
-			$items[] = $item;
+			if ($item instanceof Variant) {
+				$item->setCartCount($count);
+				$items['products'][] = $item;
+			}
+			else {
+				$items['discount'] += $item;
+			}
 		}
 		return $items;
 	}
 
 	protected function has(string $key) {
 		return $this->offsetExists($key) && $this->offsetGet($key) > 0;
+	}
+
+	public function removeDiscount() {
+		foreach ($this->getArrayCopy() as $key => $count)
+			if ($this->catalog[$key] instanceof Variant == false)
+				$this->offsetUnset($key);
+		$this->updateStorage();
+	}
+
+	public function discount(string $code) {
+		if (!$this->catalog->offsetExists($code)) throw new \InvalidArgumentException("Discount code $code is not valid.");
+		if ($this->has($code)) throw new \BadMethodCallException("Discount code already applied.");
+		$this->offsetSet($code, $this->catalog[$code]);
+		$this->updateStorage();
 	}
 
 	public function addItem(string $itemId, string $variantId) {
@@ -76,20 +97,18 @@ class Cart extends \ArrayObject {
 	}
 
 	public function getItemCount() {
-		return array_sum($this->getArrayCopy());
+		$items = $this->getItems();
+		return array_sum($this->getArrayCopy()) - $items['discount'];
 	}
 
 	public function getSubtotal() {
-		return array_sum(F\invoke($this->getItems(), 'getCartSubtotal'));
+		extract($this->getItems());
+		$total = array_sum(F\invoke($products, 'getCartSubtotal'));
+		return ['gross' => $total, 'net' => $total - ceil($total * $discount / 100)];
 	}
 
 	public function getShipping() {
 		if (DEBUG) return 1;
-		/*
-		// Calculate shipping cost based on item count.
-		$count = $this->getItemCount();
-		return ceil($count / 3) * self::$STANDARD_SHIPPING_COST;
-		 */
 		return static::$STANDARD_SHIPPING_COST;
 	}
 

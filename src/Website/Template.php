@@ -57,6 +57,9 @@ class Template extends \Jack\Template {
 			$issues->fetchAll();
 			$vars['issues'] = $issues;
 		}
+		else {
+			$vars['issues'] = [];
+		}
 		if (!isset($vars['cart'])) $vars['cart'] = App::$container['cart'];
 	}
 

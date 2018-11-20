@@ -1,5 +1,12 @@
+<form id="discount-form" class="if-no-discount" action="{{ urlFor('discount') }}" method="POST">
+	<label for="discount_code_input">Have Discount Code?</label>
+	<div>
+		<input type="text" id="discount_code_input" name="discount_code" placeholder="CODE" value="" size="10">
+		<button>Apply</button>
+	</div>
+</form>
 <p><a class="shop-back btn" href="{{ urlFor('storefront') }}">Continue Shopping</a></p>
-<p><strong class="fl">Subtotal</strong> <em class="cart__subtotal">{{ cart.getSubtotal() | money }}</em></p> 
-<p><strong class="fl">Shipping</strong> <em class="cart__shipping">{{ cart.getShipping() | money }}</em></p> 
-<p><strong class="fl">Order Total</strong> <em class="cart__total">{{ (cart.getSubtotal() + cart.getShipping()) | money }}</em></p> 
+<p><strong>Subtotal</strong> <em class="cart__subtotal">{{ cart.getSubtotal().net | money }}</em></p> 
+<p><strong>Shipping</strong> <em class="cart__shipping">{{ cart.getShipping() | money }}</em></p> 
+<p><strong>Order Total</strong> <em class="cart__total">{{ (cart.getSubtotal().net + cart.getShipping()) | money }}</em></p> 
 <p><a class="btn" href="{{ urlFor('checkout') }}">Checkout</a></p>

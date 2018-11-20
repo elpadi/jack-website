@@ -33,6 +33,7 @@ Object.defineProperty(Store.prototype, 'onFormSubmit', {
 
 Object.defineProperty(Store.prototype, 'formDataHandler', {
 	value: function formDataHandler(form, data) {
+		console.log('Store.formDataHandler', data);
 		_(document.forms).filter(function(f) {
 			return ('count' in f) && ('variant_id' in f) && (f.variant_id.value === data.variant_id);
 		}).forEach(function(f) {
@@ -43,9 +44,9 @@ Object.defineProperty(Store.prototype, 'formDataHandler', {
 		// total count body data attribute
 		document.body.dataset.cartCount = data.cart_count;
 		$('.cart__count').html(data.cart_count).attr('data-count', data.cart_count);
-		$('.cart__subtotal').html(Store.moneyFormat(data.subtotal));
+		$('.cart__subtotal').html(Store.moneyFormat(data.subtotal.net));
 		$('.cart__shipping').html(Store.moneyFormat(data.shipping));
-		$('.cart__total').html(Store.moneyFormat(data.subtotal + data.shipping));
+		$('.cart__total').html(Store.moneyFormat(data.subtotal.net + data.shipping));
 		$('.store-item')
 			.filter(function(i, node) { return node.dataset.variantId === data.variant_id; })
 			.each(function(i, node) { node.dataset.cartCount = data.item_count; });

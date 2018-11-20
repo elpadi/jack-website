@@ -38,9 +38,12 @@ td {
 	width: 50px;
 	padding: 0 0 10px 0;
 }
+th:first-child,
+td:first-child {
+	text-align: left;
+}
 td:first-child {
 	float: left;
-	text-align: left;
 	width: calc(100% - 60px);
 }
 td:first-child,
@@ -88,6 +91,16 @@ table .store-item[data-cart-count="0"] {
 	font-size: 0.8em;
 	line-height: 1.4;
 }
+#discount-form > div {
+	display: flex;
+	justify-content: space-between;
+    margin: 0.5em 0 2.7em;
+}
+input[name="discount_code"] {
+	text-transform: uppercase;
+	margin-right: 0.7em;
+	padding-left: 0.3em;
+}
 @media (min-width: 768px) {
 	#content {
 		display: flex;
@@ -102,7 +115,7 @@ table .store-item[data-cart-count="0"] {
 	#content > aside {
 		display: block;
 		align-self: flex-start;
-		margin-top: 3.9em;
+		margin-top: 3.7em;
 	}
 	#content h1 {
 		display: block;
@@ -112,16 +125,19 @@ table .store-item[data-cart-count="0"] {
 	}
 	td, th {
 		display: table-cell;
-		text-align: left !important;
+		text-align: center;
 	}
 	td {
 		float: none;
 		width: auto;
 		white-space: nowrap;
-		padding: 20px 20px 20px 10px;
+		padding: 20px;
 		overflow: hidden;
 	}
-	th {
+	td:last-child {
+		padding: 20px 0;
+	}
+	th:first-child {
 		padding-left: 10px;
 	}
 	table aside {
