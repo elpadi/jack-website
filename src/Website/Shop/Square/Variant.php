@@ -22,7 +22,7 @@ abstract class Variant {
 	}
 
 	public function getPrice() {
-		return DEBUG ? 1 : $this->raw['variant']->item_variation_data->price_money->amount / 100;
+		return $this->raw['variant']->item_variation_data->price_money->amount / 100;
 	}
 
 	public function getImageSrc() {

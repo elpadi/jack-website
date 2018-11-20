@@ -109,7 +109,6 @@ class Cart extends \ArrayObject {
 	}
 
 	public function getShipping() {
-		if (DEBUG) return 1;
 		return static::$STANDARD_SHIPPING_COST;
 	}
 
