@@ -12,7 +12,7 @@ Object.defineProperty(Checkout.prototype, 'addButton', {
 	value: function addButton() {
 		var c = document.getElementById('button-container');
 		c.insertAdjacentHTML('afterbegin',
-			`<button class="btn">Pay $ ${c.dataset.amount} with Square</button>` + 
+			`<button class="btn">Pay $${c.dataset.amount} with Square</button>` + 
 			`<a class="btn" href="${App.BASE_URL}shop/cart">Shopping Cart</a>`
 		);
 		this.button = c.children[0];

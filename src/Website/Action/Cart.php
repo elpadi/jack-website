@@ -58,8 +58,8 @@ class Cart extends Page {
 
 	public function updateItem($request, $response, $args) {
 		extract($_POST, \EXTR_SKIP);
-		App::$container['cart']->updateItem($id, $variant_id, $count);
-		$this->setupApiData($count);
+		App::$container['cart']->updateItem($id, $variant_id, (int)$count);
+		$this->setupApiData((int)$count);
 		return $this->api($response);
 	}
 

@@ -37,7 +37,10 @@ class Checkout extends Page {
 			}
 		}
 		catch (ApiException $e) {
-			$this->data['response'] = $e->getResponseBody();
+			$this->data['response'] = $e->getResponseBody() or $e->getMessage();
+		}
+		catch (\Exception $e) {
+			$this->data['response'] = $e->getMessage();
 		}
 		return parent::api($response);
 	}

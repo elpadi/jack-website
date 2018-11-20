@@ -14,7 +14,7 @@ class Orders extends StaticNameCollection {
 			'transaction_id' => '',
 			'checkout_id' => $checkout['id'],
 			'date' => $checkout['created_at'],
-			'total_amount' => $cart->getShipping() + $cart->getSubtotal(),
+			'total_amount' => $cart->getShipping() + $cart->getSubtotal()['net'],
 			'is_verified' => FALSE,
 		]);
 	}

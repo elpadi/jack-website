@@ -1,6 +1,7 @@
 <?php
 namespace Website\Shop\Square;
 
+use SquareConnect\Model\CreateOrderRequestDiscount;
 use SquareConnect\Model\CreateOrderRequestLineItem;
 use SquareConnect\Model\Money;
 use SquareConnect\Model\CreateOrderRequest;
@@ -23,7 +24,8 @@ class Checkout {
 
 	protected function variantsToLineItems() {
 		$lineItems = [];
-		foreach ($this->cart->getItems() as $variant) {
+		$items = $this->cart->getItems();
+		foreach ($items['products'] as $variant) {
 			$lineItem = new CreateOrderRequestLineItem();
 			$lineItem['name'] = $variant->getItemTitle();
 			$lineItem['quantity'] = (string)$variant->getCartCount();
@@ -31,6 +33,19 @@ class Checkout {
 			$lineItems[] = $lineItem;
 		}
 		return $lineItems;
+	}
+
+	protected function createOrderDiscounts() {
+		$discounts = [];
+		$items = $this->cart->getItems();
+		$total = $this->cart->getSubtotal();
+		if ($total['gross'] != $total['net']) {
+			$d = new CreateOrderRequestDiscount();
+			$d['name'] = "$items[discount]% Discount";
+			$d['amount_money'] = new Money(['amount' => ($total['gross'] - $total['net']) * 100, 'currency' => 'USD']);
+			$discounts[] = $d;
+		}
+		return $discounts;
 	}
 
 	protected function shippingToLineItem() {
@@ -47,6 +62,7 @@ class Checkout {
 		$lineItems = $this->variantsToLineItems();
 		$lineItems[] = $this->shippingToLineItem();
 		$order['line_items'] = $lineItems;
+		$order['discounts'] = $this->createOrderDiscounts();
 		return $order;
 	}
 
@@ -81,7 +97,7 @@ class Checkout {
 	public function request() {
 		Store::configure();
 		$api = new CheckoutApi();
-    return $api->createCheckout(getenv('SQUARE_LOCATION_ID'), $this->createRequest());
+		return $api->createCheckout(getenv('SQUARE_LOCATION_ID'), $this->createRequest());
 	}
 
 }

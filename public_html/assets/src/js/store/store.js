@@ -44,7 +44,7 @@ Object.defineProperty(Store.prototype, 'formDataHandler', {
 
 		if (item.length && data.item_count != -1) {
 			if (data.item_count) {
-				item[0].dataset.count = data.item_count;
+				item[0].dataset.cartCount = data.item_count;
 				item.find('.count').prop('value', data.item_count);
 			}
 			else item.remove();
@@ -53,6 +53,12 @@ Object.defineProperty(Store.prototype, 'formDataHandler', {
 		// total count body data attribute
 		document.body.dataset.cartCount = data.cart_count;
 
+		if (document.body.dataset.path == 'cart') this.updateCartLayout();
+	}
+});
+
+Object.defineProperty(Store.prototype, 'updateCartLayout', {
+	value: function updateCartLayout(data) {
 		// update cart table values
 		$('.cart__count').html(data.cart_count).attr('data-count', data.cart_count);
 		$('.cart__subtotal').html(Store.moneyFormat(data.subtotal.net));
