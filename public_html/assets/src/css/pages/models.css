@@ -29,6 +29,9 @@
 #content .models figure aside {
 	transform: rotate(-90deg) translate(46px, 12px);
 }
+#content .models figure aside a {
+	opacity: 0.5;
+}
 #content .page-content .models img {
 	display: inline;
 	float: left;
@@ -55,8 +58,15 @@
 	font-size: 0.7em;
 }
 #content .models .name {
-	font-size: 1.7em;
+	font-size: 1.4em;
+	letter-spacing: -0.025em;
 	font-style: italic;
+}
+#content .models .origin {
+	font-size: 0.85em;
+	position: relative;
+	bottom: 2px;
+	opacity: 0.5;
 }
 #content .models main {
 	font-size: 0.9em;

@@ -33,6 +33,11 @@
 	pointer-events: none;
 }
 
+#content .intro-container img {
+	width: 100%;
+	max-width: 70vw;
+	object-fit: contain;
+}
 .intro-fade {
 	position: absolute;
 	top: 50%;
