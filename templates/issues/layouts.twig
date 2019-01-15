@@ -1,0 +1,18 @@
+{% extends "site.twig" %}
+{% block subnav %}
+{% include "snippets/issues_subnav.twig" %}
+{% endblock %}
+{% block content %}
+<section id="issue-layouts">
+	{% for layout in issue.getLayouts() %}
+	<article>
+		<p><a href="{{ layout.getUrl(issue) }}" title="{{ layout.title }}"><img
+			src="{{ layout.image.path | url | image_url }}"
+			srcset="{{ layout.image.path | url | srcset }}"
+			data-size="{{ layout.image.path | url | imgsize }}"
+		></a></p>
+	</article>
+	{% endfor %}
+</section>
+{% endblock %}
+

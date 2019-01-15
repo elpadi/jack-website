@@ -6,13 +6,13 @@ use Functional as F;
 class Layouts extends Issue {
 
 	protected function templatePath() {
-		return 'issues/grid';
+		return 'issues/layouts';
 	}
 
 	protected function issueAssets() {
 		return [
-			'css' => ['layouts/full-width','layouts/image-grid','issues/image-grid'],
-			'js' => ['layouts/image-grid','issues/image-grid'],
+			'css' => ['layouts/full-width','issues/layouts'],
+			'js' => [],
 		];
 	}
 
