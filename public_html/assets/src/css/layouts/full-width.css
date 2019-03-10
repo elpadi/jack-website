@@ -1,8 +1,13 @@
-#content {
+.fullwidth .page-content {
+	max-width: 850px !important;
+}
+.fullwidth #container {
+	max-width: none;
+}
+.fullwidth #content {
+	padding-top: 0;
+	width: auto;
 	padding-left: 0;
 	padding-right: 0;
-}
-.page-content {
-	max-width: 1080px !important;
 }
 

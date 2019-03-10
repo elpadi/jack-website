@@ -2,7 +2,7 @@
 namespace Website\Data;
 
 use Functional as F;
-use Website\Data\Object as DataObject;
+use Website\Data\DataObject;
 
 abstract class Collection extends \ArrayIterator {
 

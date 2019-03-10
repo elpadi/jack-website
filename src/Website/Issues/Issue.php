@@ -3,7 +3,7 @@ namespace Website\Issues;
 
 use Functional as F;
 use Website\App;
-use Website\Data\Object as DataObject;
+use Website\Data\DataObject;
 use Website\Shop;
 
 class Issue extends DataObject {

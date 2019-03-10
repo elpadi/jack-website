@@ -14,11 +14,15 @@
 	padding: 5px 0;
 	margin: 0 5px;
 	outline-style: none !important;
-	transition: border-color 0.2s;
+	border: 3px none white;
+	transition: color 0.2s linear, border-color 0.2s linear;
+}
+#masthead > nav a:hover,
+#masthead > nav a.selected {
+	border-color: currentColor;
 }
 #masthead a.selected {
 	color: black;
-	border-color: black !important;
 }
 #masthead > nav > .far-left,
 #masthead > nav > .far-right {
@@ -116,13 +120,7 @@
 	#masthead h1 a {
 		border-style: none !important;
 	}
-	.main-nav a {
-		border: 3px none transparent;
-	}
-	.main-nav a:hover {
-		border-color: rgb(195,195,195);
-	}
-	.main-nav a {
+	#masthead > .main-nav a {
 		border-top-style: solid;
 	}
 	#masthead > .subnav a {

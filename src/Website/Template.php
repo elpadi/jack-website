@@ -57,7 +57,6 @@ class Template extends \Jack\Template {
 		else {
 			$vars['issues'] = [];
 		}
-		if (!isset($vars['cart'])) $vars['cart'] = App::$container['cart'];
 	}
 
 }

@@ -1,9 +1,31 @@
+body[data-url-path~="pussycats"] #page-content--models.page-content {
+	max-width: 860px;
+}
+#page-content--models {
+	padding: 1em 10px !important;
+	font-size: 16px;
+	font-family: "Arial Black", "Arial", sans-serif;
+	text-align: left;
+	color: #a6a6a6;
+}
+#page-content--models p {
+	line-height: 1.4;
+}
+#page-content--models img {
+	display: block;
+	margin: 7.4% auto;
+}
+#page-content--models p:first-child img {
+	margin-top: 38px;
+}
+
 #content .models {
 	font-family: "Arial", sans-serif;
 	font-weight: bold;
 	font-size: 24px;
 	text-align: left;
 	color: #989393;
+	margin: 7% 0;
 }
 #content .model {
 }
@@ -21,23 +43,37 @@
 	display: none;
 }
 #content .models header {
+	display: flex;
 	margin-bottom: 5%;
 }
 #content .models figure {
 	line-height: 1;
+	margin: 0 auto;
+}
+#content .models figure a {
+	display: block;
+}
+#content .models figure > span,
+#content .models figure > a {
+	display: flex;
+	align-items: center;
 }
 #content .models figure aside {
-	transform: rotate(-90deg) translate(46px, 12px);
+	transform: rotate(-90deg) translate(5em, 0.4em);
+	transform-origin: left top;
+	text-align: left;
+	bottom: auto;
+	top: 100%;
 }
 #content .models figure aside a {
 	opacity: 0.5;
 }
 #content .page-content .models img {
 	display: inline;
-	float: left;
-}
-#content .models figure.single {
-	width: 75%;
+	max-height: 50vh;
+	width: auto;
+	height: auto;
+	object-fit: contain;
 }
 #content .models figure.double figcaption {
 }
@@ -48,8 +84,7 @@
 #content .models figure.double img:first-child { margin-right: 1%; }
 #content .models figure.double img:last-child { margin-left: 1%; }
 #content .models figure.single img {
-	max-width: none;
-	width: 100%;
+	max-width: 100%;
 	margin: 0;
 }
 #content .models figcaption {
@@ -72,7 +107,7 @@
 	font-size: 0.9em;
 	line-height: 1.2;
 }
-p > a {
+#content .models p > a {
 	color: inherit;
 }
 #content .models main a {
@@ -98,13 +133,36 @@ p > a {
 }
 
 @media (min-width: 640px) {
-	#content .models main {
+	.models {
 		font-size: 0.8em;
 		line-height: 1.1;
 	}
-	#content .models hr {
+	.models hr {
 	}
-	#content .models figure.single {
-		width: 50%;
+}
+
+@media (min-width: 640px) {
+	#page-content--models {
+		font-size: 19px;
 	}
+	#page-content--models p {
+		line-height: 1.3;
+	}
+}
+@media (min-width: 700px) {
+	#page-content--models > p > figure,
+	#page-content--models > p > img {
+		max-width: 450px;
+	}
+}
+@media (min-width: 980px) {
+	#page-content--models {
+		font-size: 22px;
+	}
+	#page-content--models p {
+		line-height: 1.2;
+	}
+}
+#page-content--models .collab {
+	font-size: 0.875em;
 }

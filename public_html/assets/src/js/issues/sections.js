@@ -46,17 +46,15 @@ class IssueSection {
 
 }
 
-if (window.innerWidth >= 768) {
-	App.instance.addChild('issue-sections', {
-		load: function() {
-			this.sections = Array.from(document.querySelectorAll('.issue-section')).map(s => new IssueSection(s));
-			this.sections.forEach(s => s.init());
-		},
-		scroll: function() {
-			this.sections.forEach(s => s.repositionText());
-		},
-		resize: function() {
-			this.sections.forEach(s => s.computeMaxScroll());
-		}
-	});
-}
+module.exports = {
+	load: function() {
+		this.sections = Array.from(document.querySelectorAll('.issue-section')).map(s => new IssueSection(s));
+		this.sections.forEach(s => s.init());
+	},
+	scroll: function() {
+		this.sections.forEach(s => s.repositionText());
+	},
+	resize: function() {
+		this.sections.forEach(s => s.computeMaxScroll());
+	}
+};

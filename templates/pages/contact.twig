@@ -1,14 +1,14 @@
 {% extends "site.twig" %}
 {% block content %}
 {% import "macros/misc.twig" as misc %}
-<div class="main-content page-content">
+<div id="page-content--contact" class="main-content page-content">
 	{{ cockpit_opening_form_tag('contact') | raw }}
 		<p class="fl"><label for="email" class="screen-reader-text">Email: </label><input type="email" name="form[email]" placeholder="your email"></p>
 		<p class="fr"><label for="message" class="screen-reader-text">Message: </label><textarea name="form[message]" placeholder="message"></textarea></p>
 		<p class="fl cl"><input type="submit" value="send" class="fr"></label></p>
 		<p id="form-message" class="white tc form-message-success">Thanks for the (hopefully) kind words. We'll get back to you soon.</p>
 	</form>
-	<section id="staff" class="tc">
+	<section id="staff" class="tc columns">
 		{% for contact in contacts %}
 		<article class="col">{{ misc.contact(contact) }}</article>
 		{% endfor %}

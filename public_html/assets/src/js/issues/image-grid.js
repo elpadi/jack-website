@@ -103,4 +103,4 @@ class ImageGrid {
 
 ImageGrid.GRID_GAP = 0;
 
-App.instance.addChild('imageGrid', new ImageGrid(document.querySelector('.image-grid')));
+module.exports = ImageGrid;

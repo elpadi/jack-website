@@ -1,5 +1,5 @@
 @media (min-width: 670px) {
-	#content {
+	body[data-template-path~="sections"] #content {
 		padding-top: 90px;
 	}
 }
@@ -39,9 +39,6 @@
 }
 
 @media (min-width: 768px) {
-	.issue-sections {
-		background: transparent url(../../bower_components/slick-carousel/slick/ajax-loader.gif) center 200px no-repeat;
-	}
 	.issue-sections.loaded {
 		background-image: none;
 	}

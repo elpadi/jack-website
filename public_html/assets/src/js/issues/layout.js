@@ -1,4 +1,5 @@
-App.instance.addChild('slideshow', new LayoutSlideshow());
+var $ = require('jquery');
+var Slick = require('slick-carousel');
 
 function LayoutSlideshow() {
 	this.DURATION = 4000;
@@ -9,7 +10,8 @@ function LayoutSlideshow() {
 
 Object.defineProperty(LayoutSlideshow.prototype, 'init', {
 	value: function init() {
-		App.instance.fetch(location.href.substr(0, location.href.lastIndexOf('/')))
+		document.body.classList.add('fullwidth');
+		window._app.fetch(location.href.substr(0, location.href.lastIndexOf('/')))
 			.then(this.createElements.bind(this));
 		this.setupShareButtons();
 	}
@@ -20,15 +22,15 @@ Object.defineProperty(LayoutSlideshow.prototype, 'createElements', {
 		var div = document.createElement('div'), w = window.innerWidth, h = window.innerHeight - this.VERTICAL_PADDING,
 				slug = location.href.split('/').pop();
 		div.id = 'slideshow';
-		data.layouts.forEach(function(layout, index) {
+		data.layouts.forEach((layout, index) => {
 			var img = new Image(), d = document.createElement('div');
-			img.dataset.lazy = App.BASE_URL + layout.image.path;
+			img.dataset.lazy = window._app.BASE_URL + layout.image.path;
 			d.style.width = w + 'px';
 			d.style.height = h + 'px';
 			d.appendChild(img);
 			div.appendChild(d);
 			if (layout.slug === slug) this.INITIAL_INDEX = index;
-		}.bind(this));
+		});
 		document.getElementById('content').appendChild(div);
 		setTimeout(this.initSlick.bind(this), 100);
 	}
@@ -96,14 +98,14 @@ Object.defineProperty(LayoutSlideshow.prototype, 'next', { value: function next(
 Object.defineProperty(LayoutSlideshow.prototype, 'thumbs', {
 	value: function thumbs() {
 		var url = document.getElementById('thumbs').dataset.url;
-		if (App.HTTP_REFERER === location.origin + url) history.back();
+		if (this.HTTP_REFERER === location.origin + url) history.back();
 		else location = url;
 	}
 });
 
 Object.defineProperty(LayoutSlideshow.prototype, 'fullscreen', {
 	value: function fullscreen() {
-		return App.instance.isFullscreen() ? App.instance.exitFullscreen() : App.instance.goFullscreen(document.getElementById('content'));
+		return window._app.isFullscreen() ? window._app.exitFullscreen() : window._app.goFullscreen(document.getElementById('content'));
 		setTimeout(this.slick.setPosition.bind(this.slick), 500);
 	}
 });
@@ -113,3 +115,5 @@ Object.defineProperty(LayoutSlideshow.prototype, 'setupShareButtons', {
 		document.getElementById('facebook').href += '?u=' + encodeURIComponent(location.href);
 	}
 });
+
+module.exports = LayoutSlideshow;

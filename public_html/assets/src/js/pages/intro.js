@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 function Intro() {
 	this.DURATION = 4000;
 	this.DELAY = 2000;
@@ -9,7 +11,8 @@ function Intro() {
 Object.defineProperty(Intro.prototype, 'init', {
 	value: function init() {
 		$(document).one('click', this.end.bind(this));
-		App.instance.fetch(location.href)
+		document.body.classList.add('home');
+		window._app.fetch(location.href)
 			.then(this.startIntro.bind(this));
 	}
 });
@@ -43,11 +46,11 @@ Object.defineProperty(Intro.prototype, 'next', {
 		var name = this.FADES.shift();
 		if (!name || this.hasEnded) return setTimeout(this.end.bind(this), this.DURATION + this.DELAY + this.END_DELAY);
 		Promise.all([
-			('nodeType' in this.images[name]) ? Promise.resolve(this.images[name]) : App.instance.loadPromise(this.images[name]),
-			App.instance.delayPromise(name === 'posters' ? 500 : this.DURATION + this.DELAY)
+			('nodeType' in this.images[name]) ? Promise.resolve(this.images[name]) : window._app.loadPromise(this.images[name]),
+			window._app.delayPromise(name === 'posters' ? 500 : this.DURATION + this.DELAY)
 		]).then(this.show.bind(this))
 			.then(this.next.bind(this))
-			.then(function() { return App.instance.delayPromise(this.DURATION); }.bind(this))
+			.then(function() { return window._app.delayPromise(this.DURATION); }.bind(this))
 			.then(this.hide.bind(this));
 	}
 });
@@ -65,4 +68,4 @@ Object.defineProperty(Intro.prototype, 'startIntro', {
 	}
 });
 
-App.instance.addChild('intro', new Intro());
+module.exports = Intro;

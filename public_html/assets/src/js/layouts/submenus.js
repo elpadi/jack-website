@@ -1,10 +1,13 @@
+var $ = require('jquery');
+var _ = require('lodash');
+
 function Submenus() {
 }
 
 Object.defineProperty(Submenus.prototype, 'init', {
 	value: function init() {
 		var $buttons = $('.main-nav').find('a');
-		var texts = _.invoke(_.invoke(_.map($buttons, _.property('textContent')), 'trim'), 'toLowerCase');
+		var texts = Array.from($buttons).map(b => b.textContent.trim().toLowerCase());
 		$('.submenu').each(function(i, node) {
 			var index = texts.indexOf(node.dataset.parent);
 			if (index > -1) Submenu.create(node, $buttons[index]);
@@ -107,4 +110,4 @@ Object.defineProperty(Submenu.prototype, 'init', {
 	}
 });
 
-App.instance.addChild('submneus', new Submenus());
+module.exports = Submenus;

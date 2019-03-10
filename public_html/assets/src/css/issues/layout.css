@@ -1,24 +1,17 @@
-#content {
+body[data-template-path~="layout"] {
+	overflow: hidden;
+}
+body[data-template-path~="layout"] #content {
 	padding-top: 0;
 	text-align: center;
 	padding-bottom: 0;
 	overflow: hidden;
 	background-color: white;
 }
-.fullscreen #content {
-	padding-top: 0;
-	width: 100vw;
-}
-.fullscreen #content,
-.fullscreen #slideshow,
-.fullscreen .slick-slide,
-.fullscreen #slideshow img {
-	height: 100vh !important;
-}
-#content h1 {
+body[data-template-path~="layout"] #content h1 {
 	margin-top: 0;
 }
-#content img {
+body[data-template-path~="layout"] #content img {
 	display: block;
 }
 .js #content > img {
@@ -44,7 +37,6 @@
 }
 .slick-slide {
 	outline-style: none;
-	background: white url(../../bower_components/slick-carousel/slick/ajax-loader.gif) center center no-repeat;
 	opacity: 0;
 	transition: opacity 500ms linear 1s;
 }
@@ -82,6 +74,13 @@
 .mouse--left #slideshow { cursor: url(../../../cursors/left.png), w-resize; }
 .mouse--right #slideshow { cursor: url(../../../cursors/right.png), e-resize; }
 body:not(.mousemove) #slideshow { cursor: none !important; }
+
+.fullscreen #content,
+.fullscreen #slideshow,
+.fullscreen .slick-slide,
+.fullscreen #slideshow img {
+	height: 100vh !important;
+}
 /*
 .slick-arrow {
 	width: 25px;

@@ -1,8 +1,6 @@
-@import "base/normalize.css";
-@import "base/fonts.css";
-@import "base/classes.css";
-@import "components/loader.css";
-@import "sections/main-nav.css";
+@import "../../node_modules/normalize.css/normalize.css";
+@import "../../node_modules/slick-carousel/slick/slick.css";
+@import "../../node_modules/slick-carousel/slick/slick-theme.css";
 
 * {
   -ms-box-sizing: border-box;
@@ -100,6 +98,10 @@ body {
 	margin-left:auto;
 	margin-right:auto;
 	padding: 1em;
+}
+.page-content {
+	margin-left:auto;
+	margin-right:auto;
 }
 #content .text-content p,
 #content > p {
@@ -253,10 +255,6 @@ form.loading input[type="submit"] {
 	border-color: transparent;
 	color: #ddd;
 	color: rgba(221,221,221,0.5);
-}
-.btn.loading,
-form.loading input[type="submit"] {
-	background-image: url(../bower_components/slick-carousel/slick/ajax-loader.gif);
 }
 .needs-empty-cart,
 body[data-cart-count="0"] .needs-cart-items {

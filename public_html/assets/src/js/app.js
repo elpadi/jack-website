@@ -1,5 +1,10 @@
+var $ = require('jquery');
+var fetch = require('fetch');
+var _ = require('lodash');
+
 function App() {
 	this.children = {};
+	this.initialEvents = [];
 	this.START_TIME = Date.now();
 }
 
@@ -56,7 +61,7 @@ Object.defineProperty(App.prototype, 'enableScrollEvent', {
 		if ('SCROLL_ENABLED' in this) return;
 		this.SCROLL_ENABLED = true;
 		$(window).on('scroll', function() {
-			App.instance.dispatchEvent('scroll', ('scrollY' in window) ? window.scrollY : document.body.scrollTop);
+			window._app.dispatchEvent('scroll', ('scrollY' in window) ? window.scrollY : document.body.scrollTop);
 		});
 	}
 });
@@ -76,20 +81,10 @@ Object.defineProperty(App.prototype, 'onModalHide', {
 	}
 });
 
-Object.defineProperty(App.prototype, 'createLoader', {
-	value: function createLoader(loaderType) {
-		var loader = document.createElement('div');
-		if (arguments.length < 1) loaderType = 'ball-pulse';
-		$(loader).addClass('loader-inner ball-pulse').loaders()
-		return loader;
-	}
-});
-
 Object.defineProperty(App.prototype, 'loadingModal', {
 	value: function loadingModal() {
 		if (!('loadModal' in this)) {
 			this.loadModal = $(document.createElement('div'))
-				.append(this.createLoader())
 				.addClass('modal fade loading')
 				.appendTo(document.body)
 				.modal()
@@ -118,7 +113,7 @@ Object.defineProperty(App.prototype, 'loadPromise', {
 			img.addEventListener('load', function(e) { resolve(img); });
 			if ('srcset' in data) {
 				img.srcset = data.srcset;
-				App.instance.respImageMaxWidth(img);
+				window._app.respImageMaxWidth(img);
 			}
 			img.src = data.src;
 			img.alt = '';
@@ -159,7 +154,7 @@ Object.defineProperty(App.prototype, 'fetch', {
 		if (arguments.length > 1) Object.keys(extraOptions).forEach(function(key) {
 			options[key] = extraOptions[key];
 		});
-		return window.fetch(url, options).then(function(response) {
+		return (('fetch' in window) ? window.fetch : fetch)(url, options).then(function(response) {
 			if (response.ok) return response.json();
 			console.error("Fetching of resource failed.", response);
 		});
@@ -215,35 +210,73 @@ Object.defineProperty(App.prototype, 'init', {
 			if ('mousemove' in this.children[name]) this.enableMousemoveEvent();
 		}.bind(this));
 		_.filter(document.getElementsByTagName('img'), _.property('srcset')).forEach(this.respImageMaxWidth.bind(this));
+
+		this.initialEvents.push('init');
+		this.scrollData = {
+			before: window.scrollY
+		};
+		this.addEventListener('click');
+		this.addEventListener('resize', undefined, window);
+		this.addEventListener('scroll', undefined, window);
 	}
 });
 
-App.instance = new App();
+Object.defineProperty(App.prototype, 'load', {
+	value: function load() {
+		this.initialEvents.push('load');
+		this.initialEvents.push('resize');
+		document.body.className += ' content-loaded';
+		setTimeout(function() { this.dispatchEvent('resize'); }.bind(this), 100);
+		setTimeout(function() { this.dispatchEvent('scroll'); }.bind(this), 200);
+	}
+});
 
-(function($) {
-	$.fn.enableTapEvent = function() {
-		var moved = false, obj = this;
-		return this.on('touchstart', function(e) {
-			if (e.originalEvent.touches.length === 1) setTimeout(function() {
-				if (!moved) {
-					clearTimeout(obj.data('tapClickTimeoutId'));
-					obj.data('wasTapFired', true).trigger('tap', e);
-					obj.data('tapClickTimeoutId', setTimeout(function() { obj.data('wasTapFired', false); }, 300));
-				}
-			}, 100);
-		}).on('touchmove', function(e) {
-			if (e.originalEvent.touches.length === 1) moved = true;
-		}).on('touchend', function(e) {
-			moved = false;
-		});
-	};
-	$(document).ready(function() {
-		App.instance.dispatchEvent('init');
-	});
-	$(window).on('load', function() {
-		App.instance.dispatchEvent('load');
-	});
-	$(window).on('resize', function() {
-		App.instance.dispatchEvent('resize');
-	});
-})(jQuery);
+Object.defineProperty(App.prototype, 'bootstrap', {
+	value: function bootstrap() {
+		console.log('App.bootstrap', document.readyState);
+		switch (document.readyState) {
+		case 'complete':
+			this.dispatchEvent('init');
+			this.dispatchEvent('load');
+			break;
+		case 'interactive':
+			this.dispatchEvent('init');
+			this.addEventListener('load', undefined, window);
+			break;
+		default:
+			this.addEventListener('DOMContentLoaded', 'init');
+			this.addEventListener('load', undefined, window);
+		}
+	}
+});
+
+Object.defineProperty(App.prototype, 'addEventListener', {
+	value: function addEventListener(domEvent, appFn, dispatcher) {
+		(dispatcher || document).addEventListener(domEvent, function(e) { this.dispatchEvent(appFn || domEvent, e); }.bind(this));
+	}
+});
+
+Object.defineProperty(App.prototype, 'resize', {
+	value: function resize() {
+		this.dimensions = {
+			width: document.documentElement.clientWidth,
+			height: document.documentElement.clientHeight
+		};
+	}
+});
+
+Object.defineProperty(App.prototype, 'scroll', {
+	value: function scroll(e) {
+		if (e && e.target !== document && e.target !== window) return;
+		if (this.scrollData.before === window.scrollY) this.scrollData.before = 0;
+		this.scrollData.current = window.scrollY;
+	}
+});
+
+Object.defineProperty(App.prototype, 'click', {
+	value: function click(e) {
+		console.log('App.click', e.target);
+	}
+});
+
+module.exports = App;

@@ -7,8 +7,7 @@ function InfiniteScroll() {
 Object.defineProperty(InfiniteScroll.prototype, 'init', {
 	value: function init() {
 		this.target = document.createElement('div');
-		this.target.className = 'infinite-scroll__target loader-outer';
-		this.target.appendChild(App.instance.createLoader());
+		this.target.className = 'infinite-scroll__target loading';
 		document.body.appendChild(this.target);
 	}
 });
@@ -28,7 +27,7 @@ Object.defineProperty(InfiniteScroll.prototype, 'addContent', {
 
 Object.defineProperty(InfiniteScroll.prototype, 'fetch', {
 	value: function fetch() {
-		return App.instance.fetch(this.URL);
+		return window._app.fetch(this.URL);
 	}
 });
 
@@ -54,3 +53,5 @@ Object.defineProperty(InfiniteScroll.prototype, 'scroll', {
 		if (rect.top < window.innerHeight) this.next();
 	}
 });
+
+module.exports = InfiniteScroll;

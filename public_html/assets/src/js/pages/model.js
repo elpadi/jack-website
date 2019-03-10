@@ -1,3 +1,5 @@
+var InfiniteScroll = require('../layouts/infinite-scroll');
+
 function ModelScroll() {
 	InfiniteScroll.call(this);
 	this.onDisplay = [];
@@ -18,7 +20,7 @@ Object.defineProperty(ModelScroll.prototype, 'fetch', {
 		this.onDisplay = Array.from(document.getElementsByClassName('model')).map(function(model) {
 			return model.dataset.slug;
 		});
-		return App.instance.fetch(this.URL + '?action=more&exclude=' + encodeURIComponent(this.onDisplay.join(',')));
+		return window._app.fetch(this.URL + '?action=more&exclude=' + encodeURIComponent(this.onDisplay.join(',')));
 	}
 });
 
@@ -46,4 +48,4 @@ Object.defineProperty(ModelScroll.prototype, 'addContent', {
 	}
 });
 
-App.instance.addChild('modelscroll', new ModelScroll());
+module.exports = ModelScroll;

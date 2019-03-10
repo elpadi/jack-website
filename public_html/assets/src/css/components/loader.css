@@ -71,3 +71,20 @@ body.content-loaded #main-loader {
 	animation-name:none;
 }
 
+.btn.loading,
+form.loading input[type="submit"] {
+	background-image: url(../../../node_modules/slick-carousel/slick/ajax-loader.gif);
+}
+@media (min-width: 670px) {
+	#content.loading {
+		background: white url(../../../node_modules/slick-carousel/slick/ajax-loader.gif) center 200px no-repeat;
+	}
+}
+.slick-slide {
+	background: white url(../../../node_modules/slick-carousel/slick/ajax-loader.gif) center center no-repeat;
+}
+@media (min-width: 768px) {
+	.issue-sections {
+		background: transparent url(../../../node_modules/slick-carousel/slick/ajax-loader.gif) center 200px no-repeat;
+	}
+}

@@ -1,8 +1,8 @@
-.subnav .editorial {
+body[data-url-path*="jack-black-pussy-cat"] .subnav .editorial {
 	display: none !important;
 }
 @media (min-width: 670px) {
-	#content {
+	body[data-url-path*="jack-black-pussy-cat"] #content {
 		padding-top: 0;
 	}
 }

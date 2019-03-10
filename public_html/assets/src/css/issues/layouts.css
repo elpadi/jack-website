@@ -4,3 +4,7 @@
 #content #issue-layouts p {
 	margin: 3em auto;
 }
+#issue-layouts img {
+	max-height: 50vh;
+	max-width: 720px;
+}

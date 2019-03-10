@@ -1,24 +1,26 @@
-body {
+body[data-url-path="contact"] {
 	background-position: right bottom;
 }
-#content {
+body[data-url-path="contact"] #content {
+	background-color: transparent;
 	font-family: Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: 0.9em;
+	min-height: 0;
 }
-.columns {
+#page-content--contact .columns {
 	height:6em;
 }
-form {
+#page-content--contact form {
 	max-width: 640px;
 	margin: 0 auto 50px;
 	color: rgb(195,195,195);
 }
-#content #form-message {
+#page-content--contact #form-message {
 	margin:-75px auto 50px;
 }
-.main-content input,
-textarea {
+#page-content--contact .main-content input,
+#page-content--contact textarea {
 	width: 100%;
 	background-color: white;
 	color: inherit !important;
@@ -26,22 +28,23 @@ textarea {
 	font-weight: bold;
 	outline-style: none;
 }
-input:focus,
-textarea:focus {
+#page-content--contact input:focus,
+#page-content--contact textarea:focus {
 	background-color: #eee;
 }
-input[type="email"] {
+#page-content--contact input[type="email"] {
 	height: 40px;
 	line-height: 40px;
 	margin-bottom: 1em;
 	padding: 0 .5em;
+	width: 100%;
 }
-textarea {
+#page-content--contact textarea {
 	height:10em;
 	line-height:30px;
 	padding:0.25em 0.5em;
 }
-input[type="submit"] {
+#page-content--contact input[type="submit"] {
 	width: auto;
 }
 #staff article {
@@ -55,12 +58,12 @@ input[type="submit"] {
 }
 
 @media (max-width: 539px) {
-	#content form p:not(#form-message) {
+	#page-content--contact form p:not(#form-message) {
 		float: none;
 	}
 }
 @media (min-width: 540px) {
-	#content form p:not(#form-message) {
+	#page-content--contact form p:not(#form-message) {
 		margin:0;
 		padding:0;
 		width:49%;
@@ -68,11 +71,11 @@ input[type="submit"] {
 	}
 }
 @media (min-width: 768px) {
-	#content {
+	body[data-url-path="contact"] #content {
 		color: white;
 	}
-	.main-content input,
-	textarea {
+	#page-content--contact .main-content input,
+	#page-content--contact textarea {
 		border-style: none;
 	}
 }
