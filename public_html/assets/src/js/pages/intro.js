@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var _ = require('lodash');
 
 function Intro() {
 	this.DURATION = 4000;
@@ -27,7 +28,7 @@ Object.defineProperty(Intro.prototype, 'end', {
 
 Object.defineProperty(Intro.prototype, 'hide', {
 	value: function hide() {
-		var el = _.detect(this.container.children, function(node) { return node.classList.contains('visible'); });
+		var el = _.find(this.container.children, function(node) { return node.classList.contains('visible'); });
 		if (el) el.classList.remove('visible');
 	}
 });

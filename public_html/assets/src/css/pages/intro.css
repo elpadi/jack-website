@@ -38,6 +38,15 @@
 	max-width: 70vw;
 	object-fit: contain;
 }
+#content .intro-container img[src$="flags.jpg"] {
+	max-height: 90vh;
+}
+#content .intro-container svg {
+	position: absolute;
+	height: calc(90vh * 0.205);
+	margin-top: calc(90vh * -0.071);
+	margin-left: calc(90vh * 0.013);
+}
 .intro-fade {
 	position: absolute;
 	top: 50%;
@@ -56,9 +65,3 @@
 	opacity: 1;
 }
 
-svg.intro-fade {
-	width: 330px;
-	position: absolute;
-	top: 191px;
-	transform: translate(-50%, 0);
-}
