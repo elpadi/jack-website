@@ -25,7 +25,11 @@
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		{% endblock %}
 		
+		{% if IS_LOCAL %}
 		<link rel="stylesheet" href="{{ 'dist/dev.css' | asset_url }}">
+		{% else %}
+		<link rel="stylesheet" href="{{ 'dist/prod.css' | asset_url | append_mtime }}">
+		{% endif %}
 		<script>document.documentElement.className = 'js';</script>
 	</head>
 	<body data-template-path="{{ TEMPLATE_PATH }}" data-url-path="{{ URL_PATH }}" data-assets-url="{{ 'assets' | url }}" data-cart-count="{{ cart.getItemCount() }}" data-discount="{{ cart.getItems().discount }}">
@@ -60,7 +64,11 @@
 		</div>
 		{% block extra_content %}{% endblock %}
 		{% block footer %}{% endblock %}
+		{% if IS_LOCAL %}
 		<script src="{{ 'dist/dev.js' | asset_url }}"></script>
+		{% else %}
+		<script src="{{ 'dist/prod.js' | asset_url | append_mtime }}"></script>
+		{% endif %}
 		<script>Object.defineProperty(window._app, 'BASE_URL', { value: "{{ '' | url }}" });</script>
 		<script>Object.defineProperty(window._app, 'ASSETS_URL', { value: "{{ '' | asset_url }}" });</script>
 		<script>Object.defineProperty(window._app, 'HTTP_REFERER', { value: "{{ SERVER.HTTP_REFERER }}" });</script>
