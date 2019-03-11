@@ -38,7 +38,7 @@
 	max-width: 70vw;
 	object-fit: contain;
 }
-#content .intro-container img[src$="flags.jpg"] {
+#content .intro-container img:nth-of-type(2) {
 	max-height: 90vh;
 }
 #content .intro-container svg {
