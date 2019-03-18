@@ -1,8 +1,20 @@
 body[data-url-path*="jack-black-pussy-cat"] .subnav .editorial {
 	display: none !important;
 }
+
+#content #page-content--models,
+body[data-template-path="issues page"] #content > .page-content {
+	max-width: 34em;
+}
+
+#page-content--models .models ~ p,
+body[data-template-path="issues page"] .models ~ p {
+	font-size: 0.8em;
+}
+
 @media (min-width: 670px) {
-	body[data-url-path*="jack-black-pussy-cat"] #content {
+	body[data-url-path="jbpc"] #content,
+	body[data-template-path="issues page"] #content {
 		padding-top: 0;
 	}
 }

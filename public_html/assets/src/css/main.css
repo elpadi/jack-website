@@ -94,14 +94,14 @@ body {
 #content .page-content:not(.main-content),
 #content .text-content:not(.page-content) p,
 #content > p {
-	max-width:476px;
-	margin-left:auto;
-	margin-right:auto;
+	max-width: 30em;
+	margin-left: auto;
+	margin-right: auto;
 	padding: 1em;
 }
 .page-content {
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 #content .text-content p,
 #content > p {
