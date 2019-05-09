@@ -15,5 +15,6 @@ $routes[] = array(
 		array('name' => 'event'),
 		array('name' => 'issues'),
 		array('name' => 'special-project'),
+		array('name' => 'new'),
 	),
 );

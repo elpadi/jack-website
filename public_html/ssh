@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SSH_ACCOUNT="elpadi@thejackmag.com"
-SERVER_PATH="/home2/elpadi/website"
+SERVER_PATH="/home2/elpadi/public_html"
 SSH_PORT=2222
 
 upload() {
