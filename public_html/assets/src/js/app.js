@@ -5,6 +5,7 @@ var _ = require('lodash');
 function App() {
 	this.children = {};
 	this.initialEvents = [];
+	this.isListeningInitialEvents = false;
 	this.START_TIME = Date.now();
 }
 
@@ -233,6 +234,7 @@ Object.defineProperty(App.prototype, 'load', {
 
 Object.defineProperty(App.prototype, 'bootstrap', {
 	value: function bootstrap() {
+		if (this.isListeningInitialEvents) return;
 		console.log('App.bootstrap', document.readyState);
 		switch (document.readyState) {
 		case 'complete':
@@ -247,6 +249,7 @@ Object.defineProperty(App.prototype, 'bootstrap', {
 			this.addEventListener('DOMContentLoaded', 'init');
 			this.addEventListener('load', undefined, window);
 		}
+		this.isListeningInitialEvents = true;
 	}
 });
 

@@ -54,12 +54,6 @@ $(document).ready(function() {
 
 });
 
-$(window).on('load', function() {
-
-	window._app.dispatchEvent('load');
-
-});
-
 $(window).on('resize', function() {
 
 	window._app.dispatchEvent('resize');
