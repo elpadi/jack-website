@@ -10,7 +10,12 @@ class Event extends Page {
 		parent::fetchdata($args);
 		$this->data['events'] = cockpit('collections:find', 'events');
 		$images = cockpit('collections:find', 'deck2016images');
-		foreach ($images as &$img) $img['src'] = \Jack\App::instance()->imageManager->imageUrl(\Jack\App::instance()->url($img['image']['path']), 'large');
+		foreach ($images as &$img) {
+			$img['src'] = \Jack\App::instance()->imageManager->imageUrl(
+				\Jack\App::instance()->url($img['image']['path']),
+				'xl'
+			);
+		}
 		$this->data['images'] = $images;
 	}
 

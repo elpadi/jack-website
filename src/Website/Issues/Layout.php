@@ -11,7 +11,7 @@ class Layout extends DataObject {
 		return $this->getResponsiveLayout($this->image['path']);
 	}
 
-	public function getImageSrc($size='large') {
+	public function getImageSrc($size='xl') {
 		return App::$container['images']->imageUrl(App::url($this->image['path']), $size);
 	}
 
